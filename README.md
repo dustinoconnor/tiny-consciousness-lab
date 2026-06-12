@@ -23,6 +23,15 @@ In this toy setup, recurrence alone did not automatically produce the highest
 integration proxy. The recurrent system with a valence-feedback node scored
 highest.
 
+The first intervention tests were also suggestive:
+
+- Ablating node `0`, the valence-feedback node, was the most disruptive
+  ablation in the valence-feedback architecture.
+- The valence-feedback architecture was most tolerant to injected mathematical
+  noise during rollout.
+- Adding more feedforward nodes did not match the small valence-feedback
+  system's integration proxy in this quick exact sweep.
+
 ## Why This Is Not Official IIT Phi
 
 Integrated Information Theory uses a specific mathematical framework for
@@ -135,6 +144,42 @@ Recurrent with valence feedback:
 
 ![Recurrent with valence feedback](outputs/recurrent_with_valence_feedback_network.png)
 
+## Intervention Tests
+
+`intervention_lab.py` runs three follow-up probes.
+
+### Ablation Shock
+
+Each architecture is rolled out normally, then rolled out again with one node
+clamped off. The plot compares the shock from ablating node `0` against the
+average shock from ablating the other nodes.
+
+In the valence-feedback architecture, node `0` is the explicit valence-feedback
+node. It was also the most disruptive node to ablate in this test.
+
+![Ablation shock test](outputs/ablation_shock_test.png)
+
+### Noise Tolerance
+
+Random Gaussian noise is injected into the node logits during rollout. Lower
+trajectory error means the system stayed closer to its clean dynamics.
+
+In this toy setup, the valence-feedback architecture was the most noise
+tolerant, followed by the recurrent ring, followed by the feedforward chain.
+
+![Noise tolerance test](outputs/noise_tolerance_test.png)
+
+### Scale vs. Integration
+
+This compares exact Phi proxy scores for feedforward chains from 3 to 7 nodes
+against the 6-node recurrent valence-feedback architecture.
+
+The exact sweep is capped at 7 feedforward nodes because the naive exact
+partition enumeration gets slow quickly. Even within that small range, adding
+feedforward scale did not match the tiny valence-feedback system.
+
+![Scale vs. integration test](outputs/scale_vs_integration_test.png)
+
 ## How To Run
 
 This project currently uses the local Miniforge Python on this machine because
@@ -144,6 +189,7 @@ it already has PyTorch and Matplotlib installed.
 cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 tiny_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 exact_phi_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 intervention_lab.py
 ```
 
 Outputs land in:
@@ -156,8 +202,10 @@ Outputs land in:
 
 - `tiny_lab.py` - recurrent agent, valence trace, hidden-state trajectory, ablation map
 - `exact_phi_lab.py` - exact tiny binary Phi proxy experiment
+- `intervention_lab.py` - ablation shock, noise tolerance, and scale tests
 - `outputs/metrics.json` - recurrent agent metrics
 - `outputs/exact_phi_metrics.json` - exact Phi proxy metrics
+- `outputs/intervention_metrics.json` - intervention test metrics
 
 ## Next Steps
 
@@ -170,4 +218,3 @@ Good next experiments:
 - Animate the hidden-state trajectory as a video.
 - Add a small web UI for changing ablated units and watching the trajectory
   update.
-

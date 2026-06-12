@@ -1,0 +1,81 @@
+{
+  "ablation_shock": {
+    "feedforward_chain": {
+      "valence_or_node0_shock": 0.5384013564674117,
+      "mean_other_node_shock": 0.8377718508171663,
+      "max_node_shock": 0.8780635012110984,
+      "most_disruptive_node": 3
+    },
+    "recurrent_ring": {
+      "valence_or_node0_shock": 0.9318830157349092,
+      "mean_other_node_shock": 0.9369480750926342,
+      "max_node_shock": 0.9403247813311177,
+      "most_disruptive_node": 3
+    },
+    "recurrent_with_valence_feedback": {
+      "valence_or_node0_shock": 0.9797782468268067,
+      "mean_other_node_shock": 0.9564372602564566,
+      "max_node_shock": 0.9797782468268067,
+      "most_disruptive_node": 0
+    }
+  },
+  "noise_tolerance": {
+    "feedforward_chain": {
+      "noise_levels": [
+        0.0,
+        0.05,
+        0.1,
+        0.2,
+        0.35
+      ],
+      "mean_trajectory_error": [
+        0.0,
+        0.020632393395416043,
+        0.04157261016306988,
+        0.08332036960398564,
+        0.14469216535598053
+      ]
+    },
+    "recurrent_ring": {
+      "noise_levels": [
+        0.0,
+        0.05,
+        0.1,
+        0.2,
+        0.35
+      ],
+      "mean_trajectory_error": [
+        0.0,
+        0.005014040941745645,
+        0.010222141595104997,
+        0.020557509435765932,
+        0.036848202330464874
+      ]
+    },
+    "recurrent_with_valence_feedback": {
+      "noise_levels": [
+        0.0,
+        0.05,
+        0.1,
+        0.2,
+        0.35
+      ],
+      "mean_trajectory_error": [
+        0.0,
+        0.0016425986891034374,
+        0.003273374437183685,
+        0.006595874326695476,
+        0.012314216585662568
+      ]
+    }
+  },
+  "scale_vs_integration": {
+    "feedforward_chain_3_nodes": 0.1050575197601881,
+    "feedforward_chain_4_nodes": 0.09975696011519398,
+    "feedforward_chain_5_nodes": 0.09975696011519397,
+    "feedforward_chain_6_nodes": 0.09710668029269687,
+    "feedforward_chain_7_nodes": 0.09710668029269677,
+    "tiny_valence_feedback_6_nodes": 0.1136019507529033
+  },
+  "note": "These are intervention tests on the toy Phi proxy systems, not official IIT results. The exact scale sweep is capped at 7 nodes because naive exact partition enumeration gets slow quickly."
+}

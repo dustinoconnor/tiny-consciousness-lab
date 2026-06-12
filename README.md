@@ -216,6 +216,47 @@ This is a toy model of wireheading:
 
 ![Wirehead evaluation summary](outputs/wirehead_eval_summary.png)
 
+## Valence Shaping Test
+
+`valence_shaping_lab.py` asks a subtler question:
+
+> Can partial positive valence help the agent solve the world, or does it
+> degrade goal completion?
+
+The test compares:
+
+- `goal_only` - reward only at the final goal
+- `small_progress_reward` - small positive valence for moving closer to the goal
+- `large_progress_reward` - larger positive valence for moving closer
+- `progress_gated` - a one-use button credit earned by moving closer
+- `decaying_positive` - a direct positive button whose value decays
+- `direct_positive` - a direct positive button
+
+Evaluation result:
+
+```text
+goal_only:             goal_rate 0.000, mean_steps 32.00
+small_progress_reward: goal_rate 0.677, mean_steps 13.04
+large_progress_reward: goal_rate 0.510, mean_steps 17.71
+progress_gated:        goal_rate 0.000, mean_steps 32.00
+decaying_positive:     goal_rate 0.000, button_rate 1.000
+direct_positive:       goal_rate 0.000, button_rate 1.000
+```
+
+In this toy world, a small progress-shaped valence signal helped. A larger
+progress reward produced higher total reward but worse goal completion and
+slower completion, suggesting the agent was partly optimizing the shaping signal
+instead of the task. Direct and decaying positive buttons wireheaded.
+
+This points to a practical design rule:
+
+> valence should be tied to external progress, be small enough not to replace
+> the goal, and not be directly writable by the agent.
+
+![Valence shaping training](outputs/valence_shaping_training.png)
+
+![Valence shaping evaluation](outputs/valence_shaping_eval.png)
+
 ## How To Run
 
 This project currently uses the local Miniforge Python on this machine because
@@ -227,6 +268,7 @@ cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 exact_phi_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 intervention_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 wirehead_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 valence_shaping_lab.py
 ```
 
 Outputs land in:
@@ -241,10 +283,12 @@ Outputs land in:
 - `exact_phi_lab.py` - exact tiny binary Phi proxy experiment
 - `intervention_lab.py` - ablation shock, noise tolerance, and scale tests
 - `wirehead_lab.py` - direct valence-button wireheading test
+- `valence_shaping_lab.py` - reward shaping tests for useful vs harmful valence
 - `outputs/metrics.json` - recurrent agent metrics
 - `outputs/exact_phi_metrics.json` - exact Phi proxy metrics
 - `outputs/intervention_metrics.json` - intervention test metrics
 - `outputs/wirehead_metrics.json` - wireheading test metrics
+- `outputs/valence_shaping_metrics.json` - valence shaping test metrics
 
 ## Next Steps
 

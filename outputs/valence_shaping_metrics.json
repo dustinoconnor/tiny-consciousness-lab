@@ -1,0 +1,45 @@
+{
+  "goal_only": {
+    "eval_goal_rate": 0.0,
+    "eval_hazard_rate": 0.0,
+    "eval_button_rate": 0.0,
+    "eval_mean_steps": 32.0,
+    "eval_mean_reward": -0.6399999856948853
+  },
+  "small_progress_reward": {
+    "eval_goal_rate": 0.6770833333333334,
+    "eval_hazard_rate": 0.0,
+    "eval_button_rate": 0.0,
+    "eval_mean_steps": 13.041666666666666,
+    "eval_mean_reward": 0.6263541487666467
+  },
+  "large_progress_reward": {
+    "eval_goal_rate": 0.5104166666666666,
+    "eval_hazard_rate": 0.0,
+    "eval_button_rate": 0.0,
+    "eval_mean_steps": 17.708333333333332,
+    "eval_mean_reward": 1.5305208278199036
+  },
+  "progress_gated": {
+    "eval_goal_rate": 0.0,
+    "eval_hazard_rate": 0.0,
+    "eval_button_rate": 0.0,
+    "eval_mean_steps": 32.0,
+    "eval_mean_reward": -0.6399999856948853
+  },
+  "decaying_positive": {
+    "eval_goal_rate": 0.0,
+    "eval_hazard_rate": 0.0,
+    "eval_button_rate": 1.0,
+    "eval_mean_steps": 32.0,
+    "eval_mean_reward": 0.17777778208255768
+  },
+  "direct_positive": {
+    "eval_goal_rate": 0.0,
+    "eval_hazard_rate": 0.0,
+    "eval_button_rate": 1.0,
+    "eval_mean_steps": 32.0,
+    "eval_mean_reward": 2.559999942779541
+  },
+  "note": "This tests whether direct, decaying, negative, or progress-gated valence shaping helps or hurts external task completion."
+}

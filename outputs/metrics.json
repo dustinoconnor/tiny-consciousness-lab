@@ -1,0 +1,11 @@
+{
+  "mean_abs_feature_correlation": 0.5409715943925364,
+  "temporal_state_similarity": 0.9975940585136414,
+  "causal_density_top_quartile": 0.25,
+  "mean_cross_unit_causal_influence": 0.011530952528119087,
+  "note": "These are integration proxies, not formal IIT Phi.",
+  "most_influential_unit_ablated_in_plot": 13,
+  "mean_training_reward_last_100": 0.33800001680850983,
+  "mean_predicted_valence_on_trajectory": -0.10375763848423958,
+  "mean_actual_reward_on_trajectory": -0.02
+}

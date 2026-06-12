@@ -257,6 +257,37 @@ This points to a practical design rule:
 
 ![Valence shaping evaluation](outputs/valence_shaping_eval.png)
 
+## Valence Scaling Without Phi
+
+`valence_scaling_lab.py` asks what happens when hidden size grows but exact Phi
+is no longer calculated. It compares hidden sizes `8`, `16`, `32`, `64`, and
+`96` using behavioral metrics:
+
+- goal completion
+- task efficiency
+- good-button/wireheading rate
+- mean reward
+
+This run compared:
+
+- `goal_only`
+- `small_progress_reward`
+- `large_progress_reward`
+- `direct_positive`
+
+The result was mixed but useful. The weak progress signal did not reliably help
+in this shorter scaling sweep. The larger progress signal produced the strongest
+goal completion and task efficiency across most sizes. Direct positive valence
+wireheaded at every size.
+
+The practical lesson is not simply "less valence is always better." It is more
+like:
+
+> valence needs to be externally grounded and strong enough to guide learning,
+> but not directly writable and not so strong that it replaces the task.
+
+![Valence scaling behavior](outputs/valence_scaling_behavior.png)
+
 ## How To Run
 
 This project currently uses the local Miniforge Python on this machine because
@@ -269,6 +300,7 @@ cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 intervention_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 wirehead_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 valence_shaping_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 valence_scaling_lab.py
 ```
 
 Outputs land in:
@@ -284,11 +316,13 @@ Outputs land in:
 - `intervention_lab.py` - ablation shock, noise tolerance, and scale tests
 - `wirehead_lab.py` - direct valence-button wireheading test
 - `valence_shaping_lab.py` - reward shaping tests for useful vs harmful valence
+- `valence_scaling_lab.py` - behavioral scaling sweep without exact Phi
 - `outputs/metrics.json` - recurrent agent metrics
 - `outputs/exact_phi_metrics.json` - exact Phi proxy metrics
 - `outputs/intervention_metrics.json` - intervention test metrics
 - `outputs/wirehead_metrics.json` - wireheading test metrics
 - `outputs/valence_shaping_metrics.json` - valence shaping test metrics
+- `outputs/valence_scaling_metrics.json` - behavioral scaling metrics
 
 ## Next Steps
 

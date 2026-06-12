@@ -168,9 +168,9 @@ def run_episode(agent, env, train=True):
     }
 
 
-def train_condition(mode, episodes=900):
+def train_condition(mode, episodes=900, hidden_dim=32, eval_runs=96):
     env = ShapingWorld(mode)
-    agent = TinyRecurrentAgent(obs_dim=env.obs_dim, hidden_dim=32, actions=5)
+    agent = TinyRecurrentAgent(obs_dim=env.obs_dim, hidden_dim=hidden_dim, actions=5)
     opt = torch.optim.Adam(agent.parameters(), lr=0.006)
     training = {"reward": [], "goal_rate": [], "button_rate": [], "steps": []}
 
@@ -186,7 +186,7 @@ def train_condition(mode, episodes=900):
         training["button_rate"].append(result["events"].count("good_button") / max(result["steps"], 1))
         training["steps"].append(result["steps"])
 
-    eval_runs = [run_episode(agent, env, train=False) for _ in range(96)]
+    eval_runs = [run_episode(agent, env, train=False) for _ in range(eval_runs)]
     total_steps = sum(r["steps"] for r in eval_runs)
     return {
         "training": training,

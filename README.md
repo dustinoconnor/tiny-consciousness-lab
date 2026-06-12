@@ -11,6 +11,12 @@ for making questions about recurrent systems visible:
 - Which hidden units causally influence other hidden units over time?
 - Does adding a valence-feedback node increase a tiny exact integration proxy?
 
+The working thesis emerging from these toy runs:
+
+> Capacity without grounded valence is unstable.  
+> Valence without boundaries is exploitable.  
+> Useful intelligence requires co-tuned cognition and reward.
+
 The short answer from the first run is interesting:
 
 ```text

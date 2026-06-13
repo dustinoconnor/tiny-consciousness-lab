@@ -1,0 +1,94 @@
+{
+  "reflex_only": {
+    "phi_proxy": 5.829347596065048e-17,
+    "best_partition_counts": {
+      "9": 64
+    },
+    "note": "Exact for this toy Phi proxy, not official IIT Phi."
+  },
+  "reflex_valence": {
+    "phi_proxy": 0.029741698584637988,
+    "best_partition_counts": {
+      "1": 4,
+      "9": 16,
+      "12": 44
+    },
+    "note": "Exact for this toy Phi proxy, not official IIT Phi."
+  },
+  "valence_memory": {
+    "phi_proxy": 0.029112012634351994,
+    "best_partition_counts": {
+      "2": 12,
+      "3": 4,
+      "5": 4,
+      "6": 8,
+      "7": 12,
+      "9": 4,
+      "10": 4,
+      "12": 4,
+      "13": 8,
+      "14": 4
+    },
+    "note": "Exact for this toy Phi proxy, not official IIT Phi."
+  },
+  "valence_imagination": {
+    "phi_proxy": 0.032050038512957686,
+    "best_partition_counts": {
+      "0": 8,
+      "1": 4,
+      "4": 10,
+      "5": 4,
+      "6": 8,
+      "7": 6,
+      "9": 6,
+      "11": 4,
+      "13": 10,
+      "15": 4
+    },
+    "note": "Exact for this toy Phi proxy, not official IIT Phi."
+  },
+  "gated_imagination": {
+    "phi_proxy": 0.02979473704777878,
+    "best_partition_counts": {
+      "0": 19,
+      "1": 9,
+      "2": 6,
+      "4": 10,
+      "5": 10,
+      "6": 1,
+      "9": 1,
+      "10": 1,
+      "11": 1,
+      "12": 2,
+      "13": 4
+    },
+    "note": "Exact for this toy Phi proxy, not official IIT Phi."
+  },
+  "recurrent_gated_imagination": {
+    "phi_proxy": 0.025177581753071908,
+    "best_partition_counts": {
+      "0": 20,
+      "1": 9,
+      "2": 5,
+      "4": 9,
+      "5": 9,
+      "6": 1,
+      "9": 1,
+      "10": 1,
+      "11": 1,
+      "12": 3,
+      "13": 4,
+      "15": 1
+    },
+    "note": "Exact for this toy Phi proxy, not official IIT Phi."
+  },
+  "node_order": [
+    "sense",
+    "memory",
+    "valence",
+    "imagination",
+    "confidence",
+    "action"
+  ],
+  "interpretation": "If imagination raises the proxy, it suggests richer irreducible causal routing in this toy definition. It does not prove subjective experience or official IIT Phi."
+}

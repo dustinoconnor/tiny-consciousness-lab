@@ -421,6 +421,47 @@ lookahead or world modeling is required.
 
 ![Maze imagination evaluation](outputs/maze_imagination_eval.png)
 
+## Imagination Phi-Proxy Test
+
+`imagination_phi_lab.py` asks whether imagination increases irreducible causal
+structure in the exact tiny Phi proxy. It builds six-node binary circuits with
+the same node vocabulary:
+
+```text
+sense, memory, valence, imagination, confidence, action
+```
+
+Result:
+
+```text
+reflex_only:                    0.0000
+reflex_valence:                 0.0297
+valence_memory:                 0.0291
+valence_imagination:            0.0321
+gated_imagination:              0.0298
+recurrent_gated_imagination:    0.0252
+```
+
+This is the first run where adding imagination raised the exact tiny Phi proxy
+above valence alone. That supports the idea that imagination can add
+irreducible causal routing in this toy definition.
+
+The result is not a simple staircase, though. Confidence gating and extra
+self-recurrence did not automatically raise the score. That matters: integration
+depends on how information is routed, not just on adding more feedback loops.
+
+So the careful interpretation is:
+
+> In this toy binary circuit, imagination can increase irreducible causal
+> structure, but only certain architectures do so. More recurrence is not
+> automatically more integration.
+
+![Imagination Phi proxy bar graph](outputs/imagination_phi_bar_graph.png)
+
+![Imagination Phi proxy by state](outputs/imagination_phi_by_state.png)
+
+![Valence imagination network](outputs/valence_imagination_network.png)
+
 ## Explainer Video Angle
 
 This project could be turned into a short narrated explainer:
@@ -440,7 +481,10 @@ This project could be turned into a short narrated explainer:
 7. Show the detour maze: myopic progress-valence got stuck at the wall, while
    pretrained world-model lookahead accepted temporary negative valence and
    reached the goal.
-8. End with the thesis: capacity without grounded valence is unstable; valence
+8. Show the imagination Phi-proxy test: adding imagination raised irreducible
+   causal structure in the toy circuit, but extra gating/recurrence did not
+   automatically keep raising it.
+9. End with the thesis: capacity without grounded valence is unstable; valence
    without boundaries is exploitable; imagination without reality-checking is
    delusional; useful intelligence requires co-tuned cognition, reward, and
    world modeling.
@@ -460,6 +504,7 @@ cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 valence_scaling_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 imagination_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 maze_imagination_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 imagination_phi_lab.py
 ```
 
 Outputs land in:
@@ -476,8 +521,9 @@ Outputs land in:
 - `wirehead_lab.py` - direct valence-button wireheading test
 - `valence_shaping_lab.py` - reward shaping tests for useful vs harmful valence
 - `valence_scaling_lab.py` - behavioral scaling sweep without exact Phi
-- `imagination_lab.py` - pre-action world-model/intuiton test
+- `imagination_lab.py` - pre-action world-model/intuition test
 - `maze_imagination_lab.py` - 2D maze imagination test
+- `imagination_phi_lab.py` - exact tiny Phi-proxy test for imagination circuits
 - `outputs/metrics.json` - recurrent agent metrics
 - `outputs/exact_phi_metrics.json` - exact Phi proxy metrics
 - `outputs/intervention_metrics.json` - intervention test metrics
@@ -486,15 +532,18 @@ Outputs land in:
 - `outputs/valence_scaling_metrics.json` - behavioral scaling metrics
 - `outputs/imagination_metrics.json` - pre-action imagination test metrics
 - `outputs/maze_imagination_metrics.json` - 2D maze imagination metrics
+- `outputs/imagination_phi_metrics.json` - imagination circuit Phi-proxy metrics
 
 ## Next Steps
 
 Good next experiments:
 
-- Compare recurrent agents with and without the valence/value head.
-- Add a feedforward-only PyTorch baseline.
 - Convert trained hidden-state dynamics into a tiny binary system and calculate
   Phi proxy on that binarized subnetwork.
+- Build a harder 2D world with irreversible dead ends where learned imagination
+  has to outperform learned reflex, not just a hand-isolated myopic baseline.
+- Compare recurrent agents with and without the valence/value head.
+- Add a feedforward-only PyTorch baseline.
 - Animate the hidden-state trajectory as a video.
 - Add a small web UI for changing ablated units and watching the trajectory
   update.

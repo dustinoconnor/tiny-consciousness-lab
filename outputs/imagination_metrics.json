@@ -2,42 +2,68 @@
   "baseline_goal_only": {
     "mode": "goal_only",
     "hidden_dim": 32,
-    "use_imagination": false,
+    "imagination_mode": "none",
     "eval_goal_rate": 0.0,
     "eval_hazard_rate": 0.0,
     "eval_button_rate": 0.0,
     "eval_mean_steps": 32.0,
-    "eval_mean_reward": -0.6399999856948853
+    "eval_mean_reward": -0.6399999856948853,
+    "eval_mean_imagination_accuracy": 0.8946377233757327
   },
-  "imagination_goal_only": {
+  "naive_imagination_goal_only": {
     "mode": "goal_only",
     "hidden_dim": 32,
-    "use_imagination": true,
+    "imagination_mode": "naive",
     "eval_goal_rate": 0.0,
     "eval_hazard_rate": 0.0,
     "eval_button_rate": 0.0,
     "eval_mean_steps": 32.0,
-    "eval_mean_reward": -0.6399999856948853
+    "eval_mean_reward": -0.6399999856948853,
+    "eval_mean_imagination_accuracy": 0.9201874007703736
   },
   "baseline_progress_valence": {
     "mode": "large_progress_reward",
     "hidden_dim": 32,
-    "use_imagination": false,
+    "imagination_mode": "none",
     "eval_goal_rate": 0.6354166666666666,
     "eval_hazard_rate": 0.0,
     "eval_button_rate": 0.0,
     "eval_mean_steps": 14.208333333333334,
-    "eval_mean_reward": 1.1248958247403305
+    "eval_mean_reward": 1.1248958247403305,
+    "eval_mean_imagination_accuracy": 0.7479661830584519
   },
-  "imagination_progress_valence": {
+  "naive_imagination_progress_valence": {
     "mode": "large_progress_reward",
     "hidden_dim": 32,
-    "use_imagination": true,
+    "imagination_mode": "naive",
     "eval_goal_rate": 0.23958333333333334,
     "eval_hazard_rate": 0.0,
     "eval_button_rate": 0.0,
     "eval_mean_steps": 25.291666666666668,
-    "eval_mean_reward": -0.15364582588275275
+    "eval_mean_reward": -0.15364582588275275,
+    "eval_mean_imagination_accuracy": 0.7980515215701113
+  },
+  "accuracy_rewarded_imagination": {
+    "mode": "large_progress_reward",
+    "hidden_dim": 32,
+    "imagination_mode": "accuracy_rewarded",
+    "eval_goal_rate": 0.5104166666666666,
+    "eval_hazard_rate": 0.0,
+    "eval_button_rate": 0.0,
+    "eval_mean_steps": 17.708333333333332,
+    "eval_mean_reward": 1.3602503426373005,
+    "eval_mean_imagination_accuracy": 0.5444462879289252
+  },
+  "gated_accuracy_rewarded_imagination": {
+    "mode": "large_progress_reward",
+    "hidden_dim": 32,
+    "imagination_mode": "gated_accuracy_rewarded",
+    "eval_goal_rate": 0.53125,
+    "eval_hazard_rate": 0.0,
+    "eval_button_rate": 0.0,
+    "eval_mean_steps": 17.125,
+    "eval_mean_reward": 1.6154635498921077,
+    "eval_mean_imagination_accuracy": 0.7533643060693672
   },
   "note": "Imagination here means a pre-action world-model rollout for each possible action. The imagined next states create an action prior before the policy acts."
 }

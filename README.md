@@ -310,24 +310,34 @@ like:
 This was meant to test whether "intuition" improves learning by letting the
 agent simulate before acting.
 
-The first result was negative:
+The first result was negative, then grounding improved it:
 
 ```text
-baseline_goal_only:              goal_rate 0.000, mean_steps 32.00
-imagination_goal_only:           goal_rate 0.000, mean_steps 32.00
-baseline_progress_valence:       goal_rate 0.635, mean_steps 14.21
-imagination_progress_valence:    goal_rate 0.240, mean_steps 25.29
+baseline_goal_only:                    goal_rate 0.000, mean_steps 32.00
+naive_imagination_goal_only:           goal_rate 0.000, mean_steps 32.00
+baseline_progress_valence:             goal_rate 0.635, mean_steps 14.21
+naive_imagination_progress_valence:    goal_rate 0.240, mean_steps 25.29
+accuracy_rewarded_imagination:         goal_rate 0.510, mean_steps 17.71
+gated_accuracy_rewarded_imagination:   goal_rate 0.531, mean_steps 17.13
 ```
 
 Naive imagination did not help. It hurt the progress-valence agent, likely
 because its early world model was not reliable enough. The agent acted on bad
 intuition.
 
+Rewarding imagination for matching reality helped recover much of the lost
+performance. Adding a confidence gate helped a little more. But neither grounded
+imagination variant beat the plain progress-valence baseline in this run.
+
 This suggests another useful boundary:
 
-> intuition is only helpful when the internal world model is accurate enough to
-> trust, and when confidence gates prevent bad imagination from dominating
-> action.
+> Imagination should be rewarded for matching reality before it is trusted to
+> guide action.
+
+And the negative version:
+
+> Imagination without an accurate world model is delusional. Ungrounded
+> intuition corrupts the motivational signal.
 
 ![Imagination training](outputs/imagination_training.png)
 

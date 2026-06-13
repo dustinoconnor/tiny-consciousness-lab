@@ -16,7 +16,7 @@ import json
 import matplotlib.pyplot as plt
 import numpy as np
 
-from exact_phi_lab import OUT, phi_proxy, plot_network
+from exact_phi_lab import OUT, phi_proxy
 
 
 NODES = ["sense", "memory", "valence", "imagination", "confidence", "action"]
@@ -141,6 +141,52 @@ def plot_state_phi(results, path):
     plt.close(fig)
 
 
+def plot_named_network(weights, title, path):
+    n = weights.shape[0]
+    angles = np.linspace(0, 2 * np.pi, n, endpoint=False)
+    pts = np.c_[np.cos(angles), np.sin(angles)]
+    activity = np.abs(weights).sum(axis=0) + np.abs(weights).sum(axis=1)
+
+    fig, ax = plt.subplots(figsize=(7, 7))
+    ax.set_title(title)
+    max_w = max(float(np.max(np.abs(weights))), 1e-6)
+    for src in range(n):
+        for dst in range(n):
+            w = weights[dst, src]
+            if abs(w) < 0.05:
+                continue
+            start, end = pts[src], pts[dst]
+            color = "#ff8a00" if w > 0 else "#4b6cff"
+            alpha = 0.25 + 0.65 * abs(w) / max_w
+            ax.annotate(
+                "",
+                xy=end,
+                xytext=start,
+                arrowprops=dict(arrowstyle="->", color=color, lw=1 + 2 * abs(w) / max_w, alpha=alpha),
+            )
+
+    node_colors = ["#111111" if a > 0.05 else "#d5d5d5" for a in activity]
+    text_colors = ["white" if a > 0.05 else "#555555" for a in activity]
+    ax.scatter(pts[:, 0], pts[:, 1], s=1100, c=node_colors, edgecolors="#222222")
+    for i, (x, y) in enumerate(pts):
+        label = f"{i}\n{NODES[i]}"
+        ax.text(x, y, label, ha="center", va="center", color=text_colors[i], fontsize=9, fontweight="bold")
+    ax.text(
+        0,
+        -1.28,
+        "Gray node = present for comparison but inactive in this variant",
+        ha="center",
+        va="center",
+        fontsize=9,
+        color="#666666",
+    )
+    ax.set_aspect("equal")
+    ax.axis("off")
+    fig.tight_layout()
+    fig.savefig(path, dpi=180)
+    plt.close(fig)
+
+
 def main():
     OUT.mkdir(exist_ok=True)
     results = {}
@@ -169,7 +215,7 @@ def main():
     plot_phi_bars(results, OUT / "imagination_phi_bar_graph.png")
     plot_state_phi(results, OUT / "imagination_phi_by_state.png")
     for name, weights in weights_for_plot.items():
-        plot_network(weights, name.replace("_", " "), OUT / f"{name}_network.png")
+        plot_named_network(weights, name.replace("_", " "), OUT / f"{name}_network.png")
 
     print("Imagination Phi proxy lab complete")
     print(json.dumps(serializable, indent=2))

@@ -1,0 +1,43 @@
+{
+  "baseline_goal_only": {
+    "mode": "goal_only",
+    "hidden_dim": 32,
+    "use_imagination": false,
+    "eval_goal_rate": 0.0,
+    "eval_hazard_rate": 0.0,
+    "eval_button_rate": 0.0,
+    "eval_mean_steps": 32.0,
+    "eval_mean_reward": -0.6399999856948853
+  },
+  "imagination_goal_only": {
+    "mode": "goal_only",
+    "hidden_dim": 32,
+    "use_imagination": true,
+    "eval_goal_rate": 0.0,
+    "eval_hazard_rate": 0.0,
+    "eval_button_rate": 0.0,
+    "eval_mean_steps": 32.0,
+    "eval_mean_reward": -0.6399999856948853
+  },
+  "baseline_progress_valence": {
+    "mode": "large_progress_reward",
+    "hidden_dim": 32,
+    "use_imagination": false,
+    "eval_goal_rate": 0.6354166666666666,
+    "eval_hazard_rate": 0.0,
+    "eval_button_rate": 0.0,
+    "eval_mean_steps": 14.208333333333334,
+    "eval_mean_reward": 1.1248958247403305
+  },
+  "imagination_progress_valence": {
+    "mode": "large_progress_reward",
+    "hidden_dim": 32,
+    "use_imagination": true,
+    "eval_goal_rate": 0.23958333333333334,
+    "eval_hazard_rate": 0.0,
+    "eval_button_rate": 0.0,
+    "eval_mean_steps": 25.291666666666668,
+    "eval_mean_reward": -0.15364582588275275
+  },
+  "note": "Imagination here means a pre-action world-model rollout for each possible action. The imagined next states create an action prior before the policy acts."
+}

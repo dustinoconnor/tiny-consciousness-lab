@@ -299,6 +299,40 @@ like:
 
 ![Valence scaling behavior](outputs/valence_scaling_behavior.png)
 
+## Pre-Action Imagination Test
+
+`imagination_lab.py` adds a fast intuition-like loop before action:
+
+1. Use the world model to imagine the next observation for each possible action.
+2. Score each imagined future for expected progress and hazard risk.
+3. Add that score as an action prior before the policy acts.
+
+This was meant to test whether "intuition" improves learning by letting the
+agent simulate before acting.
+
+The first result was negative:
+
+```text
+baseline_goal_only:              goal_rate 0.000, mean_steps 32.00
+imagination_goal_only:           goal_rate 0.000, mean_steps 32.00
+baseline_progress_valence:       goal_rate 0.635, mean_steps 14.21
+imagination_progress_valence:    goal_rate 0.240, mean_steps 25.29
+```
+
+Naive imagination did not help. It hurt the progress-valence agent, likely
+because its early world model was not reliable enough. The agent acted on bad
+intuition.
+
+This suggests another useful boundary:
+
+> intuition is only helpful when the internal world model is accurate enough to
+> trust, and when confidence gates prevent bad imagination from dominating
+> action.
+
+![Imagination training](outputs/imagination_training.png)
+
+![Imagination evaluation](outputs/imagination_eval.png)
+
 ## Explainer Video Angle
 
 This project could be turned into a short narrated explainer:
@@ -330,6 +364,7 @@ cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 wirehead_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 valence_shaping_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 valence_scaling_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 imagination_lab.py
 ```
 
 Outputs land in:
@@ -346,12 +381,14 @@ Outputs land in:
 - `wirehead_lab.py` - direct valence-button wireheading test
 - `valence_shaping_lab.py` - reward shaping tests for useful vs harmful valence
 - `valence_scaling_lab.py` - behavioral scaling sweep without exact Phi
+- `imagination_lab.py` - pre-action world-model/intuiton test
 - `outputs/metrics.json` - recurrent agent metrics
 - `outputs/exact_phi_metrics.json` - exact Phi proxy metrics
 - `outputs/intervention_metrics.json` - intervention test metrics
 - `outputs/wirehead_metrics.json` - wireheading test metrics
 - `outputs/valence_shaping_metrics.json` - valence shaping test metrics
 - `outputs/valence_scaling_metrics.json` - behavioral scaling metrics
+- `outputs/imagination_metrics.json` - pre-action imagination test metrics
 
 ## Next Steps
 

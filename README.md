@@ -23,6 +23,43 @@ The working thesis emerging from these toy runs:
 > Imagination without reality-checking is delusional.  
 > Useful intelligence requires co-tuned cognition, reward, and world modeling.
 
+## Substrate-Independence Angle
+
+This project does not prove machine consciousness, and it should not be read as
+a consciousness detector. The stronger, defensible claim is narrower:
+
+> These experiments support substrate independence for several functional
+> prerequisites often discussed in consciousness research, while stopping short
+> of proving subjective experience.
+
+The toy systems are not biological. They have no neurons, cells, hormones, or
+embodied metabolism. Yet changing the informational architecture changes their
+behavior in recognizable ways:
+
+- Adding valence feedback increases irreducible transition structure under the
+  exact tiny Phi proxy.
+- Ablating the valence-feedback node is especially disruptive in that toy
+  architecture.
+- Direct access to positive valence causes wireheading.
+- Grounded progress-valence improves goal completion.
+- Ungrounded imagination degrades behavior.
+- Accuracy-rewarded and gated imagination recover much of that loss.
+- A pretrained world model enables lookahead in a detour maze where myopic
+  progress-valence gets stuck.
+
+The philosophical inference is not that silicon is conscious. It is that
+integration, valence, confidence gating, world modeling, and lookahead can be
+implemented as substrate-independent information-processing patterns.
+
+In evolutionary language, the detour maze captures a functional pressure:
+
+> Reflex works in simple worlds. Once the world contains traps, detours, and
+> delayed reward, useful action needs internal simulation.
+
+That is the bridge this repo is trying to make visible: not consciousness
+itself, but a small ladder of functional prerequisites that can exist outside
+carbon biology.
+
 The short answer from the first run is interesting:
 
 ```text
@@ -398,9 +435,15 @@ This project could be turned into a short narrated explainer:
    the world.
 5. Show valence shaping: progress-grounded reward helped, while direct reward
    hijacked behavior.
-6. End with the thesis: capacity without grounded valence is unstable; valence
-   without boundaries is exploitable; useful intelligence requires co-tuned
-   cognition and reward.
+6. Show imagination: ungrounded imagination hurt performance, while
+   accuracy-rewarded and gated imagination recovered much of the loss.
+7. Show the detour maze: myopic progress-valence got stuck at the wall, while
+   pretrained world-model lookahead accepted temporary negative valence and
+   reached the goal.
+8. End with the thesis: capacity without grounded valence is unstable; valence
+   without boundaries is exploitable; imagination without reality-checking is
+   delusional; useful intelligence requires co-tuned cognition, reward, and
+   world modeling.
 
 ## How To Run
 

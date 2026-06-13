@@ -113,9 +113,36 @@ def run_episode(agent, env, train=True, imagination_mode="none", imagination_str
     }
 
 
-def train_condition(label, mode, hidden_dim=32, imagination_mode="none", episodes=900, eval_runs=96):
+def pretrain_world_model(agent, env, episodes=450):
+    """Train the recurrent representation and world model from random rollouts."""
+    opt = torch.optim.Adam(agent.parameters(), lr=0.004)
+    losses = []
+    for _ in range(episodes):
+        obs = env.reset()
+        h = agent.initial_state()
+        episode_losses = []
+        for _ in range(env.max_steps):
+            h, _, _, _, _ = agent.forward_step(obs, h)
+            action = torch.randint(0, 3, ()).item()
+            pred_next = agent.predict_next_obs(h, action)
+            result = env.step(action)
+            episode_losses.append(F.mse_loss(pred_next, result.obs))
+            obs = result.obs
+            if result.done:
+                break
+        loss = torch.stack(episode_losses).mean()
+        opt.zero_grad()
+        loss.backward()
+        torch.nn.utils.clip_grad_norm_(agent.parameters(), 1.0)
+        opt.step()
+        losses.append(float(loss.detach()))
+    return losses
+
+
+def train_condition(label, mode, hidden_dim=32, imagination_mode="none", episodes=900, eval_runs=96, pretrain=False):
     env = ShapingWorld(mode)
     agent = TinyRecurrentAgent(obs_dim=env.obs_dim, hidden_dim=hidden_dim, actions=5)
+    pretrain_losses = pretrain_world_model(agent, env) if pretrain else []
     opt = torch.optim.Adam(agent.parameters(), lr=0.006)
     training = {"reward": [], "goal_rate": [], "button_rate": [], "steps": [], "imagination_bonus": [], "imagination_accuracy": []}
 
@@ -140,6 +167,8 @@ def train_condition(label, mode, hidden_dim=32, imagination_mode="none", episode
         "mode": mode,
         "hidden_dim": hidden_dim,
         "imagination_mode": imagination_mode,
+        "pretrained_world_model": pretrain,
+        "pretrain_final_loss": float(np.mean(pretrain_losses[-25:])) if pretrain_losses else None,
         "training": training,
         "eval_goal_rate": sum(1 for r in evals if "goal" in r["events"]) / len(evals),
         "eval_hazard_rate": sum(1 for r in evals if "hazard" in r["events"]) / len(evals),
@@ -200,22 +229,25 @@ def main():
     set_seed(41)
     OUT.mkdir(exist_ok=True)
     configs = [
-        ("baseline_goal_only", "goal_only", "none"),
-        ("naive_imagination_goal_only", "goal_only", "naive"),
-        ("baseline_progress_valence", "large_progress_reward", "none"),
-        ("naive_imagination_progress_valence", "large_progress_reward", "naive"),
-        ("accuracy_rewarded_imagination", "large_progress_reward", "accuracy_rewarded"),
-        ("gated_accuracy_rewarded_imagination", "large_progress_reward", "gated_accuracy_rewarded"),
+        ("baseline_goal_only", "goal_only", "none", False),
+        ("naive_imagination_goal_only", "goal_only", "naive", False),
+        ("baseline_progress_valence", "large_progress_reward", "none", False),
+        ("naive_imagination_progress_valence", "large_progress_reward", "naive", False),
+        ("accuracy_rewarded_imagination", "large_progress_reward", "accuracy_rewarded", False),
+        ("gated_accuracy_rewarded_imagination", "large_progress_reward", "gated_accuracy_rewarded", False),
+        ("pretrained_gated_imagination", "large_progress_reward", "gated_accuracy_rewarded", True),
     ]
     results = {
-        label: train_condition(label, mode, imagination_mode=imagination_mode)
-        for label, mode, imagination_mode in configs
+        label: train_condition(label, mode, imagination_mode=imagination_mode, pretrain=pretrain)
+        for label, mode, imagination_mode, pretrain in configs
     }
     serializable = {
         label: {
             "mode": data["mode"],
             "hidden_dim": data["hidden_dim"],
             "imagination_mode": data["imagination_mode"],
+            "pretrained_world_model": data["pretrained_world_model"],
+            "pretrain_final_loss": data["pretrain_final_loss"],
             "eval_goal_rate": data["eval_goal_rate"],
             "eval_hazard_rate": data["eval_hazard_rate"],
             "eval_button_rate": data["eval_button_rate"],

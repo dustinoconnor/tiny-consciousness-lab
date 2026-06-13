@@ -319,6 +319,7 @@ baseline_progress_valence:             goal_rate 0.635, mean_steps 14.21
 naive_imagination_progress_valence:    goal_rate 0.240, mean_steps 25.29
 accuracy_rewarded_imagination:         goal_rate 0.510, mean_steps 17.71
 gated_accuracy_rewarded_imagination:   goal_rate 0.531, mean_steps 17.13
+pretrained_gated_imagination:          goal_rate 0.563, mean_steps 16.25
 ```
 
 Naive imagination did not help. It hurt the progress-valence agent, likely
@@ -328,6 +329,12 @@ intuition.
 Rewarding imagination for matching reality helped recover much of the lost
 performance. Adding a confidence gate helped a little more. But neither grounded
 imagination variant beat the plain progress-valence baseline in this run.
+
+Pretraining the world model before reinforcement learning improved imagination
+accuracy and goal completion compared with non-pretrained gated imagination, but
+it still did not beat the plain progress-valence baseline. This suggests that
+better world modeling helps, but the current imagination prior is still too
+crude or too costly.
 
 This suggests another useful boundary:
 

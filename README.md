@@ -20,7 +20,8 @@ The working thesis emerging from these toy runs:
 
 > Capacity without grounded valence is unstable.  
 > Valence without boundaries is exploitable.  
-> Useful intelligence requires co-tuned cognition and reward.
+> Imagination without reality-checking is delusional.  
+> Useful intelligence requires co-tuned cognition, reward, and world modeling.
 
 The short answer from the first run is interesting:
 

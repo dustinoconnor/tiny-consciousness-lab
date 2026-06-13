@@ -351,28 +351,34 @@ And the negative version:
 
 ![Imagination evaluation](outputs/imagination_eval.png)
 
-## 2D Maze Imagination Test
+## 2D Detour Maze Imagination Test
 
 `maze_imagination_lab.py` moves the agent from a 1D line into a small 2D maze
-with walls. The goal was to create a world where local progress is not enough
-and imagination should have a chance to beat reflex.
+with walls. The second version adds a real detour: the agent must temporarily
+move away from the goal to get around a wall.
 
-First result:
+The clean counter-example:
 
 ```text
-progress_reflex:                 goal_rate 1.000, mean_steps 10.00
-naive_imagination:               goal_rate 1.000, mean_steps 10.00
-gated_imagination:               goal_rate 1.000, mean_steps 10.00
-pretrained_gated_imagination:    goal_rate 1.000, mean_steps 10.00
+myopic_progress_reflex:       goal_reached false, wall_hits 30
+pretrained_world_lookahead:   goal_reached true, steps 16, away_from_goal_steps 4
 ```
 
-After sharpening the imagination scorer, every agent solved the maze. That means
-this maze is not yet hard enough to force imagination to outperform instinct.
-It is a useful negative benchmark: the environment must include a true detour,
-trap, or delayed-gratification choice where the locally rewarding action is
-wrong.
+The myopic reflex only accepts immediately positive Manhattan progress. It walks
+to the wall and keeps pushing into it because every useful detour step feels
+locally worse. The pretrained world-model lookahead accepts four temporarily bad
+steps, rounds the wall, and reaches the goal.
+
+The learned recurrent agents are still messier than the hand-isolated
+counter-example. They can sometimes learn the route through reinforcement, and
+the pretrained neural imagination policy did not cleanly dominate in this tiny
+setup. The important result here is narrower but useful: once a world contains a
+true local minimum, pure progress-valence is not enough; some form of trusted
+lookahead or world modeling is required.
 
 ![Maze layout](outputs/maze_layout.png)
+
+![Maze detour counterexample](outputs/maze_detour_counterexample.png)
 
 ![Maze imagination training](outputs/maze_imagination_training.png)
 

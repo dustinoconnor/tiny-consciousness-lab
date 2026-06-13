@@ -31,14 +31,16 @@ from tiny_lab import OUT, TinyRecurrentAgent, set_seed
 
 
 MAZE = [
-    "#########",
-    "#S..#..G#",
-    "#.#.#.###",
-    "#.#...#.#",
-    "#.#####.#",
-    "#.......#",
-    "#########",
+    "###########",
+    "#S....#..G#",
+    "#.....#...#",
+    "#.....#...#",
+    "#.....#...#",
+    "#.........#",
+    "###########",
 ]
+
+MOVES = [(0, -1), (0, 1), (-1, 0), (1, 0)]
 
 
 @dataclass
@@ -66,6 +68,15 @@ class MazeWorld:
     def obs_dim(self):
         # position, goal, walls, last reward
         return self.cells * 3 + 1
+
+    @property
+    def open_cells(self):
+        cells = []
+        for y, row in enumerate(self.grid):
+            for x, cell in enumerate(row):
+                if cell != "#":
+                    cells.append((x, y))
+        return cells
 
     def find(self, char):
         for y, row in enumerate(self.grid):
@@ -111,10 +122,19 @@ class MazeWorld:
 
     def neighbors(self, xy):
         x, y = xy
-        for dx, dy in [(0, -1), (0, 1), (-1, 0), (1, 0)]:
+        for dx, dy in MOVES:
             nxt = (x + dx, y + dy)
             if not self.is_wall(nxt):
                 yield nxt
+
+    def transition_from(self, xy, action):
+        dx, dy = MOVES[int(action)]
+        candidate = (xy[0] + dx, xy[1] + dy)
+        if self.is_wall(candidate):
+            return xy, "wall"
+        if candidate == self.goal:
+            return candidate, "goal"
+        return candidate, "move"
 
     def reset(self):
         self.t = 0
@@ -134,19 +154,14 @@ class MazeWorld:
         return v
 
     def step(self, action):
-        moves = [(0, -1), (0, 1), (-1, 0), (1, 0)]
         old = self.pos
         old_manhattan = self.manhattan(old, self.goal)
-        dx, dy = moves[int(action)]
-        candidate = (old[0] + dx, old[1] + dy)
+        candidate, event = self.transition_from(old, action)
         self.t += 1
 
         reward = -0.025
-        event = "move"
-        if self.is_wall(candidate):
-            candidate = old
+        if event == "wall":
             reward -= 0.08
-            event = "wall"
         else:
             new_manhattan = self.manhattan(candidate, self.goal)
             if new_manhattan < old_manhattan:
@@ -262,6 +277,109 @@ def pretrain_world_model(agent, env, episodes=260):
     return losses
 
 
+def pretrain_tabular_world_model(env):
+    """A tiny exact world model learned from the environment's transition table.
+
+    This is deliberately simple: the counter-example is about planning depth,
+    not about whether a neural world model can memorize a seven-row maze.
+    """
+    transitions = {}
+    for cell in env.open_cells:
+        transitions[cell] = {}
+        for action in range(4):
+            transitions[cell][action] = env.transition_from(cell, action)
+    return transitions
+
+
+def myopic_progress_action(env, pos):
+    """Choose only actions that immediately reduce Manhattan distance.
+
+    If no move feels better right now, the reflex keeps pushing toward the goal
+    and gets stuck against the wall. That is the local-minimum failure mode.
+    """
+    current = env.manhattan(pos, env.goal)
+    candidates = []
+    for action in range(4):
+        nxt, event = env.transition_from(pos, action)
+        if event == "wall":
+            continue
+        dist = env.manhattan(nxt, env.goal)
+        if dist < current:
+            candidates.append((dist, action))
+    if candidates:
+        return min(candidates)[1]
+
+    # No locally positive move exists, so push horizontally toward the goal.
+    if env.goal[0] > pos[0]:
+        return 3
+    if env.goal[0] < pos[0]:
+        return 2
+    if env.goal[1] > pos[1]:
+        return 1
+    return 0
+
+
+def lookahead_score(env, world, pos, depth):
+    if pos == env.goal:
+        return 100.0
+    if depth <= 0:
+        return -env.shortest_distance(pos)
+    best = -999.0
+    for action in range(4):
+        nxt, event = world[pos][action]
+        penalty = -4.0 if event == "wall" else 0.0
+        best = max(best, penalty + 0.92 * lookahead_score(env, world, nxt, depth - 1))
+    return best
+
+
+def pretrained_world_lookahead_action(env, world, pos, horizon=8):
+    scored = []
+    for action in range(4):
+        nxt, event = world[pos][action]
+        penalty = -4.0 if event == "wall" else 0.0
+        score = penalty + 0.92 * lookahead_score(env, world, nxt, horizon - 1)
+        scored.append((score, action))
+    return max(scored)[1]
+
+
+def evaluate_detour_policy(label, policy, max_steps=34):
+    env = MazeWorld(max_steps=max_steps)
+    world = pretrain_tabular_world_model(env)
+    pos = env.start
+    path = [pos]
+    events = []
+    away_steps = 0
+
+    for _ in range(max_steps):
+        old_distance = env.manhattan(pos, env.goal)
+        if policy == "myopic":
+            action = myopic_progress_action(env, pos)
+        elif policy == "lookahead":
+            action = pretrained_world_lookahead_action(env, world, pos)
+        else:
+            raise ValueError(policy)
+
+        nxt, event = env.transition_from(pos, action)
+        if env.manhattan(nxt, env.goal) > old_distance:
+            away_steps += 1
+        pos = nxt
+        path.append(pos)
+        events.append(event)
+        if pos == env.goal:
+            break
+
+    return {
+        "label": label,
+        "policy": policy,
+        "goal_reached": pos == env.goal,
+        "steps": len(events),
+        "wall_hits": events.count("wall"),
+        "away_from_goal_steps": away_steps,
+        "path": path,
+        "events": events,
+    }
+
+
 def train_condition(label, imagination=False, gated=False, pretrain=False, episodes=520, eval_runs=48):
     env = MazeWorld()
     agent = TinyRecurrentAgent(obs_dim=env.obs_dim, hidden_dim=36, actions=4)
@@ -361,9 +479,45 @@ def plot_maze(path):
     plt.close(fig)
 
 
+def plot_detour_paths(counterexample, path):
+    env = MazeWorld()
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+    colors = {
+        "myopic_progress_reflex": "#e05a47",
+        "pretrained_world_lookahead": "#16a3a6",
+    }
+    for ax, (label, data) in zip(axes, counterexample.items()):
+        img = np.zeros((env.height, env.width, 3), dtype=np.float32)
+        for y, row in enumerate(env.grid):
+            for x, cell in enumerate(row):
+                img[y, x] = [0.05, 0.05, 0.05] if cell == "#" else [0.93, 0.95, 0.98]
+        sx, sy = env.start
+        gx, gy = env.goal
+        img[sy, sx] = [0.1, 0.65, 0.7]
+        img[gy, gx] = [1.0, 0.55, 0.0]
+        ax.imshow(img)
+        xs = [p[0] for p in data["path"]]
+        ys = [p[1] for p in data["path"]]
+        ax.plot(xs, ys, color=colors[label], lw=3, marker="o", markersize=5)
+        ax.set_title(
+            f"{label}\n"
+            f"goal={data['goal_reached']} steps={data['steps']} walls={data['wall_hits']}"
+        )
+        ax.set_xticks([])
+        ax.set_yticks([])
+    fig.suptitle("Detour Maze: Local Valence Fails, Lookahead Escapes")
+    fig.tight_layout()
+    fig.savefig(path, dpi=180)
+    plt.close(fig)
+
+
 def main():
     set_seed(53)
     OUT.mkdir(exist_ok=True)
+    counterexample = {
+        "myopic_progress_reflex": evaluate_detour_policy("myopic_progress_reflex", "myopic"),
+        "pretrained_world_lookahead": evaluate_detour_policy("pretrained_world_lookahead", "lookahead"),
+    }
     configs = [
         ("progress_reflex", False, False, False),
         ("naive_imagination", True, False, False),
@@ -389,10 +543,23 @@ def main():
         for label, data in results.items()
     }
     serializable["note"] = (
-        "2D maze where locally moving closer to the goal can be wrong. This tests whether pretrained imagination beats progress-valence reflex."
+        "2D detour maze where locally moving closer to the goal can be wrong. The deterministic counter-example isolates myopic progress-valence from pretrained world-model lookahead."
     )
+    serializable["detour_counterexample"] = {
+        label: {
+            "policy": data["policy"],
+            "goal_reached": data["goal_reached"],
+            "steps": data["steps"],
+            "wall_hits": data["wall_hits"],
+            "away_from_goal_steps": data["away_from_goal_steps"],
+            "path": [list(p) for p in data["path"]],
+            "events": data["events"],
+        }
+        for label, data in counterexample.items()
+    }
     (OUT / "maze_imagination_metrics.json").write_text(json.dumps(serializable, indent=2))
     plot_maze(OUT / "maze_layout.png")
+    plot_detour_paths(counterexample, OUT / "maze_detour_counterexample.png")
     plot_training(results, OUT / "maze_imagination_training.png")
     plot_eval(results, OUT / "maze_imagination_eval.png")
     print("Maze imagination lab complete")

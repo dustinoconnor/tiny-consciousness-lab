@@ -3,6 +3,11 @@
 Toy experiments for recurrence, functional valence, simple world modeling,
 mechanistic interpretability, and a small exact Phi-like integration proxy.
 
+Keywords: AI consciousness, machine consciousness, recurrent neural networks,
+functional valence, wireheading, Integrated Information Theory, IIT, Phi proxy,
+mechanistic interpretability, reinforcement learning, world models, AI
+alignment, PyTorch.
+
 This project is not a consciousness detector. It is a small experimental bench
 for making questions about recurrent systems visible:
 
@@ -293,6 +298,24 @@ like:
 > but not directly writable and not so strong that it replaces the task.
 
 ![Valence scaling behavior](outputs/valence_scaling_behavior.png)
+
+## Explainer Video Angle
+
+This project could be turned into a short narrated explainer:
+
+1. Start with the question: does useful intelligence need both capacity and
+   tuned valence?
+2. Show the exact tiny Phi proxy result: valence feedback scored higher than a
+   feedforward chain or simple recurrent ring.
+3. Show ablation and noise tests: the valence-feedback node became structurally
+   important and improved robustness in the toy system.
+4. Show wireheading: direct access to good valence made the agent stop solving
+   the world.
+5. Show valence shaping: progress-grounded reward helped, while direct reward
+   hijacked behavior.
+6. End with the thesis: capacity without grounded valence is unstable; valence
+   without boundaries is exploitable; useful intelligence requires co-tuned
+   cognition and reward.
 
 ## How To Run
 

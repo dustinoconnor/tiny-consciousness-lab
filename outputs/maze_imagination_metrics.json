@@ -1,0 +1,47 @@
+{
+  "progress_reflex": {
+    "imagination": false,
+    "gated": false,
+    "pretrained_world_model": false,
+    "pretrain_final_loss": null,
+    "eval_goal_rate": 1.0,
+    "eval_wall_rate": 0.0,
+    "eval_mean_steps": 10.0,
+    "eval_mean_reward": 1.2310000658035278,
+    "eval_mean_accuracy": 0.9973813712596894
+  },
+  "naive_imagination": {
+    "imagination": true,
+    "gated": false,
+    "pretrained_world_model": false,
+    "pretrain_final_loss": null,
+    "eval_goal_rate": 1.0,
+    "eval_wall_rate": 0.0,
+    "eval_mean_steps": 10.0,
+    "eval_mean_reward": 1.4092607498168945,
+    "eval_mean_accuracy": 0.9956524312496186
+  },
+  "gated_imagination": {
+    "imagination": true,
+    "gated": true,
+    "pretrained_world_model": false,
+    "pretrain_final_loss": null,
+    "eval_goal_rate": 1.0,
+    "eval_wall_rate": 0.0,
+    "eval_mean_steps": 10.0,
+    "eval_mean_reward": 1.4090297222137451,
+    "eval_mean_accuracy": 0.9950744271278381
+  },
+  "pretrained_gated_imagination": {
+    "imagination": true,
+    "gated": true,
+    "pretrained_world_model": true,
+    "pretrain_final_loss": 0.004575780238956213,
+    "eval_goal_rate": 1.0,
+    "eval_wall_rate": 0.0,
+    "eval_mean_steps": 10.0,
+    "eval_mean_reward": 1.4099609851837158,
+    "eval_mean_accuracy": 0.9974025905132294
+  },
+  "note": "2D maze where locally moving closer to the goal can be wrong. This tests whether pretrained imagination beats progress-valence reflex."
+}

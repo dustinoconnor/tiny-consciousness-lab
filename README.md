@@ -351,6 +351,33 @@ And the negative version:
 
 ![Imagination evaluation](outputs/imagination_eval.png)
 
+## 2D Maze Imagination Test
+
+`maze_imagination_lab.py` moves the agent from a 1D line into a small 2D maze
+with walls. The goal was to create a world where local progress is not enough
+and imagination should have a chance to beat reflex.
+
+First result:
+
+```text
+progress_reflex:                 goal_rate 1.000, mean_steps 10.00
+naive_imagination:               goal_rate 1.000, mean_steps 10.00
+gated_imagination:               goal_rate 1.000, mean_steps 10.00
+pretrained_gated_imagination:    goal_rate 1.000, mean_steps 10.00
+```
+
+After sharpening the imagination scorer, every agent solved the maze. That means
+this maze is not yet hard enough to force imagination to outperform instinct.
+It is a useful negative benchmark: the environment must include a true detour,
+trap, or delayed-gratification choice where the locally rewarding action is
+wrong.
+
+![Maze layout](outputs/maze_layout.png)
+
+![Maze imagination training](outputs/maze_imagination_training.png)
+
+![Maze imagination evaluation](outputs/maze_imagination_eval.png)
+
 ## Explainer Video Angle
 
 This project could be turned into a short narrated explainer:
@@ -383,6 +410,7 @@ cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 valence_shaping_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 valence_scaling_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 imagination_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 maze_imagination_lab.py
 ```
 
 Outputs land in:
@@ -400,6 +428,7 @@ Outputs land in:
 - `valence_shaping_lab.py` - reward shaping tests for useful vs harmful valence
 - `valence_scaling_lab.py` - behavioral scaling sweep without exact Phi
 - `imagination_lab.py` - pre-action world-model/intuiton test
+- `maze_imagination_lab.py` - 2D maze imagination test
 - `outputs/metrics.json` - recurrent agent metrics
 - `outputs/exact_phi_metrics.json` - exact Phi proxy metrics
 - `outputs/intervention_metrics.json` - intervention test metrics
@@ -407,6 +436,7 @@ Outputs land in:
 - `outputs/valence_shaping_metrics.json` - valence shaping test metrics
 - `outputs/valence_scaling_metrics.json` - behavioral scaling metrics
 - `outputs/imagination_metrics.json` - pre-action imagination test metrics
+- `outputs/maze_imagination_metrics.json` - 2D maze imagination metrics
 
 ## Next Steps
 

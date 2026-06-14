@@ -645,6 +645,22 @@ an obsolete internal prediction rule. The adaptive attention-valence filter used
 prediction error as surprise, retuned its model angle from about `+0.13` to
 about `-0.21`, and recovered immediately.
 
+Action-influence diagnostics make the difference clearer:
+
+```text
+condition                         sensory_action  imagination_action  delusion
+static_attention_valence_filter   0.559           0.059               0.217
+adaptive_attention_valence_filter 0.330           0.573               0.007
+```
+
+The static filter remains mostly sensory-driven after the rule break. It is not
+wildly hallucinating, but its imagination pathway is not trusted enough to guide
+action, so recovery is slower and partial. The adaptive filter retunes the inner
+rule, suppresses delusion, and lets imagination become a useful action influence
+again. In this coarse four-action toy, `model_rule_alignment` stays numerically
+high for both systems, so the more meaningful plot is the redistribution of
+action influence between sensory and imagination channels.
+
 This sharpens the Phi lesson:
 
 > Integration is not a scoreboard by itself. A useful inner world must be
@@ -654,6 +670,8 @@ This sharpens the Phi lesson:
 ![Attention shift summary](outputs/attention_shift_summary.png)
 
 ![Attention shift timeseries](outputs/attention_shift_timeseries.png)
+
+![Attention shift action influence](outputs/attention_shift_action_influence.png)
 
 ## Modular Workspace Test
 

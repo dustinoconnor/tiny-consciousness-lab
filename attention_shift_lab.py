@@ -110,6 +110,7 @@ def run_condition(name, config, steps=220, shift_step=110, seed=11):
 
         delusion = float(attention[2] * (1.0 - alignment))
         sensory_angle_delta = angle_delta(angle_of(actual_next), angle_of(actual))
+        model_rule_alignment = float(0.5 + 0.5 * math.cos(angle_delta(model_angle, sensory_angle_delta)))
         if config["adaptive_model"]:
             # Low alignment means the old inner rule is losing contact with the world.
             # Shift trust toward direct sensory evidence until prediction fidelity returns.
@@ -127,6 +128,10 @@ def run_condition(name, config, steps=220, shift_step=110, seed=11):
                 "target_attention": float(attention[0]),
                 "distractor_attention": float(attention[1]),
                 "imagination_attention": float(attention[2]),
+                "sensory_action_influence": float(attention[0] * model_rule_alignment),
+                "distractor_action_influence": float(attention[1] * model_rule_alignment),
+                "imagination_action_influence": float(attention[2] * alignment * model_rule_alignment),
+                "model_rule_alignment": model_rule_alignment,
                 "task_attention": float(attention[0] + attention[2] * alignment),
                 "distractor_fixation": float(attention[1]),
                 "delusion": delusion,
@@ -164,6 +169,9 @@ def summarize(rows, shift_step):
         "late_task_attention": mean(late, "task_attention"),
         "late_distractor_fixation": mean(late, "distractor_fixation"),
         "late_delusion": mean(late, "delusion"),
+        "late_sensory_action_influence": mean(late, "sensory_action_influence"),
+        "late_imagination_action_influence": mean(late, "imagination_action_influence"),
+        "late_model_rule_alignment": mean(late, "model_rule_alignment"),
         "recovery_steps_to_75pct": recovery_step(rows, shift_step),
         "final_model_angle": float(rows[-1]["model_angle"]),
     }
@@ -208,6 +216,31 @@ def plot_summary(summary, path):
     ax.set_ylim(0, 1.05)
     ax.set_title("Paradigm Shift Accuracy Before and After Rule Change")
     ax.legend()
+    fig.tight_layout()
+    fig.savefig(path, dpi=180)
+    plt.close(fig)
+
+
+def plot_action_influence(results, shift_step, path):
+    fig, axes = plt.subplots(4, 1, figsize=(13, 10), sharex=True)
+    keep = ["static_attention_valence_filter", "adaptive_attention_valence_filter"]
+    for name in keep:
+        rows = results[name]
+        x = [r["t"] for r in rows]
+        axes[0].plot(x, [r["sensory_action_influence"] for r in rows], label=name)
+        axes[1].plot(x, [r["imagination_action_influence"] for r in rows], label=name)
+        axes[2].plot(x, [r["distractor_action_influence"] for r in rows], label=name)
+        axes[3].plot(x, [r["model_rule_alignment"] for r in rows], label=name)
+    for ax in axes:
+        ax.axvline(shift_step, color="#111111", ls="--", lw=1)
+        ax.grid(alpha=0.2)
+        ax.legend(fontsize=8)
+    axes[0].set_ylabel("sensory influence")
+    axes[1].set_ylabel("imagination influence")
+    axes[2].set_ylabel("distractor influence")
+    axes[3].set_ylabel("model rule alignment")
+    axes[3].set_xlabel("time step")
+    axes[0].set_title("Action Influence Around Paradigm Shift")
     fig.tight_layout()
     fig.savefig(path, dpi=180)
     plt.close(fig)
@@ -281,6 +314,7 @@ def main():
     (OUT / "attention_shift_metrics.json").write_text(json.dumps(payload, indent=2))
     plot_shift(results, shift_step, OUT / "attention_shift_timeseries.png")
     plot_summary(summary, OUT / "attention_shift_summary.png")
+    plot_action_influence(results, shift_step, OUT / "attention_shift_action_influence.png")
     print("Attention paradigm-shift lab complete")
     print(json.dumps(payload, indent=2))
 

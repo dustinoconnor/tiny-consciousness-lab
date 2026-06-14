@@ -8,6 +8,9 @@
       "late_task_attention": 0.1688400994646366,
       "late_distractor_fixation": 0.39276689656222896,
       "late_delusion": 0.43839300397313463,
+      "late_sensory_action_influence": 0.11906187402277472,
+      "late_imagination_action_influence": 0.044777178323838165,
+      "late_model_rule_alignment": 0.9700247109944832,
       "recovery_steps_to_75pct": null,
       "final_model_angle": 0.13
     },
@@ -18,6 +21,9 @@
       "late_task_attention": 0.6371149853449389,
       "late_distractor_fixation": 0.14543280568084527,
       "late_delusion": 0.21745220897421585,
+      "late_sensory_action_influence": 0.5589533612998159,
+      "late_imagination_action_influence": 0.05916818646161626,
+      "late_model_rule_alignment": 0.9700247109944832,
       "recovery_steps_to_75pct": 43,
       "final_model_angle": 0.13
     },
@@ -28,6 +34,9 @@
       "late_task_attention": 0.9032938371996897,
       "late_distractor_fixation": 0.09006800046624713,
       "late_delusion": 0.006638162334063099,
+      "late_sensory_action_influence": 0.32965021836648545,
+      "late_imagination_action_influence": 0.5733609243038689,
+      "late_model_rule_alignment": 0.9996741461888843,
       "recovery_steps_to_75pct": 0,
       "final_model_angle": -0.21243382979029124
     }

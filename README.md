@@ -25,6 +25,7 @@ The working thesis emerging from these toy runs:
 > Valence without boundaries is exploitable.  
 > Imagination without reality-checking is delusional.  
 > Attention should be rewarded for staying grounded.  
+> Specialization and integration must be balanced.  
 > Useful intelligence requires co-tuned cognition, reward, attention, and world
 > modeling.
 
@@ -631,6 +632,50 @@ This sharpens the Phi lesson:
 
 ![Attention shift timeseries](outputs/attention_shift_timeseries.png)
 
+## Modular Workspace Test
+
+`modular_workspace_lab.py` tests the biological-style idea that useful
+architecture needs both segregation and integration: specialized subsystems that
+do clean local work, plus a shared workspace/core that binds them when action
+needs coordination.
+
+The comparison:
+
+- `feedforward_specialists` - clean specialized routing with a feedforward
+  workspace path
+- `random_feedback_soup` - many feedback links without useful organization
+- `segregated_modules` - specialists that never bind into a shared core
+- `modular_workspace` - specialists feeding a central workspace/action core
+- `overconnected_workspace` - the same core with too much recurrent cross-talk
+
+Result:
+
+```text
+condition                  phi     grounding  binding  delusion  useful_score
+feedforward_specialists    0.0755  0.390      0.312    0.236     0.0112
+random_feedback_soup       0.0346  0.133      0.309    5.298     0.0003
+segregated_modules         0.0394  0.361      0.000    huge      0.0000
+modular_workspace          0.0558  0.270      0.448    0.227     0.0089
+overconnected_workspace    0.0263  0.125      0.401    0.524     0.0019
+```
+
+The clean feedforward specialist system had the highest heuristic useful score
+in this static test. That is not a failure of the workspace idea; it is a useful
+warning. If the world does not require memory, adaptation, or delayed
+counterfactual control, recurrence can be unnecessary overhead. The modular
+workspace was close behind and had the strongest workspace binding, while the
+random feedback soup and overconnected workspace performed poorly.
+
+This refines the architecture lesson:
+
+> Do not add loops for their own sake. Use specialized modules for clean local
+> processing, and add shared recurrent workspace only where binding, memory, or
+> adaptation actually improves grounded action.
+
+![Modular workspace summary](outputs/modular_workspace_summary.png)
+
+![Modular workspace networks](outputs/modular_workspace_networks.png)
+
 ## Explainer Video Angle
 
 This project could be turned into a short narrated explainer:
@@ -661,11 +706,13 @@ This project could be turned into a short narrated explainer:
    detached.
 11. Show the paradigm-shift test: adaptive attention-valence can rebuild an
    obsolete inner model after environmental surprise.
-12. End with the thesis: capacity without grounded valence is unstable; valence
+12. Show the modular workspace test: structured specialist-plus-workspace
+   routing beats random feedback soup, and too much cross-talk hurts.
+13. End with the thesis: capacity without grounded valence is unstable; valence
    without boundaries is exploitable; imagination without reality-checking is
-   delusional; attention should be rewarded for staying grounded; useful
-   intelligence requires co-tuned cognition, reward, attention, and world
-   modeling.
+   delusional; attention should be rewarded for staying grounded;
+   specialization and integration must be balanced; useful intelligence requires
+   co-tuned cognition, reward, attention, and world modeling.
 
 ## How To Run
 
@@ -686,6 +733,7 @@ cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 delusional_integration_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 attention_valence_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 attention_shift_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 modular_workspace_lab.py
 ```
 
 Outputs land in:
@@ -708,6 +756,7 @@ Outputs land in:
 - `delusional_integration_lab.py` - internal-loop grounding and delusion-risk sweep
 - `attention_valence_lab.py` - attention/relevance gate driven by valence and prediction alignment
 - `attention_shift_lab.py` - dynamic environment shift test for adaptive re-grounding
+- `modular_workspace_lab.py` - segregation-plus-integration architecture comparison
 - `outputs/metrics.json` - recurrent agent metrics
 - `outputs/exact_phi_metrics.json` - exact Phi proxy metrics
 - `outputs/intervention_metrics.json` - intervention test metrics
@@ -720,6 +769,7 @@ Outputs land in:
 - `outputs/delusional_integration_metrics.json` - internal-loop grounding metrics
 - `outputs/attention_valence_metrics.json` - attention-valence filter metrics
 - `outputs/attention_shift_metrics.json` - paradigm-shift attention metrics
+- `outputs/modular_workspace_metrics.json` - modular workspace architecture metrics
 
 ## Next Steps
 

@@ -1,0 +1,78 @@
+{
+  "summary": {
+    "feedforward_specialists": {
+      "phi_proxy": 0.07548264578305729,
+      "grounding_ratio": 0.38961038961038963,
+      "module_segregation": 0.4155844155844156,
+      "workspace_binding": 0.3116883116883116,
+      "action_sensitivity_sense": 1.8041124150158794e-16,
+      "action_sensitivity_workspace": 0.22445820217994109,
+      "grounded_control_sensitivity": 0.22445820217994117,
+      "action_sensitivity_specialist_mean": 0.053007639015216934,
+      "action_sensitivity_internal_mean": 0.09587027980639798,
+      "delusion_risk_index": 0.23615817332762185,
+      "useful_integration_score": 0.011230656863528813
+    },
+    "random_feedback_soup": {
+      "phi_proxy": 0.03457166552197384,
+      "grounding_ratio": 0.13298957679529297,
+      "module_segregation": 0.029275241247516553,
+      "workspace_binding": 0.3094246158654342,
+      "action_sensitivity_sense": 0.04102398862445485,
+      "action_sensitivity_workspace": 1.6653345369377348e-16,
+      "grounded_control_sensitivity": 0.020511994312227593,
+      "action_sensitivity_specialist_mean": 0.10867732235953659,
+      "action_sensitivity_internal_mean": 0.08150799176965248,
+      "delusion_risk_index": 5.298232863430152,
+      "useful_integration_score": 0.0002961865468024695
+    },
+    "segregated_modules": {
+      "phi_proxy": 0.039365858721858146,
+      "grounding_ratio": 0.36144578313253006,
+      "module_segregation": 0.31496062992125984,
+      "workspace_binding": 0.0,
+      "action_sensitivity_sense": 1.249000902703301e-16,
+      "action_sensitivity_workspace": 0.0,
+      "grounded_control_sensitivity": 6.245004513516506e-17,
+      "action_sensitivity_specialist_mean": 0.07958334786439412,
+      "action_sensitivity_internal_mean": 0.05968751089829559,
+      "delusion_risk_index": 79583347.86439411,
+      "useful_integration_score": 0.0
+    },
+    "modular_workspace": {
+      "phi_proxy": 0.05584945570098854,
+      "grounding_ratio": 0.2699386503067484,
+      "module_segregation": 0.2752613240418119,
+      "workspace_binding": 0.44848484848484854,
+      "action_sensitivity_sense": 0.08031453684308656,
+      "action_sensitivity_workspace": 0.18624533659500042,
+      "grounded_control_sensitivity": 0.2264026050165437,
+      "action_sensitivity_specialist_mean": 0.05131366566547713,
+      "action_sensitivity_internal_mean": 0.08504658339785795,
+      "delusion_risk_index": 0.22664785885183406,
+      "useful_integration_score": 0.008853774331287546
+    },
+    "overconnected_workspace": {
+      "phi_proxy": 0.02630385366208244,
+      "grounding_ratio": 0.12499999999999997,
+      "module_segregation": 0.20064205457463882,
+      "workspace_binding": 0.40112994350282477,
+      "action_sensitivity_sense": 0.02905111294028977,
+      "action_sensitivity_workspace": 0.1136149013951592,
+      "grounded_control_sensitivity": 0.1281404578653041,
+      "action_sensitivity_specialist_mean": 0.06708808790612221,
+      "action_sensitivity_internal_mean": 0.07871979127838145,
+      "delusion_risk_index": 0.5235511798829563,
+      "useful_integration_score": 0.00190493604576275
+    }
+  },
+  "node_order": [
+    "sense",
+    "memory",
+    "imagination",
+    "valence",
+    "workspace",
+    "action"
+  ],
+  "note": "Exact tiny circuit comparison. The useful_integration_score is a heuristic combining Phi proxy, external grounding, module segregation, workspace binding, grounded control, and delusion penalty. It is not official IIT Phi."
+}

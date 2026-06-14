@@ -232,6 +232,147 @@
     },
     "note": "Exact for this toy Phi proxy, not official IIT Phi."
   },
+  "attention_reconciled_inner_world": {
+    "phi_proxy": 0.02134265157697087,
+    "best_partition_counts": {
+      "0": 127,
+      "1": 27,
+      "2": 23,
+      "4": 1,
+      "5": 13,
+      "6": 6,
+      "7": 4,
+      "8": 3,
+      "9": 3,
+      "11": 6,
+      "13": 2,
+      "17": 1,
+      "18": 3,
+      "19": 1,
+      "20": 8,
+      "24": 1,
+      "26": 4,
+      "27": 3,
+      "29": 2,
+      "34": 1,
+      "35": 1,
+      "41": 3,
+      "42": 4,
+      "43": 1,
+      "44": 1,
+      "45": 1,
+      "48": 1,
+      "49": 2,
+      "57": 1,
+      "60": 1,
+      "62": 1
+    },
+    "note": "Exact for this toy Phi proxy, not official IIT Phi."
+  },
+  "ablation_damage": {
+    "self_model_loop": [
+      {
+        "node": "sense",
+        "causal_distribution_damage": 0.09353626327953521
+      },
+      {
+        "node": "memory",
+        "causal_distribution_damage": 0.46084101284539386
+      },
+      {
+        "node": "valence",
+        "causal_distribution_damage": 0.4249155472689741
+      },
+      {
+        "node": "imagination",
+        "causal_distribution_damage": 0.3411464436689841
+      },
+      {
+        "node": "confidence",
+        "causal_distribution_damage": 0.255673849465516
+      },
+      {
+        "node": "self",
+        "causal_distribution_damage": 0.3056870058042913
+      },
+      {
+        "node": "imagined_valence",
+        "causal_distribution_damage": 0.0
+      },
+      {
+        "node": "action",
+        "causal_distribution_damage": 0.4761945611809737
+      }
+    ],
+    "counterfactual_imagined_valence": [
+      {
+        "node": "sense",
+        "causal_distribution_damage": 0.06851488157286378
+      },
+      {
+        "node": "memory",
+        "causal_distribution_damage": 0.47015283890321263
+      },
+      {
+        "node": "valence",
+        "causal_distribution_damage": 0.4812763003322257
+      },
+      {
+        "node": "imagination",
+        "causal_distribution_damage": 0.6352117364436864
+      },
+      {
+        "node": "confidence",
+        "causal_distribution_damage": 0.38989835637229164
+      },
+      {
+        "node": "self",
+        "causal_distribution_damage": 0.4767789788134566
+      },
+      {
+        "node": "imagined_valence",
+        "causal_distribution_damage": 0.2648880482201861
+      },
+      {
+        "node": "action",
+        "causal_distribution_damage": 0.5620096523596605
+      }
+    ],
+    "attention_reconciled_inner_world": [
+      {
+        "node": "sense",
+        "causal_distribution_damage": 0.05693743643555639
+      },
+      {
+        "node": "memory",
+        "causal_distribution_damage": 0.4418998879600434
+      },
+      {
+        "node": "valence",
+        "causal_distribution_damage": 0.5610016209100661
+      },
+      {
+        "node": "imagination",
+        "causal_distribution_damage": 0.601329430018733
+      },
+      {
+        "node": "confidence",
+        "causal_distribution_damage": 0.7497807326456383
+      },
+      {
+        "node": "self",
+        "causal_distribution_damage": 0.5516850859328024
+      },
+      {
+        "node": "imagined_valence",
+        "causal_distribution_damage": 0.37515217778769894
+      },
+      {
+        "node": "action",
+        "causal_distribution_damage": 0.6800965633652923
+      }
+    ]
+  },
   "node_order": [
     "sense",
     "memory",

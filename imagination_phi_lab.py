@@ -233,7 +233,46 @@ def systems():
     add(weights, "memory", "memory", 0.35)
     variants["recursive_inner_world"] = (weights.copy(), bias.copy())
 
+    weights, bias = variants["counterfactual_imagined_valence"]
+    weights = weights.copy()
+    bias = bias.copy()
+    # Tight routing: confidence reconciles real valence, imagined valence, and self-state.
+    add(weights, "confidence", "valence", 1.2)
+    add(weights, "confidence", "imagined_valence", 1.2)
+    add(weights, "confidence", "self", 0.9)
+    add(weights, "confidence", "sense", 0.8)
+    add(weights, "valence", "confidence", 0.9)
+    add(weights, "imagined_valence", "confidence", 0.9)
+    add(weights, "self", "confidence", 0.8)
+    add(weights, "imagination", "confidence", 0.8)
+    # Action is no longer allowed to lean mostly on raw sense; it needs the reconciled loop.
+    weights[NODES.index("action"), NODES.index("sense")] *= 0.25
+    add(weights, "action", "confidence", 1.4)
+    add(weights, "action", "valence", 0.9)
+    add(weights, "action", "imagined_valence", 1.1)
+    add(weights, "action", "self", 0.8)
+    variants["attention_reconciled_inner_world"] = (weights.copy(), bias.copy())
+
     return variants
+
+
+def ablation_damage(weights, bias):
+    rows = []
+    states = all_states(weights.shape[0])
+    baseline = [transition_distribution(state, weights, bias) for state in states]
+    for i, node in enumerate(NODES):
+        damaged = weights.copy()
+        damaged[i, :] = 0.0
+        damaged[:, i] = 0.0
+        damaged_dists = [transition_distribution(state, damaged, bias) for state in states]
+        damage = float(np.mean([kl(p, q) for p, q in zip(baseline, damaged_dists)]))
+        rows.append(
+            {
+                "node": node,
+                "causal_distribution_damage": damage,
+            }
+        )
+    return rows
 
 
 def plot_phi_bars(results, path):
@@ -250,6 +289,7 @@ def plot_phi_bars(results, path):
         "#dc2626",
         "#65a30d",
         "#111827",
+        "#0891b2",
     ]
     fig, ax = plt.subplots(figsize=(14, 6))
     ax.bar(names, vals, color=colors[: len(names)])
@@ -320,6 +360,25 @@ def plot_named_network(weights, title, path):
     plt.close(fig)
 
 
+def plot_ablation_damage(ablation_results, path):
+    labels = list(ablation_results)
+    x = np.arange(len(NODES))
+    width = 0.25
+    fig, ax = plt.subplots(figsize=(13, 6))
+    for offset, label in enumerate(labels):
+        values = [row["causal_distribution_damage"] for row in ablation_results[label]]
+        ax.bar(x + (offset - (len(labels) - 1) / 2) * width, values, width, label=label)
+    ax.axhline(0, color="#222222", lw=1)
+    ax.set_title("Node Ablation Damage: Which Nodes Change The System Most?")
+    ax.set_ylabel("mean KL divergence after node removal")
+    ax.set_xticks(x)
+    ax.set_xticklabels(NODES, rotation=20)
+    ax.legend(fontsize=8)
+    fig.tight_layout()
+    fig.savefig(path, dpi=180)
+    plt.close(fig)
+
+
 def main():
     OUT.mkdir(exist_ok=True)
     results = {}
@@ -327,6 +386,17 @@ def main():
     for name, (weights, bias) in systems().items():
         results[name] = phi_proxy_cached(weights, bias)
         weights_for_plot[name] = weights
+
+    ablation_targets = [
+        "self_model_loop",
+        "counterfactual_imagined_valence",
+        "attention_reconciled_inner_world",
+    ]
+    ablations = {
+        name: ablation_damage(weights_for_plot[name], systems()[name][1])
+        for name in ablation_targets
+        if name in results
+    }
 
     serializable = {
         name: {
@@ -339,6 +409,7 @@ def main():
         }
         for name, result in results.items()
     }
+    serializable["ablation_damage"] = ablations
     serializable["node_order"] = NODES
     serializable["interpretation"] = (
         "If imagination raises the proxy, it suggests richer irreducible causal routing in this toy definition. "
@@ -347,6 +418,7 @@ def main():
     (OUT / "imagination_phi_metrics.json").write_text(json.dumps(serializable, indent=2))
     plot_phi_bars(results, OUT / "imagination_phi_bar_graph.png")
     plot_state_phi(results, OUT / "imagination_phi_by_state.png")
+    plot_ablation_damage(ablations, OUT / "imagination_phi_ablation_damage.png")
     for name, weights in weights_for_plot.items():
         plot_named_network(weights, name.replace("_", " "), OUT / f"{name}_network.png")
 

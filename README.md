@@ -444,6 +444,7 @@ self_model_loop:                     0.0281
 counterfactual_self_imagination:     0.0253
 counterfactual_imagined_valence:     0.0244
 recursive_inner_world:               0.0214
+attention_reconciled_inner_world:    0.0213
 ```
 
 This expanded run changed the node vocabulary, so the absolute numbers should
@@ -454,16 +455,36 @@ activate imagination and self-modeling become measurably less separable.
 
 The strongest score in this wiring is still `valence_imagination`. Adding a
 self-model loop stays close, but counterfactual self-imagination, imagined
-valence, and a recursive inner-world loop do not automatically increase the
-proxy. That matters: a richer mind-like vocabulary is not enough by itself. The
-loops have to be routed in a way that makes the whole system harder to split.
+valence, a recursive inner-world loop, and an attention-reconciled inner-world
+loop do not automatically increase the proxy. That matters: a richer mind-like
+vocabulary is not enough by itself. The loops have to be routed in a way that
+makes the whole system harder to split.
+
+The attention-reconciled circuit tested a stricter routing idea:
+
+- confidence receives direct input from real valence, imagined valence, self,
+  and sense
+- action is weakened on raw sense and forced to depend more on confidence, real
+  valence, imagined valence, and self-state
+- imagination and self-state feed back through confidence before action
+
+That did not raise the Phi proxy. It landed essentially tied with the recursive
+inner-world circuit and below the simpler valence-imagination circuit. But the
+node ablation map changed in a useful way. In the attention-reconciled circuit,
+removing `confidence`, `action`, `imagination`, `valence`, or `self` causes much
+larger causal distribution damage than in the looser self-model loop. In other
+words, the gating made those nodes matter more to the system's transition
+dynamics, even though this exact partition proxy still found the circuit easier
+to split than the simpler imagination-valence wiring.
 
 So the careful interpretation is:
 
 > In this toy binary circuit, imagination and self-modeling can create
 > irreducible causal structure, but counterfactual and imagined-valence loops do
 > not automatically raise integration. More inner-world machinery is not
-> automatically more unified mind-like structure.
+> automatically more unified mind-like structure. Tighter attention/confidence
+> routing can make inner-world nodes more causally load-bearing without
+> necessarily increasing this Phi proxy.
 
 ![Imagination Phi proxy bar graph](outputs/imagination_phi_bar_graph.png)
 
@@ -474,6 +495,10 @@ So the careful interpretation is:
 ![Self model loop network](outputs/self_model_loop_network.png)
 
 ![Counterfactual imagined valence network](outputs/counterfactual_imagined_valence_network.png)
+
+![Attention reconciled inner world network](outputs/attention_reconciled_inner_world_network.png)
+
+![Imagination Phi ablation damage](outputs/imagination_phi_ablation_damage.png)
 
 ## Delusional Integration Sweep
 

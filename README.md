@@ -475,6 +475,46 @@ So the careful interpretation is:
 
 ![Counterfactual imagined valence network](outputs/counterfactual_imagined_valence_network.png)
 
+## Delusional Integration Sweep
+
+`delusional_integration_lab.py` tests a warning from the self/imagination
+experiments: if internal self-model and imagination loops become too strong
+relative to external sensory grounding, the system may start tracking its own
+inner state more than the outside world.
+
+The sweep increases internal self/imagination recurrence and measures:
+
+- exact tiny Phi proxy
+- external grounding ratio from the weight graph
+- action sensitivity to the external `sense` node
+- action sensitivity to internal `memory`, `valence`, `imagination`, and `self`
+  nodes
+- a simple delusion-risk index: internal action influence divided by external
+  action influence
+
+Result:
+
+```text
+internal_scale  phi_proxy  grounding  delusion_risk
+0.0             0.0465     0.3900     0.5632
+0.6             0.0363     0.2986     0.6655
+1.2             0.0315     0.2419     0.7685
+1.8             0.0317     0.2033     0.8705
+2.4             0.0307     0.1754     0.9688
+```
+
+In this first wiring, internal dominance did **not** make Phi climb. Instead,
+external grounding fell steadily while internal influence over action rose
+toward parity with sensory influence.
+
+That refines the warning:
+
+> Delusion risk is not just "high integration." It is a mismatch between
+> integration and grounding. A system can become more internally driven without
+> becoming more irreducibly integrated under this proxy.
+
+![Delusional integration sweep](outputs/delusional_integration_sweep.png)
+
 ## Explainer Video Angle
 
 This project could be turned into a short narrated explainer:
@@ -497,7 +537,10 @@ This project could be turned into a short narrated explainer:
 8. Show the imagination/self Phi-proxy test: activating imagination and
    self-modeling made the circuit less separable, but counterfactual and
    imagined-valence loops did not automatically keep raising integration.
-9. End with the thesis: capacity without grounded valence is unstable; valence
+9. Show the delusional integration sweep: internal self/imagination dominance
+   reduced external grounding and increased internal influence, even though Phi
+   did not rise in that wiring.
+10. End with the thesis: capacity without grounded valence is unstable; valence
    without boundaries is exploitable; imagination without reality-checking is
    delusional; useful intelligence requires co-tuned cognition, reward, and
    world modeling.
@@ -518,6 +561,7 @@ cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 imagination_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 maze_imagination_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 imagination_phi_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 delusional_integration_lab.py
 ```
 
 Outputs land in:
@@ -537,6 +581,7 @@ Outputs land in:
 - `imagination_lab.py` - pre-action world-model/intuition test
 - `maze_imagination_lab.py` - 2D maze imagination test
 - `imagination_phi_lab.py` - exact tiny Phi-proxy test for imagination circuits
+- `delusional_integration_lab.py` - internal-loop grounding and delusion-risk sweep
 - `outputs/metrics.json` - recurrent agent metrics
 - `outputs/exact_phi_metrics.json` - exact Phi proxy metrics
 - `outputs/intervention_metrics.json` - intervention test metrics
@@ -546,6 +591,7 @@ Outputs land in:
 - `outputs/imagination_metrics.json` - pre-action imagination test metrics
 - `outputs/maze_imagination_metrics.json` - 2D maze imagination metrics
 - `outputs/imagination_phi_metrics.json` - imagination circuit Phi-proxy metrics
+- `outputs/delusional_integration_metrics.json` - internal-loop grounding metrics
 
 ## Next Steps
 

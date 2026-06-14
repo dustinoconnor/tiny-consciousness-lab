@@ -1,0 +1,74 @@
+[
+  {
+    "internal_scale": 0.0,
+    "phi_proxy": 0.046539647456977876,
+    "external_grounding_ratio": 0.39,
+    "action_sensitivity_external": 0.12232724576156559,
+    "action_sensitivity_internal": 0.06888914386728368,
+    "delusion_risk_index": 0.563154540416606
+  },
+  {
+    "internal_scale": 0.3,
+    "phi_proxy": 0.04080622605431825,
+    "external_grounding_ratio": 0.3382480485689506,
+    "action_sensitivity_external": 0.11764179548647652,
+    "action_sensitivity_internal": 0.07225942233566139,
+    "delusion_risk_index": 0.6142325696139851
+  },
+  {
+    "internal_scale": 0.6,
+    "phi_proxy": 0.03626451034896214,
+    "external_grounding_ratio": 0.29862174578866774,
+    "action_sensitivity_external": 0.11288938045758154,
+    "action_sensitivity_internal": 0.07513133065439269,
+    "delusion_risk_index": 0.6655305428186266
+  },
+  {
+    "internal_scale": 0.8999999999999999,
+    "phi_proxy": 0.03315900291128839,
+    "external_grounding_ratio": 0.26730637422892395,
+    "action_sensitivity_external": 0.10817025436728947,
+    "action_sensitivity_internal": 0.07755786380219862,
+    "delusion_risk_index": 0.716998071751341
+  },
+  {
+    "internal_scale": 1.2,
+    "phi_proxy": 0.03154515718128508,
+    "external_grounding_ratio": 0.2419354838709677,
+    "action_sensitivity_external": 0.10357082959508826,
+    "action_sensitivity_internal": 0.07959279980536371,
+    "delusion_risk_index": 0.7684866493445401
+  },
+  {
+    "internal_scale": 1.5,
+    "phi_proxy": 0.0314800190572396,
+    "external_grounding_ratio": 0.22096317280453256,
+    "action_sensitivity_external": 0.09916177462028977,
+    "action_sensitivity_internal": 0.08128844036682191,
+    "delusion_risk_index": 0.8197558048763405
+  },
+  {
+    "internal_scale": 1.7999999999999998,
+    "phi_proxy": 0.03173823892454157,
+    "external_grounding_ratio": 0.20333680917622526,
+    "action_sensitivity_external": 0.0949973235607293,
+    "action_sensitivity_internal": 0.08269391824110177,
+    "delusion_risk_index": 0.8704868215391112
+  },
+  {
+    "internal_scale": 2.1,
+    "phi_proxy": 0.03156958252065701,
+    "external_grounding_ratio": 0.18831482375663933,
+    "action_sensitivity_external": 0.0911156661566305,
+    "action_sensitivity_internal": 0.08385406933348523,
+    "delusion_risk_index": 0.9203035314403303
+  },
+  {
+    "internal_scale": 2.4,
+    "phi_proxy": 0.0306876255459065,
+    "external_grounding_ratio": 0.17535971223021582,
+    "action_sensitivity_external": 0.0875402034113138,
+    "action_sensitivity_internal": 0.08480881521023319,
+    "delusion_risk_index": 0.9687984709351543
+  }
+]

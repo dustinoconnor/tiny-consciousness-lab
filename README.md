@@ -18,6 +18,9 @@ for making questions about recurrent systems visible:
 
 The working thesis emerging from these toy runs:
 
+> Integration is not a scoreboard by itself. A useful inner world must be
+> integrated enough to simulate, but plastic enough to update when sensory
+> reality proves it wrong.  
 > Capacity without grounded valence is unstable.  
 > Valence without boundaries is exploitable.  
 > Imagination without reality-checking is delusional.  

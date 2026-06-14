@@ -423,44 +423,57 @@ lookahead or world modeling is required.
 
 ## Imagination Phi-Proxy Test
 
-`imagination_phi_lab.py` asks whether imagination increases irreducible causal
-structure in the exact tiny Phi proxy. It builds six-node binary circuits with
-the same node vocabulary:
+`imagination_phi_lab.py` asks whether imagination, self-modeling, and imagined
+valence increase irreducible causal structure in the exact tiny Phi proxy. The
+latest version builds eight-node binary circuits with the same node vocabulary:
 
 ```text
-sense, memory, valence, imagination, confidence, action
+sense, memory, valence, imagination, confidence, self, imagined_valence, action
 ```
 
 Result:
 
 ```text
-reflex_only:                    0.0000
-reflex_valence:                 0.0297
-valence_memory:                 0.0291
-valence_imagination:            0.0321
-gated_imagination:              0.0298
-recurrent_gated_imagination:    0.0252
+reflex_only:                         0.0000
+reflex_valence:                      0.0000
+valence_memory:                      0.0000
+valence_imagination:                 0.0289
+gated_imagination:                   0.0276
+recurrent_gated_imagination:         0.0233
+self_model_loop:                     0.0281
+counterfactual_self_imagination:     0.0253
+counterfactual_imagined_valence:     0.0244
+recursive_inner_world:               0.0214
 ```
 
-This is the first run where adding imagination raised the exact tiny Phi proxy
-above valence alone. That supports the idea that imagination can add
-irreducible causal routing in this toy definition.
+This expanded run changed the node vocabulary, so the absolute numbers should
+not be compared directly to the earlier six-node run. Within the eight-node
+vocabulary, the simple reflex/valence variants are easy for the proxy to
+partition because several nodes are inactive. The architectures that actually
+activate imagination and self-modeling become measurably less separable.
 
-The result is not a simple staircase, though. Confidence gating and extra
-self-recurrence did not automatically raise the score. That matters: integration
-depends on how information is routed, not just on adding more feedback loops.
+The strongest score in this wiring is still `valence_imagination`. Adding a
+self-model loop stays close, but counterfactual self-imagination, imagined
+valence, and a recursive inner-world loop do not automatically increase the
+proxy. That matters: a richer mind-like vocabulary is not enough by itself. The
+loops have to be routed in a way that makes the whole system harder to split.
 
 So the careful interpretation is:
 
-> In this toy binary circuit, imagination can increase irreducible causal
-> structure, but only certain architectures do so. More recurrence is not
-> automatically more integration.
+> In this toy binary circuit, imagination and self-modeling can create
+> irreducible causal structure, but counterfactual and imagined-valence loops do
+> not automatically raise integration. More inner-world machinery is not
+> automatically more unified mind-like structure.
 
 ![Imagination Phi proxy bar graph](outputs/imagination_phi_bar_graph.png)
 
 ![Imagination Phi proxy by state](outputs/imagination_phi_by_state.png)
 
 ![Valence imagination network](outputs/valence_imagination_network.png)
+
+![Self model loop network](outputs/self_model_loop_network.png)
+
+![Counterfactual imagined valence network](outputs/counterfactual_imagined_valence_network.png)
 
 ## Explainer Video Angle
 
@@ -481,9 +494,9 @@ This project could be turned into a short narrated explainer:
 7. Show the detour maze: myopic progress-valence got stuck at the wall, while
    pretrained world-model lookahead accepted temporary negative valence and
    reached the goal.
-8. Show the imagination Phi-proxy test: adding imagination raised irreducible
-   causal structure in the toy circuit, but extra gating/recurrence did not
-   automatically keep raising it.
+8. Show the imagination/self Phi-proxy test: activating imagination and
+   self-modeling made the circuit less separable, but counterfactual and
+   imagined-valence loops did not automatically keep raising integration.
 9. End with the thesis: capacity without grounded valence is unstable; valence
    without boundaries is exploitable; imagination without reality-checking is
    delusional; useful intelligence requires co-tuned cognition, reward, and

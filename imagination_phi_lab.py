@@ -16,10 +16,19 @@ import json
 import matplotlib.pyplot as plt
 import numpy as np
 
-from exact_phi_lab import OUT, phi_proxy
+from exact_phi_lab import OUT, all_states, bipartitions, kl, state_index, transition_distribution
 
 
-NODES = ["sense", "memory", "valence", "imagination", "confidence", "action"]
+NODES = [
+    "sense",
+    "memory",
+    "valence",
+    "imagination",
+    "confidence",
+    "self",
+    "imagined_valence",
+    "action",
+]
 
 
 def blank_system():
@@ -28,6 +37,75 @@ def blank_system():
 
 def add(weights, dst, src, amount):
     weights[NODES.index(dst), NODES.index(src)] += amount
+
+
+def phi_proxy_cached(weights, bias, noise=0.04):
+    """Same toy Phi proxy as exact_phi_lab.py, with memoized subset distributions."""
+    n = weights.shape[0]
+    states = all_states(n)
+    state_tuples = [tuple(int(x) for x in state) for state in states]
+    full_by_state = {
+        state_tuple: transition_distribution(np.array(state_tuple), weights, bias, noise)
+        for state_tuple in state_tuples
+    }
+    next_states = all_states(n)
+    next_tuples = [tuple(int(x) for x in state) for state in next_states]
+    partitions = bipartitions(n)
+    subset_cache = {}
+
+    def subset_dist(subset, subset_state):
+        subset = tuple(subset)
+        subset_state = tuple(int(x) for x in subset_state)
+        key = (subset, subset_state)
+        if key in subset_cache:
+            return subset_cache[key]
+
+        outside = [i for i in range(n) if i not in subset]
+        out_states = all_states(len(outside))
+        accum = np.zeros(2 ** len(subset), dtype=np.float64)
+        for outside_state in out_states:
+            full = [0] * n
+            for i, bit in zip(subset, subset_state):
+                full[i] = int(bit)
+            for i, bit in zip(outside, outside_state):
+                full[i] = int(bit)
+            full_dist = full_by_state[tuple(full)]
+            for next_bits in next_tuples:
+                sub_next = [next_bits[i] for i in subset]
+                accum[state_index(sub_next)] += full_dist[state_index(next_bits)]
+        accum /= max(len(out_states), 1)
+        subset_cache[key] = accum / accum.sum()
+        return subset_cache[key]
+
+    def partition_dist(state_tuple, partition):
+        a, b = partition
+        pa = subset_dist(a, [state_tuple[i] for i in a])
+        pb = subset_dist(b, [state_tuple[i] for i in b])
+        full = np.zeros(2 ** n, dtype=np.float64)
+        for next_a in all_states(len(a)):
+            for next_b in all_states(len(b)):
+                bits = np.zeros(n, dtype=np.int8)
+                for i, bit in zip(a, next_a):
+                    bits[i] = bit
+                for i, bit in zip(b, next_b):
+                    bits[i] = bit
+                full[state_index(bits)] += pa[state_index(next_a)] * pb[state_index(next_b)]
+        return full / full.sum()
+
+    state_phi = []
+    best_parts = []
+    for state_tuple in state_tuples:
+        p = full_by_state[state_tuple]
+        scores = [kl(p, partition_dist(state_tuple, part)) for part in partitions]
+        best = int(np.argmin(scores))
+        state_phi.append(scores[best])
+        best_parts.append(best)
+    return {
+        "phi_proxy": float(np.mean(state_phi)),
+        "state_phi": np.array(state_phi),
+        "partitions": partitions,
+        "best_partition_index_by_state": best_parts,
+    }
 
 
 def systems():
@@ -111,25 +189,80 @@ def systems():
     add(weights, "action", "action", 0.5)
     variants["recurrent_gated_imagination"] = (weights.copy(), bias.copy())
 
+    weights, bias = variants["gated_imagination"]
+    weights = weights.copy()
+    bias = bias.copy()
+    add(weights, "self", "sense", 0.6)
+    add(weights, "self", "memory", 0.9)
+    add(weights, "self", "action", 0.8)
+    add(weights, "self", "valence", 0.7)
+    add(weights, "memory", "self", 0.7)
+    add(weights, "action", "self", 0.7)
+    add(weights, "valence", "self", 0.6)
+    variants["self_model_loop"] = (weights.copy(), bias.copy())
+
+    weights, bias = variants["self_model_loop"]
+    weights = weights.copy()
+    bias = bias.copy()
+    add(weights, "imagination", "self", 0.8)
+    add(weights, "imagination", "action", 0.8)
+    add(weights, "imagination", "memory", 0.8)
+    add(weights, "confidence", "imagination", 0.7)
+    add(weights, "self", "imagination", 0.7)
+    variants["counterfactual_self_imagination"] = (weights.copy(), bias.copy())
+
+    weights, bias = variants["counterfactual_self_imagination"]
+    weights = weights.copy()
+    bias = bias.copy()
+    add(weights, "imagined_valence", "imagination", 1.0)
+    add(weights, "imagined_valence", "self", 0.8)
+    add(weights, "imagined_valence", "memory", 0.6)
+    add(weights, "confidence", "imagined_valence", 0.8)
+    add(weights, "action", "imagined_valence", 1.0)
+    add(weights, "valence", "imagined_valence", 0.8)
+    add(weights, "self", "imagined_valence", 0.6)
+    variants["counterfactual_imagined_valence"] = (weights.copy(), bias.copy())
+
+    weights, bias = variants["counterfactual_imagined_valence"]
+    weights = weights.copy()
+    bias = bias.copy()
+    add(weights, "self", "self", 0.65)
+    add(weights, "imagination", "imagination", 0.65)
+    add(weights, "imagined_valence", "imagined_valence", 0.55)
+    add(weights, "confidence", "confidence", 0.55)
+    add(weights, "memory", "memory", 0.35)
+    variants["recursive_inner_world"] = (weights.copy(), bias.copy())
+
     return variants
 
 
 def plot_phi_bars(results, path):
     names = list(results)
     vals = [results[name]["phi_proxy"] for name in names]
-    colors = ["#7a7a7a", "#16a3a6", "#ff8a00", "#8b5cf6", "#d946ef", "#0f766e"]
-    fig, ax = plt.subplots(figsize=(12, 5.5))
+    colors = [
+        "#7a7a7a",
+        "#16a3a6",
+        "#ff8a00",
+        "#8b5cf6",
+        "#d946ef",
+        "#0f766e",
+        "#2563eb",
+        "#dc2626",
+        "#65a30d",
+        "#111827",
+    ]
+    fig, ax = plt.subplots(figsize=(14, 6))
     ax.bar(names, vals, color=colors[: len(names)])
-    ax.set_title("Exact Tiny Phi Proxy: Valence and Imagination Circuits")
+    ax.set_title("Exact Tiny Phi Proxy: Valence, Self-Model, and Inner-World Circuits")
     ax.set_ylabel("mean minimum partition KL divergence, bits")
-    ax.tick_params(axis="x", rotation=18)
+    ax.tick_params(axis="x", rotation=25)
     fig.tight_layout()
     fig.savefig(path, dpi=180)
     plt.close(fig)
 
 
 def plot_state_phi(results, path):
-    fig, ax = plt.subplots(figsize=(11, 5.5))
+    fig, ax = plt.subplots(figsize=(13, 6))
     for name, result in results.items():
         ax.plot(result["state_phi"], lw=2, label=name)
     ax.set_title("State-by-State Phi Proxy for Imagination Circuits")
@@ -192,7 +325,7 @@ def main():
     results = {}
     weights_for_plot = {}
     for name, (weights, bias) in systems().items():
-        results[name] = phi_proxy(weights, bias)
+        results[name] = phi_proxy_cached(weights, bias)
         weights_for_plot[name] = weights
 
     serializable = {

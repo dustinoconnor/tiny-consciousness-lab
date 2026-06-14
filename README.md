@@ -6,7 +6,7 @@ mechanistic interpretability, and a small exact Phi-like integration proxy.
 Keywords: AI consciousness, machine consciousness, recurrent neural networks,
 functional valence, wireheading, Integrated Information Theory, IIT, Phi proxy,
 mechanistic interpretability, reinforcement learning, world models, AI
-alignment, PyTorch.
+alignment, attention, PyTorch.
 
 This project is not a consciousness detector. It is a small experimental bench
 for making questions about recurrent systems visible:
@@ -21,7 +21,9 @@ The working thesis emerging from these toy runs:
 > Capacity without grounded valence is unstable.  
 > Valence without boundaries is exploitable.  
 > Imagination without reality-checking is delusional.  
-> Useful intelligence requires co-tuned cognition, reward, and world modeling.
+> Attention should be rewarded for staying grounded.  
+> Useful intelligence requires co-tuned cognition, reward, attention, and world
+> modeling.
 
 ## Substrate-Independence Angle
 
@@ -46,6 +48,8 @@ behavior in recognizable ways:
 - Accuracy-rewarded and gated imagination recover much of that loss.
 - A pretrained world model enables lookahead in a detour maze where myopic
   progress-valence gets stuck.
+- A valence-shaped attention filter improves task focus by rewarding
+  prediction-aligned imagination and suppressing distractor fixation.
 
 The philosophical inference is not that silicon is conscious. It is that
 integration, valence, confidence gating, world modeling, and lookahead can be
@@ -540,6 +544,56 @@ That refines the warning:
 
 ![Delusional integration sweep](outputs/delusional_integration_sweep.png)
 
+## Attention-Valence Filter Test
+
+`attention_valence_lab.py` tests the "Ritalin circuit" idea as a small
+attention-control toy. This is not a biological ADHD model. The nickname is just
+useful shorthand for the engineering question:
+
+> Can valence keep attention locked onto task-relevant sensory reality while
+> starving imagination loops that drift away from the world?
+
+The toy world has three competing streams:
+
+- a task-relevant sensory target
+- a high-novelty distractor
+- an internal imagination stream that predicts the next sensory target but can
+  drift if it mostly listens to itself
+
+The attention-valence filter uses a simple version of the idea:
+
+```text
+attention = softmax(query . key / sqrt(d)) * valence_signal
+```
+
+Here, the valence signal is high when imagination predicts the next sensory
+state and low when imagination detaches from the sensory stream.
+
+Result:
+
+```text
+condition                     accuracy  task_attention  distractor  delusion
+ungated_attention             0.789     0.653           0.306       0.041
+self_amplified_imagination    0.872     0.599           0.158       0.242
+attention_valence_filter      0.983     0.922           0.076       0.002
+overconstrained_filter        0.978     0.969           0.028       0.003
+```
+
+The self-amplified imagination condition looked more confident internally, but
+its grounding fell and its delusion index rose. The attention-valence filter
+kept imagination useful by tying its influence to prediction accuracy. In this
+toy, that increased task accuracy, increased task attention, and sharply reduced
+distractor fixation.
+
+This adds a fifth line to the working thesis:
+
+> Attention should be rewarded for staying grounded, not merely for becoming
+> internally confident.
+
+![Attention valence summary](outputs/attention_valence_summary.png)
+
+![Attention valence timeseries](outputs/attention_valence_timeseries.png)
+
 ## Explainer Video Angle
 
 This project could be turned into a short narrated explainer:
@@ -565,10 +619,14 @@ This project could be turned into a short narrated explainer:
 9. Show the delusional integration sweep: internal self/imagination dominance
    reduced external grounding and increased internal influence, even though Phi
    did not rise in that wiring.
-10. End with the thesis: capacity without grounded valence is unstable; valence
+10. Show the attention-valence filter: prediction-aligned imagination improves
+   task focus, while self-amplified imagination can become confident but
+   detached.
+11. End with the thesis: capacity without grounded valence is unstable; valence
    without boundaries is exploitable; imagination without reality-checking is
-   delusional; useful intelligence requires co-tuned cognition, reward, and
-   world modeling.
+   delusional; attention should be rewarded for staying grounded; useful
+   intelligence requires co-tuned cognition, reward, attention, and world
+   modeling.
 
 ## How To Run
 
@@ -587,6 +645,7 @@ cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 maze_imagination_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 imagination_phi_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 delusional_integration_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 attention_valence_lab.py
 ```
 
 Outputs land in:
@@ -607,6 +666,7 @@ Outputs land in:
 - `maze_imagination_lab.py` - 2D maze imagination test
 - `imagination_phi_lab.py` - exact tiny Phi-proxy test for imagination circuits
 - `delusional_integration_lab.py` - internal-loop grounding and delusion-risk sweep
+- `attention_valence_lab.py` - attention/relevance gate driven by valence and prediction alignment
 - `outputs/metrics.json` - recurrent agent metrics
 - `outputs/exact_phi_metrics.json` - exact Phi proxy metrics
 - `outputs/intervention_metrics.json` - intervention test metrics
@@ -617,6 +677,7 @@ Outputs land in:
 - `outputs/maze_imagination_metrics.json` - 2D maze imagination metrics
 - `outputs/imagination_phi_metrics.json` - imagination circuit Phi-proxy metrics
 - `outputs/delusional_integration_metrics.json` - internal-loop grounding metrics
+- `outputs/attention_valence_metrics.json` - attention-valence filter metrics
 
 ## Next Steps
 

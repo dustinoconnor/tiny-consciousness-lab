@@ -1,0 +1,41 @@
+{
+  "summary": {
+    "ungated_attention": {
+      "correct": 0.7888888888888889,
+      "task_attention": 0.6532956338978114,
+      "distractor_fixation": 0.30582943364361104,
+      "delusion": 0.040874932458577394,
+      "valence": 0.6364490483650305,
+      "alignment": 0.9085534709518965,
+      "prediction_error": 0.005704091237353648
+    },
+    "self_amplified_imagination": {
+      "correct": 0.8722222222222222,
+      "task_attention": 0.5993400008270062,
+      "distractor_fixation": 0.15821665733176601,
+      "delusion": 0.24244334184122762,
+      "valence": 0.7774761624879059,
+      "alignment": 0.6372558265055532,
+      "prediction_error": 0.035415713147856506
+    },
+    "attention_valence_filter": {
+      "correct": 0.9833333333333333,
+      "task_attention": 0.9220106288227029,
+      "distractor_fixation": 0.07631745017616613,
+      "delusion": 0.0016719210011309296,
+      "valence": 1.0704860248428867,
+      "alignment": 0.9972663296177292,
+      "prediction_error": 0.00015218638141991611
+    },
+    "overconstrained_filter": {
+      "correct": 0.9777777777777777,
+      "task_attention": 0.9691405612391705,
+      "distractor_fixation": 0.028328095097947446,
+      "delusion": 0.0025313436628820493,
+      "valence": 1.1374110625082203,
+      "alignment": 0.9951386016577599,
+      "prediction_error": 0.00015248188894845144
+    }
+  },
+  "note": "Toy attention-valence filter. The valence-gated condition multiplies attention by a prediction-alignment signal so imagination is trusted only when it matches sensory reality. This is not a biological ADHD model."
+}

@@ -676,6 +676,50 @@ This refines the architecture lesson:
 
 ![Modular workspace networks](outputs/modular_workspace_networks.png)
 
+## Conditional Workspace Test
+
+`conditional_workspace_lab.py` tests dynamic regulation instead of static
+topology. The workspace always has access to the specialist modules, but each
+condition changes when the workspace is allowed to alter the system's next
+state.
+
+Tracked variables:
+
+- `tension` - disagreement between sensory, imagination, and valence specialists
+- `alpha` - workspace coupling coefficient from `0` to `1`
+- `delusion` - detached imagination influence
+- `deception_error` - vulnerability during a brief false sensory conflict
+- `workspace_efficiency_score` - late adaptation minus workspace cost,
+  delusion, and deception vulnerability
+
+Result:
+
+```text
+condition                  late_acc  mean_alpha  delusion  efficiency  recovery
+always_bypass              0.741     0.000       0.260     0.621       12 steps
+always_workspace           0.976     1.000       0.000     0.763       0 steps
+hard_threshold_workspace   0.953     0.067       0.053     0.891       0 steps
+soft_tension_workspace     0.953     0.117       0.052     0.878       0 steps
+```
+
+Constant workspace control had the best raw accuracy, but it paid the highest
+coupling cost. Both conditional workspaces recovered immediately after the
+paradigm shift while using much less workspace control. In this clean toy, the
+hard threshold slightly beat the soft tension gate on efficiency because the
+tension signal was easy to read. The soft gate still demonstrates the intended
+principle: workspace influence can rise and fall dynamically instead of staying
+on all the time.
+
+This adds a control-rule version of the architecture lesson:
+
+> The workspace should monitor continuously, but causal control should be
+> expensive. Let specialists handle predictable moments; let workspace influence
+> rise when tension, surprise, or cross-module conflict appears.
+
+![Conditional workspace summary](outputs/conditional_workspace_summary.png)
+
+![Conditional workspace timeseries](outputs/conditional_workspace_timeseries.png)
+
 ## Explainer Video Angle
 
 This project could be turned into a short narrated explainer:
@@ -708,7 +752,10 @@ This project could be turned into a short narrated explainer:
    obsolete inner model after environmental surprise.
 12. Show the modular workspace test: structured specialist-plus-workspace
    routing beats random feedback soup, and too much cross-talk hurts.
-13. End with the thesis: capacity without grounded valence is unstable; valence
+13. Show the conditional workspace test: workspace control is useful but
+   expensive, and conditional coupling gives most of the benefit with far less
+   constant control.
+14. End with the thesis: capacity without grounded valence is unstable; valence
    without boundaries is exploitable; imagination without reality-checking is
    delusional; attention should be rewarded for staying grounded;
    specialization and integration must be balanced; useful intelligence requires
@@ -734,6 +781,7 @@ cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 attention_valence_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 attention_shift_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 modular_workspace_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 conditional_workspace_lab.py
 ```
 
 Outputs land in:
@@ -757,6 +805,7 @@ Outputs land in:
 - `attention_valence_lab.py` - attention/relevance gate driven by valence and prediction alignment
 - `attention_shift_lab.py` - dynamic environment shift test for adaptive re-grounding
 - `modular_workspace_lab.py` - segregation-plus-integration architecture comparison
+- `conditional_workspace_lab.py` - dynamic workspace coupling from module tension
 - `outputs/metrics.json` - recurrent agent metrics
 - `outputs/exact_phi_metrics.json` - exact Phi proxy metrics
 - `outputs/intervention_metrics.json` - intervention test metrics
@@ -770,6 +819,7 @@ Outputs land in:
 - `outputs/attention_valence_metrics.json` - attention-valence filter metrics
 - `outputs/attention_shift_metrics.json` - paradigm-shift attention metrics
 - `outputs/modular_workspace_metrics.json` - modular workspace architecture metrics
+- `outputs/conditional_workspace_metrics.json` - conditional workspace coupling metrics
 
 ## Next Steps
 

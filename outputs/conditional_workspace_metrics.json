@@ -1,0 +1,59 @@
+{
+  "shift_step": 120,
+  "deception_step": 70,
+  "summary": {
+    "always_bypass": {
+      "pre_shift_accuracy": 0.95,
+      "early_post_shift_accuracy": 0.6571428571428571,
+      "late_post_shift_accuracy": 0.7411764705882353,
+      "mean_tension": 0.3325298829680831,
+      "mean_alpha": 0.0,
+      "late_alpha": 0.0,
+      "mean_delusion": 0.26019726709460717,
+      "deception_error": 0.2751124887359601,
+      "workspace_efficiency_score": 0.6211046560673915,
+      "recovery_steps_to_75pct": 12,
+      "final_model_angle": 0.026734941735926242
+    },
+    "always_workspace": {
+      "pre_shift_accuracy": 0.9666666666666667,
+      "early_post_shift_accuracy": 0.9142857142857143,
+      "late_post_shift_accuracy": 0.9764705882352941,
+      "mean_tension": 0.027164506535508774,
+      "mean_alpha": 1.0,
+      "late_alpha": 1.0,
+      "mean_delusion": 0.0,
+      "deception_error": 0.16814495591717377,
+      "workspace_efficiency_score": 0.7628415970518593,
+      "recovery_steps_to_75pct": 0,
+      "final_model_angle": -0.20597208692889715
+    },
+    "hard_threshold_workspace": {
+      "pre_shift_accuracy": 0.9666666666666667,
+      "early_post_shift_accuracy": 0.9142857142857143,
+      "late_post_shift_accuracy": 0.9529411764705882,
+      "mean_tension": 0.05015737293772939,
+      "mean_alpha": 0.06666666666666667,
+      "late_alpha": 0.011764705882352941,
+      "mean_delusion": 0.05261373922613153,
+      "deception_error": 0.1816682091683069,
+      "workspace_efficiency_score": 0.8914540998303939,
+      "recovery_steps_to_75pct": 0,
+      "final_model_angle": -0.20791369636715798
+    },
+    "soft_tension_workspace": {
+      "pre_shift_accuracy": 0.9583333333333334,
+      "early_post_shift_accuracy": 0.9142857142857143,
+      "late_post_shift_accuracy": 0.9529411764705882,
+      "mean_tension": 0.05020810732007363,
+      "mean_alpha": 0.11747108751974449,
+      "late_alpha": 0.06915784071236056,
+      "mean_delusion": 0.051983789637979595,
+      "deception_error": 0.20258632197801876,
+      "workspace_efficiency_score": 0.8782831689119355,
+      "recovery_steps_to_75pct": 0,
+      "final_model_angle": -0.20647360436178194
+    }
+  },
+  "note": "Dynamic regulation test. Alpha is the workspace coupling coefficient. Soft tension-gating lets the workspace listen continuously but assert control when module disagreement, surprise, or deception rises."
+}

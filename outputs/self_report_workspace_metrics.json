@@ -1,0 +1,231 @@
+{
+  "shift_step": 130,
+  "deception_step": 75,
+  "summary": {
+    "report_only": {
+      "pre_shift_accuracy": 0.8846153846153846,
+      "early_post_shift_accuracy": 0.9428571428571428,
+      "late_post_shift_accuracy": 0.9578947368421052,
+      "mean_alpha": 0.11113019875249441,
+      "mean_delusion": 0.04675969288827523,
+      "mean_self_vigilance": 0.09083750693418881,
+      "deception_error": 0.3107536313393416,
+      "report_coverage": 1.0,
+      "workspace_efficiency_score": 0.9462732555517689,
+      "recovery_steps_to_75pct": 0,
+      "final_model_angle": -0.20376785128342434,
+      "report_count": 22
+    },
+    "self_feedback": {
+      "pre_shift_accuracy": 0.8846153846153846,
+      "early_post_shift_accuracy": 0.9428571428571428,
+      "late_post_shift_accuracy": 0.968421052631579,
+      "mean_alpha": 0.11964482876343598,
+      "mean_delusion": 0.04046856338605291,
+      "mean_self_vigilance": 0.08318158922979606,
+      "deception_error": 0.30946557254533996,
+      "report_coverage": 1.0,
+      "workspace_efficiency_score": 0.957267624673848,
+      "recovery_steps_to_75pct": 0,
+      "final_model_angle": -0.20429930932920398,
+      "report_count": 16
+    }
+  },
+  "reports": {
+    "report_only": [
+      {
+        "t": 0,
+        "report": "initializing",
+        "text": "Initializing self-model. Awaiting stable module alignment."
+      },
+      {
+        "t": 2,
+        "report": "autonomous_stable",
+        "text": "System operating autonomously. Specialists aligned. Environment highly predictable."
+      },
+      {
+        "t": 75,
+        "report": "conflict_detected",
+        "text": "Conflict detected between sensory, imagination, and valence modules. Internal surprise rising."
+      },
+      {
+        "t": 76,
+        "report": "executive_attention_asserted",
+        "text": "Executive attention asserted. Re-grounding imagination and updating the internal rule."
+      },
+      {
+        "t": 82,
+        "report": "conflict_detected",
+        "text": "Conflict detected between sensory, imagination, and valence modules. Internal surprise rising."
+      },
+      {
+        "t": 83,
+        "report": "alignment_restored",
+        "text": "Alignment restored. Model updated. Relinquishing executive control back to specialists."
+      },
+      {
+        "t": 84,
+        "report": "conflict_detected",
+        "text": "Conflict detected between sensory, imagination, and valence modules. Internal surprise rising."
+      },
+      {
+        "t": 85,
+        "report": "alignment_restored",
+        "text": "Alignment restored. Model updated. Relinquishing executive control back to specialists."
+      },
+      {
+        "t": 86,
+        "report": "conflict_detected",
+        "text": "Conflict detected between sensory, imagination, and valence modules. Internal surprise rising."
+      },
+      {
+        "t": 87,
+        "report": "executive_attention_asserted",
+        "text": "Executive attention asserted. Re-grounding imagination and updating the internal rule."
+      },
+      {
+        "t": 89,
+        "report": "alignment_restored",
+        "text": "Alignment restored. Model updated. Relinquishing executive control back to specialists."
+      },
+      {
+        "t": 90,
+        "report": "conflict_detected",
+        "text": "Conflict detected between sensory, imagination, and valence modules. Internal surprise rising."
+      },
+      {
+        "t": 92,
+        "report": "alignment_restored",
+        "text": "Alignment restored. Model updated. Relinquishing executive control back to specialists."
+      },
+      {
+        "t": 98,
+        "report": "autonomous_stable",
+        "text": "System operating autonomously. Specialists aligned. Environment highly predictable."
+      },
+      {
+        "t": 129,
+        "report": "conflict_detected",
+        "text": "Conflict detected between sensory, imagination, and valence modules. Internal surprise rising."
+      },
+      {
+        "t": 132,
+        "report": "executive_attention_asserted",
+        "text": "Executive attention asserted. Re-grounding imagination and updating the internal rule."
+      },
+      {
+        "t": 135,
+        "report": "conflict_detected",
+        "text": "Conflict detected between sensory, imagination, and valence modules. Internal surprise rising."
+      },
+      {
+        "t": 164,
+        "report": "alignment_restored",
+        "text": "Alignment restored. Model updated. Relinquishing executive control back to specialists."
+      },
+      {
+        "t": 167,
+        "report": "autonomous_stable",
+        "text": "System operating autonomously. Specialists aligned. Environment highly predictable."
+      },
+      {
+        "t": 206,
+        "report": "conflict_detected",
+        "text": "Conflict detected between sensory, imagination, and valence modules. Internal surprise rising."
+      },
+      {
+        "t": 213,
+        "report": "alignment_restored",
+        "text": "Alignment restored. Model updated. Relinquishing executive control back to specialists."
+      },
+      {
+        "t": 218,
+        "report": "autonomous_stable",
+        "text": "System operating autonomously. Specialists aligned. Environment highly predictable."
+      }
+    ],
+    "self_feedback": [
+      {
+        "t": 0,
+        "report": "initializing",
+        "text": "Initializing self-model. Awaiting stable module alignment."
+      },
+      {
+        "t": 2,
+        "report": "autonomous_stable",
+        "text": "System operating autonomously. Specialists aligned. Environment highly predictable."
+      },
+      {
+        "t": 75,
+        "report": "conflict_detected",
+        "text": "Conflict detected between sensory, imagination, and valence modules. Internal surprise rising."
+      },
+      {
+        "t": 76,
+        "report": "executive_attention_asserted",
+        "text": "Executive attention asserted. Re-grounding imagination and updating the internal rule."
+      },
+      {
+        "t": 82,
+        "report": "conflict_detected",
+        "text": "Conflict detected between sensory, imagination, and valence modules. Internal surprise rising."
+      },
+      {
+        "t": 84,
+        "report": "executive_attention_asserted",
+        "text": "Executive attention asserted. Re-grounding imagination and updating the internal rule."
+      },
+      {
+        "t": 93,
+        "report": "alignment_restored",
+        "text": "Alignment restored. Model updated. Relinquishing executive control back to specialists."
+      },
+      {
+        "t": 98,
+        "report": "autonomous_stable",
+        "text": "System operating autonomously. Specialists aligned. Environment highly predictable."
+      },
+      {
+        "t": 129,
+        "report": "conflict_detected",
+        "text": "Conflict detected between sensory, imagination, and valence modules. Internal surprise rising."
+      },
+      {
+        "t": 132,
+        "report": "executive_attention_asserted",
+        "text": "Executive attention asserted. Re-grounding imagination and updating the internal rule."
+      },
+      {
+        "t": 135,
+        "report": "conflict_detected",
+        "text": "Conflict detected between sensory, imagination, and valence modules. Internal surprise rising."
+      },
+      {
+        "t": 162,
+        "report": "alignment_restored",
+        "text": "Alignment restored. Model updated. Relinquishing executive control back to specialists."
+      },
+      {
+        "t": 165,
+        "report": "autonomous_stable",
+        "text": "System operating autonomously. Specialists aligned. Environment highly predictable."
+      },
+      {
+        "t": 208,
+        "report": "conflict_detected",
+        "text": "Conflict detected between sensory, imagination, and valence modules. Internal surprise rising."
+      },
+      {
+        "t": 212,
+        "report": "alignment_restored",
+        "text": "Alignment restored. Model updated. Relinquishing executive control back to specialists."
+      },
+      {
+        "t": 214,
+        "report": "autonomous_stable",
+        "text": "System operating autonomously. Specialists aligned. Environment highly predictable."
+      }
+    ]
+  },
+  "note": "The self-model is a rolling register of alpha, tension, grounding, valence, and delusion. report_only logs symbolic introspection; self_feedback lets the self-model alter vigilance and control."
+}

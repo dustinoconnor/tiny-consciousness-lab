@@ -26,6 +26,7 @@ The working thesis emerging from these toy runs:
 > Imagination without reality-checking is delusional.  
 > Attention should be rewarded for staying grounded.  
 > Specialization and integration must be balanced.  
+> Self-representation matters only when it can alter future control.  
 > Useful intelligence requires co-tuned cognition, reward, attention, and world
 > modeling.
 
@@ -59,6 +60,8 @@ behavior in recognizable ways:
 - Conditional workspace coupling can rise during module tension and fall during
   predictable periods, reproducing a substrate-agnostic version of biological
   attention gating.
+- A tiny self-model can convert internal friction into symbolic reports and,
+  when fed back into control, slightly improve stability and adaptation.
 
 The philosophical inference is not that silicon is conscious. It is that
 integration, valence, confidence gating, world modeling, lookahead, and dynamic
@@ -72,8 +75,9 @@ unstructured feedback behaves like architectural noise. The interesting
 substrate-independent pattern is more specific:
 
 > specialized modules, grounded valence, predictive imagination, and a
-> dynamically regulated workspace whose control rises under tension and relaxes
-> when the world is predictable.
+> dynamically regulated workspace whose control rises under tension, relaxes
+> when the world is predictable, and can represent its own recent regulatory
+> state.
 
 That pattern can be implemented with binary toy nodes, silicon neural networks,
 or, in principle, biological tissue. The substrate matters for speed, noise,
@@ -764,6 +768,58 @@ influence falls again.
 
 ![Conditional workspace timeseries](outputs/conditional_workspace_timeseries.png)
 
+## Self-Report Workspace Test
+
+`self_report_workspace_lab.py` adds a tiny persistent self-model vector to the
+conditional workspace. The self-model tracks a rolling history of:
+
+- executive dominance (`alpha`)
+- system friction (`tension`)
+- grounding delta (`imagination_rewrite`)
+- valence/alignment state
+- recent delusion
+- vigilance
+
+The lab compares two modes:
+
+- `report_only` - the self-model generates symbolic reports, but does not alter
+  control
+- `self_feedback` - the self-model feeds back into vigilance, lowering the
+  control threshold after recent delusion or conflict
+
+Result:
+
+```text
+condition       late_acc  delusion  vigilance  efficiency  reports
+report_only     0.958     0.0468    0.0908     0.946       22
+self_feedback   0.968     0.0405    0.0832     0.957       16
+```
+
+The self-feedback version produced a modest but real improvement: slightly
+higher late accuracy, lower delusion, higher efficiency, and fewer symbolic
+report flips. That suggests the self-report vector was not merely a dashboard.
+It changed future control by carrying a memory of recent conflict into the next
+attention decision.
+
+The symbolic report sequence is generated directly from internal math:
+
+```text
+System operating autonomously. Specialists aligned. Environment highly predictable.
+Conflict detected between sensory, imagination, and valence modules. Internal surprise rising.
+Executive attention asserted. Re-grounding imagination and updating the internal rule.
+Alignment restored. Model updated. Relinquishing executive control back to specialists.
+```
+
+This does not prove subjective awareness. It does implement a minimal functional
+ingredient of introspection:
+
+> the system represents its own regulatory state, stores that state briefly, and
+> lets the representation influence future control.
+
+![Self report workspace summary](outputs/self_report_workspace_summary.png)
+
+![Self report workspace timeseries](outputs/self_report_workspace_timeseries.png)
+
 ## Explainer Video Angle
 
 This project could be turned into a short narrated explainer:
@@ -799,11 +855,14 @@ This project could be turned into a short narrated explainer:
 13. Show the conditional workspace test: workspace control is useful but
    expensive, and conditional coupling gives most of the benefit with far less
    constant control.
-14. End with the thesis: capacity without grounded valence is unstable; valence
+14. Show the self-report workspace test: symbolic introspection is only useful
+   when the self-model feeds back into future control.
+15. End with the thesis: capacity without grounded valence is unstable; valence
    without boundaries is exploitable; imagination without reality-checking is
    delusional; attention should be rewarded for staying grounded;
-   specialization and integration must be balanced; useful intelligence requires
-   co-tuned cognition, reward, attention, and world modeling.
+   specialization and integration must be balanced; self-representation matters
+   only when it can alter future control; useful intelligence requires co-tuned
+   cognition, reward, attention, and world modeling.
 
 ## How To Run
 
@@ -826,6 +885,7 @@ cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 attention_shift_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 modular_workspace_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 conditional_workspace_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 self_report_workspace_lab.py
 ```
 
 Outputs land in:
@@ -850,6 +910,7 @@ Outputs land in:
 - `attention_shift_lab.py` - dynamic environment shift test for adaptive re-grounding
 - `modular_workspace_lab.py` - segregation-plus-integration architecture comparison
 - `conditional_workspace_lab.py` - dynamic workspace coupling from module tension
+- `self_report_workspace_lab.py` - persistent self-model and symbolic introspection test
 - `outputs/metrics.json` - recurrent agent metrics
 - `outputs/exact_phi_metrics.json` - exact Phi proxy metrics
 - `outputs/intervention_metrics.json` - intervention test metrics
@@ -864,6 +925,7 @@ Outputs land in:
 - `outputs/attention_shift_metrics.json` - paradigm-shift attention metrics
 - `outputs/modular_workspace_metrics.json` - modular workspace architecture metrics
 - `outputs/conditional_workspace_metrics.json` - conditional workspace coupling metrics
+- `outputs/self_report_workspace_metrics.json` - self-report workspace metrics
 
 ## Next Steps
 

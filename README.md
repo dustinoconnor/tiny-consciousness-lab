@@ -50,6 +50,8 @@ behavior in recognizable ways:
   progress-valence gets stuck.
 - A valence-shaped attention filter improves task focus by rewarding
   prediction-aligned imagination and suppressing distractor fixation.
+- When the environment changes, an adaptive attention-valence filter can use
+  prediction error as surprise to rebuild its inner model.
 
 The philosophical inference is not that silicon is conscious. It is that
 integration, valence, confidence gating, world modeling, and lookahead can be
@@ -594,6 +596,38 @@ This adds a fifth line to the working thesis:
 
 ![Attention valence timeseries](outputs/attention_valence_timeseries.png)
 
+## Paradigm-Shift Attention Test
+
+`attention_shift_lab.py` changes the world halfway through a run. The target
+signal initially moves according to one hidden rule, then reverses direction and
+changes speed. This asks whether a system merely protects an old inner model, or
+whether it can use surprise to rebuild that model from sensory evidence.
+
+Result:
+
+```text
+condition                         pre_acc  early_post  late_post  recovery
+ungated_old_model                 0.727    0.314       0.267      never
+static_attention_valence_filter   0.936    0.714       0.720      43 steps
+adaptive_attention_valence_filter 0.936    0.914       0.947      0 steps
+```
+
+The ungated old model collapsed after the rule change and never recovered. The
+static attention-valence filter stayed more grounded, but it still acted through
+an obsolete internal prediction rule. The adaptive attention-valence filter used
+prediction error as surprise, retuned its model angle from about `+0.13` to
+about `-0.21`, and recovered immediately.
+
+This sharpens the Phi lesson:
+
+> Integration is not a scoreboard by itself. A useful inner world must be
+> integrated enough to simulate, but plastic enough to update when sensory
+> reality proves it wrong.
+
+![Attention shift summary](outputs/attention_shift_summary.png)
+
+![Attention shift timeseries](outputs/attention_shift_timeseries.png)
+
 ## Explainer Video Angle
 
 This project could be turned into a short narrated explainer:
@@ -622,7 +656,9 @@ This project could be turned into a short narrated explainer:
 10. Show the attention-valence filter: prediction-aligned imagination improves
    task focus, while self-amplified imagination can become confident but
    detached.
-11. End with the thesis: capacity without grounded valence is unstable; valence
+11. Show the paradigm-shift test: adaptive attention-valence can rebuild an
+   obsolete inner model after environmental surprise.
+12. End with the thesis: capacity without grounded valence is unstable; valence
    without boundaries is exploitable; imagination without reality-checking is
    delusional; attention should be rewarded for staying grounded; useful
    intelligence requires co-tuned cognition, reward, attention, and world
@@ -646,6 +682,7 @@ cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 imagination_phi_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 delusional_integration_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 attention_valence_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 attention_shift_lab.py
 ```
 
 Outputs land in:
@@ -667,6 +704,7 @@ Outputs land in:
 - `imagination_phi_lab.py` - exact tiny Phi-proxy test for imagination circuits
 - `delusional_integration_lab.py` - internal-loop grounding and delusion-risk sweep
 - `attention_valence_lab.py` - attention/relevance gate driven by valence and prediction alignment
+- `attention_shift_lab.py` - dynamic environment shift test for adaptive re-grounding
 - `outputs/metrics.json` - recurrent agent metrics
 - `outputs/exact_phi_metrics.json` - exact Phi proxy metrics
 - `outputs/intervention_metrics.json` - intervention test metrics
@@ -678,6 +716,7 @@ Outputs land in:
 - `outputs/imagination_phi_metrics.json` - imagination circuit Phi-proxy metrics
 - `outputs/delusional_integration_metrics.json` - internal-loop grounding metrics
 - `outputs/attention_valence_metrics.json` - attention-valence filter metrics
+- `outputs/attention_shift_metrics.json` - paradigm-shift attention metrics
 
 ## Next Steps
 

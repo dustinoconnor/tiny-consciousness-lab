@@ -1,0 +1,36 @@
+{
+  "shift_step": 110,
+  "summary": {
+    "ungated_old_model": {
+      "pre_shift_accuracy": 0.7272727272727273,
+      "early_post_shift_accuracy": 0.3142857142857143,
+      "late_post_shift_accuracy": 0.26666666666666666,
+      "late_task_attention": 0.1688400994646366,
+      "late_distractor_fixation": 0.39276689656222896,
+      "late_delusion": 0.43839300397313463,
+      "recovery_steps_to_75pct": null,
+      "final_model_angle": 0.13
+    },
+    "static_attention_valence_filter": {
+      "pre_shift_accuracy": 0.9363636363636364,
+      "early_post_shift_accuracy": 0.7142857142857143,
+      "late_post_shift_accuracy": 0.72,
+      "late_task_attention": 0.6371149853449389,
+      "late_distractor_fixation": 0.14543280568084527,
+      "late_delusion": 0.21745220897421585,
+      "recovery_steps_to_75pct": 43,
+      "final_model_angle": 0.13
+    },
+    "adaptive_attention_valence_filter": {
+      "pre_shift_accuracy": 0.9363636363636364,
+      "early_post_shift_accuracy": 0.9142857142857143,
+      "late_post_shift_accuracy": 0.9466666666666667,
+      "late_task_attention": 0.9032938371996897,
+      "late_distractor_fixation": 0.09006800046624713,
+      "late_delusion": 0.006638162334063099,
+      "recovery_steps_to_75pct": 0,
+      "final_model_angle": -0.21243382979029124
+    }
+  },
+  "note": "The target dynamics reverse halfway through. Static filters can remain grounded to the current sensory stream but still act through an obsolete prediction rule. The adaptive filter uses prediction error as surprise to retune the inner model angle."
+}

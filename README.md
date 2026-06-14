@@ -56,10 +56,29 @@ behavior in recognizable ways:
   prediction-aligned imagination and suppressing distractor fixation.
 - When the environment changes, an adaptive attention-valence filter can use
   prediction error as surprise to rebuild its inner model.
+- Conditional workspace coupling can rise during module tension and fall during
+  predictable periods, reproducing a substrate-agnostic version of biological
+  attention gating.
 
 The philosophical inference is not that silicon is conscious. It is that
-integration, valence, confidence gating, world modeling, and lookahead can be
-implemented as substrate-independent information-processing patterns.
+integration, valence, confidence gating, world modeling, lookahead, and dynamic
+workspace control can be implemented as substrate-independent
+information-processing patterns.
+
+This also clarifies what substrate independence does **not** mean. It does not
+mean any sufficiently messy feedback loop becomes mind-like. The
+`random_feedback_soup` and overconnected workspace tests show the opposite:
+unstructured feedback behaves like architectural noise. The interesting
+substrate-independent pattern is more specific:
+
+> specialized modules, grounded valence, predictive imagination, and a
+> dynamically regulated workspace whose control rises under tension and relaxes
+> when the world is predictable.
+
+That pattern can be implemented with binary toy nodes, silicon neural networks,
+or, in principle, biological tissue. The substrate matters for speed, noise,
+plasticity, embodiment, and energy use. But the control logic itself is not
+defined by being wet or dry; it is defined by how information is routed.
 
 In evolutionary language, the detour maze captures a functional pressure:
 
@@ -689,6 +708,11 @@ Tracked variables:
 - `alpha` - workspace coupling coefficient from `0` to `1`
 - `delusion` - detached imagination influence
 - `deception_error` - vulnerability during a brief false sensory conflict
+- `workspace_rewrite` - how much workspace control changes the specialist
+  consensus vector
+- `model_rewrite` - how much the internal prediction rule changes
+- `imagination_rewrite` - how much the imagination state is pulled back toward
+  sensory reality
 - `workspace_efficiency_score` - late adaptation minus workspace cost,
   delusion, and deception vulnerability
 
@@ -715,6 +739,26 @@ This adds a control-rule version of the architecture lesson:
 > The workspace should monitor continuously, but causal control should be
 > expensive. Let specialists handle predictable moments; let workspace influence
 > rise when tension, surprise, or cross-module conflict appears.
+
+The internal rewrite metrics answer a more mechanistic question: during
+high-tension recovery, is the workspace completely reshaping the specialists, or
+just damping them until they realign?
+
+For the `soft_tension_workspace`:
+
+```text
+metric                         low_tension  high_tension
+alpha                          0.028        0.319
+workspace_rewrite              0.0002       0.0315
+model_rewrite                  0.00009      0.0054
+imagination_rewrite            0.0044       0.0650
+```
+
+That looks more like temporary re-grounding than total takeover. In predictable
+periods, alpha stays near zero and the specialists run locally. During tension,
+workspace coupling rises, the internal prediction rule updates, and imagination
+is pulled back toward sensory reality. Once alignment returns, workspace
+influence falls again.
 
 ![Conditional workspace summary](outputs/conditional_workspace_summary.png)
 

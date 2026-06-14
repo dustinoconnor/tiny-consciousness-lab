@@ -94,6 +94,7 @@ def run_condition(name, config, steps=240, shift_step=120, deception_step=70, se
             raise ValueError(config["mode"])
 
         attended = unit((1.0 - alpha) * specialist_vector + alpha * workspace_vector)
+        workspace_rewrite = float(np.linalg.norm(attended - specialist_vector))
         predicted_action = action_from_vector(rotate(attended, model_angle))
         correct_action = action_from_vector(actual_next)
         correct = predicted_action == correct_action
@@ -105,7 +106,9 @@ def run_condition(name, config, steps=240, shift_step=120, deception_step=70, se
         learning_rate = config["base_lr"] + config["workspace_lr"] * alpha * surprise
         if config["mode"] == "always_bypass":
             learning_rate *= 0.2
+        old_model_angle = model_angle
         model_angle = (1.0 - learning_rate) * model_angle + learning_rate * sensory_angle_delta
+        model_rewrite = abs(angle_delta(model_angle, old_model_angle))
 
         rows.append(
             {
@@ -120,6 +123,8 @@ def run_condition(name, config, steps=240, shift_step=120, deception_step=70, se
                 "delusion": delusion,
                 "deception_error": deception_error,
                 "model_angle": float(model_angle),
+                "workspace_rewrite": workspace_rewrite,
+                "model_rewrite": float(model_rewrite),
                 "correct": float(correct),
             }
         )
@@ -131,6 +136,8 @@ def run_condition(name, config, steps=240, shift_step=120, deception_step=70, se
         imagination = unit(imagination_mix * actual_next + (1.0 - imagination_mix) * imagined_next)
         if config["mode"] == "always_bypass":
             imagination = unit(0.88 * imagined_next + 0.12 * actual_next + rng.normal(0.0, 0.04, size=2))
+        imagination_rewrite = float(np.linalg.norm(imagination - imagined_next))
+        rows[-1]["imagination_rewrite"] = imagination_rewrite
         workspace = unit((1.0 - config["workspace_memory"]) * attended + config["workspace_memory"] * workspace)
         alpha_prev = alpha
 
@@ -142,6 +149,11 @@ def summarize(rows, shift_step, deception_step):
     early = [r for r in rows if shift_step <= r["t"] < shift_step + 35]
     late = [r for r in rows if r["t"] >= shift_step + 35]
     deception = [r for r in rows if deception_step <= r["t"] < deception_step + 20]
+    tensions = np.array([r["tension"] for r in rows])
+    high_cutoff = float(np.quantile(tensions, 0.75))
+    low_cutoff = float(np.quantile(tensions, 0.25))
+    high_tension = [r for r in rows if r["tension"] >= high_cutoff]
+    low_tension = [r for r in rows if r["tension"] <= low_cutoff]
 
     def mean(chunk, key):
         return float(np.mean([r[key] for r in chunk])) if chunk else 0.0
@@ -163,6 +175,14 @@ def summarize(rows, shift_step, deception_step):
         "mean_delusion": mean_delusion,
         "deception_error": deception_error,
         "workspace_efficiency_score": float(efficiency),
+        "high_tension_alpha": mean(high_tension, "alpha"),
+        "low_tension_alpha": mean(low_tension, "alpha"),
+        "high_tension_workspace_rewrite": mean(high_tension, "workspace_rewrite"),
+        "low_tension_workspace_rewrite": mean(low_tension, "workspace_rewrite"),
+        "high_tension_model_rewrite": mean(high_tension, "model_rewrite"),
+        "low_tension_model_rewrite": mean(low_tension, "model_rewrite"),
+        "high_tension_imagination_rewrite": mean(high_tension, "imagination_rewrite"),
+        "low_tension_imagination_rewrite": mean(low_tension, "imagination_rewrite"),
         "recovery_steps_to_75pct": recovery_step(rows, shift_step),
         "final_model_angle": float(rows[-1]["model_angle"]),
     }

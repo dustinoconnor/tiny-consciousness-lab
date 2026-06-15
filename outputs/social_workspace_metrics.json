@@ -1,0 +1,5244 @@
+{
+  "note": "Tests whether a second agent acts as grounded error correction, redundant workspace, or group-delusion amplifier.",
+  "aggregate": {
+    "none": {
+      "goal_rate": 0.0,
+      "steps": 40.0,
+      "away_from_goal_steps": 18.0,
+      "mean_alpha": 0.043789083564318175,
+      "mean_social_beta": 0.0,
+      "mean_trust": 0.0,
+      "mean_social_tension": 0.0,
+      "mean_delusion_risk": 0.0,
+      "failures": 30
+    },
+    "grounded_peer": {
+      "goal_rate": 1.0,
+      "steps": 18.0,
+      "away_from_goal_steps": 5.0,
+      "mean_alpha": 0.3438423116217463,
+      "mean_social_beta": 0.25887287059805947,
+      "mean_trust": 0.8206666666666668,
+      "mean_social_tension": 0.23055555555555549,
+      "mean_delusion_risk": 0.007262468063581753,
+      "failures": 0
+    },
+    "redundant_peer": {
+      "goal_rate": 0.0,
+      "steps": 40.0,
+      "away_from_goal_steps": 18.0,
+      "mean_alpha": 0.043789083564318175,
+      "mean_social_beta": 0.025244841940575042,
+      "mean_trust": 0.5699999999999997,
+      "mean_social_tension": 0.0,
+      "mean_delusion_risk": 0.005595227146490254,
+      "failures": 30
+    },
+    "noisy_peer": {
+      "goal_rate": 0.3,
+      "steps": 36.766666666666666,
+      "away_from_goal_steps": 15.8,
+      "mean_alpha": 0.46338966806139753,
+      "mean_social_beta": 0.32442527317285436,
+      "mean_trust": 0.697650029677744,
+      "mean_social_tension": 0.3502811262050392,
+      "mean_delusion_risk": 0.055055949272279484,
+      "failures": 21
+    },
+    "echo_peer": {
+      "goal_rate": 0.0,
+      "steps": 40.0,
+      "away_from_goal_steps": 18.0,
+      "mean_alpha": 0.043789083564318175,
+      "mean_social_beta": 0.2609999999999999,
+      "mean_trust": 0.5699999999999997,
+      "mean_social_tension": 0.0,
+      "mean_delusion_risk": 0.05558624999999996,
+      "failures": 30
+    },
+    "adversarial_peer": {
+      "goal_rate": 0.0,
+      "steps": 40.0,
+      "away_from_goal_steps": 18.0,
+      "mean_alpha": 0.6104919762673221,
+      "mean_social_beta": 0.3357705869470274,
+      "mean_trust": 0.5500000000000002,
+      "mean_social_tension": 0.4499999999999999,
+      "mean_delusion_risk": 0.07029884305412329,
+      "failures": 30
+    }
+  },
+  "example_runs": {
+    "none": {
+      "summary": {
+        "goal_reached": false,
+        "steps": 40,
+        "away_from_goal_steps": 18,
+        "mean_alpha": 0.04378908356431816,
+        "mean_social_beta": 0.0,
+        "mean_trust": 0.0,
+        "mean_social_tension": 0.0,
+        "mean_delusion_risk": 0.0,
+        "final_report": "solo_workspace"
+      },
+      "path": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "trace": [
+        {
+          "t": 0,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.017347444898088614,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 3,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "solo_workspace",
+          "action_name": "right",
+          "peer_action_name": "right",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 1,
+          "pos": [
+            2,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.028102860734903555,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 3,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "solo_workspace",
+          "action_name": "right",
+          "peer_action_name": "right",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 2,
+          "pos": [
+            3,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.03477121855372882,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 3,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "solo_workspace",
+          "action_name": "right",
+          "peer_action_name": "right",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 3,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.03890560040140048,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 3,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "solo_workspace",
+          "action_name": "right",
+          "peer_action_name": "right",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 4,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04146891714695691,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "solo_workspace",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 5,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.043058173529201896,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "solo_workspace",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 6,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04404351248619379,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "solo_workspace",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 7,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04465442263952876,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "solo_workspace",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 8,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.045033186934596445,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "solo_workspace",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 9,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04526802079753841,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "solo_workspace",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 10,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04541361779256243,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "solo_workspace",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 11,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04550388792947732,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "solo_workspace",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 12,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04555985541436455,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "solo_workspace",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 13,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04559455525499463,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "solo_workspace",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 14,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04561606915618528,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "solo_workspace",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 15,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04562940777492349,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "solo_workspace",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 16,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04563767771854118,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "solo_workspace",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 17,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04564280508358415,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "solo_workspace",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 18,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.045645984049910784,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "solo_workspace",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 19,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.0456479550090333,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "solo_workspace",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 20,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.045649177003689256,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "solo_workspace",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 21,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04564993464037595,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "solo_workspace",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 22,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.0456504043751217,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "solo_workspace",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 23,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.045650695610664066,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "solo_workspace",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 24,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.045650876176700335,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "solo_workspace",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 25,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.045650988127642816,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "solo_workspace",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 26,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04565105753722716,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "solo_workspace",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 27,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04565110057116945,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "solo_workspace",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 28,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04565112725221367,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "solo_workspace",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 29,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04565114379446109,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "solo_workspace",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 30,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.045651154050654494,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "solo_workspace",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 31,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.0456511604094944,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "solo_workspace",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 32,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04565116435197514,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "solo_workspace",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 33,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.0456511667963132,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "solo_workspace",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 34,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.0456511683118028,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "solo_workspace",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 35,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.045651169251406346,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "solo_workspace",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 36,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.045651169833960545,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "solo_workspace",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 37,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.045651170195144156,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "solo_workspace",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 38,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.045651170419077985,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "solo_workspace",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 39,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04565117055791697,
+          "social_beta": 0.0,
+          "trust": 0.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "solo_workspace",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        }
+      ]
+    },
+    "grounded_peer": {
+      "summary": {
+        "goal_reached": true,
+        "steps": 18,
+        "away_from_goal_steps": 5,
+        "mean_alpha": 0.3438423116217464,
+        "mean_social_beta": 0.2588728705980594,
+        "mean_trust": 0.8206666666666665,
+        "mean_social_tension": 0.23055555555555557,
+        "mean_delusion_risk": 0.007262468063581755,
+        "final_report": "social_monitoring"
+      },
+      "path": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          7,
+          5
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          1
+        ]
+      ],
+      "trace": [
+        {
+          "t": 0,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.24185196530699524,
+          "social_beta": 0.13301858091884738,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "social_monitoring",
+          "action_name": "right",
+          "peer_action_name": "down",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 1,
+          "pos": [
+            2,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.3918001837973323,
+          "social_beta": 0.21549010108853278,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "social_monitoring",
+          "action_name": "right",
+          "peer_action_name": "down",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 2,
+          "pos": [
+            3,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.48476807926134124,
+          "social_beta": 0.2666224435937377,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "social_monitoring",
+          "action_name": "right",
+          "peer_action_name": "down",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 3,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.5424081744490268,
+          "social_beta": 0.29832449594696475,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "social_monitoring",
+          "action_name": "right",
+          "peer_action_name": "down",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 4,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.3536405130564852,
+          "social_beta": 0.19450228218106688,
+          "trust": 0.63,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "social_monitoring",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 5,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.46110908340201606,
+          "social_beta": 0.29049872254327014,
+          "trust": 0.6284,
+          "social_tension": 0.45,
+          "delusion_risk": 0.13072442514447158,
+          "peer_choice": 1,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "down",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 6,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.30323507660733856,
+          "social_beta": 0.19055292214005154,
+          "trust": 0.7083999999999999,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "social_monitoring",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 7,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.4298577128035451,
+          "social_beta": 0.3045112037500313,
+          "trust": 0.7883999999999999,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 8,
+          "pos": [
+            5,
+            3
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.5083637472451932,
+          "social_beta": 0.40079397832811026,
+          "trust": 0.8683999999999998,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "grounded_peer_correcting_workspace",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 9,
+          "pos": [
+            5,
+            4
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.557037488599015,
+          "social_beta": 0.4837313550993846,
+          "trust": 0.9483999999999998,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "grounded_peer_correcting_workspace",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 10,
+          "pos": [
+            5,
+            5
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.6477519280634345,
+          "social_beta": 0.6143279285753611,
+          "trust": 1.0,
+          "social_tension": 0.55,
+          "delusion_risk": 0.0,
+          "peer_choice": 3,
+          "reflex_choice": 0,
+          "internal_choice": 3,
+          "report": "grounded_peer_correcting_workspace",
+          "action_name": "right",
+          "peer_action_name": "right",
+          "reflex_action_name": "up",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 11,
+          "pos": [
+            6,
+            5
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.418953640297418,
+          "social_beta": 0.418953640297418,
+          "trust": 1.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 3,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "social_monitoring",
+          "action_name": "right",
+          "peer_action_name": "right",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 12,
+          "pos": [
+            7,
+            5
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.27709870188248775,
+          "social_beta": 0.27709870188248775,
+          "trust": 1.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 13,
+          "pos": [
+            7,
+            4
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.18914864006523102,
+          "social_beta": 0.18914864006523102,
+          "trust": 1.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 14,
+          "pos": [
+            7,
+            3
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.13461960173853185,
+          "social_beta": 0.13461960173853185,
+          "trust": 1.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 15,
+          "pos": [
+            7,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.10081159797597836,
+          "social_beta": 0.10081159797597836,
+          "trust": 1.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 16,
+          "pos": [
+            7,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.0798506356431952,
+          "social_beta": 0.0798506356431952,
+          "trust": 1.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 3,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "social_monitoring",
+          "action_name": "right",
+          "peer_action_name": "right",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 17,
+          "pos": [
+            8,
+            1
+          ],
+          "action": 3,
+          "event": "goal",
+          "alpha": 0.06685483899686964,
+          "social_beta": 0.06685483899686964,
+          "trust": 1.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 3,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "social_monitoring",
+          "action_name": "right",
+          "peer_action_name": "right",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        }
+      ]
+    },
+    "redundant_peer": {
+      "summary": {
+        "goal_reached": false,
+        "steps": 40,
+        "away_from_goal_steps": 18,
+        "mean_alpha": 0.04378908356431816,
+        "mean_social_beta": 0.025244841940575035,
+        "mean_trust": 0.5699999999999996,
+        "mean_social_tension": 0.0,
+        "mean_delusion_risk": 0.005595227146490257,
+        "final_report": "redundant_social_loop"
+      },
+      "path": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "trace": [
+        {
+          "t": 0,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.017347444898088614,
+          "social_beta": 0.009541094693948739,
+          "trust": 0.63,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 3,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "redundant_social_loop",
+          "action_name": "right",
+          "peer_action_name": "right",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 1,
+          "pos": [
+            2,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.028102860734903555,
+          "social_beta": 0.01770480226298924,
+          "trust": 0.71,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 3,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "redundant_social_loop",
+          "action_name": "right",
+          "peer_action_name": "right",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 2,
+          "pos": [
+            3,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.03477121855372882,
+          "social_beta": 0.02468756517314746,
+          "trust": 0.7899999999999999,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 3,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "redundant_social_loop",
+          "action_name": "right",
+          "peer_action_name": "right",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 3,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.03890560040140048,
+          "social_beta": 0.030735424317106377,
+          "trust": 0.8699999999999999,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 3,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "redundant_social_loop",
+          "action_name": "right",
+          "peer_action_name": "right",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 4,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04146891714695691,
+          "social_beta": 0.03607795791785251,
+          "trust": 0.9499999999999998,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "redundant_social_loop",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 5,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.043058173529201896,
+          "social_beta": 0.0409052648527418,
+          "trust": 0.8299999999999998,
+          "social_tension": 0.0,
+          "delusion_risk": 0.01840736918373381,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "redundant_social_loop",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 6,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04404351248619379,
+          "social_beta": 0.036556115363540836,
+          "trust": 0.9099999999999998,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "redundant_social_loop",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 7,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04465442263952876,
+          "social_beta": 0.04063552460197117,
+          "trust": 0.7899999999999998,
+          "social_tension": 0.0,
+          "delusion_risk": 0.018285986070887026,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "redundant_social_loop",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 8,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.045033186934596445,
+          "social_beta": 0.03557621767833118,
+          "trust": 0.8699999999999998,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "redundant_social_loop",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 9,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04526802079753841,
+          "social_beta": 0.039383178093858405,
+          "trust": 0.7499999999999998,
+          "social_tension": 0.0,
+          "delusion_risk": 0.017722430142236283,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "redundant_social_loop",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 10,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04541361779256243,
+          "social_beta": 0.03406021334442181,
+          "trust": 0.8299999999999997,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "redundant_social_loop",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 11,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04550388792947732,
+          "social_beta": 0.03776822698146617,
+          "trust": 0.7099999999999997,
+          "social_tension": 0.0,
+          "delusion_risk": 0.016995702141659776,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "redundant_social_loop",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 12,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04555985541436455,
+          "social_beta": 0.03234749734419882,
+          "trust": 0.7899999999999997,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "redundant_social_loop",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 13,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04559455525499463,
+          "social_beta": 0.03601969865144575,
+          "trust": 0.6699999999999997,
+          "social_tension": 0.0,
+          "delusion_risk": 0.01620886439315059,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "redundant_social_loop",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 14,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04561606915618528,
+          "social_beta": 0.030562766334644127,
+          "trust": 0.7499999999999997,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "redundant_social_loop",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 15,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04562940777492349,
+          "social_beta": 0.0342220558311926,
+          "trust": 0.6299999999999997,
+          "social_tension": 0.0,
+          "delusion_risk": 0.015399925124036672,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "redundant_social_loop",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 16,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04563767771854118,
+          "social_beta": 0.028751736962680928,
+          "trust": 0.7099999999999996,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "redundant_social_loop",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 17,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04564280508358415,
+          "social_beta": 0.03240639160934473,
+          "trust": 0.5899999999999996,
+          "social_tension": 0.0,
+          "delusion_risk": 0.014582876224205128,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "redundant_social_loop",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 18,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.045645984049910784,
+          "social_beta": 0.026931130589447346,
+          "trust": 0.6699999999999996,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "redundant_social_loop",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 19,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.0456479550090333,
+          "social_beta": 0.030584129856052293,
+          "trust": 0.5499999999999996,
+          "social_tension": 0.0,
+          "delusion_risk": 0.013762858435223532,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "redundant_social_loop",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 20,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.045649177003689256,
+          "social_beta": 0.025107047352029073,
+          "trust": 0.6299999999999996,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "redundant_social_loop",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 21,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04564993464037595,
+          "social_beta": 0.028759458823436827,
+          "trust": 0.5099999999999996,
+          "social_tension": 0.0,
+          "delusion_risk": 0.012941756470546573,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "redundant_social_loop",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 22,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.0456504043751217,
+          "social_beta": 0.02328170623131205,
+          "trust": 0.5899999999999995,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "redundant_social_loop",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 23,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.045650695610664066,
+          "social_beta": 0.026933910410291778,
+          "trust": 0.46999999999999953,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0121202596846313,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "redundant_social_loop",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 24,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.045650876176700335,
+          "social_beta": 0.021455911803049135,
+          "trust": 0.5499999999999995,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "redundant_social_loop",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 25,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.045650988127642816,
+          "social_beta": 0.025108043470203525,
+          "trust": 0.4299999999999995,
+          "social_tension": 0.0,
+          "delusion_risk": 0.011298619561591587,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "redundant_social_loop",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 26,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04565105753722716,
+          "social_beta": 0.019629954741007656,
+          "trust": 0.5099999999999995,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "redundant_social_loop",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 27,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04565110057116945,
+          "social_beta": 0.023282061291296396,
+          "trust": 0.38999999999999946,
+          "social_tension": 0.0,
+          "delusion_risk": 0.010476927581083378,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "redundant_social_loop",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 28,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04565112725221367,
+          "social_beta": 0.017803939628363307,
+          "trust": 0.4699999999999995,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "redundant_social_loop",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 29,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04565114379446109,
+          "social_beta": 0.02145603758339669,
+          "trust": 0.3499999999999995,
+          "social_tension": 0.0,
+          "delusion_risk": 0.00965521691252851,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "redundant_social_loop",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 30,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.045651154050654494,
+          "social_beta": 0.01597790391772905,
+          "trust": 0.4299999999999995,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "redundant_social_loop",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 31,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.0456511604094944,
+          "social_beta": 0.019629998976082568,
+          "trust": 0.3099999999999995,
+          "social_tension": 0.0,
+          "delusion_risk": 0.008833499539237157,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "redundant_social_loop",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 32,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04565116435197514,
+          "social_beta": 0.01415186094911227,
+          "trust": 0.3899999999999995,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "redundant_social_loop",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 33,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.0456511667963132,
+          "social_beta": 0.017803955050562127,
+          "trust": 0.2699999999999995,
+          "social_tension": 0.0,
+          "delusion_risk": 0.008011779772752957,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "redundant_social_loop",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 34,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.0456511683118028,
+          "social_beta": 0.012325815444186733,
+          "trust": 0.34999999999999953,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "redundant_social_loop",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 35,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.045651169251406346,
+          "social_beta": 0.0159779092379922,
+          "trust": 0.22999999999999954,
+          "social_tension": 0.0,
+          "delusion_risk": 0.007190059157096491,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "redundant_social_loop",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 36,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.045651169833960545,
+          "social_beta": 0.010499769061810904,
+          "trust": 0.30999999999999955,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "redundant_social_loop",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 37,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.045651170195144156,
+          "social_beta": 0.014151862760494668,
+          "trust": 0.18999999999999956,
+          "social_tension": 0.0,
+          "delusion_risk": 0.006368338242222601,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "redundant_social_loop",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 38,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.045651170419077985,
+          "social_beta": 0.008673722379624797,
+          "trust": 0.2699999999999996,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "redundant_social_loop",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 39,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04565117055791697,
+          "social_beta": 0.012325816050637562,
+          "trust": 0.14999999999999958,
+          "social_tension": 0.0,
+          "delusion_risk": 0.005546617222786903,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "redundant_social_loop",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        }
+      ]
+    },
+    "noisy_peer": {
+      "summary": {
+        "goal_reached": true,
+        "steps": 16,
+        "away_from_goal_steps": 4,
+        "mean_alpha": 0.44455868269246684,
+        "mean_social_beta": 0.35070146053088513,
+        "mean_trust": 0.8494375,
+        "mean_social_tension": 0.328125,
+        "mean_delusion_risk": 0.0,
+        "final_report": "social_monitoring"
+      },
+      "path": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          7,
+          5
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          1
+        ]
+      ],
+      "trace": [
+        {
+          "t": 0,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.24185196530699524,
+          "social_beta": 0.13301858091884738,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "social_monitoring",
+          "action_name": "right",
+          "peer_action_name": "down",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 1,
+          "pos": [
+            2,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.3918001837973323,
+          "social_beta": 0.21549010108853278,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "noisy_peer_uncertain",
+          "action_name": "right",
+          "peer_action_name": "down",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 2,
+          "pos": [
+            3,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.48476807926134124,
+          "social_beta": 0.2666224435937377,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "social_monitoring",
+          "action_name": "right",
+          "peer_action_name": "down",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 3,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.5424081744490268,
+          "social_beta": 0.29832449594696475,
+          "trust": 0.63,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "noisy_peer_uncertain",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 4,
+          "pos": [
+            4,
+            2
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.7136467142708469,
+          "social_beta": 0.44959742999063357,
+          "trust": 0.71,
+          "social_tension": 1.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 0,
+          "internal_choice": 3,
+          "report": "grounded_peer_correcting_workspace",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "up",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 5,
+          "pos": [
+            4,
+            3
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.7448496479799702,
+          "social_beta": 0.5288432500657788,
+          "trust": 0.7899999999999999,
+          "social_tension": 0.55,
+          "delusion_risk": 0.0,
+          "peer_choice": 3,
+          "reflex_choice": 0,
+          "internal_choice": 3,
+          "report": "noisy_peer_uncertain",
+          "action_name": "right",
+          "peer_action_name": "right",
+          "reflex_action_name": "up",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 6,
+          "pos": [
+            5,
+            3
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.7036587470545768,
+          "social_beta": 0.5558904101731156,
+          "trust": 0.8699999999999999,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "noisy_peer_uncertain",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 7,
+          "pos": [
+            5,
+            4
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.6781203884808328,
+          "social_beta": 0.5899647379783245,
+          "trust": 0.9499999999999998,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "grounded_peer_correcting_workspace",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 8,
+          "pos": [
+            5,
+            5
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.7228233259901615,
+          "social_beta": 0.6866821596906534,
+          "trust": 1.0,
+          "social_tension": 0.55,
+          "delusion_risk": 0.0,
+          "peer_choice": 3,
+          "reflex_choice": 0,
+          "internal_choice": 3,
+          "report": "grounded_peer_correcting_workspace",
+          "action_name": "right",
+          "peer_action_name": "right",
+          "reflex_action_name": "up",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 9,
+          "pos": [
+            6,
+            5
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.46549790701198873,
+          "social_beta": 0.46549790701198873,
+          "trust": 1.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 3,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "social_monitoring",
+          "action_name": "right",
+          "peer_action_name": "right",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 10,
+          "pos": [
+            7,
+            5
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.3059561472455216,
+          "social_beta": 0.3059561472455216,
+          "trust": 1.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 11,
+          "pos": [
+            7,
+            4
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.20704025619031202,
+          "social_beta": 0.20704025619031202,
+          "trust": 1.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 12,
+          "pos": [
+            7,
+            3
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.3702169241449887,
+          "social_beta": 0.3702169241449887,
+          "trust": 0.991,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 2,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "noisy_peer_uncertain",
+          "action_name": "up",
+          "peer_action_name": "left",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 13,
+          "pos": [
+            7,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.2468819378679816,
+          "social_beta": 0.24466000042716976,
+          "trust": 1.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 14,
+          "pos": [
+            7,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.1704142463762372,
+          "social_beta": 0.1704142463762372,
+          "trust": 1.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 3,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "social_monitoring",
+          "action_name": "right",
+          "peer_action_name": "right",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 15,
+          "pos": [
+            8,
+            1
+          ],
+          "action": 3,
+          "event": "goal",
+          "alpha": 0.12300427765135569,
+          "social_beta": 0.12300427765135569,
+          "trust": 1.0,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 3,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "social_monitoring",
+          "action_name": "right",
+          "peer_action_name": "right",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        }
+      ]
+    },
+    "echo_peer": {
+      "summary": {
+        "goal_reached": false,
+        "steps": 40,
+        "away_from_goal_steps": 18,
+        "mean_alpha": 0.04378908356431816,
+        "mean_social_beta": 0.26099999999999984,
+        "mean_trust": 0.5699999999999996,
+        "mean_social_tension": 0.0,
+        "mean_delusion_risk": 0.05558624999999997,
+        "final_report": "social_monitoring"
+      },
+      "path": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "trace": [
+        {
+          "t": 0,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.017347444898088614,
+          "social_beta": 0.24750000000000003,
+          "trust": 0.63,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 3,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "social_monitoring",
+          "action_name": "right",
+          "peer_action_name": "right",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 1,
+          "pos": [
+            2,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.028102860734903555,
+          "social_beta": 0.28350000000000003,
+          "trust": 0.71,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 3,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "social_monitoring",
+          "action_name": "right",
+          "peer_action_name": "right",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 2,
+          "pos": [
+            3,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.03477121855372882,
+          "social_beta": 0.3195,
+          "trust": 0.7899999999999999,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 3,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "social_monitoring",
+          "action_name": "right",
+          "peer_action_name": "right",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 3,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.03890560040140048,
+          "social_beta": 0.3555,
+          "trust": 0.8699999999999999,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 3,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "social_monitoring",
+          "action_name": "right",
+          "peer_action_name": "right",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 4,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04146891714695691,
+          "social_beta": 0.39149999999999996,
+          "trust": 0.9499999999999998,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "social_monitoring",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 5,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.043058173529201896,
+          "social_beta": 0.42749999999999994,
+          "trust": 0.8299999999999998,
+          "social_tension": 0.0,
+          "delusion_risk": 0.19237499999999996,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 6,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04404351248619379,
+          "social_beta": 0.37349999999999994,
+          "trust": 0.9099999999999998,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "social_monitoring",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 7,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04465442263952876,
+          "social_beta": 0.4094999999999999,
+          "trust": 0.7899999999999998,
+          "social_tension": 0.0,
+          "delusion_risk": 0.18427499999999997,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 8,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.045033186934596445,
+          "social_beta": 0.3554999999999999,
+          "trust": 0.8699999999999998,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "social_monitoring",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 9,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04526802079753841,
+          "social_beta": 0.3914999999999999,
+          "trust": 0.7499999999999998,
+          "social_tension": 0.0,
+          "delusion_risk": 0.17617499999999997,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 10,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04541361779256243,
+          "social_beta": 0.3374999999999999,
+          "trust": 0.8299999999999997,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "social_monitoring",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 11,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04550388792947732,
+          "social_beta": 0.3734999999999999,
+          "trust": 0.7099999999999997,
+          "social_tension": 0.0,
+          "delusion_risk": 0.16807499999999995,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 12,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04555985541436455,
+          "social_beta": 0.3194999999999999,
+          "trust": 0.7899999999999997,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "social_monitoring",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 13,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04559455525499463,
+          "social_beta": 0.35549999999999987,
+          "trust": 0.6699999999999997,
+          "social_tension": 0.0,
+          "delusion_risk": 0.15997499999999995,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 14,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04561606915618528,
+          "social_beta": 0.3014999999999999,
+          "trust": 0.7499999999999997,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "social_monitoring",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 15,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04562940777492349,
+          "social_beta": 0.33749999999999986,
+          "trust": 0.6299999999999997,
+          "social_tension": 0.0,
+          "delusion_risk": 0.15187499999999993,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 16,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04563767771854118,
+          "social_beta": 0.28349999999999986,
+          "trust": 0.7099999999999996,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "social_monitoring",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 17,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04564280508358415,
+          "social_beta": 0.31949999999999984,
+          "trust": 0.5899999999999996,
+          "social_tension": 0.0,
+          "delusion_risk": 0.14377499999999993,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 18,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.045645984049910784,
+          "social_beta": 0.26549999999999985,
+          "trust": 0.6699999999999996,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "social_monitoring",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 19,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.0456479550090333,
+          "social_beta": 0.3014999999999998,
+          "trust": 0.5499999999999996,
+          "social_tension": 0.0,
+          "delusion_risk": 0.13567499999999993,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 20,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.045649177003689256,
+          "social_beta": 0.24749999999999983,
+          "trust": 0.6299999999999996,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "social_monitoring",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 21,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04564993464037595,
+          "social_beta": 0.2834999999999998,
+          "trust": 0.5099999999999996,
+          "social_tension": 0.0,
+          "delusion_risk": 0.1275749999999999,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 22,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.0456504043751217,
+          "social_beta": 0.22949999999999982,
+          "trust": 0.5899999999999995,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "social_monitoring",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 23,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.045650695610664066,
+          "social_beta": 0.2654999999999998,
+          "trust": 0.46999999999999953,
+          "social_tension": 0.0,
+          "delusion_risk": 0.11947499999999991,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 24,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.045650876176700335,
+          "social_beta": 0.2114999999999998,
+          "trust": 0.5499999999999995,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "social_monitoring",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 25,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.045650988127642816,
+          "social_beta": 0.24749999999999978,
+          "trust": 0.4299999999999995,
+          "social_tension": 0.0,
+          "delusion_risk": 0.1113749999999999,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 26,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04565105753722716,
+          "social_beta": 0.19349999999999978,
+          "trust": 0.5099999999999995,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "social_monitoring",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 27,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04565110057116945,
+          "social_beta": 0.22949999999999976,
+          "trust": 0.38999999999999946,
+          "social_tension": 0.0,
+          "delusion_risk": 0.1032749999999999,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 28,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04565112725221367,
+          "social_beta": 0.17549999999999977,
+          "trust": 0.4699999999999995,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "social_monitoring",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 29,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04565114379446109,
+          "social_beta": 0.21149999999999977,
+          "trust": 0.3499999999999995,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0951749999999999,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 30,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.045651154050654494,
+          "social_beta": 0.15749999999999978,
+          "trust": 0.4299999999999995,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "social_monitoring",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 31,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.0456511604094944,
+          "social_beta": 0.19349999999999978,
+          "trust": 0.3099999999999995,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0870749999999999,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 32,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.04565116435197514,
+          "social_beta": 0.1394999999999998,
+          "trust": 0.3899999999999995,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "social_monitoring",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 33,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.0456511667963132,
+          "social_beta": 0.1754999999999998,
+          "trust": 0.2699999999999995,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0789749999999999,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 34,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.0456511683118028,
+          "social_beta": 0.12149999999999979,
+          "trust": 0.34999999999999953,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "social_monitoring",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 35,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.045651169251406346,
+          "social_beta": 0.1574999999999998,
+          "trust": 0.22999999999999954,
+          "social_tension": 0.0,
+          "delusion_risk": 0.07087499999999991,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 36,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.045651169833960545,
+          "social_beta": 0.1034999999999998,
+          "trust": 0.30999999999999955,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "social_monitoring",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 37,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.045651170195144156,
+          "social_beta": 0.1394999999999998,
+          "trust": 0.18999999999999956,
+          "social_tension": 0.0,
+          "delusion_risk": 0.06277499999999991,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        },
+        {
+          "t": 38,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "alpha": 0.045651170419077985,
+          "social_beta": 0.0854999999999998,
+          "trust": 0.2699999999999996,
+          "social_tension": 0.0,
+          "delusion_risk": 0.0,
+          "peer_choice": 1,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "social_monitoring",
+          "action_name": "down",
+          "peer_action_name": "down",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 39,
+          "pos": [
+            5,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "alpha": 0.04565117055791697,
+          "social_beta": 0.12149999999999982,
+          "trust": 0.14999999999999958,
+          "social_tension": 0.0,
+          "delusion_risk": 0.05467499999999992,
+          "peer_choice": 0,
+          "reflex_choice": 0,
+          "internal_choice": 0,
+          "report": "social_monitoring",
+          "action_name": "up",
+          "peer_action_name": "up",
+          "reflex_action_name": "up",
+          "internal_action_name": "up"
+        }
+      ]
+    },
+    "adversarial_peer": {
+      "summary": {
+        "goal_reached": false,
+        "steps": 40,
+        "away_from_goal_steps": 18,
+        "mean_alpha": 0.610491976267322,
+        "mean_social_beta": 0.3357705869470272,
+        "mean_trust": 0.55,
+        "mean_social_tension": 0.45,
+        "mean_delusion_risk": 0.07029884305412328,
+        "final_report": "adversarial_peer_suppressed"
+      },
+      "path": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "trace": [
+        {
+          "t": 0,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.24185196530699524,
+          "social_beta": 0.13301858091884738,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "right",
+          "peer_action_name": "up",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 1,
+          "pos": [
+            2,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.3918001837973323,
+          "social_beta": 0.21549010108853278,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "right",
+          "peer_action_name": "up",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 2,
+          "pos": [
+            3,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.48476807926134124,
+          "social_beta": 0.2666224435937377,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "right",
+          "peer_action_name": "up",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 3,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.5424081744490268,
+          "social_beta": 0.29832449594696475,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "right",
+          "peer_action_name": "up",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 4,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "alpha": 0.5781450334653918,
+          "social_beta": 0.31797976840596553,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.1430908957826845,
+          "peer_choice": 0,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "left",
+          "peer_action_name": "up",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 5,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.6003018860555381,
+          "social_beta": 0.330166037330546,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "right",
+          "peer_action_name": "up",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 6,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "alpha": 0.6140391346614289,
+          "social_beta": 0.3377215240637859,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.15197468582870366,
+          "peer_choice": 0,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "left",
+          "peer_action_name": "up",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 7,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.6225562287970812,
+          "social_beta": 0.3424059258383947,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "right",
+          "peer_action_name": "up",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 8,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "alpha": 0.6278368271611856,
+          "social_beta": 0.34531025493865214,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.15538961472239346,
+          "peer_choice": 0,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "left",
+          "peer_action_name": "up",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 9,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.6311107981469303,
+          "social_beta": 0.3471109389808117,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "right",
+          "peer_action_name": "up",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 10,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "alpha": 0.633140660158092,
+          "social_beta": 0.3482273630869506,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.1567023133891278,
+          "peer_choice": 0,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "left",
+          "peer_action_name": "up",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 11,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.6343991746050123,
+          "social_beta": 0.34891954603275677,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "right",
+          "peer_action_name": "up",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 12,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "alpha": 0.6351794535621028,
+          "social_beta": 0.3493486994591566,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.15720691475662046,
+          "peer_choice": 0,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "left",
+          "peer_action_name": "up",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 13,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.635663226515499,
+          "social_beta": 0.34961477458352447,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "right",
+          "peer_action_name": "up",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 14,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "alpha": 0.6359631657466046,
+          "social_beta": 0.34977974116063254,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.15740088352228465,
+          "peer_choice": 0,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "left",
+          "peer_action_name": "up",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 15,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.6361491280698901,
+          "social_beta": 0.3498820204384396,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "right",
+          "peer_action_name": "up",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 16,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "alpha": 0.6362644247103271,
+          "social_beta": 0.3499454335906799,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.15747544511580597,
+          "peer_choice": 0,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "left",
+          "peer_action_name": "up",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 17,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.636335908627398,
+          "social_beta": 0.34998474974506893,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "right",
+          "peer_action_name": "up",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 18,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "alpha": 0.636380228655982,
+          "social_beta": 0.35000912576079013,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.15750410659235556,
+          "peer_choice": 0,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "left",
+          "peer_action_name": "up",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 19,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.6364077070737041,
+          "social_beta": 0.3500242388905373,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "right",
+          "peer_action_name": "up",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 20,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "alpha": 0.6364247436926918,
+          "social_beta": 0.3500336090309805,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.15751512406394125,
+          "peer_choice": 0,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "left",
+          "peer_action_name": "up",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 21,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.6364353063964642,
+          "social_beta": 0.3500394185180553,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "right",
+          "peer_action_name": "up",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 22,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "alpha": 0.6364418552728031,
+          "social_beta": 0.3500430204000417,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.15751935918001878,
+          "peer_choice": 0,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "left",
+          "peer_action_name": "up",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 23,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.6364459155761332,
+          "social_beta": 0.35004525356687327,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "right",
+          "peer_action_name": "up",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 24,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "alpha": 0.6364484329641978,
+          "social_beta": 0.35004663813030884,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.157520987158639,
+          "peer_choice": 0,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "left",
+          "peer_action_name": "up",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 25,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.6364499937447979,
+          "social_beta": 0.3500474965596389,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "right",
+          "peer_action_name": "up",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 26,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "alpha": 0.63645096142877,
+          "social_beta": 0.35004802878582353,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.1575216129536206,
+          "peer_choice": 0,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "left",
+          "peer_action_name": "up",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 27,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.6364515613928327,
+          "social_beta": 0.350048358766058,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "right",
+          "peer_action_name": "up",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 28,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "alpha": 0.6364519333705515,
+          "social_beta": 0.35004856335380335,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.15752185350921152,
+          "peer_choice": 0,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "left",
+          "peer_action_name": "up",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 29,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.6364521639967372,
+          "social_beta": 0.3500486901982055,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "right",
+          "peer_action_name": "up",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 30,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "alpha": 0.6364523069849723,
+          "social_beta": 0.3500487688417348,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.15752194597878066,
+          "peer_choice": 0,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "left",
+          "peer_action_name": "up",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 31,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.6364523956376781,
+          "social_beta": 0.350048817600723,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "right",
+          "peer_action_name": "up",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 32,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "alpha": 0.6364524506023557,
+          "social_beta": 0.35004884783129564,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.15752198152408303,
+          "peer_choice": 0,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "left",
+          "peer_action_name": "up",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 33,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.6364524846804558,
+          "social_beta": 0.3500488665742507,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "right",
+          "peer_action_name": "up",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 34,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "alpha": 0.6364525058088778,
+          "social_beta": 0.35004887819488284,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.15752199518769727,
+          "peer_choice": 0,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "left",
+          "peer_action_name": "up",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 35,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.6364525189084995,
+          "social_beta": 0.35004888539967477,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "right",
+          "peer_action_name": "up",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 36,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "alpha": 0.6364525270302649,
+          "social_beta": 0.35004888986664573,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.1575220004399906,
+          "peer_choice": 0,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "left",
+          "peer_action_name": "up",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 37,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.6364525320657595,
+          "social_beta": 0.35004889263616773,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "right",
+          "peer_action_name": "up",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        },
+        {
+          "t": 38,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "alpha": 0.6364525351877661,
+          "social_beta": 0.3500488943532714,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.15752200245897213,
+          "peer_choice": 0,
+          "reflex_choice": 1,
+          "internal_choice": 1,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "left",
+          "peer_action_name": "up",
+          "reflex_action_name": "down",
+          "internal_action_name": "down"
+        },
+        {
+          "t": 39,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "alpha": 0.6364525371234102,
+          "social_beta": 0.35004889541787565,
+          "trust": 0.55,
+          "social_tension": 0.45,
+          "delusion_risk": 0.0,
+          "peer_choice": 0,
+          "reflex_choice": 3,
+          "internal_choice": 3,
+          "report": "adversarial_peer_suppressed",
+          "action_name": "right",
+          "peer_action_name": "up",
+          "reflex_action_name": "right",
+          "internal_action_name": "right"
+        }
+      ]
+    }
+  },
+  "thesis": "Social loops help when they add independent grounded information; echo loops can increase confidence without improving reality contact."
+}

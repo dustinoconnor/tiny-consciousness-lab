@@ -930,6 +930,47 @@ The capstone result is the cleanest version of the project arc:
 
 ![Unified toy mind trace](outputs/unified_mind_trace.png)
 
+## Social Workspace Test
+
+`social_workspace_lab.py` asks whether another agent helps the system think, or
+just creates a confidence-amplifying loop.
+
+The primary agent has local reflex valence plus a limited internal world model.
+The social peer can be:
+
+- `grounded_peer` - independent longer-horizon critic
+- `redundant_peer` - repeats the primary agent's limited internal model
+- `noisy_peer` - sometimes grounded, sometimes random
+- `echo_peer` - amplifies the reflex choice without new evidence
+- `adversarial_peer` - pushes the wrong-looking option
+
+Result across 30 runs:
+
+```text
+condition          goal_rate  steps   social_beta  tension  delusion
+none               0.00       40.0    0.000        0.000    0.000
+grounded_peer      1.00       18.0    0.259        0.231    0.007
+redundant_peer     0.00       40.0    0.025        0.000    0.006
+noisy_peer         0.30       36.8    0.324        0.350    0.055
+echo_peer          0.00       40.0    0.261        0.000    0.056
+adversarial_peer   0.00       40.0    0.336        0.450    0.070
+```
+
+The grounded peer solved the maze every time because it added independent,
+reality-contacting information. The redundant peer did not help. The echo peer
+increased social confidence without adding information, which raised delusion
+risk without improving behavior. The noisy peer helped sometimes but was not
+reliable.
+
+> Social loops help when they provide independent grounded error correction.
+> They hurt, or merely waste computation, when they only amplify confidence.
+
+![Social workspace summary](outputs/social_workspace_summary.png)
+
+![Social workspace paths](outputs/social_workspace_paths.png)
+
+![Social workspace grounded trace](outputs/social_workspace_grounded_trace.png)
+
 ## Explainer Video Angle
 
 This project could be turned into a short narrated explainer:
@@ -969,7 +1010,9 @@ This project could be turned into a short narrated explainer:
     when the self-model feeds back into future control.
 15. Show the unified toy mind capstone: reflex-only control fails at the maze
     trap, while the integrated pretrained-world-model agent reaches the goal.
-16. End with the thesis: capacity without grounded valence is unstable; valence
+16. Show the social workspace test: independent grounded peers improve control,
+    while echo peers create confidence without new reality contact.
+17. End with the thesis: capacity without grounded valence is unstable; valence
    without boundaries is exploitable; imagination without reality-checking is
    delusional; attention should be rewarded for staying grounded;
    specialization and integration must be balanced; self-representation matters
@@ -1000,6 +1043,7 @@ cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 conditional_workspace_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 self_report_workspace_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 unified_mind_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 social_workspace_lab.py
 ```
 
 Outputs land in:
@@ -1027,6 +1071,7 @@ Outputs land in:
 - `conditional_workspace_lab.py` - dynamic workspace coupling from module tension
 - `self_report_workspace_lab.py` - persistent self-model and symbolic introspection test
 - `unified_mind_lab.py` - readable capstone combining valence, imagination, workspace, self-model, and pretrained world-model lookahead
+- `social_workspace_lab.py` - social peer/workspace comparison for grounded critics vs echo loops
 - `outputs/metrics.json` - recurrent agent metrics
 - `outputs/hidden_binarization_metrics.json` - empirical integration on binarized trained hidden states
 - `outputs/exact_phi_metrics.json` - exact Phi proxy metrics
@@ -1044,6 +1089,7 @@ Outputs land in:
 - `outputs/conditional_workspace_metrics.json` - conditional workspace coupling metrics
 - `outputs/self_report_workspace_metrics.json` - self-report workspace metrics
 - `outputs/unified_mind_metrics.json` - unified capstone metrics and traces
+- `outputs/social_workspace_metrics.json` - social workspace metrics and example traces
 
 ## Next Steps
 

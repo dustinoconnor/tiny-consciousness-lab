@@ -1165,6 +1165,49 @@ safe route.
 
 ![Partial observer trace](outputs/partial_observer_social_trace.png)
 
+## Hierarchical Workspace Test
+
+`hierarchical_workspace_lab.py` asks whether one centralized workspace is
+enough, or whether a brain-like hierarchy of local workspaces plus a higher
+controller can adapt more efficiently.
+
+This is only a toy abstraction, not a literal brain model. The analogy is:
+
+- `spatial/reflex workspace` - fast local sensorimotor-style processing
+- `context/valence workspace` - tracks which policy rule is currently rewarded
+- `master workspace` - prefrontal-like coordinator that reads compressed
+  tension/confidence summaries instead of all raw sensory detail
+
+The world flips its hidden action rule halfway through. Before the shift, the
+direct sensory rule is correct. After the shift, the opposite context rule is
+correct. The test asks how quickly each architecture recovers.
+
+Result:
+
+```text
+condition                       early_post  late_post  recovery  efficiency
+monolithic_workspace            0.686       1.000      16 steps  0.851
+flat_multi_workspace            0.057       0.965      43 steps  0.755
+hierarchical_master_workspace   0.714       1.000      15 steps  0.858
+bad_hierarchy_bureaucracy       0.314       1.000      29 steps  0.781
+```
+
+The flat multi-workspace system performs badly because two local controllers
+vote without a master that can resolve conflict. The fast hierarchy performs
+best: it lets local workspaces compress their evidence, then lets the master
+shift control when cross-module tension rises. The slow hierarchy eventually
+learns, but its delayed master gate costs almost twice as many recovery steps.
+
+This is the cortex-style lesson in miniature:
+
+> Specialized workspaces help when they compress local evidence and report
+> tension upward. A master controller helps only if it can re-route control
+> faster than the world changes. Otherwise hierarchy becomes bureaucracy.
+
+![Hierarchical workspace summary](outputs/hierarchical_workspace_summary.png)
+
+![Hierarchical workspace timeseries](outputs/hierarchical_workspace_timeseries.png)
+
 ## Explainer Video Angle
 
 This project could be turned into a short narrated explainer:
@@ -1208,7 +1251,10 @@ This project could be turned into a short narrated explainer:
     while echo peers create confidence without new reality contact.
 17. Show the partial-observer social workspace: map-only and safety-only fail
     alone, but combined complementary observers match the full oracle.
-18. End with the thesis: capacity without grounded valence is unstable; valence
+18. Show the hierarchical workspace test: cortex-like local workspaces only help
+    when a fast master controller can arbitrate conflict without adding
+    bureaucratic delay.
+19. End with the thesis: capacity without grounded valence is unstable; valence
    without boundaries is exploitable; imagination without reality-checking is
    delusional; attention should be rewarded for staying grounded;
    specialization and integration must be balanced; self-representation matters
@@ -1242,6 +1288,7 @@ cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 unified_mind_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 social_workspace_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 partial_observer_social_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 hierarchical_workspace_lab.py
 ```
 
 Outputs land in:
@@ -1272,6 +1319,7 @@ Outputs land in:
 - `unified_mind_lab.py` - readable capstone combining valence, imagination, workspace, self-model, and pretrained world-model lookahead
 - `social_workspace_lab.py` - social peer/workspace comparison for grounded critics vs echo loops
 - `partial_observer_social_lab.py` - complementary partial observers with map/safety information split
+- `hierarchical_workspace_lab.py` - cortex-like local workspaces plus master-controller rule-shift test
 - `outputs/metrics.json` - recurrent agent metrics
 - `outputs/hidden_binarization_metrics.json` - empirical integration on binarized trained hidden states
 - `outputs/pyphi_comparison_metrics.json` - PyPhi comparison metrics
@@ -1292,6 +1340,7 @@ Outputs land in:
 - `outputs/unified_mind_metrics.json` - unified capstone metrics and traces
 - `outputs/social_workspace_metrics.json` - social workspace metrics and example traces
 - `outputs/partial_observer_social_metrics.json` - complementary observer metrics and traces
+- `outputs/hierarchical_workspace_metrics.json` - hierarchical workspace metrics and traces
 
 ## Next Steps
 

@@ -1,0 +1,63 @@
+{
+  "note": "Compares monolithic, flat multi-workspace, fast hierarchical master, and slow bureaucratic hierarchy on a rule-shift task. The hierarchy is brain-inspired: local workspaces compress sensorimotor/context signals and a master controller gates which workspace controls action.",
+  "shift_step": 120,
+  "summary": {
+    "monolithic_workspace": {
+      "pre_shift_accuracy": 1.0,
+      "early_post_shift_accuracy": 0.6857142857142857,
+      "late_post_shift_accuracy": 1.0,
+      "recovery_steps_to_82pct": 16,
+      "mean_master_beta": 0.38924222590378593,
+      "early_master_beta": 0.7310585786300049,
+      "late_master_beta": 0.731058578630005,
+      "mean_module_conflict": 0.4666666666666667,
+      "mean_tension": 0.39397023792981406,
+      "mean_latency_cost": 0.019462111295189287,
+      "workspace_efficiency": 0.8507045553714772,
+      "final_context_rule_1_belief": 0.9517742970515652
+    },
+    "flat_multi_workspace": {
+      "pre_shift_accuracy": 1.0,
+      "early_post_shift_accuracy": 0.05714285714285714,
+      "late_post_shift_accuracy": 0.9647058823529412,
+      "recovery_steps_to_82pct": 43,
+      "mean_master_beta": 0.5,
+      "early_master_beta": 0.5,
+      "late_master_beta": 0.5,
+      "mean_module_conflict": 0.44583333333333336,
+      "mean_tension": 0.3887619043307453,
+      "mean_latency_cost": 0.015000000000000006,
+      "workspace_efficiency": 0.7547499999999998,
+      "final_context_rule_1_belief": 0.9486522961633345
+    },
+    "hierarchical_master_workspace": {
+      "pre_shift_accuracy": 1.0,
+      "early_post_shift_accuracy": 0.7142857142857143,
+      "late_post_shift_accuracy": 1.0,
+      "recovery_steps_to_82pct": 15,
+      "mean_master_beta": 0.4849027597630468,
+      "early_master_beta": 0.8165841574426626,
+      "late_master_beta": 0.966531611965484,
+      "mean_module_conflict": 0.4625,
+      "mean_tension": 0.3929285712247196,
+      "mean_latency_cost": 0.016971596591706644,
+      "workspace_efficiency": 0.8581117367416267,
+      "final_context_rule_1_belief": 0.9523809506284777
+    },
+    "bad_hierarchy_bureaucracy": {
+      "pre_shift_accuracy": 1.0,
+      "early_post_shift_accuracy": 0.3142857142857143,
+      "late_post_shift_accuracy": 1.0,
+      "recovery_steps_to_82pct": 29,
+      "mean_master_beta": 0.4234256067270697,
+      "early_master_beta": 0.48314800228809307,
+      "late_master_beta": 0.9374052238322264,
+      "mean_module_conflict": 0.425,
+      "mean_tension": 0.38355357043253097,
+      "mean_latency_cost": 0.04234256067270699,
+      "workspace_efficiency": 0.781157439327293,
+      "final_context_rule_1_belief": 0.9523803884633679
+    }
+  },
+  "thesis": "Multiple workspaces help only when a master controller receives compressed tension/confidence signals and can re-route control faster than a monolithic system. A slow hierarchy becomes bureaucracy."
+}

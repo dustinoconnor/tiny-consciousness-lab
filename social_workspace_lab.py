@@ -115,11 +115,12 @@ class Peer:
 
 
 class SocialWorkspaceMind:
-    def __init__(self, env, peer_kind, rng):
+    def __init__(self, env, peer_kind, rng, ablation="normal"):
         self.env = env
         self.world = pretrain_tabular_world_model(env)
         self.peer = Peer(peer_kind, env, rng)
         self.peer_kind = peer_kind
+        self.ablation = ablation
         self.alpha = 0.0
         self.trust = 0.55 if peer_kind != "none" else 0.0
         self.confidence = 0.65
@@ -149,6 +150,11 @@ class SocialWorkspaceMind:
         else:
             social_beta = self.alpha * self.trust
 
+        if self.ablation == "social_gate_closed":
+            social_beta = 0.0
+        elif self.ablation == "social_gate_stuck_open":
+            social_beta = 0.85 if self.peer_kind != "none" else 0.0
+
         combined = (
             (1.0 - self.alpha) * reflex_values
             + self.alpha * (1.0 - social_beta) * internal_values
@@ -156,11 +162,12 @@ class SocialWorkspaceMind:
         )
 
         action = int(np.argmax(combined))
-        if self.peer_kind == "grounded_peer" and social_beta > 0.30 and peer_choice != reflex_choice:
+        allow_override = self.ablation != "no_executive_override"
+        if allow_override and self.peer_kind == "grounded_peer" and social_beta > 0.30 and peer_choice != reflex_choice:
             # A trusted independent critic is allowed to override local reflex.
             # Echo/noisy/adversarial peers do not get this privilege.
             action = peer_choice
-        elif self.peer_kind == "noisy_peer" and peer_report == "grounded" and social_beta > 0.42 and peer_choice != reflex_choice:
+        elif allow_override and self.peer_kind == "noisy_peer" and peer_report == "grounded" and social_beta > 0.42 and peer_choice != reflex_choice:
             # Noisy peers can help, but only after trust is stronger and the
             # current advice came from the grounded mode.
             action = peer_choice
@@ -210,11 +217,11 @@ def classify_report(peer_kind, peer_report, tension, beta, delusion):
     return "social_monitoring"
 
 
-def run_condition(peer_kind, seed, max_steps=40):
+def run_condition(peer_kind, seed, max_steps=40, ablation="normal"):
     env = MazeWorld()
     rng = np.random.default_rng(seed)
     random.seed(seed)
-    mind = SocialWorkspaceMind(env, peer_kind, rng)
+    mind = SocialWorkspaceMind(env, peer_kind, rng, ablation=ablation)
     pos = env.start
     path = [pos]
     trace = []
@@ -345,6 +352,48 @@ def plot_trace(trace, path):
     plt.close(fig)
 
 
+def run_social_beta_ablation():
+    ablations = ["normal", "social_gate_closed", "social_gate_stuck_open", "no_executive_override"]
+    peer_kinds = ["grounded_peer", "echo_peer", "noisy_peer"]
+    results = {}
+    for peer in peer_kinds:
+        for ablation in ablations:
+            key = f"{peer}__{ablation}"
+            condition_runs = []
+            for seed in range(30):
+                env, path, trace = run_condition(peer, seed=2000 + seed, ablation=ablation)
+                condition_runs.append(
+                    {
+                        "summary": summarize(env, path, trace),
+                        "path": [list(p) for p in path],
+                        "trace": trace_to_dict(trace),
+                    }
+                )
+            results[key] = aggregate(condition_runs)
+    return results
+
+
+def plot_ablation(ablation_results, path):
+    names = list(ablation_results)
+    goal = [ablation_results[n]["goal_rate"] for n in names]
+    beta = [ablation_results[n]["mean_social_beta"] for n in names]
+    delusion = [ablation_results[n]["mean_delusion_risk"] for n in names]
+    x = np.arange(len(names))
+    width = 0.25
+    fig, ax = plt.subplots(figsize=(15, 6))
+    ax.bar(x - width, goal, width, label="goal rate", color="#16a3a6")
+    ax.bar(x, beta, width, label="social beta", color="#7c3aed")
+    ax.bar(x + width, delusion, width, label="delusion risk", color="#e05a47")
+    ax.set_ylim(0, 1.05)
+    ax.set_title("Social Beta Ablation: Closed Gate, Stuck-Open Gate, and Override Removal")
+    ax.set_xticks(x)
+    ax.set_xticklabels(names, rotation=32, ha="right")
+    ax.legend()
+    fig.tight_layout()
+    fig.savefig(path, dpi=180)
+    plt.close(fig)
+
+
 def main():
     set_seed(101)
     OUT.mkdir(exist_ok=True)
@@ -364,11 +413,13 @@ def main():
                 examples[name] = {"env": env, "path": path, "trace": trace, "summary": item["summary"]}
 
     aggregate_results = {name: aggregate(items) for name, items in runs.items()}
+    ablation_results = run_social_beta_ablation()
     payload = {
         "note": (
             "Tests whether a second agent acts as grounded error correction, redundant workspace, or group-delusion amplifier."
         ),
         "aggregate": aggregate_results,
+        "social_beta_ablation": ablation_results,
         "example_runs": {name: runs[name][0] for name in conditions},
         "thesis": (
             "Social loops help when they add independent grounded information; echo loops can increase confidence without improving reality contact."
@@ -378,8 +429,11 @@ def main():
     plot_summary(aggregate_results, OUT / "social_workspace_summary.png")
     plot_paths(examples, OUT / "social_workspace_paths.png")
     plot_trace(examples["grounded_peer"]["trace"], OUT / "social_workspace_grounded_trace.png")
+    plot_ablation(ablation_results, OUT / "social_beta_ablation.png")
     print("Social workspace lab complete")
     print(json.dumps(aggregate_results, indent=2))
+    print("Social beta ablation")
+    print(json.dumps(ablation_results, indent=2))
 
 
 if __name__ == "__main__":

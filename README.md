@@ -971,6 +971,33 @@ reliable.
 
 ![Social workspace grounded trace](outputs/social_workspace_grounded_trace.png)
 
+### Social Beta Ablation
+
+The ablation asks whether `social_beta` actually has causal influence.
+
+```text
+condition                         goal_rate  social_beta  delusion
+grounded_peer normal              1.00       0.259        0.007
+grounded_peer gate_closed         0.00       0.000        0.000
+grounded_peer stuck_open          1.00       0.850        0.000
+grounded_peer no_override         0.00       0.311        0.079
+echo_peer normal                  0.00       0.261        0.056
+echo_peer gate_closed             0.00       0.000        0.000
+echo_peer stuck_open              0.00       0.850        0.172
+noisy_peer normal                 0.27       0.321        0.058
+noisy_peer gate_closed            0.00       0.000        0.000
+noisy_peer stuck_open             0.93       0.850        0.082
+noisy_peer no_override            0.00       0.280        0.067
+```
+
+Closing the social gate destroys the grounded-peer advantage. Keeping the gate
+open helps when the peer is usually grounded, but it also makes echo loops more
+delusional. Removing executive override destroys the benefit even when
+`social_beta` is nonzero. So the useful ingredient is not just social input; it
+is trusted social input plus a mechanism that can override local reflex.
+
+![Social beta ablation](outputs/social_beta_ablation.png)
+
 ## Explainer Video Angle
 
 This project could be turned into a short narrated explainer:

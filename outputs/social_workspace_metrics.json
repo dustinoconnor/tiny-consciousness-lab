@@ -68,6 +68,140 @@
       "failures": 30
     }
   },
+  "social_beta_ablation": {
+    "grounded_peer__normal": {
+      "goal_rate": 1.0,
+      "steps": 18.0,
+      "away_from_goal_steps": 5.0,
+      "mean_alpha": 0.3438423116217463,
+      "mean_social_beta": 0.25887287059805947,
+      "mean_trust": 0.8206666666666668,
+      "mean_social_tension": 0.23055555555555549,
+      "mean_delusion_risk": 0.007262468063581753,
+      "failures": 0
+    },
+    "grounded_peer__social_gate_closed": {
+      "goal_rate": 0.0,
+      "steps": 40.0,
+      "away_from_goal_steps": 18.0,
+      "mean_alpha": 0.3538542335644496,
+      "mean_social_beta": 0.0,
+      "mean_trust": 0.8974145705536001,
+      "mean_social_tension": 0.24749999999999991,
+      "mean_delusion_risk": 0.0,
+      "failures": 30
+    },
+    "grounded_peer__social_gate_stuck_open": {
+      "goal_rate": 1.0,
+      "steps": 16.0,
+      "away_from_goal_steps": 4.0,
+      "mean_alpha": 0.4872648583731026,
+      "mean_social_beta": 0.8500000000000002,
+      "mean_trust": 0.9343749999999997,
+      "mean_social_tension": 0.3874999999999999,
+      "mean_delusion_risk": 0.0,
+      "failures": 0
+    },
+    "grounded_peer__no_executive_override": {
+      "goal_rate": 0.0,
+      "steps": 40.0,
+      "away_from_goal_steps": 18.0,
+      "mean_alpha": 0.3538542335644496,
+      "mean_social_beta": 0.31077720855041124,
+      "mean_trust": 0.8974145705536001,
+      "mean_social_tension": 0.24749999999999991,
+      "mean_delusion_risk": 0.07873076588390185,
+      "failures": 30
+    },
+    "echo_peer__normal": {
+      "goal_rate": 0.0,
+      "steps": 40.0,
+      "away_from_goal_steps": 18.0,
+      "mean_alpha": 0.043789083564318175,
+      "mean_social_beta": 0.2609999999999999,
+      "mean_trust": 0.5699999999999997,
+      "mean_social_tension": 0.0,
+      "mean_delusion_risk": 0.05558624999999996,
+      "failures": 30
+    },
+    "echo_peer__social_gate_closed": {
+      "goal_rate": 0.0,
+      "steps": 40.0,
+      "away_from_goal_steps": 18.0,
+      "mean_alpha": 0.043789083564318175,
+      "mean_social_beta": 0.0,
+      "mean_trust": 0.5699999999999997,
+      "mean_social_tension": 0.0,
+      "mean_delusion_risk": 0.0,
+      "failures": 30
+    },
+    "echo_peer__social_gate_stuck_open": {
+      "goal_rate": 0.0,
+      "steps": 40.0,
+      "away_from_goal_steps": 18.0,
+      "mean_alpha": 0.043789083564318175,
+      "mean_social_beta": 0.8500000000000002,
+      "mean_trust": 0.5699999999999997,
+      "mean_social_tension": 0.0,
+      "mean_delusion_risk": 0.17212500000000006,
+      "failures": 30
+    },
+    "echo_peer__no_executive_override": {
+      "goal_rate": 0.0,
+      "steps": 40.0,
+      "away_from_goal_steps": 18.0,
+      "mean_alpha": 0.043789083564318175,
+      "mean_social_beta": 0.2609999999999999,
+      "mean_trust": 0.5699999999999997,
+      "mean_social_tension": 0.0,
+      "mean_delusion_risk": 0.05558624999999996,
+      "failures": 30
+    },
+    "noisy_peer__normal": {
+      "goal_rate": 0.26666666666666666,
+      "steps": 37.13333333333333,
+      "away_from_goal_steps": 16.0,
+      "mean_alpha": 0.44811104518340383,
+      "mean_social_beta": 0.32112563303978714,
+      "mean_trust": 0.7133230060760325,
+      "mean_social_tension": 0.3408214643936206,
+      "mean_delusion_risk": 0.0576716964099808,
+      "failures": 22
+    },
+    "noisy_peer__social_gate_closed": {
+      "goal_rate": 0.0,
+      "steps": 40.0,
+      "away_from_goal_steps": 18.0,
+      "mean_alpha": 0.4072338944997124,
+      "mean_social_beta": 0.0,
+      "mean_trust": 0.787339131363245,
+      "mean_social_tension": 0.290625,
+      "mean_delusion_risk": 0.0,
+      "failures": 30
+    },
+    "noisy_peer__social_gate_stuck_open": {
+      "goal_rate": 0.9333333333333333,
+      "steps": 25.8,
+      "away_from_goal_steps": 7.966666666666667,
+      "mean_alpha": 0.6048002465598474,
+      "mean_social_beta": 0.8500000000000004,
+      "mean_trust": 0.7951365889797326,
+      "mean_social_tension": 0.5159937768345035,
+      "mean_delusion_risk": 0.08176527392056326,
+      "failures": 2
+    },
+    "noisy_peer__no_executive_override": {
+      "goal_rate": 0.0,
+      "steps": 40.0,
+      "away_from_goal_steps": 17.766666666666666,
+      "mean_alpha": 0.4155251301100644,
+      "mean_social_beta": 0.2800568725540083,
+      "mean_trust": 0.6805985929844284,
+      "mean_social_tension": 0.3006666666666667,
+      "mean_delusion_risk": 0.06717852068406696,
+      "failures": 30
+    }
+  },
   "example_runs": {
     "none": {
       "summary": {

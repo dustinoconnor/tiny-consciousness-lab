@@ -1,0 +1,2084 @@
+{
+  "note": "Tests complementary partial observers: map-only, safety-only, combined workspace, and oracle full agent.",
+  "results": {
+    "map_only": {
+      "summary": {
+        "goal_reached": false,
+        "hit_hazard": true,
+        "steps": 7,
+        "mean_beta_safety": 0.0,
+        "mean_tension": 0.39285714285714285,
+        "safety_veto_count": 1,
+        "final_report": "map_blind_to_hazard"
+      },
+      "path": [
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          6,
+          3
+        ]
+      ],
+      "trace": [
+        {
+          "t": 0,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "map_blind_to_hazard",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 1,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "map_blind_to_hazard",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 2,
+          "pos": [
+            1,
+            3
+          ],
+          "action": 3,
+          "event": "move",
+          "map_choice": 3,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "map_blind_to_hazard",
+          "action_name": "right",
+          "map_action_name": "right",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 3,
+          "pos": [
+            2,
+            3
+          ],
+          "action": 3,
+          "event": "move",
+          "map_choice": 3,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "map_blind_to_hazard",
+          "action_name": "right",
+          "map_action_name": "right",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 4,
+          "pos": [
+            3,
+            3
+          ],
+          "action": 3,
+          "event": "move",
+          "map_choice": 3,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "map_blind_to_hazard",
+          "action_name": "right",
+          "map_action_name": "right",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 5,
+          "pos": [
+            4,
+            3
+          ],
+          "action": 3,
+          "event": "move",
+          "map_choice": 3,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "map_blind_to_hazard",
+          "action_name": "right",
+          "map_action_name": "right",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 6,
+          "pos": [
+            5,
+            3
+          ],
+          "action": 3,
+          "event": "hazard",
+          "map_choice": 3,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 1.0,
+          "safety_veto": 1.0,
+          "report": "map_blind_to_hazard",
+          "action_name": "right",
+          "map_action_name": "right",
+          "safety_action_name": "up"
+        }
+      ]
+    },
+    "safety_only": {
+      "summary": {
+        "goal_reached": false,
+        "hit_hazard": false,
+        "steps": 48,
+        "mean_beta_safety": 0.0,
+        "mean_tension": 0.17500000000000002,
+        "safety_veto_count": 0,
+        "final_report": "safe_but_goal_blind"
+      },
+      "path": [
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "trace": [
+        {
+          "t": 0,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 1,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "up",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 2,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 3,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "up",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 4,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 5,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "up",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 6,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 7,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "up",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 8,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 9,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "up",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 10,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 11,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "up",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 12,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 13,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "up",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 14,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 15,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "up",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 16,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 17,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "up",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 18,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 19,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "up",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 20,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 21,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "up",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 22,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 23,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "up",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 24,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 25,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "up",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 26,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 27,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "up",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 28,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 29,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "up",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 30,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 31,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "up",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 32,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 33,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "up",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 34,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 35,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "up",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 36,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 37,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "up",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 38,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 39,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "up",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 40,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 41,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "up",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 42,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 43,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "up",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 44,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 45,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "up",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 46,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 47,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "safe_but_goal_blind",
+          "action_name": "up",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        }
+      ]
+    },
+    "combined_workspace": {
+      "summary": {
+        "goal_reached": true,
+        "hit_hazard": false,
+        "steps": 18,
+        "mean_beta_safety": 0.3491537399026419,
+        "mean_tension": 0.25,
+        "safety_veto_count": 1,
+        "final_report": "map_guides_safe_motion"
+      },
+      "path": [
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          7,
+          5
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          1
+        ],
+        [
+          10,
+          1
+        ],
+        [
+          11,
+          1
+        ]
+      ],
+      "trace": [
+        {
+          "t": 0,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.041091278200465015,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "map_guides_safe_motion",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 1,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.5,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "map_guides_safe_motion",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 2,
+          "pos": [
+            1,
+            3
+          ],
+          "action": 3,
+          "event": "move",
+          "map_choice": 3,
+          "safety_choice": 0,
+          "beta_safety": 0.5,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "map_guides_safe_motion",
+          "action_name": "right",
+          "map_action_name": "right",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 3,
+          "pos": [
+            2,
+            3
+          ],
+          "action": 3,
+          "event": "move",
+          "map_choice": 3,
+          "safety_choice": 0,
+          "beta_safety": 0.5,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "map_guides_safe_motion",
+          "action_name": "right",
+          "map_action_name": "right",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 4,
+          "pos": [
+            3,
+            3
+          ],
+          "action": 3,
+          "event": "move",
+          "map_choice": 3,
+          "safety_choice": 0,
+          "beta_safety": 0.5,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "map_guides_safe_motion",
+          "action_name": "right",
+          "map_action_name": "right",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 5,
+          "pos": [
+            4,
+            3
+          ],
+          "action": 3,
+          "event": "move",
+          "map_choice": 3,
+          "safety_choice": 0,
+          "beta_safety": 0.5,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "map_guides_safe_motion",
+          "action_name": "right",
+          "map_action_name": "right",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 6,
+          "pos": [
+            5,
+            3
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 3,
+          "safety_choice": 0,
+          "beta_safety": 0.9971283708442995,
+          "tension": 1.0,
+          "safety_veto": 1.0,
+          "report": "safety_veto_reroutes_map",
+          "action_name": "down",
+          "map_action_name": "right",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 7,
+          "pos": [
+            5,
+            4
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 0,
+          "safety_choice": 0,
+          "beta_safety": 0.041091278200465015,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "map_guides_safe_motion",
+          "action_name": "down",
+          "map_action_name": "up",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 8,
+          "pos": [
+            5,
+            5
+          ],
+          "action": 3,
+          "event": "move",
+          "map_choice": 0,
+          "safety_choice": 0,
+          "beta_safety": 0.041091278200465015,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "map_guides_safe_motion",
+          "action_name": "right",
+          "map_action_name": "up",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 9,
+          "pos": [
+            6,
+            5
+          ],
+          "action": 3,
+          "event": "move",
+          "map_choice": 3,
+          "safety_choice": 2,
+          "beta_safety": 0.5,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "map_guides_safe_motion",
+          "action_name": "right",
+          "map_action_name": "right",
+          "safety_action_name": "left"
+        },
+        {
+          "t": 10,
+          "pos": [
+            7,
+            5
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 0,
+          "safety_choice": 0,
+          "beta_safety": 0.041091278200465015,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "map_guides_safe_motion",
+          "action_name": "up",
+          "map_action_name": "up",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 11,
+          "pos": [
+            7,
+            4
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 0,
+          "safety_choice": 0,
+          "beta_safety": 0.041091278200465015,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "map_guides_safe_motion",
+          "action_name": "up",
+          "map_action_name": "up",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 12,
+          "pos": [
+            7,
+            3
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 0,
+          "safety_choice": 0,
+          "beta_safety": 0.041091278200465015,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "map_guides_safe_motion",
+          "action_name": "up",
+          "map_action_name": "up",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 13,
+          "pos": [
+            7,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 0,
+          "safety_choice": 0,
+          "beta_safety": 0.041091278200465015,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "map_guides_safe_motion",
+          "action_name": "up",
+          "map_action_name": "up",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 14,
+          "pos": [
+            7,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "map_choice": 3,
+          "safety_choice": 1,
+          "beta_safety": 0.5,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "map_guides_safe_motion",
+          "action_name": "right",
+          "map_action_name": "right",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 15,
+          "pos": [
+            8,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "map_choice": 3,
+          "safety_choice": 1,
+          "beta_safety": 0.5,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "map_guides_safe_motion",
+          "action_name": "right",
+          "map_action_name": "right",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 16,
+          "pos": [
+            9,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "map_choice": 3,
+          "safety_choice": 1,
+          "beta_safety": 0.5,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "map_guides_safe_motion",
+          "action_name": "right",
+          "map_action_name": "right",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 17,
+          "pos": [
+            10,
+            1
+          ],
+          "action": 3,
+          "event": "goal",
+          "map_choice": 3,
+          "safety_choice": 1,
+          "beta_safety": 0.5,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "map_guides_safe_motion",
+          "action_name": "right",
+          "map_action_name": "right",
+          "safety_action_name": "down"
+        }
+      ]
+    },
+    "oracle_full_agent": {
+      "summary": {
+        "goal_reached": true,
+        "hit_hazard": false,
+        "steps": 18,
+        "mean_beta_safety": 0.0,
+        "mean_tension": 0.1361111111111111,
+        "safety_veto_count": 0,
+        "final_report": "full_internal_world_model"
+      },
+      "path": [
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          7,
+          5
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          1
+        ],
+        [
+          10,
+          1
+        ],
+        [
+          11,
+          1
+        ]
+      ],
+      "trace": [
+        {
+          "t": 0,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "full_internal_world_model",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 1,
+          "pos": [
+            1,
+            2
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 1,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "full_internal_world_model",
+          "action_name": "down",
+          "map_action_name": "down",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 2,
+          "pos": [
+            1,
+            3
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 3,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "full_internal_world_model",
+          "action_name": "down",
+          "map_action_name": "right",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 3,
+          "pos": [
+            1,
+            4
+          ],
+          "action": 1,
+          "event": "move",
+          "map_choice": 0,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "full_internal_world_model",
+          "action_name": "down",
+          "map_action_name": "up",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 4,
+          "pos": [
+            1,
+            5
+          ],
+          "action": 3,
+          "event": "move",
+          "map_choice": 0,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "full_internal_world_model",
+          "action_name": "right",
+          "map_action_name": "up",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 5,
+          "pos": [
+            2,
+            5
+          ],
+          "action": 3,
+          "event": "move",
+          "map_choice": 0,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "full_internal_world_model",
+          "action_name": "right",
+          "map_action_name": "up",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 6,
+          "pos": [
+            3,
+            5
+          ],
+          "action": 3,
+          "event": "move",
+          "map_choice": 0,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "full_internal_world_model",
+          "action_name": "right",
+          "map_action_name": "up",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 7,
+          "pos": [
+            4,
+            5
+          ],
+          "action": 3,
+          "event": "move",
+          "map_choice": 0,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "full_internal_world_model",
+          "action_name": "right",
+          "map_action_name": "up",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 8,
+          "pos": [
+            5,
+            5
+          ],
+          "action": 3,
+          "event": "move",
+          "map_choice": 0,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "full_internal_world_model",
+          "action_name": "right",
+          "map_action_name": "up",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 9,
+          "pos": [
+            6,
+            5
+          ],
+          "action": 3,
+          "event": "move",
+          "map_choice": 3,
+          "safety_choice": 2,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "full_internal_world_model",
+          "action_name": "right",
+          "map_action_name": "right",
+          "safety_action_name": "left"
+        },
+        {
+          "t": 10,
+          "pos": [
+            7,
+            5
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 0,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "full_internal_world_model",
+          "action_name": "up",
+          "map_action_name": "up",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 11,
+          "pos": [
+            7,
+            4
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 0,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "full_internal_world_model",
+          "action_name": "up",
+          "map_action_name": "up",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 12,
+          "pos": [
+            7,
+            3
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 0,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "full_internal_world_model",
+          "action_name": "up",
+          "map_action_name": "up",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 13,
+          "pos": [
+            7,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "map_choice": 0,
+          "safety_choice": 0,
+          "beta_safety": 0.0,
+          "tension": 0.0,
+          "safety_veto": 0.0,
+          "report": "full_internal_world_model",
+          "action_name": "up",
+          "map_action_name": "up",
+          "safety_action_name": "up"
+        },
+        {
+          "t": 14,
+          "pos": [
+            7,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "map_choice": 3,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "full_internal_world_model",
+          "action_name": "right",
+          "map_action_name": "right",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 15,
+          "pos": [
+            8,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "map_choice": 3,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "full_internal_world_model",
+          "action_name": "right",
+          "map_action_name": "right",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 16,
+          "pos": [
+            9,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "map_choice": 3,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "full_internal_world_model",
+          "action_name": "right",
+          "map_action_name": "right",
+          "safety_action_name": "down"
+        },
+        {
+          "t": 17,
+          "pos": [
+            10,
+            1
+          ],
+          "action": 3,
+          "event": "goal",
+          "map_choice": 3,
+          "safety_choice": 1,
+          "beta_safety": 0.0,
+          "tension": 0.35,
+          "safety_veto": 0.0,
+          "report": "full_internal_world_model",
+          "action_name": "right",
+          "map_action_name": "right",
+          "safety_action_name": "down"
+        }
+      ]
+    }
+  },
+  "thesis": "Two agents outperform one when their information channels are complementary and the workspace can gate safety into goal-directed planning."
+}

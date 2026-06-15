@@ -998,6 +998,49 @@ is trusted social input plus a mechanism that can override local reflex.
 
 ![Social beta ablation](outputs/social_beta_ablation.png)
 
+## Partial-Observer Social Workspace
+
+`partial_observer_social_lab.py` creates a stronger case where two agents are
+better than one because each agent has different access to reality.
+
+The maze has two openings through a wall:
+
+- the shorter opening contains a hidden hazard
+- the longer opening is safe
+
+The agents are intentionally incomplete:
+
+- `map_only` sees walls and the goal, but cannot see the hidden hazard
+- `safety_only` sees danger, but has no goal-directed map
+- `combined_workspace` lets safety veto the dangerous route and stores that
+  discovery in shared memory
+- `oracle_full_agent` has both map and hazard knowledge internally
+
+Result:
+
+```text
+condition             goal   hazard   steps   safety_veto
+map_only              false  true     7       1
+safety_only           false  false    48      0
+combined_workspace    true   false    18      1
+oracle_full_agent     true   false    18      0
+```
+
+The map-only agent dies because its world model is blind to the hidden hazard.
+The safety-only agent survives but cannot reach the goal. The combined workspace
+matches the oracle: it uses map knowledge for goal direction and safety knowledge
+to veto the hidden hazard, then remembers the hazard and replans through the
+safe route.
+
+> Two agents beat one when their information channels are complementary and the
+> workspace can bind those partial views into a shared, action-relevant model.
+
+![Partial observer summary](outputs/partial_observer_social_summary.png)
+
+![Partial observer paths](outputs/partial_observer_social_paths.png)
+
+![Partial observer trace](outputs/partial_observer_social_trace.png)
+
 ## Explainer Video Angle
 
 This project could be turned into a short narrated explainer:
@@ -1039,7 +1082,9 @@ This project could be turned into a short narrated explainer:
     trap, while the integrated pretrained-world-model agent reaches the goal.
 16. Show the social workspace test: independent grounded peers improve control,
     while echo peers create confidence without new reality contact.
-17. End with the thesis: capacity without grounded valence is unstable; valence
+17. Show the partial-observer social workspace: map-only and safety-only fail
+    alone, but combined complementary observers match the full oracle.
+18. End with the thesis: capacity without grounded valence is unstable; valence
    without boundaries is exploitable; imagination without reality-checking is
    delusional; attention should be rewarded for staying grounded;
    specialization and integration must be balanced; self-representation matters
@@ -1071,6 +1116,7 @@ cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 self_report_workspace_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 unified_mind_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 social_workspace_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 partial_observer_social_lab.py
 ```
 
 Outputs land in:
@@ -1099,6 +1145,7 @@ Outputs land in:
 - `self_report_workspace_lab.py` - persistent self-model and symbolic introspection test
 - `unified_mind_lab.py` - readable capstone combining valence, imagination, workspace, self-model, and pretrained world-model lookahead
 - `social_workspace_lab.py` - social peer/workspace comparison for grounded critics vs echo loops
+- `partial_observer_social_lab.py` - complementary partial observers with map/safety information split
 - `outputs/metrics.json` - recurrent agent metrics
 - `outputs/hidden_binarization_metrics.json` - empirical integration on binarized trained hidden states
 - `outputs/exact_phi_metrics.json` - exact Phi proxy metrics
@@ -1117,6 +1164,7 @@ Outputs land in:
 - `outputs/self_report_workspace_metrics.json` - self-report workspace metrics
 - `outputs/unified_mind_metrics.json` - unified capstone metrics and traces
 - `outputs/social_workspace_metrics.json` - social workspace metrics and example traces
+- `outputs/partial_observer_social_metrics.json` - complementary observer metrics and traces
 
 ## Next Steps
 

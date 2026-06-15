@@ -30,10 +30,10 @@ The working thesis emerging from these toy runs:
 > Useful intelligence requires co-tuned cognition, reward, attention, and world
 > modeling.
 
-## Five Columns of the Unified Mind Thesis
+## Unified Mind Architecture Stack
 
-The experiments now organize around five interlocking architectural principles.
-None of these columns is sufficient by itself. The useful behavior appears when
+The experiments now organize around six interlocking architectural principles.
+None of these layers is sufficient by itself. The useful behavior appears when
 they are routed through a regulated functional ego: a control layer that decides
 what information becomes action-relevant.
 
@@ -46,6 +46,9 @@ what information becomes action-relevant.
 
              world models              social gates
           grounded simulation       external correction
+
+                    hierarchical master workspaces
+                  compressed conflict arbitration
 ```
 
 ### 1. Recurrence Creates Structural Integration
@@ -108,12 +111,48 @@ the map-only agent sees the goal but not the hidden hazard, the safety-only
 agent sees danger but lacks a goal map, and the combined workspace matches the
 oracle by binding both partial views into one action-relevant model.
 
+### 6. Hierarchical Masters Compress Conflict
+
+Mechanism: `hierarchical_workspace_lab.py`
+
+The hierarchical workspace experiment adds the internal scaling problem. A
+single monolithic workspace can adapt, but it has to process everything inside
+one global controller. A flat multi-workspace system is cheaper, but without a
+master it cannot resolve conflict cleanly. The hierarchical master workspace
+lets local specialists handle local noise and exports only compressed
+uncertainty summaries upward.
+
+In the rule-shift task, the hierarchical master slightly beat the monolithic
+baseline on early recovery and efficiency, while the slow hierarchy fell behind:
+
+```text
+condition                       early_post  recovery  efficiency
+monolithic_workspace            0.686       16 steps  0.851
+hierarchical_master_workspace   0.714       15 steps  0.858
+bad_hierarchy_bureaucracy       0.314       29 steps  0.781
+```
+
+This suggests executive control is not about micromanaging raw sensory state.
+It is about conflict arbitration through compressed signals: confidence,
+tension, surprise, and disagreement.
+
 The refined thesis:
 
 > Phi-like integration measures structural coupling, while valence measures
 > functional orientation. A system can be highly integrated and still useless or
 > delusional unless its integration is grounded by valence, attention, world
-> contact, and regulated social correction.
+> contact, regulated social correction, and scalable hierarchical control.
+
+Condensed:
+
+> Recurrence builds the engine of causal integration. Valence defines the
+> functional orientation of that integration. Attention gating uses surprise to
+> protect the system from rigid, obsolete rules. World modeling converts
+> imagination from a delusional liability into a detour-solving asset. Social
+> gating establishes the boundary conditions for distributed cognition.
+> Hierarchical master workspaces address the internal scaling problem by
+> arbitrating conflict through compressed signals instead of uncompressed
+> micromanagement.
 
 ## Substrate-Independence Angle
 

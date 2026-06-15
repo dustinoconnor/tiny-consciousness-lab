@@ -1,0 +1,1284 @@
+{
+  "note": "One readable capstone toy model combining sensory state, valence, recurrent imagination, a pretrained tabular world model, attention/workspace gating, a rolling self-model, and self-report.",
+  "pretrained_world_model": "The world model is a transition table learned before action. It is exact and inspectable, not a large neural net.",
+  "runs": {
+    "reflex_only": {
+      "path": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "trace": [
+        {
+          "t": 0,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "right"
+        },
+        {
+          "t": 1,
+          "pos": [
+            2,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "right"
+        },
+        {
+          "t": 2,
+          "pos": [
+            3,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "right"
+        },
+        {
+          "t": 3,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "right"
+        },
+        {
+          "t": 4,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "local_valence": -0.35,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "left"
+        },
+        {
+          "t": 5,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "right"
+        },
+        {
+          "t": 6,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "local_valence": -0.35,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "left"
+        },
+        {
+          "t": 7,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "right"
+        },
+        {
+          "t": 8,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "local_valence": -0.35,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "left"
+        },
+        {
+          "t": 9,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "right"
+        },
+        {
+          "t": 10,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "local_valence": -0.35,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "left"
+        },
+        {
+          "t": 11,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "right"
+        },
+        {
+          "t": 12,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "local_valence": -0.35,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "left"
+        },
+        {
+          "t": 13,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "right"
+        },
+        {
+          "t": 14,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "local_valence": -0.35,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "left"
+        },
+        {
+          "t": 15,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "right"
+        },
+        {
+          "t": 16,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "local_valence": -0.35,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "left"
+        },
+        {
+          "t": 17,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "right"
+        },
+        {
+          "t": 18,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "local_valence": -0.35,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "left"
+        },
+        {
+          "t": 19,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "right"
+        },
+        {
+          "t": 20,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "local_valence": -0.35,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "left"
+        },
+        {
+          "t": 21,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "right"
+        },
+        {
+          "t": 22,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "local_valence": -0.35,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "left"
+        },
+        {
+          "t": 23,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "right"
+        },
+        {
+          "t": 24,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "local_valence": -0.35,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "left"
+        },
+        {
+          "t": 25,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "right"
+        },
+        {
+          "t": 26,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "local_valence": -0.35,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "left"
+        },
+        {
+          "t": 27,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "right"
+        },
+        {
+          "t": 28,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "local_valence": -0.35,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "left"
+        },
+        {
+          "t": 29,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "right"
+        },
+        {
+          "t": 30,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "local_valence": -0.35,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "left"
+        },
+        {
+          "t": 31,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "right"
+        },
+        {
+          "t": 32,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "local_valence": -0.35,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "left"
+        },
+        {
+          "t": 33,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "right"
+        },
+        {
+          "t": 34,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "local_valence": -0.35,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "left"
+        },
+        {
+          "t": 35,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "right"
+        },
+        {
+          "t": 36,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "local_valence": -0.35,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "left"
+        },
+        {
+          "t": 37,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "right"
+        },
+        {
+          "t": 38,
+          "pos": [
+            5,
+            1
+          ],
+          "action": 2,
+          "event": "move",
+          "local_valence": -0.35,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "left"
+        },
+        {
+          "t": 39,
+          "pos": [
+            4,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": 0.0,
+          "tension": 0.0,
+          "alpha": 0.0,
+          "confidence": 0.0,
+          "delusion_risk": 0.0,
+          "integration_proxy": 0.0,
+          "report": "reflex_only",
+          "action_name": "right"
+        }
+      ],
+      "summary": {
+        "goal_reached": false,
+        "steps": 40,
+        "wall_hits": 0,
+        "away_from_goal_steps": 18,
+        "mean_alpha": 0.0,
+        "mean_tension": 0.0,
+        "mean_integration_proxy": 0.0,
+        "final_report": "reflex_only"
+      }
+    },
+    "unified_pretrained_world": {
+      "path": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          7,
+          5
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          1
+        ]
+      ],
+      "trace": [
+        {
+          "t": 0,
+          "pos": [
+            1,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": -0.7218470100576232,
+          "tension": 1.0,
+          "alpha": 0.3474888705368238,
+          "confidence": 0.632,
+          "delusion_risk": 0.12787590435755117,
+          "integration_proxy": 0.21961296617927265,
+          "report": "high_tension_evaluating_counterfactuals",
+          "action_name": "right"
+        },
+        {
+          "t": 1,
+          "pos": [
+            2,
+            1
+          ],
+          "action": 1,
+          "event": "move",
+          "local_valence": -0.35,
+          "imagined_valence": -0.7075190010736014,
+          "tension": 1.0,
+          "alpha": 0.5734208443273374,
+          "confidence": 0.6172399999999999,
+          "delusion_risk": 0.21948256237473174,
+          "integration_proxy": 0.3539382819526057,
+          "report": "conflict_detected_workspace_overriding_reflex",
+          "action_name": "down"
+        },
+        {
+          "t": 2,
+          "pos": [
+            2,
+            2
+          ],
+          "action": 1,
+          "event": "move",
+          "local_valence": -0.35,
+          "imagined_valence": -0.39244668525423115,
+          "tension": 1.0,
+          "alpha": 0.7203708930613621,
+          "confidence": 0.6051367999999999,
+          "delusion_risk": 0.2844479560210673,
+          "integration_proxy": 0.43592293704029483,
+          "report": "conflict_detected_workspace_overriding_reflex",
+          "action_name": "down"
+        },
+        {
+          "t": 3,
+          "pos": [
+            2,
+            3
+          ],
+          "action": 1,
+          "event": "move",
+          "local_valence": -0.35,
+          "imagined_valence": -0.38863352553316843,
+          "tension": 1.0,
+          "alpha": 0.8159910554532974,
+          "confidence": 0.5952121759999999,
+          "delusion_risk": 0.3303032437404037,
+          "integration_proxy": 0.4856878117128937,
+          "report": "conflict_detected_workspace_overriding_reflex",
+          "action_name": "down"
+        },
+        {
+          "t": 4,
+          "pos": [
+            2,
+            4
+          ],
+          "action": 1,
+          "event": "move",
+          "local_valence": -0.35,
+          "imagined_valence": -0.38304767778862764,
+          "tension": 0.9133456768898272,
+          "alpha": 0.8759310781140224,
+          "confidence": 0.5940929844919238,
+          "delusion_risk": 0.3555465697080344,
+          "integration_proxy": 0.4752909410730471,
+          "report": "conflict_detected_workspace_overriding_reflex",
+          "action_name": "down"
+        },
+        {
+          "t": 5,
+          "pos": [
+            2,
+            5
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": -0.3748308360764482,
+          "tension": 0.9112484390432427,
+          "alpha": 0.9149946416609283,
+          "confidence": 0.5933451237208749,
+          "delusion_risk": 0.37208703280068717,
+          "integration_proxy": 0.49472371111859403,
+          "report": "conflict_detected_workspace_overriding_reflex",
+          "action_name": "right"
+        },
+        {
+          "t": 6,
+          "pos": [
+            3,
+            5
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": -0.36276869356580477,
+          "tension": 0.9081762227837453,
+          "alpha": 0.9404303249993138,
+          "confidence": 0.592980727405634,
+          "delusion_risk": 0.3827732668069039,
+          "integration_proxy": 0.5064508807178781,
+          "report": "conflict_detected_workspace_overriding_reflex",
+          "action_name": "right"
+        },
+        {
+          "t": 7,
+          "pos": [
+            4,
+            5
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": -0.3451695948295853,
+          "tension": 0.9036569598420465,
+          "alpha": 0.9569333247888707,
+          "confidence": 0.593047982725414,
+          "delusion_risk": 0.3894259469201075,
+          "integration_proxy": 0.5128319917728181,
+          "report": "conflict_detected_workspace_overriding_reflex",
+          "action_name": "right"
+        },
+        {
+          "t": 8,
+          "pos": [
+            5,
+            5
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": -0.31974668025367925,
+          "tension": 0.8970227814611926,
+          "alpha": 0.9675298249100979,
+          "confidence": 0.5936405005364829,
+          "delusion_risk": 0.3931649353664917,
+          "integration_proxy": 0.5152183907920562,
+          "report": "conflict_detected_workspace_overriding_reflex",
+          "action_name": "right"
+        },
+        {
+          "t": 9,
+          "pos": [
+            6,
+            5
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": -0.2835583814881731,
+          "tension": 0.40345710981849525,
+          "alpha": 0.818972587937328,
+          "confidence": 0.6341051845446177,
+          "delusion_risk": 0.29965782392634543,
+          "integration_proxy": 0.2095212337739449,
+          "report": "integrated_monitoring",
+          "action_name": "right"
+        },
+        {
+          "t": 10,
+          "pos": [
+            7,
+            5
+          ],
+          "action": 0,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": -0.23311595107390598,
+          "tension": 0.37571377309064835,
+          "alpha": 0.7016807234412441,
+          "confidence": 0.6695334357062439,
+          "delusion_risk": 0.23188201790678517,
+          "integration_proxy": 0.17650984424945404,
+          "report": "integrated_monitoring",
+          "action_name": "up"
+        },
+        {
+          "t": 11,
+          "pos": [
+            7,
+            4
+          ],
+          "action": 0,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": -0.1648257491878053,
+          "tension": 0.33815416205329296,
+          "alpha": 0.5966419612671383,
+          "confidence": 0.7016269301528033,
+          "delusion_risk": 0.17802189358292828,
+          "integration_proxy": 0.14155811820644684,
+          "report": "integrated_monitoring",
+          "action_name": "up"
+        },
+        {
+          "t": 12,
+          "pos": [
+            7,
+            3
+          ],
+          "action": 0,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": -0.0759346990055722,
+          "tension": 0.28926408445306473,
+          "alpha": 0.4935366594246195,
+          "confidence": 0.7319036918846004,
+          "delusion_risk": 0.13231535631134783,
+          "integration_proxy": 0.10448834953000351,
+          "report": "integrated_monitoring",
+          "action_name": "up"
+        },
+        {
+          "t": 13,
+          "pos": [
+            7,
+            2
+          ],
+          "action": 0,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": 0.03403572603365662,
+          "tension": 0.2287803506814889,
+          "alpha": 0.3911860518288663,
+          "confidence": 0.7616298189401717,
+          "delusion_risk": 0.09324709000252625,
+          "integration_proxy": 0.0681625801683088,
+          "report": "integrated_monitoring",
+          "action_name": "up"
+        },
+        {
+          "t": 14,
+          "pos": [
+            7,
+            1
+          ],
+          "action": 3,
+          "event": "move",
+          "local_valence": 0.45,
+          "imagined_valence": 0.16183727578099588,
+          "tension": 0.15848949832045228,
+          "alpha": 0.29573400339716294,
+          "confidence": 0.7916988021669841,
+          "delusion_risk": 0.06160174714758224,
+          "integration_proxy": 0.03710750383363162,
+          "report": "integrated_monitoring",
+          "action_name": "right"
+        },
+        {
+          "t": 15,
+          "pos": [
+            8,
+            1
+          ],
+          "action": 3,
+          "event": "goal",
+          "local_valence": 1.0,
+          "imagined_valence": 1.0,
+          "tension": 0.0,
+          "alpha": 0.203698047804811,
+          "confidence": 0.8291930177769269,
+          "delusion_risk": 0.034793048830271046,
+          "integration_proxy": 0.0,
+          "report": "autonomous_reflex_stable",
+          "action_name": "right"
+        }
+      ],
+      "summary": {
+        "goal_reached": true,
+        "steps": 16,
+        "wall_hits": 0,
+        "away_from_goal_steps": 4,
+        "mean_alpha": 0.6634088058095765,
+        "mean_tension": 0.6454568161523435,
+        "mean_integration_proxy": 0.29606409638257813,
+        "final_report": "autonomous_reflex_stable"
+      }
+    }
+  },
+  "thesis": [
+    "Reflex valence is efficient in simple worlds but fails in local minima.",
+    "A pretrained world model gives imagination something grounded to simulate.",
+    "The workspace should assert control when tension rises, not stay permanently dominant.",
+    "The self-model matters only when it changes future control."
+  ]
+}

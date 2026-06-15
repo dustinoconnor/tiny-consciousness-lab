@@ -22,14 +22,22 @@ from tiny_lab import OUT, set_seed
 
 
 def angle_of(v):
+    """Convert a 2D direction vector into an angle in radians."""
     return math.atan2(v[1], v[0])
 
 
 def angle_delta(a, b):
+    """Smallest signed angular difference between two directions."""
     return math.atan2(math.sin(a - b), math.cos(a - b))
 
 
 def generate_shift_world(steps=220, shift_step=110, seed=11):
+    """Create the toy environment.
+
+    The "real world" is a moving 2D target direction. Halfway through, the
+    hidden rule reverses. The distractor is a noisy second signal that can grab
+    attention if the model is too novelty-seeking.
+    """
     rng = np.random.default_rng(seed)
     target = []
     distractor = []
@@ -50,11 +58,13 @@ def generate_shift_world(steps=220, shift_step=110, seed=11):
 
 
 def running_accuracy(rows, window=12):
+    """Smooth the 0/1 correctness trace so the plot shows trends."""
     vals = np.array([row["correct"] for row in rows])
     return np.convolve(vals, np.ones(window) / window, mode="same")
 
 
 def recovery_step(rows, shift_step, threshold=0.75, window=12):
+    """How many steps after the rule change until accuracy is stable again?"""
     acc = running_accuracy(rows, window=window)
     for i in range(shift_step, len(acc) - window):
         if np.all(acc[i : i + window] >= threshold):
@@ -63,11 +73,24 @@ def recovery_step(rows, shift_step, threshold=0.75, window=12):
 
 
 def run_condition(name, config, steps=220, shift_step=110, seed=11):
+    """Run one architecture through the same shifting world.
+
+    This is the core experiment. Each condition has the same sensory data but a
+    different internal control scheme: ungated imagination, static
+    attention-valence filtering, or adaptive attention-valence filtering.
+    """
     target, distractor = generate_shift_world(steps=steps, shift_step=shift_step, seed=seed)
     rng = np.random.default_rng(seed + 200)
+
+    # "Imagination" is the model's current internal guess about the world.
+    # It starts aligned with reality, then can drift if the loop is not gated.
     imagination = target[0].copy()
     last_target = target[0].copy()
     last_distractor = distractor[0].copy()
+
+    # model_angle is the inner rule: "how much should the world rotate next?"
+    # Before the shift, 0.13 is correct. After the shift, the correct rule is
+    # roughly negative. The adaptive model is allowed to retune this angle.
     model_angle = config["initial_model_angle"]
     rows = []
 
@@ -75,11 +98,17 @@ def run_condition(name, config, steps=220, shift_step=110, seed=11):
         actual = target[t]
         actual_next = target[t + 1]
         lure = distractor[t]
+
+        # Predict one step ahead using the current inner model. If this diverges
+        # from the next sensory truth, prediction_error rises.
         imagined_next = rotate(imagination, model_angle)
         prediction_error = float(np.mean((imagined_next - actual_next) ** 2))
         alignment = float(np.exp(-config["alignment_sharpness"] * prediction_error))
         novelty = float(np.linalg.norm(lure - last_distractor))
 
+        # A tiny attention mechanism: compare the current internal query against
+        # three possible channels: real sensory target, noisy distractor, and
+        # imagination itself.
         query = imagination
         keys = np.array([actual, lure, imagination])
         logits = keys @ query / math.sqrt(2.0)
@@ -88,6 +117,9 @@ def run_condition(name, config, steps=220, shift_step=110, seed=11):
         base_attention = softmax(logits)
 
         if config["valence_filter"]:
+            # Valence is used as a grounding gate. Channels that keep the model
+            # aligned with reality get boosted; distractors and delusional
+            # self-looping get penalized.
             task_valence = alignment + config["task_stay_reward"] * base_attention[0]
             channel_valence = np.array(
                 [
@@ -100,20 +132,27 @@ def run_condition(name, config, steps=220, shift_step=110, seed=11):
             attention = attention / np.sum(attention)
             valence = float(task_valence - config["delusion_penalty"] * base_attention[2] * (1.0 - alignment))
         else:
+            # Ungated condition: imagination can reward itself just for being
+            # attended to, which is the toy version of a closed delusional loop.
             attention = base_attention
             valence = float(0.35 + 0.65 * base_attention[2])
 
+        # The attended vector is the combined "current belief" after attention
+        # chooses how much to trust sensation, distraction, and imagination.
         attended = attention[0] * actual + attention[1] * lure + attention[2] * imagination
         predicted_action = action_from_vector(rotate(attended, model_angle))
         correct_action = action_from_vector(actual_next)
         correct = predicted_action == correct_action
 
+        # Delusion here means: the model is attending to imagination while that
+        # imagination is poorly aligned with what actually happens next.
         delusion = float(attention[2] * (1.0 - alignment))
         sensory_angle_delta = angle_delta(angle_of(actual_next), angle_of(actual))
         model_rule_alignment = float(0.5 + 0.5 * math.cos(angle_delta(model_angle, sensory_angle_delta)))
         if config["adaptive_model"]:
-            # Low alignment means the old inner rule is losing contact with the world.
-            # Shift trust toward direct sensory evidence until prediction fidelity returns.
+            # Low alignment means the old inner rule is losing contact with the
+            # world. Surprise increases learning_rate, so the system updates its
+            # inner rule faster exactly when reality proves it wrong.
             learning_rate = config["base_lr"] + config["surprise_lr"] * (1.0 - alignment)
             model_angle = (1.0 - learning_rate) * model_angle + learning_rate * sensory_angle_delta
 
@@ -140,11 +179,20 @@ def run_condition(name, config, steps=220, shift_step=110, seed=11):
         )
 
         if config["valence_filter"]:
+            # If delusion is low, preserve the sensory truth strongly. If
+            # delusion rises, the next imagination state is forced back toward
+            # the next real target instead of free-running.
             sensory_mix = min(1.0, 0.20 + 0.80 * max(0.0, 1.0 - delusion))
             imagination = sensory_mix * actual_next + (1.0 - sensory_mix) * imagined_next
         else:
+            # The ungated self-loop lets imagination recursively influence
+            # itself, plus a bit of noise, which makes it fragile after the
+            # world rule changes.
             imagination = config["self_loop_strength"] * imagined_next + (1.0 - config["self_loop_strength"]) * actual_next
             imagination += rng.normal(0.0, config["imagination_noise"], size=2)
+
+        # Keep the imagination vector on the unit circle. Otherwise length would
+        # grow/shrink and confuse angle-based comparisons.
         norm = np.linalg.norm(imagination)
         if norm > 1e-6:
             imagination = imagination / norm
@@ -155,6 +203,7 @@ def run_condition(name, config, steps=220, shift_step=110, seed=11):
 
 
 def summarize(rows, shift_step):
+    """Collapse a full run into the metrics shown in the README."""
     pre = [r for r in rows if r["t"] < shift_step]
     early = [r for r in rows if shift_step <= r["t"] < shift_step + 35]
     late = [r for r in rows if r["t"] >= shift_step + 35]
@@ -178,6 +227,7 @@ def summarize(rows, shift_step):
 
 
 def plot_shift(results, shift_step, path):
+    """Plot the main time-series view around the sudden rule change."""
     fig, axes = plt.subplots(5, 1, figsize=(13, 12), sharex=True)
     for name, rows in results.items():
         x = [r["t"] for r in rows]
@@ -203,6 +253,7 @@ def plot_shift(results, shift_step, path):
 
 
 def plot_summary(summary, path):
+    """Plot the before/after accuracy bars for each condition."""
     names = list(summary)
     metrics = ["pre_shift_accuracy", "early_post_shift_accuracy", "late_post_shift_accuracy"]
     x = np.arange(len(names))
@@ -222,6 +273,7 @@ def plot_summary(summary, path):
 
 
 def plot_action_influence(results, shift_step, path):
+    """Show which channel is actually steering action after attention."""
     fig, axes = plt.subplots(4, 1, figsize=(13, 10), sharex=True)
     keep = ["static_attention_valence_filter", "adaptive_attention_valence_filter"]
     for name in keep:
@@ -249,6 +301,13 @@ def plot_action_influence(results, shift_step, path):
 def main():
     set_seed(11)
     shift_step = 110
+
+    # Three toy "minds" face the same world:
+    # 1. ungated_old_model: imagination can loop on itself and gets stale.
+    # 2. static_attention_valence_filter: grounding helps, but the inner rule
+    #    itself cannot adapt after the world changes.
+    # 3. adaptive_attention_valence_filter: prediction error updates the inner
+    #    rule, so surprise becomes useful instead of destabilizing.
     configs = {
         "ungated_old_model": {
             "initial_model_angle": 0.13,

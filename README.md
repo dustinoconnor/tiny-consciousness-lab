@@ -242,6 +242,38 @@ learned hidden-state dynamics.
 
 ![Hidden binarization state Phi](outputs/hidden_binarization_state_phi.png)
 
+## PyPhi Comparison
+
+`pyphi_comparison_lab.py` compares this repo's transparent partition-KL proxy
+against PyPhi on tiny 3-node versions of the same systems.
+
+Important limits:
+
+- PyPhi 1.2.0 is an IIT 3.x-era tool, not a full IIT 4.0 implementation.
+- PyPhi's subsystem Phi is state-specific.
+- The repo proxy averages over all states.
+- The comparison is restricted to 3 nodes because exact IIT-style computation
+  grows combinatorially.
+
+Result:
+
+```text
+condition                         proxy_mean   pyphi_sampled_mean
+feedforward_chain                 0.105        0.000
+recurrent_ring                    0.145        0.367
+recurrent_with_valence_feedback   0.258        0.390
+```
+
+The two measures are not identical, but they agree on the broad ranking:
+feedforward structure is least integrated, recurrent systems are higher, and
+valence-feedback recurrence remains above the simple recurrent ring. PyPhi's
+separation between recurrent ring and valence feedback is smaller than the
+repo proxy, which is an important caution: proxy metrics are useful for fast
+experiments, but they should be cross-checked against formal tools whenever the
+claim depends on the exact integration value.
+
+![PyPhi comparison](outputs/pyphi_comparison.png)
+
 ## Exact Tiny Phi Proxy
 
 `exact_phi_lab.py` compares three 6-node binary systems:
@@ -1100,6 +1132,7 @@ it already has PyTorch and Matplotlib installed.
 cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 tiny_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 hidden_binarization_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 pyphi_comparison_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 exact_phi_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 intervention_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 wirehead_lab.py
@@ -1129,6 +1162,7 @@ Outputs land in:
 
 - `tiny_lab.py` - recurrent agent, valence trace, hidden-state trajectory, ablation map
 - `hidden_binarization_lab.py` - binarized trained hidden-state transition analysis
+- `pyphi_comparison_lab.py` - comparison between the repo Phi proxy and PyPhi on 3-node systems
 - `exact_phi_lab.py` - exact tiny binary Phi proxy experiment
 - `intervention_lab.py` - ablation shock, noise tolerance, and scale tests
 - `wirehead_lab.py` - direct valence-button wireheading test
@@ -1148,6 +1182,7 @@ Outputs land in:
 - `partial_observer_social_lab.py` - complementary partial observers with map/safety information split
 - `outputs/metrics.json` - recurrent agent metrics
 - `outputs/hidden_binarization_metrics.json` - empirical integration on binarized trained hidden states
+- `outputs/pyphi_comparison_metrics.json` - PyPhi comparison metrics
 - `outputs/exact_phi_metrics.json` - exact Phi proxy metrics
 - `outputs/intervention_metrics.json` - intervention test metrics
 - `outputs/wirehead_metrics.json` - wireheading test metrics

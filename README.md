@@ -195,6 +195,53 @@ changes each target hidden unit on the next step.
 
 ![Causal influence graph](outputs/causal_influence_graph.png)
 
+## Hidden-State Binarization Test
+
+`hidden_binarization_lab.py` bridges the original trained recurrent agent to
+the binary partition logic used later in the repo.
+
+Instead of designing binary nodes by hand, it:
+
+1. trains a tiny recurrent PyTorch agent with an expert teacher
+2. records hidden-state trajectories while the trained agent acts
+3. selects the most active hidden units
+4. converts those continuous activations into binary on/off states
+5. estimates an empirical transition table from the observed binary trajectory
+6. computes the best bipartition KL-divergence score on that learned dynamics
+
+Question:
+
+> Did a trained recurrent agent develop more integrated binary dynamics during
+> conflict than during ordinary movement?
+
+Result:
+
+```text
+segment                         phi_mean   phi_visit_weighted
+ordinary_transitions            0.023      0.183
+conflict_or_negative_transitions 0.186      0.657
+all_transitions                 0.171      0.596
+```
+
+The agent reached `1.0` policy accuracy under the expert teacher. After
+binarization, ordinary motion stayed comparatively separable, while
+conflict/negative transitions showed a much higher empirical integration score.
+
+That suggests a stronger mechanistic-interpretability version of the earlier
+claim:
+
+> useful integration is not constant background complexity; it rises when the
+> trained system has to resolve danger, conflict, or control pressure.
+
+This is still not official IIT Phi. It is an empirical partition-KL proxy on
+learned hidden-state dynamics.
+
+![Hidden binarization raster](outputs/hidden_binarization_raster.png)
+
+![Hidden binarization Phi segments](outputs/hidden_binarization_phi_segments.png)
+
+![Hidden binarization state Phi](outputs/hidden_binarization_state_phi.png)
+
 ## Exact Tiny Phi Proxy
 
 `exact_phi_lab.py` compares three 6-node binary systems:
@@ -937,6 +984,7 @@ it already has PyTorch and Matplotlib installed.
 ```zsh
 cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 tiny_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 hidden_binarization_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 exact_phi_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 intervention_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 wirehead_lab.py
@@ -963,6 +1011,7 @@ Outputs land in:
 ## Files
 
 - `tiny_lab.py` - recurrent agent, valence trace, hidden-state trajectory, ablation map
+- `hidden_binarization_lab.py` - binarized trained hidden-state transition analysis
 - `exact_phi_lab.py` - exact tiny binary Phi proxy experiment
 - `intervention_lab.py` - ablation shock, noise tolerance, and scale tests
 - `wirehead_lab.py` - direct valence-button wireheading test
@@ -979,6 +1028,7 @@ Outputs land in:
 - `self_report_workspace_lab.py` - persistent self-model and symbolic introspection test
 - `unified_mind_lab.py` - readable capstone combining valence, imagination, workspace, self-model, and pretrained world-model lookahead
 - `outputs/metrics.json` - recurrent agent metrics
+- `outputs/hidden_binarization_metrics.json` - empirical integration on binarized trained hidden states
 - `outputs/exact_phi_metrics.json` - exact Phi proxy metrics
 - `outputs/intervention_metrics.json` - intervention test metrics
 - `outputs/wirehead_metrics.json` - wireheading test metrics

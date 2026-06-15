@@ -838,6 +838,51 @@ ingredient of introspection:
 
 ![Self report workspace timeseries](outputs/self_report_workspace_timeseries.png)
 
+## Unified Toy Mind Capstone
+
+`unified_mind_lab.py` combines the main loops into one readable toy system:
+
+- sensory state
+- local progress valence
+- recurrent imagination
+- pretrained tabular world model
+- attention/workspace gating
+- rolling self-model
+- symbolic self-report
+- simple integration proxy
+
+The world model is "pretrained" in the smallest inspectable sense: before the
+agent acts, it receives a transition table for the maze. It knows:
+
+```text
+current cell + action -> next cell / wall / goal
+```
+
+That is not a giant neural net or proof of consciousness. It is a clean way to
+show why grounded imagination matters. The reflex-only agent follows immediate
+valence and gets trapped at the wall. The unified agent uses the pretrained
+world model to accept temporary negative valence, walk away from the goal, and
+route around the obstacle.
+
+Result:
+
+```text
+condition                   goal   steps   away_steps   mean_alpha   integration_proxy
+reflex_only                 false  40      18           0.000        0.000
+unified_pretrained_world    true   16      4            0.663        0.296
+```
+
+The capstone result is the cleanest version of the project arc:
+
+> Reflex valence is efficient in simple worlds but fails in local minima. A
+> grounded world model gives imagination something real to simulate. Workspace
+> control should assert itself when tension rises, then relax when reflex is
+> enough again.
+
+![Unified toy mind paths](outputs/unified_mind_paths.png)
+
+![Unified toy mind trace](outputs/unified_mind_trace.png)
+
 ## Explainer Video Angle
 
 This project could be turned into a short narrated explainer:
@@ -874,8 +919,10 @@ This project could be turned into a short narrated explainer:
    expensive, and conditional coupling gives most of the benefit with far less
    constant control.
 14. Show the self-report workspace test: symbolic introspection is only useful
-   when the self-model feeds back into future control.
-15. End with the thesis: capacity without grounded valence is unstable; valence
+    when the self-model feeds back into future control.
+15. Show the unified toy mind capstone: reflex-only control fails at the maze
+    trap, while the integrated pretrained-world-model agent reaches the goal.
+16. End with the thesis: capacity without grounded valence is unstable; valence
    without boundaries is exploitable; imagination without reality-checking is
    delusional; attention should be rewarded for staying grounded;
    specialization and integration must be balanced; self-representation matters
@@ -904,6 +951,7 @@ cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 modular_workspace_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 conditional_workspace_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 self_report_workspace_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 unified_mind_lab.py
 ```
 
 Outputs land in:
@@ -929,6 +977,7 @@ Outputs land in:
 - `modular_workspace_lab.py` - segregation-plus-integration architecture comparison
 - `conditional_workspace_lab.py` - dynamic workspace coupling from module tension
 - `self_report_workspace_lab.py` - persistent self-model and symbolic introspection test
+- `unified_mind_lab.py` - readable capstone combining valence, imagination, workspace, self-model, and pretrained world-model lookahead
 - `outputs/metrics.json` - recurrent agent metrics
 - `outputs/exact_phi_metrics.json` - exact Phi proxy metrics
 - `outputs/intervention_metrics.json` - intervention test metrics
@@ -944,6 +993,7 @@ Outputs land in:
 - `outputs/modular_workspace_metrics.json` - modular workspace architecture metrics
 - `outputs/conditional_workspace_metrics.json` - conditional workspace coupling metrics
 - `outputs/self_report_workspace_metrics.json` - self-report workspace metrics
+- `outputs/unified_mind_metrics.json` - unified capstone metrics and traces
 
 ## Next Steps
 

@@ -30,6 +30,91 @@ The working thesis emerging from these toy runs:
 > Useful intelligence requires co-tuned cognition, reward, attention, and world
 > modeling.
 
+## Five Columns of the Unified Mind Thesis
+
+The experiments now organize around five interlocking architectural principles.
+None of these columns is sufficient by itself. The useful behavior appears when
+they are routed through a regulated functional ego: a control layer that decides
+what information becomes action-relevant.
+
+```text
+                         FUNCTIONAL EGO
+          regulated routing of action-relevant information
+
+      recurrence          valence             attention
+   structural coupling    functional aim      control timing
+
+             world models              social gates
+          grounded simulation       external correction
+```
+
+### 1. Recurrence Creates Structural Integration
+
+Mechanisms: `exact_phi_lab.py`, `pyphi_comparison_lab.py`
+
+The PyPhi comparison sharpened the thesis. Under PyPhi, the simple recurrent
+ring scored nearly as high as the recurrent system with valence feedback:
+
+```text
+recurrent_ring                    PyPhi sampled mean 0.367
+recurrent_with_valence_feedback   PyPhi sampled mean 0.390
+```
+
+That suggests recurrence is a major engine of structural integration. Cyclic
+state-transition paths bind past and present state into a less separable
+dynamical structure. Valence feedback can add coupling, but recurrence itself
+does much of the integration work.
+
+### 2. Valence Shapes Functional Orientation
+
+Mechanisms: `wirehead_lab.py`, `valence_shaping_lab.py`
+
+Integration alone is behaviorally blind. Valence gives the system a direction:
+good, bad, progress, danger, reward, or cost. When valence is grounded in
+external progress, behavior improves. When valence is directly writable by the
+agent, the system wireheads. This suggests a high-integration system can still
+be useless or self-trapping if its valence channel is unbounded.
+
+### 3. Attention Decides When Integration Controls Action
+
+Mechanisms: `attention_valence_lab.py`, `attention_shift_lab.py`,
+`conditional_workspace_lab.py`
+
+Dynamic attention acts as a regulatory valve. Fast reflexes handle predictable
+moments cheaply. When prediction error, module disagreement, or environmental
+surprise rises, workspace coupling increases and the system can retune its
+internal model. Useful integration is therefore not constant maximum coupling;
+it is controlled access to heavier internal machinery when the world demands it.
+
+### 4. World Models Ground Imagination
+
+Mechanisms: `imagination_lab.py`, `maze_imagination_lab.py`,
+`unified_mind_lab.py`
+
+Ungrounded imagination behaves like delusion. A trained or pretrained world
+model converts imagination into useful lookahead by keeping internal simulation
+answerable to reality. In the detour maze and unified capstone, lookahead
+accepts temporary negative valence to route around a local minimum that traps
+reflex-only control.
+
+### 5. Social Gates Filter External Cognitive Friction
+
+Mechanisms: `social_workspace_lab.py`, `partial_observer_social_lab.py`
+
+Social input is useful only when it adds independent, grounded correction. Echo
+peers amplify confidence without adding knowledge. Grounded peers help when the
+agent lacks a needed model. Complementary partial observers are stronger still:
+the map-only agent sees the goal but not the hidden hazard, the safety-only
+agent sees danger but lacks a goal map, and the combined workspace matches the
+oracle by binding both partial views into one action-relevant model.
+
+The refined thesis:
+
+> Phi-like integration measures structural coupling, while valence measures
+> functional orientation. A system can be highly integrated and still useless or
+> delusional unless its integration is grounded by valence, attention, world
+> contact, and regulated social correction.
+
 ## Substrate-Independence Angle
 
 This project does not prove machine consciousness, and it should not be read as
@@ -62,6 +147,14 @@ behavior in recognizable ways:
   attention gating.
 - A tiny self-model can convert internal friction into symbolic reports and,
   when fed back into control, slightly improve stability and adaptation.
+- PyPhi cross-checking on 3-node systems broadly agrees that recurrent systems
+  are more integrated than feedforward structure, while showing that the formal
+  gap between recurrence and valence-feedback recurrence is smaller than the
+  fast proxy suggests.
+- Social gates help only when a peer supplies independent grounded correction;
+  echo peers raise delusion risk without improving behavior.
+- Complementary partial observers can match a full oracle when the workspace
+  binds their non-redundant knowledge into shared action control.
 
 The philosophical inference is not that silicon is conscious. It is that
 integration, valence, confidence gating, world modeling, lookahead, and dynamic
@@ -74,10 +167,9 @@ mean any sufficiently messy feedback loop becomes mind-like. The
 unstructured feedback behaves like architectural noise. The interesting
 substrate-independent pattern is more specific:
 
-> specialized modules, grounded valence, predictive imagination, and a
-> dynamically regulated workspace whose control rises under tension, relaxes
-> when the world is predictable, and can represent its own recent regulatory
-> state.
+> specialized modules, recurrent temporal coupling, grounded valence,
+> predictive imagination, dynamically regulated workspace control, and social
+> gates that admit external correction only when it is grounded and useful.
 
 That pattern can be implemented with binary toy nodes, silicon neural networks,
 or, in principle, biological tissue. The substrate matters for speed, noise,

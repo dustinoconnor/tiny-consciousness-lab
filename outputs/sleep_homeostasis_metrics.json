@@ -1,0 +1,70 @@
+{
+  "note": "Toy sleep/homeostasis experiment on a 4-node recurrent valence-feedback system. Fatigue adds dense common-mode feedback; sleep down-selects weak crosstalk and recenters bias.",
+  "rows": [
+    {
+      "phase": "baseline",
+      "cycle": 0,
+      "phi_proxy": 0.1592033376869593,
+      "state_separability": 0.04611236757800441,
+      "transition_entropy": 2.42290688001296,
+      "node_variance": 0.02171709679672266,
+      "saturation": 0.6237193861176961
+    },
+    {
+      "phase": "fatigue",
+      "cycle": 1,
+      "phi_proxy": 0.15057306316257496,
+      "state_separability": 0.043494138929446285,
+      "transition_entropy": 2.231970202216715,
+      "node_variance": 0.0192948425436415,
+      "saturation": 0.6699986239898531
+    },
+    {
+      "phase": "fatigue",
+      "cycle": 2,
+      "phi_proxy": 0.13992534119065778,
+      "state_separability": 0.04047609758409343,
+      "transition_entropy": 2.06307928423636,
+      "node_variance": 0.016926969962869708,
+      "saturation": 0.7083396943976228
+    },
+    {
+      "phase": "fatigue",
+      "cycle": 3,
+      "phi_proxy": 0.12903072268799556,
+      "state_separability": 0.03727429335791396,
+      "transition_entropy": 1.9158525884464834,
+      "node_variance": 0.014727137775766801,
+      "saturation": 0.7399743503934539
+    },
+    {
+      "phase": "fatigue",
+      "cycle": 4,
+      "phi_proxy": 0.11803763652326438,
+      "state_separability": 0.034011169742419654,
+      "transition_entropy": 1.7887781620422998,
+      "node_variance": 0.01275395068888668,
+      "saturation": 0.7670139308755173
+    },
+    {
+      "phase": "sleep_downselection",
+      "cycle": 5,
+      "phi_proxy": 0.16791446256903644,
+      "state_separability": 0.04873326790969461,
+      "transition_entropy": 2.4451843669035904,
+      "node_variance": 0.023773063375562068,
+      "saturation": 0.60750104831441
+    }
+  ],
+  "summary": {
+    "baseline_phi": 0.1592033376869593,
+    "fatigued_phi": 0.11803763652326438,
+    "after_sleep_phi": 0.16791446256903644,
+    "baseline_state_separability": 0.04611236757800441,
+    "fatigued_state_separability": 0.034011169742419654,
+    "after_sleep_state_separability": 0.04873326790969461,
+    "fatigue_phi_drop_pct": 25.85731038166978,
+    "sleep_phi_recovery_pct_of_baseline": 105.47169739569517
+  },
+  "thesis": "Integrated recurrence is not maintenance-free. Dense echo-like feedback can reduce state separability and Phi proxy; offline down-selection can restore structured integration by pruning ungrounded crosstalk."
+}

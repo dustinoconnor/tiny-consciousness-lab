@@ -1,0 +1,47 @@
+{
+  "note": "Tests a hierarchical executive blindspot. During the mirage phase, local specialists report high confidence and low tension while the actual reward collapses.",
+  "shift_step": 100,
+  "mirage_duration": 70,
+  "summary": {
+    "naive_confidence_master": {
+      "pre_shift_accuracy": 1.0,
+      "mirage_accuracy": 0.0,
+      "late_post_shift_accuracy": 0.9777777777777777,
+      "recovery_steps_to_80pct": 77,
+      "mirage_confidence": 0.9699999999999999,
+      "mirage_tension": 0.010500000000000004,
+      "mirage_reward_ema": 0.1284903906410483,
+      "mirage_skepticism": 0.0,
+      "mean_control_cost": 0.012176559766684799,
+      "workspace_efficiency": 0.7109003633102383,
+      "final_rule_1_belief": 0.9615046488682482
+    },
+    "outcome_skeptical_master": {
+      "pre_shift_accuracy": 1.0,
+      "mirage_accuracy": 0.5571428571428572,
+      "late_post_shift_accuracy": 1.0,
+      "recovery_steps_to_80pct": 72,
+      "mirage_confidence": 0.9699999999999999,
+      "mirage_tension": 0.010500000000000004,
+      "mirage_reward_ema": 0.612848856173798,
+      "mirage_skepticism": 0.72099068228888,
+      "mean_control_cost": 0.028543094650770734,
+      "workspace_efficiency": 0.85222613611846,
+      "final_rule_1_belief": 0.9615384615384611
+    },
+    "paranoid_master": {
+      "pre_shift_accuracy": 0.89,
+      "mirage_accuracy": 0.0,
+      "late_post_shift_accuracy": 1.0,
+      "recovery_steps_to_80pct": 75,
+      "mirage_confidence": 0.9699999999999999,
+      "mirage_tension": 0.010500000000000004,
+      "mirage_reward_ema": 0.1284829278786959,
+      "mirage_skepticism": 0.7199999999999998,
+      "mean_control_cost": 0.09053057232153378,
+      "workspace_efficiency": 0.5979309661400046,
+      "final_rule_1_belief": 0.9615384615384616
+    }
+  },
+  "thesis": "Compressed confidence summaries are not enough. Executive control needs metacognitive outcome monitoring: if confidence stays high while reward collapses, the master must trigger skepticism and force a global retune."
+}

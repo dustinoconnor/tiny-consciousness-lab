@@ -1247,6 +1247,75 @@ This is the cortex-style lesson in miniature:
 
 ![Hierarchical workspace timeseries](outputs/hierarchical_workspace_timeseries.png)
 
+## Executive Blindspot Test
+
+`executive_blindspot_lab.py` attacks the strongest assumption in the
+hierarchical model: that local specialists report honest confidence summaries.
+
+During the deceptive mirage phase, the environment flips the real rule while
+feeding local workspaces a fake old-rule signature. The specialists sound
+confident and aligned:
+
+- compressed confidence stays near `0.97`
+- local tension stays near `0.01`
+- the naive master sees no reason to intervene
+
+But reward collapses. The skeptical master adds a metacognition loop: if local
+confidence remains high while the global reward trend falls, it triggers a
+skepticism override and tests the counter-rule.
+
+Result:
+
+```text
+condition                    mirage_acc  mirage_conf  mirage_tension  skepticism  efficiency
+naive_confidence_master      0.000       0.970        0.011           0.000       0.711
+outcome_skeptical_master     0.557       0.970        0.011           0.721       0.852
+paranoid_master              0.000       0.970        0.011           0.720       0.598
+```
+
+The naive master fails because compressed confidence summaries are confidently
+wrong. The paranoid master pays constant suspicion cost but still lacks useful
+outcome-coupled retuning. The skeptical master wins because it compares local
+confidence against global consequences.
+
+> Executive control cannot only ask, "Are my specialists confident?" It must
+> also ask, "Are confident specialists still producing reward?"
+
+![Executive blindspot summary](outputs/executive_blindspot_summary.png)
+
+![Executive blindspot timeseries](outputs/executive_blindspot_timeseries.png)
+
+## Sleep Homeostasis Test
+
+`sleep_homeostasis_lab.py` tests the maintenance problem for integrated
+recurrent systems. It starts with the 4-node recurrent valence-feedback circuit,
+then repeatedly adds dense common-mode feedback and bias drift. That "fatigue"
+phase is a toy version of echo-like crosstalk, not a biological model of sleep.
+
+After four fatigue cycles:
+
+```text
+metric                  baseline   fatigued   after_sleep
+Phi proxy               0.159      0.118      0.168
+state separability      0.046      0.034      0.049
+```
+
+Fatigue reduced the Phi proxy by about `25.9%` and reduced state separability.
+The offline sleep/down-selection pass damped weak dense crosstalk, preserved the
+strongest structured edges, recentered bias, and restored Phi proxy to about
+`105%` of baseline.
+
+This does not prove that artificial systems need literal sleep. It does support
+a narrower maintenance rule:
+
+> Integrated recurrence is not maintenance-free. Dense echo-like feedback can
+> turn useful loops into structural sludge; offline down-selection can restore
+> clean separability.
+
+![Sleep homeostasis summary](outputs/sleep_homeostasis_summary.png)
+
+![Sleep homeostasis timeseries](outputs/sleep_homeostasis_timeseries.png)
+
 ## Explainer Video Angle
 
 This project could be turned into a short narrated explainer:
@@ -1293,7 +1362,12 @@ This project could be turned into a short narrated explainer:
 18. Show the hierarchical workspace test: cortex-like local workspaces only help
     when a fast master controller can arbitrate conflict without adding
     bureaucratic delay.
-19. End with the thesis: capacity without grounded valence is unstable; valence
+19. Show the executive blindspot test: confident specialists can mislead the
+    master unless executive control cross-checks confidence against outcomes.
+20. Show the sleep/homeostasis test: recurrent integration can degrade under
+    dense echo-like crosstalk, and offline down-selection can restore
+    separability.
+21. End with the thesis: capacity without grounded valence is unstable; valence
    without boundaries is exploitable; imagination without reality-checking is
    delusional; attention should be rewarded for staying grounded;
    specialization and integration must be balanced; self-representation matters
@@ -1328,6 +1402,8 @@ cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 social_workspace_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 partial_observer_social_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 hierarchical_workspace_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 executive_blindspot_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 sleep_homeostasis_lab.py
 ```
 
 Outputs land in:
@@ -1359,6 +1435,8 @@ Outputs land in:
 - `social_workspace_lab.py` - social peer/workspace comparison for grounded critics vs echo loops
 - `partial_observer_social_lab.py` - complementary partial observers with map/safety information split
 - `hierarchical_workspace_lab.py` - cortex-like local workspaces plus master-controller rule-shift test
+- `executive_blindspot_lab.py` - deceptive-confidence test for master-controller metacognition
+- `sleep_homeostasis_lab.py` - offline down-selection test for recurrent echo/crosstalk maintenance
 - `outputs/metrics.json` - recurrent agent metrics
 - `outputs/hidden_binarization_metrics.json` - empirical integration on binarized trained hidden states
 - `outputs/pyphi_comparison_metrics.json` - PyPhi comparison metrics
@@ -1380,6 +1458,8 @@ Outputs land in:
 - `outputs/social_workspace_metrics.json` - social workspace metrics and example traces
 - `outputs/partial_observer_social_metrics.json` - complementary observer metrics and traces
 - `outputs/hierarchical_workspace_metrics.json` - hierarchical workspace metrics and traces
+- `outputs/executive_blindspot_metrics.json` - executive blindspot metrics and traces
+- `outputs/sleep_homeostasis_metrics.json` - sleep/homeostasis maintenance metrics
 
 ## Next Steps
 

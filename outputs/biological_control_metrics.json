@@ -1,0 +1,60 @@
+{
+  "note": "Three neuroscience-inspired toy control motifs: low-road threat veto, inhibitory winner-take-all action gate, and neuromodulator-like dynamic global variables.",
+  "low_road_threat_hijack": {
+    "slow_workspace_only": {
+      "survival_rate_on_hazards": 0.3230769230769231,
+      "false_veto_rate": 0.0,
+      "progress_rate": 0.5833333333333334,
+      "mean_utility": 1.0055
+    },
+    "low_road_veto": {
+      "survival_rate_on_hazards": 1.0,
+      "false_veto_rate": 0.0,
+      "progress_rate": 0.6133333333333333,
+      "mean_utility": 1.1532000000000002
+    },
+    "overactive_veto": {
+      "survival_rate_on_hazards": 1.0,
+      "false_veto_rate": 0.07317073170731707,
+      "progress_rate": 0.56,
+      "mean_utility": 1.1258666666666666
+    }
+  },
+  "inhibitory_action_gate": {
+    "blended_policy": {
+      "accuracy": 0.33611111111111114,
+      "jitter_rate": 0.7277777777777777,
+      "freeze_rate": 0.0,
+      "mean_decisiveness": 0.1288625944234955
+    },
+    "inhibitory_gate": {
+      "accuracy": 0.9805555555555555,
+      "jitter_rate": 0.03888888888888889,
+      "freeze_rate": 0.0,
+      "mean_decisiveness": 0.7309437826365657
+    },
+    "overclamped_gate": {
+      "accuracy": 0.39166666666666666,
+      "jitter_rate": 0.4583333333333333,
+      "freeze_rate": 0.6083333333333333,
+      "mean_decisiveness": 0.4830846301036868
+    }
+  },
+  "neuromodulation_fluid": {
+    "static_params": {
+      "stable_accuracy": 1.0,
+      "rewrite_accuracy": 0.8888888888888888,
+      "chaotic_accuracy": 0.6416666666666667,
+      "mean_learning_rate": 0.07000000000000003,
+      "mean_norepinephrine": 0.35000000000000003
+    },
+    "fluid_chemistry": {
+      "stable_accuracy": 1.0,
+      "rewrite_accuracy": 0.9666666666666667,
+      "chaotic_accuracy": 0.825,
+      "mean_learning_rate": 0.19103872007399522,
+      "mean_norepinephrine": 0.40056320885290775
+    }
+  },
+  "thesis": "Biological control motifs solve distinct architecture problems: fast vetoes protect slow awareness, inhibitory gates sharpen action selection, and fluid global variables retune learning and attention when the world changes."
+}

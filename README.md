@@ -1400,6 +1400,70 @@ That gives a more nuanced answer:
 
 ![Sleep cycle agent Phi samples](outputs/sleep_cycle_agent_phi_samples.png)
 
+## Biological Control Motifs
+
+`biological_control_lab.py` adds three neuroscience-inspired control motifs as
+toy architecture tests. These are not biological simulations; they are probes
+for three practical control problems exposed by earlier labs.
+
+### Low-Road Threat Hijack
+
+A fast feedforward veto bypasses slow workspace routing when an instant hazard
+appears.
+
+```text
+condition              hazard_survival  false_veto  progress  utility
+slow_workspace_only    0.323            0.000       0.583     1.006
+low_road_veto          1.000            0.000       0.613     1.153
+overactive_veto        1.000            0.073       0.560     1.126
+```
+
+The low-road veto protects the agent from hazards that are too fast for the
+slow executive path. The overactive veto also survives, but pays false-alarm
+cost.
+
+### Inhibitory Action Gate
+
+A basal-ganglia-like winner-take-all gate converts blended workspace proposals
+into a crisp selected action.
+
+```text
+condition          accuracy  jitter   freeze  decisiveness
+blended_policy     0.336     0.728    0.000   0.129
+inhibitory_gate    0.981     0.039    0.000   0.731
+overclamped_gate   0.392     0.458    0.608   0.483
+```
+
+The inhibitory gate sharply reduces action jitter. Too much inhibition creates
+freezing, which is the control-pathology version of the same mechanism.
+
+### Neuromodulation Fluid
+
+Dopamine-, norepinephrine-, and acetylcholine-like scalar variables adjust
+learning rate, attention width, and update speed when the world changes.
+
+```text
+condition         stable_acc  rewrite_acc  chaotic_acc  mean_lr
+static_params     1.000       0.889        0.642        0.070
+fluid_chemistry   1.000       0.967        0.825        0.191
+```
+
+The fluid-chemistry agent adapts better after a structural rewrite and stays
+more accurate in the chaotic phase because its internal physics are allowed to
+change with surprise and reward prediction error.
+
+> Biological control motifs solve distinct architecture problems: fast vetoes
+> protect slow awareness, inhibitory gates sharpen action selection, and fluid
+> global variables retune learning and attention when the world changes.
+
+![Biological low road summary](outputs/biological_low_road_summary.png)
+
+![Biological inhibitory gate summary](outputs/biological_inhibitory_gate_summary.png)
+
+![Biological neuromod summary](outputs/biological_neuromod_summary.png)
+
+![Biological neuromod timeseries](outputs/biological_neuromod_timeseries.png)
+
 ## Explainer Video Angle
 
 This project could be turned into a short narrated explainer:
@@ -1455,7 +1519,10 @@ This project could be turned into a short narrated explainer:
     separability.
 22. Show the sleep cycle agent test: always-on background repair helps, but
     full offline pruning preserves behavior and integration more strongly.
-23. End with the thesis: capacity without grounded valence is unstable; valence
+23. Show the biological control motifs: low-road vetoes protect slow awareness,
+    inhibitory gates sharpen action, and neuromodulation retunes internal
+    physics under surprise.
+24. End with the thesis: capacity without grounded valence is unstable; valence
    without boundaries is exploitable; imagination without reality-checking is
    delusional; attention should be rewarded for staying grounded;
    specialization and integration must be balanced; self-representation matters
@@ -1494,6 +1561,7 @@ cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 executive_blindspot_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 sleep_homeostasis_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 sleep_cycle_agent_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 biological_control_lab.py
 ```
 
 Outputs land in:
@@ -1529,6 +1597,7 @@ Outputs land in:
 - `executive_blindspot_lab.py` - deceptive-confidence test for master-controller metacognition
 - `sleep_homeostasis_lab.py` - offline down-selection test for recurrent echo/crosstalk maintenance
 - `sleep_cycle_agent_lab.py` - 500-step no-sleep vs offline-sleep vs active-dreaming maintenance test
+- `biological_control_lab.py` - low-road veto, inhibitory action gate, and neuromodulation toy tests
 - `outputs/metrics.json` - recurrent agent metrics
 - `outputs/hidden_binarization_metrics.json` - empirical integration on binarized trained hidden states
 - `outputs/pyphi_comparison_metrics.json` - PyPhi comparison metrics
@@ -1554,6 +1623,7 @@ Outputs land in:
 - `outputs/executive_blindspot_metrics.json` - executive blindspot metrics and traces
 - `outputs/sleep_homeostasis_metrics.json` - sleep/homeostasis maintenance metrics
 - `outputs/sleep_cycle_agent_metrics.json` - long-run sleep cycle maintenance metrics
+- `outputs/biological_control_metrics.json` - biological control motif metrics
 
 ## Next Steps
 

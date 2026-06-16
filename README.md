@@ -31,7 +31,9 @@ The working thesis emerging from these toy runs:
 > modeling.  
 > Conscious-like systems may also need maintenance cycles: always-on repair can
 > help, but offline down-selection restores saturated recurrent dynamics more
-> strongly in these toy runs.
+> strongly in these toy runs.  
+> Awareness-like control is expensive, integration can decay, and a functional
+> self may need active substrate maintenance to remain stable.
 
 ## Unified Mind Architecture Stack
 

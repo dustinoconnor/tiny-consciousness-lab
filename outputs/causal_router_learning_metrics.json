@@ -1,0 +1,48 @@
+{
+  "note": "Routing credit-assignment toy. The causal router runs a backward-looking counterfactual update to learn which specialist would have improved the last outcome.",
+  "summary": {
+    "static_router": {
+      "goal_rate": 0.7,
+      "late_goal_rate": 0.65,
+      "hazard_rate": 0.3,
+      "late_hazard_rate": 0.35,
+      "mean_steps": 12.6875,
+      "mean_route_entropy": 1.4659787984957555,
+      "final_reflex_trust": 0.2,
+      "final_map_trust": 0.85,
+      "final_safety_map_trust": -0.1,
+      "danger_map_trust": 0.85,
+      "danger_safety_map_trust": -0.15,
+      "danger_safety_advantage": -1.0
+    },
+    "uniform_penalty_router": {
+      "goal_rate": 0.075,
+      "late_goal_rate": 0.0,
+      "hazard_rate": 0.0,
+      "late_hazard_rate": 0.0,
+      "mean_steps": 39.975,
+      "mean_route_entropy": 1.5819686778564057,
+      "final_reflex_trust": -2.0,
+      "final_map_trust": -2.0,
+      "final_safety_map_trust": -2.0,
+      "danger_map_trust": -2.0,
+      "danger_safety_map_trust": -2.0,
+      "danger_safety_advantage": 0.0
+    },
+    "causal_credit_router": {
+      "goal_rate": 0.975,
+      "late_goal_rate": 1.0,
+      "hazard_rate": 0.025,
+      "late_hazard_rate": 0.0,
+      "mean_steps": 16.2625,
+      "mean_route_entropy": 1.5285146284331526,
+      "final_reflex_trust": -1.9985441068346328,
+      "final_map_trust": -1.9985441068346328,
+      "final_safety_map_trust": -1.976640383599168,
+      "danger_map_trust": -1.991789792839367,
+      "danger_safety_map_trust": -0.7848893402263195,
+      "danger_safety_advantage": 1.2069004526130476
+    }
+  },
+  "thesis": "Intelligent routing requires causal credit assignment. A master controller should not merely route signals; it should learn which internal source caused success or failure."
+}

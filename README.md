@@ -37,10 +37,14 @@ The working thesis emerging from these toy runs:
 > The project has moved beyond static cognition into computational metabolism:
 > toy systems that regulate attention, learning, action selection, repair, and
 > routing to remain functional under environmental chaos.
+> Intelligence is not just more loops, more scale, or more integration. In
+> these toy systems, the useful intelligence is increasingly concentrated in
+> regulated routing: deciding which internal source should control action, when,
+> and why.
 
 ## Unified Mind Architecture Stack
 
-The experiments now organize around six interlocking architectural principles.
+The experiments now organize around several interlocking architectural principles.
 None of these layers is sufficient by itself. The useful behavior appears when
 they are routed through a regulated functional ego: a control layer that decides
 what information becomes action-relevant.
@@ -57,6 +61,9 @@ what information becomes action-relevant.
 
                     hierarchical master workspaces
                   compressed conflict arbitration
+
+                         causal router learning
+                    context-specific credit assignment
 
                          maintenance cycles
                  recurrent repair and down-selection
@@ -1295,6 +1302,48 @@ compression protects the global master from routing overload.
 
 ![Hierarchy scaling channel load](outputs/hierarchy_scaling_channel_load.png)
 
+## Causal Router Learning
+
+`causal_router_learning_lab.py` tests the next routing upgrade. Hierarchy helps
+with scale, but a master controller still needs to learn which specialist caused
+success or failure.
+
+The maze gives the router three specialists:
+
+- `reflex` - fast local progress, hazard-blind
+- `map` - goal-directed shortest path, hazard-blind
+- `safety_map` - slower corrected map that can avoid a locally discovered
+  hazard
+
+The comparison is deliberately small:
+
+- `static_router` keeps fixed routing weights
+- `uniform_penalty_router` punishes every specialist after bad outcomes
+- `causal_credit_router` asks a counterfactual question after each step: "If I
+  had followed this specialist instead, would the result have improved?"
+
+Result:
+
+```text
+condition                 goal   late_goal  hazard  late_hazard  danger_safety_advantage
+static_router             0.700  0.650      0.300   0.350        -1.000
+uniform_penalty_router    0.075  0.000      0.000   0.000         0.000
+causal_credit_router      0.975  1.000      0.025   0.000         1.207
+```
+
+The static router solves easy variants but keeps trusting the blind map at
+hazard boundaries. Uniform punishment avoids hazards only by becoming useless.
+The causal router learns a context-specific trust rule: ordinary space can use
+the map, but danger space should route through the safety-corrected map.
+
+> Smarter routing is not just stronger control. It is causal credit assignment:
+> the executive layer must learn which internal source would have changed the
+> outcome, then update trust only in the context where that source mattered.
+
+![Causal router learning summary](outputs/causal_router_learning_summary.png)
+
+![Causal router learning trust](outputs/causal_router_learning_trust.png)
+
 ## Executive Blindspot Test
 
 `executive_blindspot_lab.py` attacks the strongest assumption in the
@@ -1597,6 +1646,7 @@ Outputs land in:
 - `partial_observer_social_lab.py` - complementary partial observers with map/safety information split
 - `hierarchical_workspace_lab.py` - cortex-like local workspaces plus master-controller rule-shift test
 - `hierarchy_scaling_lab.py` - routing-load sweep for single-master vs regional hierarchy scaling
+- `causal_router_learning_lab.py` - counterfactual credit-assignment test for context-specific routing trust
 - `executive_blindspot_lab.py` - deceptive-confidence test for master-controller metacognition
 - `sleep_homeostasis_lab.py` - offline down-selection test for recurrent echo/crosstalk maintenance
 - `sleep_cycle_agent_lab.py` - 500-step no-sleep vs offline-sleep vs active-dreaming maintenance test

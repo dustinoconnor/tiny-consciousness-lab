@@ -34,6 +34,9 @@ The working thesis emerging from these toy runs:
 > strongly in these toy runs.  
 > Awareness-like control is expensive, integration can decay, and a functional
 > self may need active substrate maintenance to remain stable.
+> The project has moved beyond static cognition into computational metabolism:
+> toy systems that regulate attention, learning, action selection, repair, and
+> routing to remain functional under environmental chaos.
 
 ## Unified Mind Architecture Stack
 

@@ -1316,6 +1316,45 @@ a narrower maintenance rule:
 
 ![Sleep homeostasis timeseries](outputs/sleep_homeostasis_timeseries.png)
 
+## Sleep Cycle Agent Test
+
+`sleep_cycle_agent_lab.py` extends the sleep/homeostasis result into a 500-step
+behavioral run. It compares three cognitive maintenance strategies:
+
+- `no_sleep` - the system stays online and recurrent crosstalk accumulates
+- `offline_sleep` - every 100 steps, action processing pauses and the recurrent
+  matrix is aggressively down-selected
+- `active_dreaming` - the system never goes offline, but a small background
+  repair loop damps weak recurrent edges every step
+
+Result:
+
+```text
+condition         early_acc  late_acc  late_delusion  final_phi  final_sep
+no_sleep          0.850      0.250     0.999          0.014      0.005
+offline_sleep     0.850      0.880     0.223          0.204      0.049
+active_dreaming   0.890      0.840     0.265          0.094      0.032
+```
+
+The no-sleep system collapses late in the run: crosstalk saturates, delusion
+approaches `1.0`, and sampled Phi proxy drops from the healthy range down to
+`0.014`. Active dreaming helps a lot; it keeps behavior mostly intact without
+taking the agent offline. But it does not restore the recurrent substrate as
+strongly as offline sleep. The offline sleep condition has the best late
+accuracy, the lowest delusion, and the strongest final Phi/separability.
+
+That gives a more nuanced answer:
+
+> Always-on repair can reduce degradation, but in this toy it does not fully
+> match offline sleep. An explicit offline phase gives the system permission to
+> prune more aggressively without corrupting active behavior.
+
+![Sleep cycle agent summary](outputs/sleep_cycle_agent_summary.png)
+
+![Sleep cycle agent behavior](outputs/sleep_cycle_agent_behavior.png)
+
+![Sleep cycle agent Phi samples](outputs/sleep_cycle_agent_phi_samples.png)
+
 ## Explainer Video Angle
 
 This project could be turned into a short narrated explainer:
@@ -1367,7 +1406,9 @@ This project could be turned into a short narrated explainer:
 20. Show the sleep/homeostasis test: recurrent integration can degrade under
     dense echo-like crosstalk, and offline down-selection can restore
     separability.
-21. End with the thesis: capacity without grounded valence is unstable; valence
+21. Show the sleep cycle agent test: always-on background repair helps, but
+    full offline pruning preserves behavior and integration more strongly.
+22. End with the thesis: capacity without grounded valence is unstable; valence
    without boundaries is exploitable; imagination without reality-checking is
    delusional; attention should be rewarded for staying grounded;
    specialization and integration must be balanced; self-representation matters
@@ -1404,6 +1445,7 @@ cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 hierarchical_workspace_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 executive_blindspot_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 sleep_homeostasis_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 sleep_cycle_agent_lab.py
 ```
 
 Outputs land in:
@@ -1437,6 +1479,7 @@ Outputs land in:
 - `hierarchical_workspace_lab.py` - cortex-like local workspaces plus master-controller rule-shift test
 - `executive_blindspot_lab.py` - deceptive-confidence test for master-controller metacognition
 - `sleep_homeostasis_lab.py` - offline down-selection test for recurrent echo/crosstalk maintenance
+- `sleep_cycle_agent_lab.py` - 500-step no-sleep vs offline-sleep vs active-dreaming maintenance test
 - `outputs/metrics.json` - recurrent agent metrics
 - `outputs/hidden_binarization_metrics.json` - empirical integration on binarized trained hidden states
 - `outputs/pyphi_comparison_metrics.json` - PyPhi comparison metrics
@@ -1460,6 +1503,7 @@ Outputs land in:
 - `outputs/hierarchical_workspace_metrics.json` - hierarchical workspace metrics and traces
 - `outputs/executive_blindspot_metrics.json` - executive blindspot metrics and traces
 - `outputs/sleep_homeostasis_metrics.json` - sleep/homeostasis maintenance metrics
+- `outputs/sleep_cycle_agent_metrics.json` - long-run sleep cycle maintenance metrics
 
 ## Next Steps
 

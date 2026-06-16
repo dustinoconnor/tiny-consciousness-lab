@@ -1,0 +1,281 @@
+{
+  "note": "500-step behavioral sleep-cycle toy. No-sleep accumulates dense recurrent crosstalk; offline sleep pauses every 100 steps for down-selection; active dreaming performs small always-on repair.",
+  "summary": {
+    "no_sleep": {
+      "early_accuracy": 0.85,
+      "late_accuracy": 0.25,
+      "late_delusion": 0.9988874639671398,
+      "late_crosstalk": 1.2,
+      "final_phi_proxy": 0.014003582355185082,
+      "final_state_separability": 0.005419134070611952,
+      "maintenance_events": 0
+    },
+    "offline_sleep": {
+      "early_accuracy": 0.85,
+      "late_accuracy": 0.88,
+      "late_delusion": 0.22332445677017987,
+      "late_crosstalk": 0.344424752099236,
+      "final_phi_proxy": 0.20387756971574444,
+      "final_state_separability": 0.048816354362641805,
+      "maintenance_events": 5
+    },
+    "active_dreaming": {
+      "early_accuracy": 0.89,
+      "late_accuracy": 0.84,
+      "late_delusion": 0.26501224886884983,
+      "late_crosstalk": 0.4115455923102435,
+      "final_phi_proxy": 0.0939091255118259,
+      "final_state_separability": 0.031776268618850655,
+      "maintenance_events": 500
+    }
+  },
+  "samples": {
+    "no_sleep": [
+      {
+        "t": 50,
+        "phi_proxy": 0.13269346079520256,
+        "state_separability": 0.038052070535395825,
+        "transition_entropy": 1.9455171376053715,
+        "node_variance": 0.015415653066082582,
+        "saturation": 0.733380035303753
+      },
+      {
+        "t": 100,
+        "phi_proxy": 0.10384825324397162,
+        "state_separability": 0.02926054975797632,
+        "transition_entropy": 1.6274238159737777,
+        "node_variance": 0.010578940204872024,
+        "saturation": 0.7990831811208388
+      },
+      {
+        "t": 150,
+        "phi_proxy": 0.07895606578049111,
+        "state_separability": 0.021852245744812194,
+        "transition_entropy": 1.4238028612070743,
+        "node_variance": 0.007400553577007395,
+        "saturation": 0.8385265954199257
+      },
+      {
+        "t": 200,
+        "phi_proxy": 0.05986926543807114,
+        "state_separability": 0.016413539655576823,
+        "transition_entropy": 1.2943909932168407,
+        "node_variance": 0.005349135288091359,
+        "saturation": 0.8624203604662981
+      },
+      {
+        "t": 250,
+        "phi_proxy": 0.04659670876567146,
+        "state_separability": 0.012792680452749687,
+        "transition_entropy": 1.211983856273799,
+        "node_variance": 0.0039493349754942154,
+        "saturation": 0.8773330044402479
+      },
+      {
+        "t": 300,
+        "phi_proxy": 0.03689819045596361,
+        "state_separability": 0.01035003394362202,
+        "transition_entropy": 1.1590389942198196,
+        "node_variance": 0.002927637998514178,
+        "saturation": 0.8870384846701475
+      },
+      {
+        "t": 350,
+        "phi_proxy": 0.02934809040384112,
+        "state_separability": 0.008630423081313978,
+        "transition_entropy": 1.124104295157407,
+        "node_variance": 0.002154359249355957,
+        "saturation": 0.8937045076395662
+      },
+      {
+        "t": 400,
+        "phi_proxy": 0.02319923863743699,
+        "state_separability": 0.007339585360865018,
+        "transition_entropy": 1.099733910760121,
+        "node_variance": 0.001566587337605106,
+        "saturation": 0.8985616308901311
+      },
+      {
+        "t": 450,
+        "phi_proxy": 0.018136249570051218,
+        "state_separability": 0.006300758774928046,
+        "transition_entropy": 1.081340616701627,
+        "node_variance": 0.001125150198310315,
+        "saturation": 0.90229683682721
+      },
+      {
+        "t": 500,
+        "phi_proxy": 0.014003582355185082,
+        "state_separability": 0.005419134070611952,
+        "transition_entropy": 1.0663442730081827,
+        "node_variance": 0.0007990803475232482,
+        "saturation": 0.9052896391650465
+      }
+    ],
+    "offline_sleep": [
+      {
+        "t": 50,
+        "phi_proxy": 0.13269346079520256,
+        "state_separability": 0.038052070535395825,
+        "transition_entropy": 1.9455171376053715,
+        "node_variance": 0.015415653066082582,
+        "saturation": 0.733380035303753
+      },
+      {
+        "t": 100,
+        "phi_proxy": 0.17554103131122906,
+        "state_separability": 0.04859137595661123,
+        "transition_entropy": 2.2844851399542367,
+        "node_variance": 0.023809103992853013,
+        "saturation": 0.6411609399951599
+      },
+      {
+        "t": 150,
+        "phi_proxy": 0.13812729348137293,
+        "state_separability": 0.03993376757663688,
+        "transition_entropy": 1.888987158906139,
+        "node_variance": 0.015656748234576287,
+        "saturation": 0.7397204256640616
+      },
+      {
+        "t": 200,
+        "phi_proxy": 0.18465673769518215,
+        "state_separability": 0.04867582451062697,
+        "transition_entropy": 2.107686669584835,
+        "node_variance": 0.024548743964202563,
+        "saturation": 0.6727618695300838
+      },
+      {
+        "t": 250,
+        "phi_proxy": 0.1383081085260517,
+        "state_separability": 0.03959617981847754,
+        "transition_entropy": 1.7954693147434728,
+        "node_variance": 0.01544271492037369,
+        "saturation": 0.754844329893436
+      },
+      {
+        "t": 300,
+        "phi_proxy": 0.19107480425156964,
+        "state_separability": 0.04864583462790536,
+        "transition_entropy": 1.9849212320468408,
+        "node_variance": 0.025068346548804014,
+        "saturation": 0.6929535108767264
+      },
+      {
+        "t": 350,
+        "phi_proxy": 0.13973892138305358,
+        "state_separability": 0.0392615548625259,
+        "transition_entropy": 1.7345141085520461,
+        "node_variance": 0.015328707701110946,
+        "saturation": 0.7642879233748504
+      },
+      {
+        "t": 400,
+        "phi_proxy": 0.19782175457208767,
+        "state_separability": 0.04872664994873306,
+        "transition_entropy": 1.9026860301990944,
+        "node_variance": 0.02557723827309824,
+        "saturation": 0.7051214479998545
+      },
+      {
+        "t": 450,
+        "phi_proxy": 0.14176951498052764,
+        "state_separability": 0.039116227015458215,
+        "transition_entropy": 1.697275977567293,
+        "node_variance": 0.015350878194056103,
+        "saturation": 0.7695874191803086
+      },
+      {
+        "t": 500,
+        "phi_proxy": 0.20387756971574444,
+        "state_separability": 0.048816354362641805,
+        "transition_entropy": 1.8467907742471006,
+        "node_variance": 0.026017232542970625,
+        "saturation": 0.7126941310115937
+      }
+    ],
+    "active_dreaming": [
+      {
+        "t": 50,
+        "phi_proxy": 0.14463103846776587,
+        "state_separability": 0.043671404582764035,
+        "transition_entropy": 2.256692613451072,
+        "node_variance": 0.018609039082539337,
+        "saturation": 0.6651397938289121
+      },
+      {
+        "t": 100,
+        "phi_proxy": 0.134812149711222,
+        "state_separability": 0.0414691819886998,
+        "transition_entropy": 2.109595230608382,
+        "node_variance": 0.0163801103044069,
+        "saturation": 0.6996678495817304
+      },
+      {
+        "t": 150,
+        "phi_proxy": 0.125756599312223,
+        "state_separability": 0.03948150192888784,
+        "transition_entropy": 1.9900778983429999,
+        "node_variance": 0.01458230045603788,
+        "saturation": 0.7264033561848099
+      },
+      {
+        "t": 200,
+        "phi_proxy": 0.1178518689125584,
+        "state_separability": 0.0377468327706489,
+        "transition_entropy": 1.8961253786653651,
+        "node_variance": 0.013129937682021718,
+        "saturation": 0.7466730235427537
+      },
+      {
+        "t": 250,
+        "phi_proxy": 0.11123397374199823,
+        "state_separability": 0.03624239839345839,
+        "transition_entropy": 1.8229965755795565,
+        "node_variance": 0.01197321791753827,
+        "saturation": 0.7620472909187213
+      },
+      {
+        "t": 300,
+        "phi_proxy": 0.10600802903873596,
+        "state_separability": 0.034973018614546734,
+        "transition_entropy": 1.7660281393351427,
+        "node_variance": 0.01105992021495516,
+        "saturation": 0.7737905915454778
+      },
+      {
+        "t": 350,
+        "phi_proxy": 0.10186840576319557,
+        "state_separability": 0.03392312644183201,
+        "transition_entropy": 1.721395439464959,
+        "node_variance": 0.0103407525805807,
+        "saturation": 0.7828474938266752
+      },
+      {
+        "t": 400,
+        "phi_proxy": 0.09858243448216983,
+        "state_separability": 0.03306215732870259,
+        "transition_entropy": 1.686159003028036,
+        "node_variance": 0.009773936774782289,
+        "saturation": 0.7899039179568347
+      },
+      {
+        "t": 450,
+        "phi_proxy": 0.09597611757714279,
+        "state_separability": 0.03235503067551641,
+        "transition_entropy": 1.6581123085457592,
+        "node_variance": 0.009326033647337752,
+        "saturation": 0.7954552780338289
+      },
+      {
+        "t": 500,
+        "phi_proxy": 0.0939091255118259,
+        "state_separability": 0.031776268618850655,
+        "transition_entropy": 1.6356080157748938,
+        "node_variance": 0.008970979508307345,
+        "saturation": 0.7998613774331687
+      }
+    ]
+  },
+  "thesis": "Always-on repair helps, but in this toy it does not fully match offline sleep. The explicit offline phase gives the system permission to prune more aggressively without corrupting active behavior."
+}

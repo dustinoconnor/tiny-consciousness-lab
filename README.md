@@ -1339,6 +1339,9 @@ the map, but danger space should route through the safety-corrected map.
 > Smarter routing is not just stronger control. It is causal credit assignment:
 > the executive layer must learn which internal source would have changed the
 > outcome, then update trust only in the context where that source mattered.
+> In this toy maze, the agent gets smarter when its executive layer can look
+> inward, run counterfactuals on its own sub-workspaces, and dynamically shift
+> who it trusts based on the immediate context of the world.
 
 ![Causal router learning summary](outputs/causal_router_learning_summary.png)
 

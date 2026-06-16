@@ -28,7 +28,10 @@ The working thesis emerging from these toy runs:
 > Specialization and integration must be balanced.  
 > Self-representation matters only when it can alter future control.  
 > Useful intelligence requires co-tuned cognition, reward, attention, and world
-> modeling.
+> modeling.  
+> Conscious-like systems may also need maintenance cycles: always-on repair can
+> help, but offline down-selection restores saturated recurrent dynamics more
+> strongly in these toy runs.
 
 ## Unified Mind Architecture Stack
 
@@ -49,6 +52,9 @@ what information becomes action-relevant.
 
                     hierarchical master workspaces
                   compressed conflict arbitration
+
+                         maintenance cycles
+                 recurrent repair and down-selection
 ```
 
 ### 1. Recurrence Creates Structural Integration
@@ -152,7 +158,8 @@ Condensed:
 > gating establishes the boundary conditions for distributed cognition.
 > Hierarchical master workspaces address the internal scaling problem by
 > arbitrating conflict through compressed signals instead of uncompressed
-> micromanagement.
+> micromanagement. Maintenance cycles keep recurrent integration from degrading
+> into saturated echo-like crosstalk.
 
 ## Substrate-Independence Angle
 

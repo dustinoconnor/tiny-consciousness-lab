@@ -1,0 +1,193 @@
+{
+  "note": "Synthetic routing-load sweep. Tests when monolithic control, single-level master routing, and multi-level regional hierarchy win as specialist count increases.",
+  "results": {
+    "flat_monolith": [
+      {
+        "num_specialists": 4,
+        "architecture": "flat_monolith",
+        "master_channel_load": 16.0,
+        "routing_propagation_delay": 2.8926787415749566,
+        "cross_module_delusion_rate": 0.5038474057088683,
+        "global_accuracy": 0.5,
+        "compute_cost": 0.07572678741574956,
+        "global_efficiency": 0.2666324051434368
+      },
+      {
+        "num_specialists": 8,
+        "architecture": "flat_monolith",
+        "master_channel_load": 32.0,
+        "routing_propagation_delay": 4.382783431298618,
+        "cross_module_delusion_rate": 0.8277201851544239,
+        "global_accuracy": 0.1875,
+        "compute_cost": 0.11942783431298619,
+        "global_efficiency": -0.18944082644986515
+      },
+      {
+        "num_specialists": 16,
+        "architecture": "flat_monolith",
+        "master_channel_load": 64.0,
+        "routing_propagation_delay": 7.11671973764039,
+        "cross_module_delusion_rate": 0.9900857494891112,
+        "global_accuracy": 0.052083333333333336,
+        "compute_cost": 0.20436719737640388,
+        "global_efficiency": -0.43798357058021414
+      },
+      {
+        "num_specialists": 32,
+        "architecture": "flat_monolith",
+        "master_channel_load": 128.0,
+        "routing_propagation_delay": 12.996117927732401,
+        "cross_module_delusion_rate": 0.9999782584546185,
+        "global_accuracy": 0.0,
+        "compute_cost": 0.378361179277324,
+        "global_efficiency": -0.6130391716450208
+      },
+      {
+        "num_specialists": 64,
+        "architecture": "flat_monolith",
+        "master_channel_load": 256.0,
+        "routing_propagation_delay": 24.353171446443813,
+        "cross_module_delusion_rate": 0.9999999998736335,
+        "global_accuracy": 0.0,
+        "compute_cost": 0.722331714464438,
+        "global_efficiency": -0.8453172802560277
+      },
+      {
+        "num_specialists": 128,
+        "architecture": "flat_monolith",
+        "master_channel_load": 512.0,
+        "routing_propagation_delay": 47.02239218151917,
+        "cross_module_delusion_rate": 1.0,
+        "global_accuracy": 0.0,
+        "compute_cost": 1.4098239218151918,
+        "global_efficiency": -1.309104188649522
+      }
+    ],
+    "single_level_master": [
+      {
+        "num_specialists": 4,
+        "architecture": "single_level_master",
+        "master_channel_load": 4.0,
+        "routing_propagation_delay": 1.9800179542342706,
+        "cross_module_delusion_rate": 0.2326685044784698,
+        "global_accuracy": 0.625,
+        "compute_cost": 0.0630001795423427,
+        "global_efficiency": 0.5025257218013998
+      },
+      {
+        "num_specialists": 8,
+        "architecture": "single_level_master",
+        "master_channel_load": 8.0,
+        "routing_propagation_delay": 2.135494015658507,
+        "cross_module_delusion_rate": 0.291773023446093,
+        "global_accuracy": 0.6458333333333334,
+        "compute_cost": 0.07175494015658507,
+        "global_efficiency": 0.49876447566413795
+      },
+      {
+        "num_specialists": 16,
+        "architecture": "single_level_master",
+        "master_channel_load": 16.0,
+        "routing_propagation_delay": 2.4411077912321852,
+        "cross_module_delusion_rate": 0.41859349033538,
+        "global_accuracy": 0.5104166666666666,
+        "compute_cost": 0.08921107791232186,
+        "global_efficiency": 0.3112343341565829
+      },
+      {
+        "num_specialists": 32,
+        "architecture": "single_level_master",
+        "master_channel_load": 32.0,
+        "routing_propagation_delay": 3.206771794084338,
+        "cross_module_delusion_rate": 0.6848912699977272,
+        "global_accuracy": 0.40625,
+        "compute_cost": 0.1256677179408434,
+        "global_efficiency": 0.09581628936017861
+      },
+      {
+        "num_specialists": 64,
+        "architecture": "single_level_master",
+        "master_channel_load": 64.0,
+        "routing_propagation_delay": 4.641258968470058,
+        "cross_module_delusion_rate": 0.9520930474402342,
+        "global_accuracy": 0.14583333333333334,
+        "compute_cost": 0.1976125896847006,
+        "global_efficiency": -0.2925883839410456
+      },
+      {
+        "num_specialists": 128,
+        "architecture": "single_level_master",
+        "master_channel_load": 128.0,
+        "routing_propagation_delay": 7.369349829678029,
+        "cross_module_delusion_rate": 0.9993545911351948,
+        "global_accuracy": 0.020833333333333332,
+        "compute_cost": 0.34009349829678026,
+        "global_efficiency": -0.5006978507025757
+      }
+    ],
+    "multi_level_deep_hierarchy": [
+      {
+        "num_specialists": 4,
+        "architecture": "multi_level_deep_hierarchy",
+        "master_channel_load": 1.0,
+        "routing_propagation_delay": 4.644924875289292,
+        "cross_module_delusion_rate": 0.29906238502944,
+        "global_accuracy": 0.3645833333333333,
+        "compute_cost": 0.11424924875289293,
+        "global_efficiency": 0.16967276066816922
+      },
+      {
+        "num_specialists": 8,
+        "architecture": "multi_level_deep_hierarchy",
+        "master_channel_load": 1.0,
+        "routing_propagation_delay": 4.6929717714015515,
+        "cross_module_delusion_rate": 0.3031214146476776,
+        "global_accuracy": 0.3541666666666667,
+        "compute_cost": 0.11472971771401548,
+        "global_efficiency": 0.15702824578043345
+      },
+      {
+        "num_specialists": 16,
+        "architecture": "multi_level_deep_hierarchy",
+        "master_channel_load": 2.0,
+        "routing_propagation_delay": 4.660022018364817,
+        "cross_module_delusion_rate": 0.30938432557564083,
+        "global_accuracy": 0.375,
+        "compute_cost": 0.11620022018364816,
+        "global_efficiency": 0.17589911613999681
+      },
+      {
+        "num_specialists": 32,
+        "architecture": "multi_level_deep_hierarchy",
+        "master_channel_load": 4.0,
+        "routing_propagation_delay": 4.573878606476618,
+        "cross_module_delusion_rate": 0.3207926049841296,
+        "global_accuracy": 0.5520833333333334,
+        "compute_cost": 0.11893878606476616,
+        "global_efficiency": 0.34978876100008083
+      },
+      {
+        "num_specialists": 64,
+        "architecture": "multi_level_deep_hierarchy",
+        "master_channel_load": 8.0,
+        "routing_propagation_delay": 4.567892001049896,
+        "cross_module_delusion_rate": 0.35007170511950475,
+        "global_accuracy": 0.3229166666666667,
+        "compute_cost": 0.12607892001049895,
+        "global_efficiency": 0.10917898425720181
+      },
+      {
+        "num_specialists": 128,
+        "architecture": "multi_level_deep_hierarchy",
+        "master_channel_load": 16.0,
+        "routing_propagation_delay": 4.705610049900145,
+        "cross_module_delusion_rate": 0.42002520677394517,
+        "global_accuracy": 0.3125,
+        "compute_cost": 0.14185610049900146,
+        "global_efficiency": 0.06937292879079675
+      }
+    ]
+  },
+  "crossover_specialist_count": 32,
+  "thesis": "Hierarchy helps scaling, but one global master does not scale forever. At larger specialist counts, regional compression protects the master from routing overload."
+}

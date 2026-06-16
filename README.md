@@ -1256,6 +1256,42 @@ This is the cortex-style lesson in miniature:
 
 ![Hierarchical workspace timeseries](outputs/hierarchical_workspace_timeseries.png)
 
+## Hierarchy Scaling Sweep
+
+`hierarchy_scaling_lab.py` asks whether the master controller eventually becomes
+a bottleneck as the number of specialists grows.
+
+The sweep compares three routing architectures:
+
+- `flat_monolith` - all specialists dump uncompressed data into one global pool
+- `single_level_master` - every specialist sends one compressed confidence
+  summary directly to a single master
+- `multi_level_deep_hierarchy` - regional sub-masters compress local summaries
+  a second time before reporting upward
+
+Result:
+
+```text
+architecture                  N=4 eff   N=16 eff   N=32 eff   N=64 eff   N=128 eff
+flat_monolith                 0.267     -0.438     -0.613     -0.845     -1.309
+single_level_master           0.503      0.311      0.096     -0.293     -0.501
+multi_level_deep_hierarchy    0.170      0.176      0.350      0.109      0.069
+```
+
+The crossover happens around `32` specialists. At small scale, the single-level
+master wins because it has low delay and enough capacity to read all compressed
+signals directly. At larger scale, the single master becomes overloaded by too
+many summaries. The deeper hierarchy pays extra propagation delay, but regional
+compression protects the global master from routing overload.
+
+> Hierarchy helps scaling, but one global master does not scale forever. At
+> larger specialist counts, regional compression protects the master from the
+> very bottleneck that hierarchy was invented to avoid.
+
+![Hierarchy scaling summary](outputs/hierarchy_scaling_summary.png)
+
+![Hierarchy scaling channel load](outputs/hierarchy_scaling_channel_load.png)
+
 ## Executive Blindspot Test
 
 `executive_blindspot_lab.py` attacks the strongest assumption in the
@@ -1410,14 +1446,16 @@ This project could be turned into a short narrated explainer:
 18. Show the hierarchical workspace test: cortex-like local workspaces only help
     when a fast master controller can arbitrate conflict without adding
     bureaucratic delay.
-19. Show the executive blindspot test: confident specialists can mislead the
+19. Show the hierarchy scaling sweep: one master wins small, but regional
+    sub-masters become useful once too many specialists overload the executive.
+20. Show the executive blindspot test: confident specialists can mislead the
     master unless executive control cross-checks confidence against outcomes.
-20. Show the sleep/homeostasis test: recurrent integration can degrade under
+21. Show the sleep/homeostasis test: recurrent integration can degrade under
     dense echo-like crosstalk, and offline down-selection can restore
     separability.
-21. Show the sleep cycle agent test: always-on background repair helps, but
+22. Show the sleep cycle agent test: always-on background repair helps, but
     full offline pruning preserves behavior and integration more strongly.
-22. End with the thesis: capacity without grounded valence is unstable; valence
+23. End with the thesis: capacity without grounded valence is unstable; valence
    without boundaries is exploitable; imagination without reality-checking is
    delusional; attention should be rewarded for staying grounded;
    specialization and integration must be balanced; self-representation matters
@@ -1452,6 +1490,7 @@ cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 social_workspace_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 partial_observer_social_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 hierarchical_workspace_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 hierarchy_scaling_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 executive_blindspot_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 sleep_homeostasis_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 sleep_cycle_agent_lab.py
@@ -1486,6 +1525,7 @@ Outputs land in:
 - `social_workspace_lab.py` - social peer/workspace comparison for grounded critics vs echo loops
 - `partial_observer_social_lab.py` - complementary partial observers with map/safety information split
 - `hierarchical_workspace_lab.py` - cortex-like local workspaces plus master-controller rule-shift test
+- `hierarchy_scaling_lab.py` - routing-load sweep for single-master vs regional hierarchy scaling
 - `executive_blindspot_lab.py` - deceptive-confidence test for master-controller metacognition
 - `sleep_homeostasis_lab.py` - offline down-selection test for recurrent echo/crosstalk maintenance
 - `sleep_cycle_agent_lab.py` - 500-step no-sleep vs offline-sleep vs active-dreaming maintenance test
@@ -1510,6 +1550,7 @@ Outputs land in:
 - `outputs/social_workspace_metrics.json` - social workspace metrics and example traces
 - `outputs/partial_observer_social_metrics.json` - complementary observer metrics and traces
 - `outputs/hierarchical_workspace_metrics.json` - hierarchical workspace metrics and traces
+- `outputs/hierarchy_scaling_metrics.json` - hierarchy scaling sweep metrics
 - `outputs/executive_blindspot_metrics.json` - executive blindspot metrics and traces
 - `outputs/sleep_homeostasis_metrics.json` - sleep/homeostasis maintenance metrics
 - `outputs/sleep_cycle_agent_metrics.json` - long-run sleep cycle maintenance metrics

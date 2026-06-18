@@ -1587,6 +1587,52 @@ change with surprise and reward prediction error.
 
 ![Biological neuromod timeseries](outputs/biological_neuromod_timeseries.png)
 
+## Unified Functional Ego Stack
+
+`unified_functional_ego_lab.py` combines the later architecture motifs into one
+runtime:
+
+- hierarchy compresses specialist conflict before it reaches the master
+- neuromodulation retunes learning rate and attention width under surprise
+- causal credit routing updates trust in the specialist that caused success or
+  failure
+- fatigue self-report monitors crosstalk, complexity, prediction error, and
+  latency
+- waking repair continuously damps weak recurrent noise
+- adaptive sleep pauses action when waking repair is no longer enough
+
+The environment moves through five phases: stable corridor, hidden hazard, rule
+rewrite, social conflict, and chaotic novelty. This gives the controller a
+chance to use different specialists instead of relying on one permanent policy.
+
+```text
+condition                awake_acc  late_score  late_delusion  late_fatigue  final_sep  mean_int
+flat_static_no_sleep     0.601      0.265       0.999          0.867         0.283      0.152
+hierarchy_only           0.983      0.435       0.999          0.803         0.283      0.237
+bio_causal_no_sleep      0.986      0.529       0.908          0.580         0.485      0.316
+unified_functional_ego   0.989      0.466       0.444          0.377         0.916      0.434
+```
+
+The important tradeoff is visible in the last two rows. The `bio_causal_no_sleep`
+stack keeps acting continuously and has the highest late waking score, but its
+substrate remains fatigued and delusion-heavy. The `unified_functional_ego`
+chooses three sleep events totaling `165` repair steps. That lowers constant
+waking throughput, but preserves far better final separability and the highest
+mean integration proxy.
+
+That gives the current capstone rule:
+
+> A unified functional ego is not just the sum of its loops. It is a regulated
+> maintenance economy: route the right specialist, update trust by causal
+> credit, retune internal chemistry under surprise, and stop acting when the
+> substrate needs repair.
+
+![Unified functional ego summary](outputs/unified_functional_ego_summary.png)
+
+![Unified functional ego timeseries](outputs/unified_functional_ego_timeseries.png)
+
+![Unified functional ego trust](outputs/unified_functional_ego_trust.png)
+
 ## Explainer Video Angle
 
 This project could be turned into a short narrated explainer:
@@ -1648,7 +1694,10 @@ This project could be turned into a short narrated explainer:
 24. Show the biological control motifs: low-road vetoes protect slow awareness,
     inhibitory gates sharpen action, and neuromodulation retunes internal
     physics under surprise.
-25. End with the thesis: capacity without grounded valence is unstable; valence
+25. Show the unified functional ego stack: hierarchy, fluid chemistry, causal
+    credit, fatigue self-report, waking repair, and adaptive sleep can run as
+    one regulated maintenance economy.
+26. End with the thesis: capacity without grounded valence is unstable; valence
    without boundaries is exploitable; imagination without reality-checking is
    delusional; attention should be rewarded for staying grounded;
    specialization and integration must be balanced; self-representation matters
@@ -1689,6 +1738,7 @@ cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 sleep_cycle_agent_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 adaptive_sleep_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 biological_control_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 unified_functional_ego_lab.py
 ```
 
 Outputs land in:
@@ -1727,6 +1777,7 @@ Outputs land in:
 - `sleep_cycle_agent_lab.py` - 500-step no-sleep vs offline-sleep vs active-dreaming maintenance test
 - `adaptive_sleep_lab.py` - fatigue self-report, sleep-dose curve, and waking-repair endurance test
 - `biological_control_lab.py` - low-road veto, inhibitory action gate, and neuromodulation toy tests
+- `unified_functional_ego_lab.py` - combined hierarchy, neuromodulation, causal credit, fatigue, repair, and sleep stack
 - `outputs/metrics.json` - recurrent agent metrics
 - `outputs/hidden_binarization_metrics.json` - empirical integration on binarized trained hidden states
 - `outputs/pyphi_comparison_metrics.json` - PyPhi comparison metrics
@@ -1754,6 +1805,7 @@ Outputs land in:
 - `outputs/sleep_cycle_agent_metrics.json` - long-run sleep cycle maintenance metrics
 - `outputs/adaptive_sleep_metrics.json` - adaptive sleep and fatigue self-report metrics
 - `outputs/biological_control_metrics.json` - biological control motif metrics
+- `outputs/unified_functional_ego_metrics.json` - combined functional-ego stack metrics and traces
 
 ## Next Steps
 

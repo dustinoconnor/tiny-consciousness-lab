@@ -41,6 +41,10 @@ The working thesis emerging from these toy runs:
 > these toy systems, the useful intelligence is increasingly concentrated in
 > regulated routing: deciding which internal source should control action, when,
 > and why.
+> A functional ego also needs a fatigue self-model. Waking repair can extend
+> endurance, but once fatigue exceeds repair bandwidth, offline dream repair
+> restores separability more strongly. Too little sleep leaves delusion active;
+> too much sleep over-prunes useful memory.
 
 ## Unified Mind Architecture Stack
 
@@ -1455,6 +1459,70 @@ That gives a more nuanced answer:
 
 ![Sleep cycle agent Phi samples](outputs/sleep_cycle_agent_phi_samples.png)
 
+## Adaptive Sleep And Fatigue Self-Report
+
+`adaptive_sleep_lab.py` asks a more operational sleep question: can a toy
+functional ego tell when it is tired, choose sleep automatically, and avoid
+both under-sleeping and over-sleeping?
+
+The model tracks a small self-report vector:
+
+- `crosstalk` - weak recurrent echoes from long waking operation
+- `complexity` - model bloat from explaining noisy observations
+- `prediction_error` - current mismatch between model and world
+- `latency` - processing cost caused by crosstalk and complexity
+- `fatigue_report` - the system's internal reading of its own tiredness
+
+Sleep is modeled as offline dream repair. The system disconnects from external
+action, prunes weak echo-like dynamics, simplifies the internal model, and then
+returns to waking operation. The duration sweep shows the expected dose curve:
+
+```text
+sleep_steps  accuracy  delusion  separability  memory
+0            0.106     0.989     0.364         0.980
+5            0.160     0.903     0.481         0.980
+10           0.360     0.607     0.577         0.980
+20           0.748     0.111     0.717         0.980
+50           0.913     0.005     0.905         0.980
+100          0.860     0.002     0.903         0.914
+150          0.560     0.002     0.648         0.650
+250          0.167     0.002     0.144         0.144
+```
+
+The sweet spot in this toy run is `50` dream-repair steps. Short sleep leaves
+delusion active. Very long sleep keeps delusion low, but erases useful memory:
+the system wakes up clean but forgetful.
+
+The endurance test then compares fixed schedules, waking repair, and adaptive
+fatigue-triggered sleep:
+
+```text
+condition                 failure_step  sleep_events  sleep_steps  late_acc  late_delusion  late_fatigue  final_sep
+no_sleep                  70            0             0            0.101     0.999          0.994         0.283
+waking_repair_only        143           0             0            0.101     0.998          0.982         0.289
+fixed_sleep               70            6             294          0.739     0.164          0.326         0.726
+adaptive_sleep            none          6             396          0.764     0.130          0.308         0.936
+hybrid_repair_plus_sleep  none          5             342          0.767     0.132          0.291         0.954
+```
+
+Waking repair helps: it doubles the time before collapse compared with no
+sleep. But it still fails once recurrent fatigue exceeds its repair bandwidth.
+Fixed sleep helps late behavior, but because it is not tied to self-report, it
+can sleep after the system has already crossed a failure threshold. Adaptive
+sleep and the hybrid repair-plus-sleep condition survive the full run.
+
+The working rule:
+
+> Maintenance should be self-modeled. A conscious-like controller should not
+> only act in the world; it should monitor when its own substrate is becoming
+> noisy enough that active repair is no longer sufficient.
+
+![Adaptive sleep duration sweep](outputs/adaptive_sleep_duration_sweep.png)
+
+![Adaptive sleep endurance](outputs/adaptive_sleep_endurance.png)
+
+![Adaptive sleep summary](outputs/adaptive_sleep_summary.png)
+
 ## Biological Control Motifs
 
 `biological_control_lab.py` adds three neuroscience-inspired control motifs as
@@ -1574,10 +1642,13 @@ This project could be turned into a short narrated explainer:
     separability.
 22. Show the sleep cycle agent test: always-on background repair helps, but
     full offline pruning preserves behavior and integration more strongly.
-23. Show the biological control motifs: low-road vetoes protect slow awareness,
+23. Show the adaptive sleep test: fatigue self-report lets the system sleep
+    when active repair is no longer enough; undersleep leaves delusion active,
+    while oversleep over-prunes useful memory.
+24. Show the biological control motifs: low-road vetoes protect slow awareness,
     inhibitory gates sharpen action, and neuromodulation retunes internal
     physics under surprise.
-24. End with the thesis: capacity without grounded valence is unstable; valence
+25. End with the thesis: capacity without grounded valence is unstable; valence
    without boundaries is exploitable; imagination without reality-checking is
    delusional; attention should be rewarded for staying grounded;
    specialization and integration must be balanced; self-representation matters
@@ -1616,6 +1687,7 @@ cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 executive_blindspot_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 sleep_homeostasis_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 sleep_cycle_agent_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 adaptive_sleep_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 biological_control_lab.py
 ```
 
@@ -1653,6 +1725,7 @@ Outputs land in:
 - `executive_blindspot_lab.py` - deceptive-confidence test for master-controller metacognition
 - `sleep_homeostasis_lab.py` - offline down-selection test for recurrent echo/crosstalk maintenance
 - `sleep_cycle_agent_lab.py` - 500-step no-sleep vs offline-sleep vs active-dreaming maintenance test
+- `adaptive_sleep_lab.py` - fatigue self-report, sleep-dose curve, and waking-repair endurance test
 - `biological_control_lab.py` - low-road veto, inhibitory action gate, and neuromodulation toy tests
 - `outputs/metrics.json` - recurrent agent metrics
 - `outputs/hidden_binarization_metrics.json` - empirical integration on binarized trained hidden states
@@ -1679,6 +1752,7 @@ Outputs land in:
 - `outputs/executive_blindspot_metrics.json` - executive blindspot metrics and traces
 - `outputs/sleep_homeostasis_metrics.json` - sleep/homeostasis maintenance metrics
 - `outputs/sleep_cycle_agent_metrics.json` - long-run sleep cycle maintenance metrics
+- `outputs/adaptive_sleep_metrics.json` - adaptive sleep and fatigue self-report metrics
 - `outputs/biological_control_metrics.json` - biological control motif metrics
 
 ## Next Steps

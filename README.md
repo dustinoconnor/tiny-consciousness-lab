@@ -1633,6 +1633,48 @@ That gives the current capstone rule:
 
 ![Unified functional ego trust](outputs/unified_functional_ego_trust.png)
 
+## Embodied Unity Loop
+
+`embodied_unity_loop.py` is the first bridge from the Python functional ego to a
+Unity body. It talks to the Unity project at `/Users/dustinoconnor/My project`
+through UDP:
+
+- Python sends commands to Unity on `127.0.0.1:5055`
+- Unity sends robot/body state back to Python on `127.0.0.1:5056`
+
+The first action vocabulary is deliberately small:
+
+```text
+up, down, left, right, idle, sleep, wake
+```
+
+The Unity side keeps manual third-person control available. Press `Tab` to
+toggle auto/manual, `P` to force auto, and `M` to force manual. If auto mode is
+on, pressing WASD/arrows temporarily overrides the AI movement so the user can
+take control without removing the embodied loop.
+
+Run the Python side with:
+
+```zsh
+cd /Users/dustinoconnor/tiny_consciousness_lab
+./embodied_unity_loop.py --sleep-seconds 60
+```
+
+For quick testing:
+
+```zsh
+./embodied_unity_loop.py --duration 120 --sleep-seconds 10
+```
+
+The loop currently implements the minimum cybernetic circuit:
+
+```text
+functional ego state -> Unity body action -> body/world feedback -> fatigue update -> sleep/repair -> wake
+```
+
+The next embodied step is to add real survival pressure: water, energy, novelty,
+or safe-place seeking.
+
 ## Explainer Video Angle
 
 This project could be turned into a short narrated explainer:
@@ -1739,6 +1781,7 @@ cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 adaptive_sleep_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 biological_control_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 unified_functional_ego_lab.py
+./embodied_unity_loop.py --sleep-seconds 60
 ```
 
 Outputs land in:
@@ -1778,6 +1821,7 @@ Outputs land in:
 - `adaptive_sleep_lab.py` - fatigue self-report, sleep-dose curve, and waking-repair endurance test
 - `biological_control_lab.py` - low-road veto, inhibitory action gate, and neuromodulation toy tests
 - `unified_functional_ego_lab.py` - combined hierarchy, neuromodulation, causal credit, fatigue, repair, and sleep stack
+- `embodied_unity_loop.py` - UDP bridge from the functional ego to a Unity robot body
 - `outputs/metrics.json` - recurrent agent metrics
 - `outputs/hidden_binarization_metrics.json` - empirical integration on binarized trained hidden states
 - `outputs/pyphi_comparison_metrics.json` - PyPhi comparison metrics

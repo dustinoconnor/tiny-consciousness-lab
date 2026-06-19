@@ -1649,7 +1649,8 @@ up, down, left, right, idle, sleep, wake
 ```
 
 The Unity side keeps manual third-person control available. Press `Tab` to
-toggle auto/manual, `P` to force auto, and `M` to force manual. If auto mode is
+toggle auto/manual, `P` to force auto, and `M` to force manual. Press `Z` to
+force sleep and `X` to force wake for quick animation testing. If auto mode is
 on, pressing WASD/arrows temporarily overrides the AI movement so the user can
 take control without removing the embodied loop.
 

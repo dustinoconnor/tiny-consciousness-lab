@@ -1,0 +1,78 @@
+{
+  "training_layouts": [
+    "open",
+    "l_wall",
+    "offset_barriers"
+  ],
+  "withheld_layout": "u_detour",
+  "food_approach_rule_present": false,
+  "trap_label_used_during_training": false,
+  "evaluation": {
+    "feedforward_reward": {
+      "success_rate": 0.675,
+      "mean_steps": 35.275,
+      "mean_collisions": 0.0,
+      "mean_away_steps": 16.275
+    },
+    "recurrent_no_food_reward": {
+      "success_rate": 0.0,
+      "mean_steps": 72.0,
+      "mean_collisions": 0.0,
+      "mean_away_steps": 36.4625
+    },
+    "recurrent_no_food_reward_hidden_reset": {
+      "success_rate": 0.0,
+      "mean_steps": 72.0,
+      "mean_collisions": 0.0,
+      "mean_away_steps": 36.0
+    },
+    "recurrent_reward": {
+      "success_rate": 0.675,
+      "mean_steps": 48.1625,
+      "mean_collisions": 1.1125,
+      "mean_away_steps": 22.975
+    },
+    "recurrent_reward_hidden_reset": {
+      "success_rate": 0.0,
+      "mean_steps": 72.0,
+      "mean_collisions": 0.0,
+      "mean_away_steps": 36.525
+    },
+    "recurrent_curiosity": {
+      "success_rate": 0.675,
+      "mean_steps": 42.05,
+      "mean_collisions": 0.325,
+      "mean_away_steps": 19.9875
+    },
+    "recurrent_curiosity_hidden_reset": {
+      "success_rate": 0.0,
+      "mean_steps": 72.0,
+      "mean_collisions": 0.0,
+      "mean_away_steps": 36.4625
+    }
+  },
+  "hidden_state_probes": {
+    "recurrent_no_food_reward": {
+      "hidden_trap_accuracy": 0.9963689179375453,
+      "observation_trap_accuracy": 0.9259259259259259,
+      "majority_baseline": 0.5039941902687001,
+      "shuffled_label_accuracy": 0.4822076978939724,
+      "hidden_over_observation": 0.07044299201161941
+    },
+    "recurrent_reward": {
+      "hidden_trap_accuracy": 0.9317180616740088,
+      "observation_trap_accuracy": 0.8744493392070485,
+      "majority_baseline": 0.5165198237885462,
+      "shuffled_label_accuracy": 0.5154185022026432,
+      "hidden_over_observation": 0.05726872246696035
+    },
+    "recurrent_curiosity": {
+      "hidden_trap_accuracy": 0.9462068965517242,
+      "observation_trap_accuracy": 0.8427586206896551,
+      "majority_baseline": 0.5075862068965518,
+      "shuffled_label_accuracy": 0.48551724137931035,
+      "hidden_over_observation": 0.10344827586206906
+    }
+  },
+  "claim_boundary": "Food seeking counts as learned only if frozen reward-trained policies exceed controls without an approach-food rule. A hidden-state probe above observation and shuffled controls suggests decodable trap context; it does not prove the policy causally uses that representation or that a human-like enclosure concept exists."
+}

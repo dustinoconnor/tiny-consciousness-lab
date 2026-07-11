@@ -1,0 +1,167 @@
+{
+  "axis": {
+    "fit_trajectories": 140,
+    "trap_projection": -0.5782442092895508,
+    "open_projection": -0.830984354019165,
+    "projection_gap": 0.25274014472961426
+  },
+  "u_detour_erasure": {
+    "normal": {
+      "success_rate": 0.5,
+      "mean_steps": 60.75,
+      "mean_collisions": 5.9375,
+      "mean_away_steps": 26.395833333333332,
+      "mean_interventions": 0.0,
+      "mean_action_probability_shift": 0.0
+    },
+    "trap_erased": {
+      "success_rate": 0.25,
+      "mean_steps": 62.75,
+      "mean_collisions": 0.7395833333333334,
+      "mean_away_steps": 31.760416666666668,
+      "mean_interventions": 24.65625,
+      "mean_action_probability_shift": 0.03445255857812462
+    },
+    "random_erased": {
+      "success_rate": 0.5,
+      "mean_steps": 58.25,
+      "mean_collisions": 2.0104166666666665,
+      "mean_away_steps": 27.770833333333332,
+      "mean_interventions": 29.125,
+      "mean_action_probability_shift": 0.00432889855382511
+    }
+  },
+  "clear_field_patching": {
+    "normal": {
+      "success_rate": 1.0,
+      "mean_steps": 10.0,
+      "mean_collisions": 0.0,
+      "mean_away_steps": 2.0,
+      "mean_interventions": 0.0,
+      "mean_action_probability_shift": 0.0
+    },
+    "trap_patch": {
+      "success_rate": 1.0,
+      "mean_steps": 10.0,
+      "mean_collisions": 0.0,
+      "mean_away_steps": 2.0,
+      "mean_interventions": 1.0,
+      "mean_action_probability_shift": 0.007227596826851368
+    },
+    "random_patch": {
+      "success_rate": 1.0,
+      "mean_steps": 10.0,
+      "mean_collisions": 0.0,
+      "mean_away_steps": 2.0,
+      "mean_interventions": 1.0,
+      "mean_action_probability_shift": 0.0007137932116165757
+    },
+    "trap_mean": {
+      "success_rate": 1.0,
+      "mean_steps": 10.0,
+      "mean_collisions": 0.0,
+      "mean_away_steps": 2.0,
+      "mean_interventions": 1.0,
+      "mean_action_probability_shift": 0.2620079815387726
+    }
+  },
+  "dose_response": {
+    "0.0": {
+      "success_rate": 1.0,
+      "mean_steps": 10.0,
+      "mean_collisions": 0.0,
+      "mean_away_steps": 2.0,
+      "mean_interventions": 1.0,
+      "mean_action_probability_shift": 0.0
+    },
+    "0.5": {
+      "success_rate": 1.0,
+      "mean_steps": 10.0,
+      "mean_collisions": 0.0,
+      "mean_away_steps": 2.0,
+      "mean_interventions": 1.0,
+      "mean_action_probability_shift": 0.0035811427515000105
+    },
+    "1.0": {
+      "success_rate": 1.0,
+      "mean_steps": 10.0,
+      "mean_collisions": 0.0,
+      "mean_away_steps": 2.0,
+      "mean_interventions": 1.0,
+      "mean_action_probability_shift": 0.007227596826851368
+    },
+    "1.5": {
+      "success_rate": 1.0,
+      "mean_steps": 10.0,
+      "mean_collisions": 0.0,
+      "mean_away_steps": 2.0,
+      "mean_interventions": 1.0,
+      "mean_action_probability_shift": 0.010940025560557842
+    }
+  },
+  "blind_corridor_patching": {
+    "none": {
+      "mean_reverse_probability_delta": 0.0,
+      "mean_forward_probability_delta": 0.0,
+      "mean_total_variation": 0.0,
+      "reverse_argmax_rate": 0.5,
+      "mean_reverse_actions_next_3": 1.5
+    },
+    "trap_patch": {
+      "mean_reverse_probability_delta": -0.012461693026125431,
+      "mean_forward_probability_delta": -0.010271480306982994,
+      "mean_total_variation": 0.0362863764166832,
+      "reverse_argmax_rate": 0.5,
+      "mean_reverse_actions_next_3": 1.5
+    },
+    "random_patch": {
+      "mean_reverse_probability_delta": -0.0018058111891150475,
+      "mean_forward_probability_delta": -0.0022722892463207245,
+      "mean_total_variation": 0.012244091369211674,
+      "reverse_argmax_rate": 0.5,
+      "mean_reverse_actions_next_3": 1.5
+    }
+  },
+  "blind_corridor_dose_response": {
+    "0.0": {
+      "mean_reverse_probability_delta": 0.0,
+      "mean_forward_probability_delta": 0.0,
+      "mean_total_variation": 0.0,
+      "reverse_argmax_rate": 0.5,
+      "mean_reverse_actions_next_3": 1.5
+    },
+    "0.5": {
+      "mean_reverse_probability_delta": -0.006078810431063175,
+      "mean_forward_probability_delta": -0.00506611168384552,
+      "mean_total_variation": 0.017744706943631172,
+      "reverse_argmax_rate": 0.5,
+      "mean_reverse_actions_next_3": 1.5
+    },
+    "1.0": {
+      "mean_reverse_probability_delta": -0.012461693026125431,
+      "mean_forward_probability_delta": -0.010271480306982994,
+      "mean_total_variation": 0.0362863764166832,
+      "reverse_argmax_rate": 0.5,
+      "mean_reverse_actions_next_3": 1.5
+    },
+    "1.5": {
+      "mean_reverse_probability_delta": -0.019123079255223274,
+      "mean_forward_probability_delta": -0.01555267721414566,
+      "mean_total_variation": 0.055612134747207165,
+      "reverse_argmax_rate": 0.5,
+      "mean_reverse_actions_next_3": 1.5
+    }
+  },
+  "effects": {
+    "trap_erasure_success_drop": 0.25,
+    "random_erasure_success_drop": 0.0,
+    "trap_patch_away_step_increase": 0.0,
+    "random_patch_away_step_increase": 0.0,
+    "monotonic_dose_response": true,
+    "blind_trap_reverse_probability_increase": -0.012461693026125431,
+    "blind_random_reverse_probability_increase": -0.0018058111891150475,
+    "blind_monotonic_dose_response": false,
+    "causal_trap_axis_supported": false
+  },
+  "claim_boundary": "A positive result supports a causally active distributed hidden-state direction associated with trap context. It does not isolate a discrete neural circuit, prove the axis is the policy's only trap representation, or establish human-like spatial concepts or conscious counterfactual thought."
+}

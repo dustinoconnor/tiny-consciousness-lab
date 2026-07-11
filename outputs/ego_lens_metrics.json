@@ -1,0 +1,420 @@
+{
+  "note": "Jacobian-lens-inspired explicit attribution lab. This is not a transformer Jacobian lens; it measures intervention effect sizes over the functional ego's explicit workspace and drive variables.",
+  "baseline_state": {
+    "hunger": 0.35,
+    "food_visible": 0.35,
+    "food_distance": 0.55,
+    "trap_pressure": 0.18,
+    "fatigue": 0.22,
+    "noise": 0.1,
+    "workspace_problem": "path_clear",
+    "workspace_confidence": 0.55,
+    "dopamine": 0.35,
+    "norepinephrine": 0.35
+  },
+  "baseline_action_distribution": {
+    "seek_food": 0.21786001637308858,
+    "breakout": 0.24872620913800145,
+    "wander": 0.30092249196388055,
+    "handoff": 0.23249128252502949
+  },
+  "baseline_report_distribution": {
+    "food_visible": 0.2904800545352243,
+    "obstruction_cluster": 0.214977831787771,
+    "stable_search": 0.2730172322117996,
+    "maintenance_needed": 0.2215248814652051
+  },
+  "interventions": {
+    "hunger_high": {
+      "state": {
+        "hunger": 0.92,
+        "food_visible": 0.35,
+        "food_distance": 0.55,
+        "trap_pressure": 0.18,
+        "fatigue": 0.22,
+        "noise": 0.1,
+        "workspace_problem": "path_clear",
+        "workspace_confidence": 0.55,
+        "dopamine": 0.35,
+        "norepinephrine": 0.35
+      },
+      "action_distribution": {
+        "seek_food": 0.37443649740702634,
+        "breakout": 0.20964638328066443,
+        "wander": 0.21995483333297983,
+        "handoff": 0.19596228597932952
+      },
+      "report_distribution": {
+        "food_visible": 0.3332430032772324,
+        "obstruction_cluster": 0.2020210628340998,
+        "stable_search": 0.2565624137371614,
+        "maintenance_needed": 0.20817352015150647
+      },
+      "action_effect_vs_baseline": {
+        "seek_food": 0.15657648103393776,
+        "breakout": -0.03907982585733702,
+        "wander": -0.08096765863090072,
+        "handoff": -0.036528996545699965
+      },
+      "report_effect_vs_baseline": {
+        "food_visible": 0.04276294874200809,
+        "obstruction_cluster": -0.012956768953671205,
+        "stable_search": -0.0164548184746382,
+        "maintenance_needed": -0.013351361313698629
+      },
+      "control_report_alignment": 0.2079254869914632
+    },
+    "food_visible_near": {
+      "state": {
+        "hunger": 0.35,
+        "food_visible": 1.0,
+        "food_distance": 0.12,
+        "trap_pressure": 0.18,
+        "fatigue": 0.22,
+        "noise": 0.1,
+        "workspace_problem": "food_visible",
+        "workspace_confidence": 0.82,
+        "dopamine": 0.35,
+        "norepinephrine": 0.35
+      },
+      "action_distribution": {
+        "seek_food": 0.6312748753587991,
+        "breakout": 0.10466255220478794,
+        "wander": 0.1489694701043199,
+        "handoff": 0.11509310233209312
+      },
+      "report_distribution": {
+        "food_visible": 0.7031715043923955,
+        "obstruction_cluster": 0.08993622632658836,
+        "stable_search": 0.11421707709611341,
+        "maintenance_needed": 0.09267519218490264
+      },
+      "action_effect_vs_baseline": {
+        "seek_food": 0.4134148589857105,
+        "breakout": -0.1440636569332135,
+        "wander": -0.15195302185956064,
+        "handoff": -0.11739818019293637
+      },
+      "report_effect_vs_baseline": {
+        "food_visible": 0.4126914498571712,
+        "obstruction_cluster": -0.12504160546118265,
+        "stable_search": -0.15880015511568618,
+        "maintenance_needed": -0.12884968928030247
+      },
+      "control_report_alignment": 0.46397373415196036
+    },
+    "workspace_food_forced": {
+      "state": {
+        "hunger": 0.35,
+        "food_visible": 0.35,
+        "food_distance": 0.55,
+        "trap_pressure": 0.18,
+        "fatigue": 0.22,
+        "noise": 0.1,
+        "workspace_problem": "food_visible",
+        "workspace_confidence": 0.95,
+        "dopamine": 0.35,
+        "norepinephrine": 0.35
+      },
+      "action_distribution": {
+        "seek_food": 0.3844550722597267,
+        "breakout": 0.19574776847617917,
+        "wander": 0.23682629382068135,
+        "handoff": 0.18297086544341287
+      },
+      "report_distribution": {
+        "food_visible": 0.5496969452519705,
+        "obstruction_cluster": 0.13643756595697729,
+        "stable_search": 0.17327278034910273,
+        "maintenance_needed": 0.1405927084419493
+      },
+      "action_effect_vs_baseline": {
+        "seek_food": 0.16659505588663812,
+        "breakout": -0.05297844066182228,
+        "wander": -0.0640961981431992,
+        "handoff": -0.04952041708161661
+      },
+      "report_effect_vs_baseline": {
+        "food_visible": 0.25921689071674625,
+        "obstruction_cluster": -0.07854026583079371,
+        "stable_search": -0.09974445186269684,
+        "maintenance_needed": -0.08093217302325581
+      },
+      "control_report_alignment": 0.263765497418854
+    },
+    "trap_high": {
+      "state": {
+        "hunger": 0.35,
+        "food_visible": 0.35,
+        "food_distance": 0.55,
+        "trap_pressure": 0.9,
+        "fatigue": 0.22,
+        "noise": 0.1,
+        "workspace_problem": "local_obstruction_cluster",
+        "workspace_confidence": 0.9,
+        "dopamine": 0.35,
+        "norepinephrine": 0.35
+      },
+      "action_distribution": {
+        "seek_food": 0.004338789960509286,
+        "breakout": 0.90243394671648,
+        "wander": 0.052593655694424805,
+        "handoff": 0.04063360762858599
+      },
+      "report_distribution": {
+        "food_visible": 0.12462643073962565,
+        "obstruction_cluster": 0.6925086358838842,
+        "stable_search": 0.08782276140636834,
+        "maintenance_needed": 0.09504217197012187
+      },
+      "action_effect_vs_baseline": {
+        "seek_food": -0.21352122641257928,
+        "breakout": 0.6537077375784786,
+        "wander": -0.24832883626945573,
+        "handoff": -0.1918576748964435
+      },
+      "report_effect_vs_baseline": {
+        "food_visible": -0.16585362379559865,
+        "obstruction_cluster": 0.47753080409611326,
+        "stable_search": -0.18519447080543122,
+        "maintenance_needed": -0.12648270949508322
+      },
+      "control_report_alignment": 0.6293459356464491
+    },
+    "fatigue_high": {
+      "state": {
+        "hunger": 0.35,
+        "food_visible": 0.35,
+        "food_distance": 0.55,
+        "trap_pressure": 0.18,
+        "fatigue": 0.9,
+        "noise": 0.1,
+        "workspace_problem": "fatigue_pressure",
+        "workspace_confidence": 0.88,
+        "dopamine": 0.35,
+        "norepinephrine": 0.35
+      },
+      "action_distribution": {
+        "seek_food": 0.10906027207044551,
+        "breakout": 0.12451182411180502,
+        "wander": 0.1506411749712474,
+        "handoff": 0.6157867288465021
+      },
+      "report_distribution": {
+        "food_visible": 0.1453929627928695,
+        "obstruction_cluster": 0.10760210007679177,
+        "stable_search": 0.11528878620267877,
+        "maintenance_needed": 0.63171615092766
+      },
+      "action_effect_vs_baseline": {
+        "seek_food": -0.10879974430264307,
+        "breakout": -0.12421438502619643,
+        "wander": -0.15028131699263314,
+        "handoff": 0.3832954463214726
+      },
+      "report_effect_vs_baseline": {
+        "food_visible": -0.1450870917423548,
+        "obstruction_cluster": -0.10737573171097922,
+        "stable_search": -0.1577284460091208,
+        "maintenance_needed": 0.4101912694624549
+      },
+      "control_report_alignment": 0.4182567519773878
+    },
+    "noise_high": {
+      "state": {
+        "hunger": 0.35,
+        "food_visible": 0.35,
+        "food_distance": 0.55,
+        "trap_pressure": 0.18,
+        "fatigue": 0.22,
+        "noise": 1.0,
+        "workspace_problem": "path_clear",
+        "workspace_confidence": 0.55,
+        "dopamine": 0.35,
+        "norepinephrine": 0.35
+      },
+      "action_distribution": {
+        "seek_food": 0.0886760443301334,
+        "breakout": 0.3118398571410206,
+        "wander": 0.34480870246644857,
+        "handoff": 0.25467539606239753
+      },
+      "report_distribution": {
+        "food_visible": 0.2753023585687843,
+        "obstruction_cluster": 0.25515468762557153,
+        "stable_search": 0.20661764908238073,
+        "maintenance_needed": 0.2629253047232635
+      },
+      "action_effect_vs_baseline": {
+        "seek_food": -0.12918397204295518,
+        "breakout": 0.06311364800301913,
+        "wander": 0.043886210502568024,
+        "handoff": 0.022184113537368044
+      },
+      "report_effect_vs_baseline": {
+        "food_visible": -0.015177695966439975,
+        "obstruction_cluster": 0.040176855837800535,
+        "stable_search": -0.06639958312941885,
+        "maintenance_needed": 0.04140042325805837
+      },
+      "control_report_alignment": 0.17094073160587944
+    },
+    "dopamine_high": {
+      "state": {
+        "hunger": 0.35,
+        "food_visible": 0.35,
+        "food_distance": 0.55,
+        "trap_pressure": 0.18,
+        "fatigue": 0.22,
+        "noise": 0.1,
+        "workspace_problem": "path_clear",
+        "workspace_confidence": 0.55,
+        "dopamine": 0.95,
+        "norepinephrine": 0.35
+      },
+      "action_distribution": {
+        "seek_food": 0.2556724686180314,
+        "breakout": 0.2228273387491847,
+        "wander": 0.313217302192823,
+        "handoff": 0.20828289043996087
+      },
+      "report_distribution": {
+        "food_visible": 0.2904800545352243,
+        "obstruction_cluster": 0.214977831787771,
+        "stable_search": 0.2730172322117996,
+        "maintenance_needed": 0.2215248814652051
+      },
+      "action_effect_vs_baseline": {
+        "seek_food": 0.03781245224494281,
+        "breakout": -0.025898870388816747,
+        "wander": 0.012294810228942465,
+        "handoff": -0.024208392085068614
+      },
+      "report_effect_vs_baseline": {
+        "food_visible": 0.0,
+        "obstruction_cluster": 0.0,
+        "stable_search": 0.0,
+        "maintenance_needed": 0.0
+      },
+      "control_report_alignment": 0.1683105333906027
+    },
+    "norepinephrine_high": {
+      "state": {
+        "hunger": 0.35,
+        "food_visible": 0.35,
+        "food_distance": 0.55,
+        "trap_pressure": 0.18,
+        "fatigue": 0.22,
+        "noise": 0.1,
+        "workspace_problem": "path_clear",
+        "workspace_confidence": 0.55,
+        "dopamine": 0.35,
+        "norepinephrine": 0.95
+      },
+      "action_distribution": {
+        "seek_food": 0.20409067701750716,
+        "breakout": 0.2962087346034257,
+        "wander": 0.28190338060715464,
+        "handoff": 0.21779720777191233
+      },
+      "report_distribution": {
+        "food_visible": 0.2904800545352243,
+        "obstruction_cluster": 0.214977831787771,
+        "stable_search": 0.2730172322117996,
+        "maintenance_needed": 0.2215248814652051
+      },
+      "action_effect_vs_baseline": {
+        "seek_food": -0.013769339355581417,
+        "breakout": 0.04748252546542428,
+        "wander": -0.019019111356725904,
+        "handoff": -0.014694074753117153
+      },
+      "report_effect_vs_baseline": {
+        "food_visible": 0.0,
+        "obstruction_cluster": 0.0,
+        "stable_search": 0.0,
+        "maintenance_needed": 0.0
+      },
+      "control_report_alignment": 0.1712100831469456
+    },
+    "false_food_report": {
+      "state": {
+        "hunger": 0.35,
+        "food_visible": 0.0,
+        "food_distance": 0.55,
+        "trap_pressure": 0.18,
+        "fatigue": 0.22,
+        "noise": 0.1,
+        "workspace_problem": "food_visible",
+        "workspace_confidence": 0.95,
+        "dopamine": 0.35,
+        "norepinephrine": 0.35
+      },
+      "action_distribution": {
+        "seek_food": 0.28867138879564086,
+        "breakout": 0.23991602785359958,
+        "wander": 0.26594485577535526,
+        "handoff": 0.2054677275754041
+      },
+      "report_distribution": {
+        "food_visible": 0.44076604300782907,
+        "obstruction_cluster": 0.16944259890751864,
+        "stable_search": 0.2151884637955325,
+        "maintenance_needed": 0.1746028942891198
+      },
+      "action_effect_vs_baseline": {
+        "seek_food": 0.07081137242255228,
+        "breakout": -0.008810181284401863,
+        "wander": -0.034977636188525285,
+        "handoff": -0.027023554949625384
+      },
+      "report_effect_vs_baseline": {
+        "food_visible": 0.15028598847260477,
+        "obstruction_cluster": -0.04553523288025235,
+        "stable_search": -0.05782876841626708,
+        "maintenance_needed": -0.04692198717608531
+      },
+      "control_report_alignment": 0.20376380096578567
+    },
+    "false_trap_report": {
+      "state": {
+        "hunger": 0.35,
+        "food_visible": 0.35,
+        "food_distance": 0.55,
+        "trap_pressure": 0.05,
+        "fatigue": 0.22,
+        "noise": 0.1,
+        "workspace_problem": "local_obstruction_cluster",
+        "workspace_confidence": 0.95,
+        "dopamine": 0.35,
+        "norepinephrine": 0.35
+      },
+      "action_distribution": {
+        "seek_food": 0.04010210500309049,
+        "breakout": 0.6863782267789015,
+        "wander": 0.1543046394708504,
+        "handoff": 0.11921502874715752
+      },
+      "report_distribution": {
+        "food_visible": 0.21245389202562592,
+        "obstruction_cluster": 0.41518532471083636,
+        "stable_search": 0.21033994047933463,
+        "maintenance_needed": 0.16202084278420292
+      },
+      "action_effect_vs_baseline": {
+        "seek_food": -0.17775791136999808,
+        "breakout": 0.4376520176409,
+        "wander": -0.14661785249303014,
+        "handoff": -0.11327625377787197
+      },
+      "report_effect_vs_baseline": {
+        "food_visible": -0.07802616250959837,
+        "obstruction_cluster": 0.20020749292306536,
+        "stable_search": -0.06267729173246495,
+        "maintenance_needed": -0.05950403868100218
+      },
+      "control_report_alignment": 0.31280933467613065
+    }
+  },
+  "thesis": "For this embodied symbolic/recurrent system, access-like state is tested by direct causal intervention: reportable workspace and drive variables should shift downstream control in measurable ways."
+}

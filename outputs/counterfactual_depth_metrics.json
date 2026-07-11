@@ -1,0 +1,60 @@
+{
+  "summary": {
+    "reactive_thermostat": {
+      "accuracy": 0.8958333333333334,
+      "task_attention": 0.8597901048283135,
+      "distractor_fixation": 0.13620878200416672,
+      "delusion": 0.00400111316751975,
+      "future_error": 0.07960577232293303,
+      "rollout_error": 0.07960577232293303,
+      "counterfactual_value": 1.2589868996443592,
+      "breadth": 1,
+      "depth": 1
+    },
+    "wide_next_step": {
+      "accuracy": 0.975,
+      "task_attention": 0.9620439100358086,
+      "distractor_fixation": 0.03528436658675908,
+      "delusion": 0.00267172337743231,
+      "future_error": 0.01130345590935032,
+      "rollout_error": 0.01130345590935032,
+      "counterfactual_value": 1.4011594144044186,
+      "breadth": 9,
+      "depth": 1
+    },
+    "deep_counterfactual": {
+      "accuracy": 0.9625,
+      "task_attention": 0.9390933345040778,
+      "distractor_fixation": 0.0578149440306026,
+      "delusion": 0.0030917214653194297,
+      "future_error": 0.023696954560838403,
+      "rollout_error": 0.0163497682335988,
+      "counterfactual_value": 4.8051676053661705,
+      "breadth": 5,
+      "depth": 5
+    },
+    "deep_ungrounded": {
+      "accuracy": 0.875,
+      "task_attention": 0.6674280280193827,
+      "distractor_fixation": 0.16204626682220205,
+      "delusion": 0.1705257051584153,
+      "future_error": 0.08537521549435355,
+      "rollout_error": 0.057976389280497746,
+      "counterfactual_value": 3.3024393724028536,
+      "breadth": 5,
+      "depth": 5
+    },
+    "deep_valence_filter": {
+      "accuracy": 0.975,
+      "task_attention": 0.9640534831915397,
+      "distractor_fixation": 0.033183511980575925,
+      "delusion": 0.0027630048278843924,
+      "future_error": 0.00982681401567526,
+      "rollout_error": 0.006126606717383269,
+      "counterfactual_value": 5.427886280865632,
+      "breadth": 7,
+      "depth": 6
+    }
+  },
+  "note": "Breadth compares more immediate attention shifts. Depth recursively rolls each shift forward into a private future sensorium before acting. In this toy lab, deeper rollouts help when the valence filter keeps imagination prediction-aligned; ungrounded depth becomes a self-reinforcing private future."
+}

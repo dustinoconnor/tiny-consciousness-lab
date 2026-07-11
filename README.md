@@ -16,6 +16,34 @@ for making questions about recurrent systems visible:
 - Which hidden units causally influence other hidden units over time?
 - Does adding a valence-feedback node increase a tiny exact integration proxy?
 
+## Strongest Recent Result
+
+The latest artificial-life experiment removes the scripted `approach_food`,
+`escape_U`, map, frontier, and enclosure rules. Policies learn only from local
+obstacle rays, visible-mushroom direction, hunger, previous action/reward, and
+mushroom contact reward. After training on open fields, L-walls, and offset
+barriers, frozen policies reached mushrooms in 67.5% of randomly rotated
+U-detours withheld from training. A recurrent control trained without mushroom
+reward reached 0%.
+
+For the recurrent reward-trained policies, resetting hidden state after every
+movement reduced withheld-detour success from 67.5% to 0% without changing
+weights or current sensors. Post-hoc balanced probes decoded unlabeled trap
+context from recurrent state at 93-95% accuracy and outperformed current sensor
+snapshots by 5.7-10.3 percentage points.
+
+The disciplined claim is:
+
+> A minimal artificial-life agent can develop reward-grounded mushroom seeking,
+> memory-dependent zero-shot detour behavior, and a decodable unlabeled latent
+> trap representation without an explicit food-approach or trap-escape rule.
+
+The mechanistic interpretation remains bounded. Selectively erasing one decoded
+trap direction reduced real U-detour success, but injecting that global direction
+did not create retreat behavior in clear or sensory-neutral corridors. This
+suggests trap-conditioned control is distributed and context-dependent rather
+than a single portable `retreat now` vector.
+
 The working thesis emerging from these toy runs:
 
 > Integration is not a scoreboard by itself. A useful inner world must be
@@ -50,6 +78,12 @@ The working thesis emerging from these toy runs:
 > endurance, but once fatigue exceeds repair bandwidth, offline dream repair
 > restores separability more strongly. Too little sleep leaves delusion active;
 > too much sleep over-prunes useful memory.
+> Reward can create learned goal pursuit without prescribing the motor policy.
+> In partially observed traps, temporal continuity can become causally necessary
+> for behavior, while recurrent state develops operational information that was
+> never supplied as a training label.
+> Decodability is not causation: latent representations should earn mechanistic
+> claims through erasure, patching, dose response, and matched controls.
 
 ## Unified Mind Architecture Stack
 
@@ -73,6 +107,9 @@ what information becomes action-relevant.
 
                          causal router learning
                     context-specific credit assignment
+
+                  learned sensorimotor policy and memory
+             reward-grounded goals, latent context, transfer
 
                          maintenance cycles
                  recurrent repair and down-selection
@@ -222,6 +259,14 @@ behavior in recognizable ways:
   echo peers raise delusion risk without improving behavior.
 - Complementary partial observers can match a full oracle when the workspace
   binds their non-redundant knowledge into shared action control.
+- Mushroom reward can produce food seeking without an explicit approach-food
+  rule, and the frozen behavior can transfer to withheld rotated U-detours.
+- Resetting recurrent state can abolish learned detour foraging while preserving
+  weights and current observations, demonstrating causal dependence on temporal
+  continuity for those policies.
+- Recurrent hidden state can encode unlabeled trap context beyond the current
+  sensor snapshot, although targeted patching has not yet isolated a portable
+  causal motor command.
 
 The philosophical inference is not that silicon is conscious. It is that
 integration, valence, confidence gating, world modeling, lookahead, and dynamic

@@ -1,0 +1,177 @@
+{
+  "note": "J-space-inspired workspace lift test. The lab compares reflex-only, private modules, global workspace promotion, and forced workspace intervention across tree, rock, mushroom, and false-alarm scenarios.",
+  "conditions": [
+    "reflex_only",
+    "private_modules",
+    "global_workspace",
+    "workspace_intervention"
+  ],
+  "task_sequence": [
+    "tree_pocket",
+    "rock_pocket",
+    "dense_mushrooms",
+    "false_alarm"
+  ],
+  "summary": {
+    "reflex_only": {
+      "tree_pocket": {
+        "escape_success": 0.15,
+        "steps_to_escape": 76.275,
+        "repeated_collision_count": 37.275,
+        "workspace_promotions": 0.0,
+        "self_report_accuracy": 0.0,
+        "breakout_steps": 0.0
+      },
+      "rock_pocket": {
+        "escape_success": 0.075,
+        "steps_to_escape": 78.275,
+        "repeated_collision_count": 44.25,
+        "workspace_promotions": 0.0,
+        "self_report_accuracy": 0.0,
+        "breakout_steps": 0.0
+      },
+      "dense_mushrooms": {
+        "escape_success": 0.825,
+        "steps_to_escape": 51.8,
+        "repeated_collision_count": 15.875,
+        "workspace_promotions": 0.0,
+        "self_report_accuracy": 0.0,
+        "breakout_steps": 0.0
+      },
+      "false_alarm": {
+        "escape_success": 1.0,
+        "steps_to_escape": 12.2,
+        "repeated_collision_count": 0.0,
+        "workspace_promotions": 0.0,
+        "self_report_accuracy": 0.0,
+        "breakout_steps": 0.0
+      },
+      "generalization": {
+        "tree_steps": 76.275,
+        "transfer_steps": 65.0375,
+        "transfer_gain_vs_tree": 11.237500000000011
+      }
+    },
+    "private_modules": {
+      "tree_pocket": {
+        "escape_success": 1.0,
+        "steps_to_escape": 20.775,
+        "repeated_collision_count": 4.575,
+        "workspace_promotions": 0.0,
+        "self_report_accuracy": 0.0,
+        "breakout_steps": 5.3
+      },
+      "rock_pocket": {
+        "escape_success": 1.0,
+        "steps_to_escape": 22.2,
+        "repeated_collision_count": 6.025,
+        "workspace_promotions": 0.0,
+        "self_report_accuracy": 0.0,
+        "breakout_steps": 5.625
+      },
+      "dense_mushrooms": {
+        "escape_success": 1.0,
+        "steps_to_escape": 19.4,
+        "repeated_collision_count": 3.35,
+        "workspace_promotions": 0.0,
+        "self_report_accuracy": 0.0,
+        "breakout_steps": 5.1
+      },
+      "false_alarm": {
+        "escape_success": 1.0,
+        "steps_to_escape": 12.15,
+        "repeated_collision_count": 0.0,
+        "workspace_promotions": 0.0,
+        "self_report_accuracy": 0.0,
+        "breakout_steps": 0.0
+      },
+      "generalization": {
+        "tree_steps": 20.775,
+        "transfer_steps": 20.799999999999997,
+        "transfer_gain_vs_tree": -0.02499999999999858
+      }
+    },
+    "global_workspace": {
+      "tree_pocket": {
+        "escape_success": 1.0,
+        "steps_to_escape": 11.475,
+        "repeated_collision_count": 1.175,
+        "workspace_promotions": 3.35,
+        "self_report_accuracy": 1.0,
+        "breakout_steps": 8.0
+      },
+      "rock_pocket": {
+        "escape_success": 1.0,
+        "steps_to_escape": 10.975,
+        "repeated_collision_count": 0.85,
+        "workspace_promotions": 4.225,
+        "self_report_accuracy": 1.0,
+        "breakout_steps": 7.9
+      },
+      "dense_mushrooms": {
+        "escape_success": 1.0,
+        "steps_to_escape": 11.325,
+        "repeated_collision_count": 0.625,
+        "workspace_promotions": 3.05,
+        "self_report_accuracy": 1.0,
+        "breakout_steps": 7.875
+      },
+      "false_alarm": {
+        "escape_success": 1.0,
+        "steps_to_escape": 12.525,
+        "repeated_collision_count": 0.025,
+        "workspace_promotions": 12.525,
+        "self_report_accuracy": 0.9961538461538462,
+        "breakout_steps": 0.05
+      },
+      "generalization": {
+        "tree_steps": 11.475,
+        "transfer_steps": 11.149999999999999,
+        "transfer_gain_vs_tree": 0.32500000000000107
+      }
+    },
+    "workspace_intervention": {
+      "tree_pocket": {
+        "escape_success": 1.0,
+        "steps_to_escape": 9.45,
+        "repeated_collision_count": 0.3,
+        "workspace_promotions": 9.45,
+        "self_report_accuracy": 1.0,
+        "breakout_steps": 8.0
+      },
+      "rock_pocket": {
+        "escape_success": 1.0,
+        "steps_to_escape": 10.875,
+        "repeated_collision_count": 0.75,
+        "workspace_promotions": 10.875,
+        "self_report_accuracy": 1.0,
+        "breakout_steps": 8.0
+      },
+      "dense_mushrooms": {
+        "escape_success": 1.0,
+        "steps_to_escape": 8.325,
+        "repeated_collision_count": 0.0,
+        "workspace_promotions": 8.325,
+        "self_report_accuracy": 1.0,
+        "breakout_steps": 8.0
+      },
+      "false_alarm": {
+        "escape_success": 1.0,
+        "steps_to_escape": 8.175,
+        "repeated_collision_count": 0.0,
+        "workspace_promotions": 8.175,
+        "self_report_accuracy": 0.0,
+        "breakout_steps": 8.0
+      },
+      "generalization": {
+        "tree_steps": 9.45,
+        "transfer_steps": 9.6,
+        "transfer_gain_vs_tree": -0.15000000000000036
+      },
+      "intervention_effect_size": {
+        "tree_steps_saved_vs_reflex": 66.825
+      }
+    }
+  },
+  "thesis": "A workspace-like representation should be reportable, reusable by multiple downstream modules, causally active under intervention, and able to generalize from one obstruction type to another."
+}

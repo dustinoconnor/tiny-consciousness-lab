@@ -16,6 +16,34 @@ for making questions about recurrent systems visible:
 - Which hidden units causally influence other hidden units over time?
 - Does adding a valence-feedback node increase a tiny exact integration proxy?
 
+## Strongest Recent Result
+
+The latest artificial-life experiment removes the scripted `approach_food`,
+`escape_U`, map, frontier, and enclosure rules. Policies learn only from local
+obstacle rays, visible-mushroom direction, hunger, previous action/reward, and
+mushroom contact reward. After training on open fields, L-walls, and offset
+barriers, frozen policies reached mushrooms in 67.5% of randomly rotated
+U-detours withheld from training. A recurrent control trained without mushroom
+reward reached 0%.
+
+For the recurrent reward-trained policies, resetting hidden state after every
+movement reduced withheld-detour success from 67.5% to 0% without changing
+weights or current sensors. Post-hoc balanced probes decoded unlabeled trap
+context from recurrent state at 93-95% accuracy and outperformed current sensor
+snapshots by 5.7-10.3 percentage points.
+
+The disciplined claim is:
+
+> A minimal artificial-life agent can develop reward-grounded mushroom seeking,
+> memory-dependent zero-shot detour behavior, and a decodable unlabeled latent
+> trap representation without an explicit food-approach or trap-escape rule.
+
+The mechanistic interpretation remains bounded. Selectively erasing one decoded
+trap direction reduced real U-detour success, but injecting that global direction
+did not create retreat behavior in clear or sensory-neutral corridors. This
+suggests trap-conditioned control is distributed and context-dependent rather
+than a single portable `retreat now` vector.
+
 The working thesis emerging from these toy runs:
 
 > Integration is not a scoreboard by itself. A useful inner world must be
@@ -41,10 +69,21 @@ The working thesis emerging from these toy runs:
 > these toy systems, the useful intelligence is increasingly concentrated in
 > regulated routing: deciding which internal source should control action, when,
 > and why.
+> Global broadcasting amplifies causal power, but does not guarantee truth.
+> When reportability and control are tied to the same compressed workspace
+> token, self-report can become an efficiency mechanism instead of an ornament:
+> the system acts and reports at the level of grounded invariant concepts rather
+> than raw local signals.
 > A functional ego also needs a fatigue self-model. Waking repair can extend
 > endurance, but once fatigue exceeds repair bandwidth, offline dream repair
 > restores separability more strongly. Too little sleep leaves delusion active;
 > too much sleep over-prunes useful memory.
+> Reward can create learned goal pursuit without prescribing the motor policy.
+> In partially observed traps, temporal continuity can become causally necessary
+> for behavior, while recurrent state develops operational information that was
+> never supplied as a training label.
+> Decodability is not causation: latent representations should earn mechanistic
+> claims through erasure, patching, dose response, and matched controls.
 
 ## Unified Mind Architecture Stack
 
@@ -64,10 +103,13 @@ what information becomes action-relevant.
           grounded simulation       external correction
 
                     hierarchical master workspaces
-                  compressed conflict arbitration
+              compressed conflict arbitration and reportable routing
 
                          causal router learning
                     context-specific credit assignment
+
+                  learned sensorimotor policy and memory
+             reward-grounded goals, latent context, transfer
 
                          maintenance cycles
                  recurrent repair and down-selection
@@ -217,6 +259,14 @@ behavior in recognizable ways:
   echo peers raise delusion risk without improving behavior.
 - Complementary partial observers can match a full oracle when the workspace
   binds their non-redundant knowledge into shared action control.
+- Mushroom reward can produce food seeking without an explicit approach-food
+  rule, and the frozen behavior can transfer to withheld rotated U-detours.
+- Resetting recurrent state can abolish learned detour foraging while preserving
+  weights and current observations, demonstrating causal dependence on temporal
+  continuity for those policies.
+- Recurrent hidden state can encode unlabeled trap context beyond the current
+  sensor snapshot, although targeted patching has not yet isolated a portable
+  causal motor command.
 
 The philosophical inference is not that silicon is conscious. It is that
 integration, valence, confidence gating, world modeling, lookahead, and dynamic
@@ -687,6 +737,275 @@ lookahead or world modeling is required.
 
 ![Maze imagination evaluation](outputs/maze_imagination_eval.png)
 
+## Embodied World-Model Transfer Test
+
+`embodied_world_model_lab.py` trains a compact forward model on Unity-like
+local sensor packets from circular and rectangular obstacles:
+
+```text
+current observation + candidate movement -> next observation + collision
+```
+
+The model is then frozen and tested on diagonal barriers that were withheld
+from training. It never receives a global map or NavMesh. Five controllers are
+compared: reactive goal following, an explicit local sensor router, learned
+one-step prediction, learned two-step counterfactual rollout, and an
+uncertainty-grounded depth-2 controller.
+
+The grounded controller uses disagreement among three learned forward models
+as an uncertainty estimate. It vetoes actions contradicted by current raw
+sensors, discounts or truncates uncertain imagined branches, executes only the
+first selected action, and replans from a fresh real observation on every
+physical step.
+
+The held-out result satisfied the lab's narrow zero-shot geometry-transfer
+criterion:
+
+```text
+condition                 success    collisions    mean steps
+reactive                    0.458       45.42          56.00
+sensor_router               1.000        0.00          16.96
+learned_one_step            0.000        0.00          90.00
+learned_depth_2             0.125        0.17          85.46
+uncertainty_grounded_d2     0.958        0.00          21.42
+```
+
+Ungrounded learned prediction remained indecisive because model error compounded
+when imagined observations were fed back recursively. Ensemble uncertainty,
+raw-sensor vetoes, and receding-horizon re-anchoring recovered most of the
+explicit sensor router's performance without retraining on the withheld shape.
+The explicit sensor router still performed slightly better, so the experiment
+does not show that world-model planning is necessary for this simple task.
+
+> Counterfactual depth becomes functional when epistemic uncertainty limits
+> trust in imagined futures and every physical action is followed by renewed
+> grounding in real sensory evidence.
+
+This supports frozen zero-shot transfer across local obstacle geometry without
+a global map. It does not establish open-ended zero-shot task learning, a
+complete physical world model, or active inference. A harder detour task is
+reported below to test whether grounded world-model planning can outperform the
+explicit sensor specialist rather than merely approach it.
+
+### Held-Out U-Detour
+
+The next evaluation added a U-shaped cul-de-sac that was absent from training.
+The agent starts inside the approach corridor with the goal beyond the closed
+end. A valid solution must move away from the goal, leave through the opening,
+travel around an exterior wall, and then resume goal progress.
+
+```text
+condition                       success    collisions    away steps
+reactive                          0.000       85.00          0.0
+sensor_router                     0.000        0.00         43.0
+learned_one_step                  0.000        0.00         43.0
+learned_depth_2                   0.000        0.00         43.0
+uncertainty_grounded_depth_2      0.000        0.00         42.0
+uncertainty_grounded_beam         0.000        0.00         42.0
+counterfactual_plan_memory        0.000        0.00         42.0
+scripted_escape_macro             1.000        0.00         16.0
+episodic_frontier_world_model     1.000        0.00          9.0
+```
+
+All predictive controllers avoided collisions and took movements away from the
+goal, but none completed the detour. Their trajectories oscillated inside the
+cul-de-sac instead of preserving a plan long enough to cross the opening. The
+frozen model therefore passed zero-shot obstacle-shape transfer but failed
+zero-shot topological detour transfer.
+
+Temporary plan memory did not rescue the learned planner. It created an average
+of 58 plans, executed all 90 queued actions, completed 43 queues, received 15
+raw-sensor vetoes, and used 43 one-step fallbacks. The problem was therefore
+not only forgetting: the planner rarely formed a coherent multi-step escape
+trajectory worth remembering.
+
+The one-shot scripted macro succeeded in every run with zero collisions and a
+mean of 41.38 steps. This verifies that the environment is reachable and shows
+that explicit temporal commitment solves the task. It does not transfer that
+credit to the learned forward model.
+
+An episodic frontier world model then reconstructed a local occupancy memory
+from ray history only. It received no hidden obstacle map or NavMesh. Known
+free and blocked cells persist across steps; when no known route reaches the
+goal, the planner selects a useful boundary between known and unknown space,
+penalizes revisits, commits to the path through known-free cells, and fuses the
+next real sensor packet into memory.
+
+That controller succeeded in every held-out U-detour run with zero collisions,
+a mean of 28 steps, and nine required movements away from the goal. It created
+and completed nine sensory-derived plans with no fallbacks or sensor vetoes.
+It also outperformed the layout-specific scripted macro by about 13 steps.
+
+> Avoiding a local obstacle and escaping a topological trap are different
+> capabilities. Uncertainty grounding prevents unsafe imagination, but it does
+> not by itself provide multi-step consistency or commitment to a detour plan.
+
+Persistent counterfactual plan memory and sensory-checked commitment were not
+enough by themselves. Adding a compact episodic occupancy memory fixed plan
+formation because imagined routes could operate over a stable world state
+instead of recursively generated sensor packets.
+
+This supports zero-shot U-detour traversal by an online structured world model,
+not learned zero-shot topology abstraction or emergent navigation. The mapping
+and frontier rules are designed algorithms. The next ablation should vary the
+withheld topology, remove revisit penalties and frontier value separately, and
+compare this explicit memory against a learned latent spatial representation.
+
+### Episodic Planner Ablation
+
+The first component ablation separately removed the revisit cost and frontier
+objective while preserving the same local sensors, occupancy memory, and
+held-out U geometry:
+
+```text
+condition                       success    steps    collisions    fallbacks
+episodic_frontier_world_model     1.000     28.0        0.0           0
+episodic_no_revisit_cost          1.000     28.0        0.0           0
+episodic_no_frontier_objective    0.000     90.0        0.0          90
+```
+
+Removing revisit cost had no measurable effect in this deterministic U. The
+persisted occupancy graph and completed frontier paths already prevented the
+kind of wandering the extra penalty was intended to suppress. Revisit cost is
+therefore redundant in this task, not a demonstrated cause of success.
+
+Removing frontier exploration caused complete failure despite retaining the
+occupancy map. The controller created no executable map-derived path and fell
+back to the myopic sensor router on every step. In this environment, frontier
+selection is the causally necessary addition that converts remembered geometry
+into a route out of the local minimum.
+
+> Memory stores the shape of the experienced world; frontier valuation turns
+> that stored shape into information-seeking action.
+
+This is still designed exploration rather than emergent topology reasoning.
+The next test should randomize U orientation, opening width, start position,
+sensor range, and introduce branching or deceptive frontiers. That would show
+whether the same rule transfers broadly or merely fits this geometry family.
+
+![Embodied world-model summary](outputs/embodied_world_model_summary.png)
+
+![Embodied world-model detour summary](outputs/embodied_world_model_detour_summary.png)
+
+![Held-out world-model paths](outputs/embodied_world_model_zero_shot_paths.png)
+
+## Emergent Reward-Grounded Foraging
+
+`emergent_foraging_lab.py` removes the scripted food-approach and escape rules.
+Policies receive only four local obstacle rays, mushroom direction when it is
+within line of sight, hunger, previous action, previous reward, and optional
+recurrent state. Mushroom contact supplies reward; no target action, frontier,
+map, trap label, or enclosure concept is provided during training.
+
+Feedforward and recurrent policies train on procedurally varied open fields,
+L-walls, and offset barriers. Their weights are then frozen and evaluated on
+randomly rotated U-detours withheld from training:
+
+```text
+condition                              success    steps    collisions
+feedforward_reward                       0.675     35.28       0.00
+recurrent_no_food_reward                 0.000     72.00       0.00
+recurrent_reward                         0.675     48.16       1.11
+recurrent_reward_hidden_reset            0.000     72.00       0.00
+recurrent_curiosity                      0.675     42.05       0.33
+recurrent_curiosity_hidden_reset         0.000     72.00       0.00
+```
+
+The no-food-reward control never reached a mushroom, while every policy trained
+with mushroom reward reached food in 67.5% of withheld U trials. This supports
+learned reward-grounded food seeking without an approach-food rule. Feedforward
+success shows that recurrence is not universally required for this task.
+
+For both recurrent reward-trained policies, resetting hidden state after every
+physical step reduced success from 67.5% to zero without changing weights or
+current observations. Recurrent continuity is therefore causally necessary for
+their learned detour behavior. Curiosity did not improve success rate, but it
+reduced mean steps and collisions relative to recurrent reward alone.
+
+After training, balanced linear probes attempted to decode whether the agent
+was inside the withheld trap. Trap labels were never used to train the policy:
+
+```text
+condition                hidden    current obs    shuffled    hidden advantage
+recurrent_reward          0.932       0.874         0.515          +0.057
+recurrent_curiosity       0.946       0.843         0.486          +0.103
+```
+
+The recurrent state contains trap context beyond the instantaneous sensor
+snapshot, and that information remains decodable in an unseen topology. The
+hidden-reset intervention shows that memory as a whole matters behaviorally;
+it does not yet prove that the particular linearly decoded trap direction is
+the causal representation used by the policy.
+
+> Reward created mushroom preference; recurrence created behaviorally necessary
+> temporal context; no explicit `seek_food`, `escape_U`, or `enclosed` variable
+> was supplied.
+
+This is evidence for emergent operational representation and learned zero-shot
+detour foraging in a narrow artificial-life task. It is not evidence for a
+human-like concept, open-ended emergence, consciousness, or general intelligence.
+
+![Emergent foraging training](outputs/emergent_foraging_training.png)
+
+![Emergent foraging U-detour](outputs/emergent_foraging_u_detour.png)
+
+## Latent Trap Intervention
+
+`latent_trap_intervention_lab.py` tests whether the post-hoc trap direction is
+merely decodable or causally active. It fits one distributed hidden-state axis
+from separate stochastic U trajectories, then performs projection erasure,
+activation patching, dose response, and equal-norm orthogonal controls.
+
+Erasing the trap projection only while the agent was physically inside a held-
+out U reduced mushroom success from 50% to 25%. Erasing a random orthogonal
+direction left success at 50%:
+
+```text
+condition         success    action-probability shift
+normal              0.50              0.0000
+trap erased         0.25              0.0345
+random erased       0.50              0.0043
+```
+
+This selective damage suggests the decoded direction participates in control
+during real traps. It does not by itself identify what motor meaning the axis
+carries.
+
+Injecting the trap direction into an unobstructed visible-food field changed
+the immediate policy more than a random direction, with a monotonic logit
+effect from `0x` through `1.5x`, but did not alter the completed trajectory.
+The strong food gradient overrode the transient internal perturbation.
+
+A second test patched the same axis in orientation-balanced blind corridors
+with no visible food and measured action probabilities at the exact injection
+step:
+
+```text
+condition       reverse delta    total variation    reverse actions next 3
+none               0.0000            0.0000                 1.5
+trap patch        -0.0125            0.0363                 1.5
+random patch      -0.0018            0.0122                 1.5
+```
+
+The trap patch affected the policy about three times more than the random patch,
+and total policy disturbance increased smoothly with dose. However, it reduced
+both forward and reverse probabilities, redistributed probability laterally,
+and did not cause a pivot. The preregistered causal trap-axis criterion therefore
+remained false.
+
+The current evidence supports a direction that is selectively involved in
+trap-conditioned control, but not a context-independent `retreat now` command.
+One likely explanation is representational geometry: escape direction rotates
+with U orientation, so averaging all orientations into a single axis can retain
+general trap context while canceling directional motor semantics. A stronger
+test should estimate a low-dimensional trap subspace or orientation-matched
+axes and intervene on held-out trajectories without using the answer action.
+
+> Erasure shows selective functional dependence; failed patching prevents us
+> from claiming a portable causal motor representation.
+
+![Latent trap intervention](outputs/latent_trap_intervention_summary.png)
+
 ## Imagination Phi-Proxy Test
 
 `imagination_phi_lab.py` asks whether imagination, self-modeling, and imagined
@@ -1070,6 +1389,191 @@ ingredient of introspection:
 ![Self report workspace summary](outputs/self_report_workspace_summary.png)
 
 ![Self report workspace timeseries](outputs/self_report_workspace_timeseries.png)
+
+## Workspace Lift And Intervention Test
+
+`workspace_lift_lab.py` turns the Anthropic J-space discussion into an explicit
+toy test. It does not reproduce a Jacobian lens. Instead, it asks whether a
+compressed, reportable packet can be lifted from private module dynamics into a
+shared workspace and then reused by movement, memory, valence, and report
+systems.
+
+The reportable packet has this shape:
+
+```python
+workspace_packet = {
+    "intent": "continue_heading",
+    "problem": "local_obstruction_cluster",
+    "strategy": "breakout_arc",
+    "feeling": "high_arousal_negative_valence",
+    "confidence": 0.78,
+}
+```
+
+The lab compares four conditions:
+
+- `reflex_only` - raw blocked/stuck signals drive local escape
+- `private_modules` - movement, valence, and memory compute local states, but no
+  shared reportable packet exists
+- `global_workspace` - surprise/tension promotes a generalized packet into a
+  shared workspace
+- `workspace_intervention` - the packet is forced from the beginning to measure
+  causal effect
+
+Result:
+
+```text
+condition               tree_steps  rock_steps  mushroom_steps  reports  tree_collisions
+reflex_only             76.3        78.3        51.8            0.00     37.3
+private_modules         20.8        22.2        19.4            0.00      4.6
+global_workspace        11.5        11.0        11.3            1.00      1.2
+workspace_intervention   9.4        10.9         8.3            1.00      0.3
+```
+
+The important separation is visible in the middle rows. Private modules solve
+the local pocket, but cannot report or share a generalized obstruction label.
+The global workspace condition solves faster, reports accurately, and transfers
+the `local_obstruction_cluster` strategy across trees, rocks, and dense
+mushroom clusters. The forced intervention shows that the packet is causally
+active: on tree pockets it saves about `66.8` steps versus reflex-only control.
+It also misreports the `false_alarm` condition, which is useful: an injected
+workspace state can control behavior even when it is not grounded.
+
+The working criterion:
+
+> A workspace-like representation should be reportable, reusable by multiple
+> downstream modules, causally active under intervention, and able to generalize
+> from one obstruction type to another.
+
+![Workspace lift summary](outputs/workspace_lift_summary.png)
+
+![Workspace lift trace](outputs/workspace_lift_trace.png)
+
+## Explicit Ego Lens
+
+`ego_lens_lab.py` is the repo's Jacobian-lens-inspired analogue for the
+functional ego. It does not fit a transformer Jacobian lens. Anthropic's
+Jacobian lens works because a language model has residual streams, gradients,
+and an unembedding space. This agent has explicit drives and workspace packets
+instead, so the cleaner test is direct intervention:
+
+```text
+perturb internal variable -> measure report shift and action shift
+```
+
+The lab starts from a baseline search state and applies interventions such as
+`hunger_high`, `food_visible_near`, `trap_high`, `noise_high`,
+`workspace_food_forced`, and `false_trap_report`. It then measures how action
+probabilities change:
+
+```text
+intervention          seek_food  breakout  wander  handoff
+hunger_high           +0.16      -0.04     -0.08   -0.04
+food_visible_near     +0.41      -0.14     -0.15   -0.12
+workspace_food_forced +0.17      -0.05     -0.06   -0.05
+trap_high             -0.21      +0.65     -0.25   -0.19
+noise_high            -0.13      +0.06     +0.04   +0.02
+false_trap_report     -0.18      +0.44     -0.15   -0.11
+```
+
+This matches the embodied Unity observation: high noise disrupts appetitive
+food pursuit more than hard obstacle avoidance, while trap pressure dominates
+the router. False reports also matter: forcing a `food_visible` or
+`local_obstruction_cluster` workspace state shifts control even when the raw
+world signal is weak. That is the useful access-consciousness criterion here:
+reportable state is not merely decorative; it has causal access to downstream
+control.
+
+![Ego lens action effects](outputs/ego_lens_action_effects.png)
+
+![Ego lens report effects](outputs/ego_lens_report_effects.png)
+
+![Ego lens alignment](outputs/ego_lens_alignment.png)
+
+## Altered-State Robustness
+
+`altered_state_robustness_lab.py` turns the noise/delusion conversation into a
+survival task. The lab does not model psychosis biologically. It uses two
+substrate-agnostic control knobs:
+
+- `noise_injection` - unstable internal salience / hallucination pressure
+- `calcium_gate` - excitability / promotion threshold for weak signals
+
+The agent must preserve life-relevant goals: eat food, escape traps, and avoid
+collapsing into an internally absorbing `revelation_loop`. The central question:
+
+> Can an agent under high internal noise preserve life-relevant goals, or does
+> revelation pressure collapse survival behavior? Does high excitability help
+> notice weak signals, or over-amplify noise into false workspace reports?
+
+First sweep:
+
+```text
+noise  calcium  survival  food_eaten  false_ratio  collapse_steps
+0.00   0.45     1.00      8.85        0.00         0.00
+0.35   0.45     1.00      10.05       0.00         7.29
+0.35   1.00     0.64      5.90        0.45         28.62
+0.70   0.75     0.00      0.49        0.42         9.72
+1.00   1.00     0.00      0.00        0.62         18.36
+```
+
+Moderate excitability improves weak-signal pickup when noise is low or
+manageable. High excitability under high noise over-promotes false workspace
+states, suppresses food pursuit, and collapses survival. This gives a grounded
+version of the altered-state thesis: salience expansion can help detection, but
+without grounding it becomes false promotion pressure that defeats basic
+metabolic goals.
+
+![Altered state food](outputs/altered_state_food.png)
+
+![Altered state false promotions](outputs/altered_state_false_promotions.png)
+
+![Altered state collapse](outputs/altered_state_collapse.png)
+
+![Altered state survival](outputs/altered_state_survival.png)
+
+![Altered state trace](outputs/altered_state_trace_high_noise_high_calcium.png)
+
+## Altered-State Stabilizer Test
+
+`altered_state_stabilizer_lab.py` asks what kind of grounding governor can
+restore life-relevant behavior under the hardest altered-state condition:
+`noise=1.0` and `calcium_gate=1.0`.
+
+The tested stabilizers are:
+
+- `reality_gate` - low-level sensory consistency discounts ungrounded workspace
+  reports
+- `meta_monitor` - persistent high-confidence reports without progress mark the
+  workspace unreliable
+- `meta_monitor_hunger_anchor` - unreliable workspace plus high hunger forces
+  grounded forage
+- `full_stack` - reality gate, meta-monitor, hunger anchor, and emergency
+  repair
+
+Result:
+
+```text
+condition                    survival  steps   food  traps  false_ratio  revelation
+none                         0.00      23.11   0.00  3.23   0.64         18.44
+reality_gate                 0.00      28.14   0.00  3.87   0.00         14.45
+meta_monitor                 0.00      23.17   0.00  3.29   0.62         18.43
+meta_monitor_hunger_anchor   0.01      67.68   2.49  9.48   0.64         34.87
+full_stack                   0.21      129.23  5.37  10.88  0.00         32.36
+```
+
+The monitor alone is not enough. That matches the intuition that an agent can
+notice unreliability while still being motivationally captured by the altered
+state. The strongest recovery comes from the full stack: false promotions are
+gated out, hunger can route around unreliable executive reports, and emergency
+repair buys time. It still does not fully solve max-noise/max-calcium, but it
+restores meaningful food pursuit while preserving legitimate trap escape.
+
+![Altered state stabilizer summary](outputs/altered_state_stabilizer_summary.png)
+
+![Altered state stabilizer no governor trace](outputs/altered_state_stabilizer_trace_none.png)
+
+![Altered state stabilizer full stack trace](outputs/altered_state_stabilizer_trace_full_stack.png)
 
 ## Unified Toy Mind Capstone
 
@@ -1493,29 +1997,37 @@ The sweet spot in this toy run is `50` dream-repair steps. Short sleep leaves
 delusion active. Very long sleep keeps delusion low, but erases useful memory:
 the system wakes up clean but forgetful.
 
-The endurance test then compares fixed schedules, waking repair, and adaptive
-fatigue-triggered sleep:
+The endurance test then compares fixed schedules, waking repair, invisible
+successor handoff, and adaptive fatigue-triggered sleep:
 
 ```text
-condition                 failure_step  sleep_events  sleep_steps  late_acc  late_delusion  late_fatigue  final_sep
-no_sleep                  70            0             0            0.101     0.999          0.994         0.283
-waking_repair_only        143           0             0            0.101     0.998          0.982         0.289
-fixed_sleep               70            6             294          0.739     0.164          0.326         0.726
-adaptive_sleep            none          6             396          0.764     0.130          0.308         0.936
-hybrid_repair_plus_sleep  none          5             342          0.767     0.132          0.291         0.954
+condition                     failure_step  sleep_events  handoffs  sleep_steps  late_acc  late_delusion  late_fatigue  final_sep
+no_sleep                      70            0             0         0            0.101     0.999          0.994         0.283
+waking_repair_only            143           0             0         0            0.101     0.998          0.982         0.289
+successor_handoff             none          0             14        0            0.596     0.272          0.485         0.725
+handoff_plus_emergency_sleep  none          0             14        0            0.633     0.219          0.460         0.575
+fixed_sleep                   70            6             0         294          0.739     0.164          0.326         0.726
+adaptive_sleep                none          6             0         396          0.764     0.130          0.308         0.936
+hybrid_repair_plus_sleep      none          5             0         342          0.767     0.132          0.291         0.954
 ```
 
 Waking repair helps: it doubles the time before collapse compared with no
 sleep. But it still fails once recurrent fatigue exceeds its repair bandwidth.
-Fixed sleep helps late behavior, but because it is not tied to self-report, it
-can sleep after the system has already crossed a failure threshold. Adaptive
-sleep and the hybrid repair-plus-sleep condition survive the full run.
+Successor handoff survives the full run without visible sleep by compressing the
+current self-model into a refreshed controller state. It is weaker than full
+offline sleep, but much better for an embodied product loop where frequent
+sit-down sleep would feel broken. Fixed sleep helps late behavior, but because
+it is not tied to self-report, it can sleep after the system has already crossed
+a failure threshold. Adaptive sleep and the hybrid repair-plus-sleep condition
+remain the strongest substrate-repair baselines.
 
 The working rule:
 
 > Maintenance should be self-modeled. A conscious-like controller should not
 > only act in the world; it should monitor when its own substrate is becoming
-> noisy enough that active repair is no longer sufficient.
+> noisy enough that active repair is no longer sufficient. For embodied agents,
+> successor handoff can be the default maintenance behavior, with visible sleep
+> reserved for emergency repair.
 
 ![Adaptive sleep duration sweep](outputs/adaptive_sleep_duration_sweep.png)
 
@@ -1648,6 +2160,13 @@ The first action vocabulary is deliberately small:
 up, down, left, right, idle, sleep, wake
 ```
 
+By default, autonomous maintenance now uses invisible successor handoff instead
+of visible sleep. The Python controller distills the current self-model into a
+fresh generation, lowers crosstalk and complexity, and keeps sending movement
+commands. Use `--maintenance-mode hybrid` to allow visible sleep only when the
+delusion/urgency state becomes dangerous, or `--maintenance-mode visible_sleep`
+to restore the earlier sit-down sleep behavior.
+
 The Unity side keeps manual third-person control available. Press `Tab` to
 toggle auto/manual, `P` to force auto, and `M` to force manual. Press `Z` to
 force sleep and `X` to force wake for quick animation testing. If auto mode is
@@ -1659,6 +2178,64 @@ Run the Python side with:
 ```zsh
 cd /Users/dustinoconnor/tiny_consciousness_lab
 ./embodied_unity_loop.py --sleep-seconds 60
+```
+
+That command uses the default `--maintenance-mode handoff`, so the body should
+not sit down every five minutes. To test the emergency-sleep path:
+
+```zsh
+./embodied_unity_loop.py --maintenance-mode hybrid --sleep-seconds 30
+```
+
+If the body gets too habitual around trees or rocks, increase route exploration:
+
+```zsh
+./embodied_unity_loop.py --route-exploration 0.7
+```
+
+The controller keeps short-lived local memory of recently tried escape routes,
+so repeated failures make it sample a different path instead of replaying the
+same back-up-and-turn maneuver. If it keeps colliding in the same local pocket,
+trap pressure triggers a longer breakout arc: reverse, move sideways, then
+approach from a wider diagonal.
+
+The command packet sent back to Unity now includes HUD/control fields such as
+`valence`, `arousal`, `fatigue`, `delusion`, `dopamine`, `norepinephrine`,
+`acetylcholine`, `noise_injection`, `trap_pressure`, `intent`, and breakout
+state. It also includes a flat embodied workspace packet:
+`workspace_intent`, `workspace_problem`, `workspace_strategy`,
+`workspace_feeling`, `workspace_confidence`, and `workspace_promotions`. Unity
+can send optional controls back in its body-state packet either as top-level
+fields or under `controls`. The older `delusion_drive` field is still accepted
+as a compatibility alias for `noise_injection`.
+
+The embodied workspace is the live version of `workspace_lift_lab.py`: repeated
+collisions and trap pressure can promote `local_obstruction_cluster` with a
+`breakout_arc` strategy. When that packet is confident enough, it lowers the
+threshold for the route controller to start a wider breakout instead of staying
+in local wiggle mode.
+
+`delusion` is a measured instability value, not the manual control. It rises on
+acute collisions, repeated trap pressure, crosstalk, and prediction error, and
+falls again when the body makes clear progress. `noise_injection` is only the
+test input that can push the system toward instability.
+
+```json
+{
+  "controls": {
+    "dopamine": 0.5,
+    "norepinephrine": 0.8,
+    "acetylcholine": 0.4,
+    "noise_injection": 0.2,
+    "route_exploration": 0.7
+  }
+}
+```
+
+For terminal-only testing, the same controls are available as flags:
+
+```zsh
+./embodied_unity_loop.py --norepinephrine 0.9 --noise-injection 0.35
 ```
 
 For quick testing:
@@ -1771,6 +2348,10 @@ cd /Users/dustinoconnor/tiny_consciousness_lab
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 modular_workspace_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 conditional_workspace_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 self_report_workspace_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 workspace_lift_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 ego_lens_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 altered_state_robustness_lab.py
+/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 altered_state_stabilizer_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 unified_mind_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 social_workspace_lab.py
 /opt/homebrew/Caskroom/miniforge/base/bin/python3.13 partial_observer_social_lab.py
@@ -1810,6 +2391,10 @@ Outputs land in:
 - `modular_workspace_lab.py` - segregation-plus-integration architecture comparison
 - `conditional_workspace_lab.py` - dynamic workspace coupling from module tension
 - `self_report_workspace_lab.py` - persistent self-model and symbolic introspection test
+- `workspace_lift_lab.py` - reportable workspace packet, transfer, and intervention test
+- `ego_lens_lab.py` - Jacobian-lens-inspired explicit attribution matrix for functional ego interventions
+- `altered_state_robustness_lab.py` - noise/excitability sweep for food seeking, false reports, and survival
+- `altered_state_stabilizer_lab.py` - grounding-governor test for stabilizing altered-state collapse
 - `unified_mind_lab.py` - readable capstone combining valence, imagination, workspace, self-model, and pretrained world-model lookahead
 - `social_workspace_lab.py` - social peer/workspace comparison for grounded critics vs echo loops
 - `partial_observer_social_lab.py` - complementary partial observers with map/safety information split
@@ -1840,6 +2425,10 @@ Outputs land in:
 - `outputs/modular_workspace_metrics.json` - modular workspace architecture metrics
 - `outputs/conditional_workspace_metrics.json` - conditional workspace coupling metrics
 - `outputs/self_report_workspace_metrics.json` - self-report workspace metrics
+- `outputs/workspace_lift_metrics.json` - workspace lift transfer and intervention metrics
+- `outputs/ego_lens_metrics.json` - explicit ego lens intervention/effect-size matrix
+- `outputs/altered_state_robustness_metrics.json` - altered-state robustness sweep metrics
+- `outputs/altered_state_stabilizer_metrics.json` - altered-state grounding-governor comparison
 - `outputs/unified_mind_metrics.json` - unified capstone metrics and traces
 - `outputs/social_workspace_metrics.json` - social workspace metrics and example traces
 - `outputs/partial_observer_social_metrics.json` - complementary observer metrics and traces

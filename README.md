@@ -18,7 +18,7 @@ for making questions about recurrent systems visible:
 
 ## Strongest Recent Result
 
-The latest artificial-life experiment removes the scripted `approach_food`,
+The first artificial-life experiment removes the scripted `approach_food`,
 `escape_U`, map, frontier, and enclosure rules. Policies learn only from local
 obstacle rays, visible-mushroom direction, hunger, previous action/reward, and
 mushroom contact reward. After training on open fields, L-walls, and offset
@@ -43,6 +43,15 @@ trap direction reduced real U-detour success, but injecting that global directio
 did not create retreat behavior in clear or sensory-neutral corridors. This
 suggests trap-conditioned control is distributed and context-dependent rather
 than a single portable `retreat now` vector.
+
+A Unity-aligned replication then expanded the interface to eight directional
+actions and eight continuous normalized rays, trained across five independent
+seeds, selected curiosity strength using familiar layouts only, and reserved
+C-shapes plus zigzag gates as strictly withheld topology families. The selected
+five-seed group averaged 98.25% withheld success with zero collisions; every
+seed scored between 95% and 100%. Reward-free controls reached food only 1% of
+the time. Resetting memory reduced the memory-intensive zigzag family from 98%
+to 23.5%.
 
 The working thesis emerging from these toy runs:
 
@@ -948,6 +957,59 @@ human-like concept, open-ended emergence, consciousness, or general intelligence
 ![Emergent foraging training](outputs/emergent_foraging_training.png)
 
 ![Emergent foraging U-detour](outputs/emergent_foraging_u_detour.png)
+
+## Unity-Aligned Foraging Pipeline
+
+`upgraded_foraging_pipeline.py` upgrades the emergence experiment before any
+learned policy receives Unity motor control:
+
+- eight directional actions matching the Unity steering vocabulary
+- eight continuous normalized ray distances produced by sub-cell ray marching
+- randomized pockets, L-walls, offset barriers, and variable U-traps for training
+- C-shapes and zigzag gates withheld entirely for zero-shot evaluation
+- five independent training seeds
+- failure-priority replay after a staged curriculum
+- a curiosity sweep over `0.012`, `0.018`, and `0.024`
+- forward-ensemble disagreement plus episodic novelty as exploration signals
+- exported PyTorch checkpoints with sensor/action metadata
+
+Model selection used familiar validation only. Curiosity `0.012` was the most
+stable setting, averaging 95.3% familiar success across seeds. The higher
+`0.024` setting produced both excellent policies and one 26.7% collapse,
+demonstrating that stronger intrinsic reward can destabilize exploitation.
+
+Final frozen evaluation:
+
+```text
+metric                                      result
+withheld C-shape + zigzag success           98.25%
+seed success range                          95.0% - 100.0%
+mean collisions                             0.00
+no-reward control success                   1.00%
+memory-reset success, all withheld          51.50%
+normal zigzag success                       98.00%
+memory-reset zigzag success                 23.50%
+```
+
+The preregistered literal gates were retained. Two passed: withheld success was
+above 90% and collisions were near zero. Two exact-zero gates failed: one of
+five reward-free controls encountered food by chance, and memory reset retained
+feedforward competence on locally solvable cases.
+
+A separate deployment-oriented gate treats reward-free success below 5% as the
+chance floor and requires at least a 50-point memory-reset penalty on a withheld
+memory-critical family. Under that operational criterion, the checkpoint is
+ready for passive Unity shadow evaluation, not active motor control.
+
+> Broad local competence can coexist with topology-specific dependence on
+> memory. Resetting recurrence need not destroy every easy behavior to establish
+> that temporal continuity is causally important for the hard cases.
+
+The exported representative checkpoint is
+`checkpoints/upgraded_foraging/best.pt`. Four additional selected-beta seed
+checkpoints preserve the repeated-seed result.
+
+![Upgraded foraging pipeline](outputs/upgraded_foraging_pipeline_summary.png)
 
 ## Latent Trap Intervention
 

@@ -1,0 +1,630 @@
+{
+  "protocol": {
+    "actions": [
+      "up",
+      "up_right",
+      "right",
+      "down_right",
+      "down",
+      "down_left",
+      "left",
+      "up_left"
+    ],
+    "continuous_normalized_rays": 8,
+    "training_families": [
+      "open",
+      "pocket",
+      "l_wall",
+      "offset_barriers",
+      "u_trap"
+    ],
+    "strictly_withheld_families": [
+      "c_shape",
+      "zigzag_gate"
+    ],
+    "training_seeds": [
+      101,
+      211,
+      307,
+      419,
+      523
+    ],
+    "curiosity_sweep": [
+      0.012,
+      0.018,
+      0.024
+    ],
+    "model_selection_uses_withheld_data": false,
+    "curiosity_note": "Forward-ensemble disagreement is an epistemic uncertainty proxy, not exact Bayesian uncertainty reduction."
+  },
+  "beta_summary": {
+    "0.012": {
+      "mean_familiar_success": 0.9533333333333334,
+      "mean_familiar_collisions": 0.0
+    },
+    "0.018": {
+      "mean_familiar_success": 0.8866666666666667,
+      "mean_familiar_collisions": 0.0
+    },
+    "0.024": {
+      "mean_familiar_success": 0.7866666666666667,
+      "mean_familiar_collisions": 0.0
+    }
+  },
+  "candidates": [
+    {
+      "beta": 0.012,
+      "seed": 101,
+      "familiar_success": 0.9833333333333333,
+      "familiar_collisions": 0.0,
+      "validation": {
+        "success_rate": 0.9833333333333333,
+        "mean_steps": 32.75,
+        "mean_collisions": 0.0,
+        "by_family": {
+          "open": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "pocket": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "l_wall": {
+            "success_rate": 0.9166666666666666,
+            "mean_collisions": 0.0
+          },
+          "offset_barriers": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "u_trap": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          }
+        }
+      }
+    },
+    {
+      "beta": 0.012,
+      "seed": 211,
+      "familiar_success": 0.9666666666666667,
+      "familiar_collisions": 0.0,
+      "validation": {
+        "success_rate": 0.9666666666666667,
+        "mean_steps": 37.75,
+        "mean_collisions": 0.0,
+        "by_family": {
+          "open": {
+            "success_rate": 0.9166666666666666,
+            "mean_collisions": 0.0
+          },
+          "pocket": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "l_wall": {
+            "success_rate": 0.9166666666666666,
+            "mean_collisions": 0.0
+          },
+          "offset_barriers": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "u_trap": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          }
+        }
+      }
+    },
+    {
+      "beta": 0.012,
+      "seed": 307,
+      "familiar_success": 0.9333333333333333,
+      "familiar_collisions": 0.0,
+      "validation": {
+        "success_rate": 0.9333333333333333,
+        "mean_steps": 33.38333333333333,
+        "mean_collisions": 0.0,
+        "by_family": {
+          "open": {
+            "success_rate": 0.9166666666666666,
+            "mean_collisions": 0.0
+          },
+          "pocket": {
+            "success_rate": 0.8333333333333334,
+            "mean_collisions": 0.0
+          },
+          "l_wall": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "offset_barriers": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "u_trap": {
+            "success_rate": 0.9166666666666666,
+            "mean_collisions": 0.0
+          }
+        }
+      }
+    },
+    {
+      "beta": 0.012,
+      "seed": 419,
+      "familiar_success": 0.9666666666666667,
+      "familiar_collisions": 0.0,
+      "validation": {
+        "success_rate": 0.9666666666666667,
+        "mean_steps": 29.066666666666666,
+        "mean_collisions": 0.0,
+        "by_family": {
+          "open": {
+            "success_rate": 0.8333333333333334,
+            "mean_collisions": 0.0
+          },
+          "pocket": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "l_wall": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "offset_barriers": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "u_trap": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          }
+        }
+      }
+    },
+    {
+      "beta": 0.012,
+      "seed": 523,
+      "familiar_success": 0.9166666666666666,
+      "familiar_collisions": 0.0,
+      "validation": {
+        "success_rate": 0.9166666666666666,
+        "mean_steps": 29.6,
+        "mean_collisions": 0.0,
+        "by_family": {
+          "open": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "pocket": {
+            "success_rate": 0.9166666666666666,
+            "mean_collisions": 0.0
+          },
+          "l_wall": {
+            "success_rate": 0.8333333333333334,
+            "mean_collisions": 0.0
+          },
+          "offset_barriers": {
+            "success_rate": 0.9166666666666666,
+            "mean_collisions": 0.0
+          },
+          "u_trap": {
+            "success_rate": 0.9166666666666666,
+            "mean_collisions": 0.0
+          }
+        }
+      }
+    },
+    {
+      "beta": 0.018,
+      "seed": 101,
+      "familiar_success": 0.95,
+      "familiar_collisions": 0.0,
+      "validation": {
+        "success_rate": 0.95,
+        "mean_steps": 34.583333333333336,
+        "mean_collisions": 0.0,
+        "by_family": {
+          "open": {
+            "success_rate": 0.9166666666666666,
+            "mean_collisions": 0.0
+          },
+          "pocket": {
+            "success_rate": 0.9166666666666666,
+            "mean_collisions": 0.0
+          },
+          "l_wall": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "offset_barriers": {
+            "success_rate": 0.9166666666666666,
+            "mean_collisions": 0.0
+          },
+          "u_trap": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          }
+        }
+      }
+    },
+    {
+      "beta": 0.018,
+      "seed": 211,
+      "familiar_success": 0.95,
+      "familiar_collisions": 0.0,
+      "validation": {
+        "success_rate": 0.95,
+        "mean_steps": 34.4,
+        "mean_collisions": 0.0,
+        "by_family": {
+          "open": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "pocket": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "l_wall": {
+            "success_rate": 0.8333333333333334,
+            "mean_collisions": 0.0
+          },
+          "offset_barriers": {
+            "success_rate": 0.9166666666666666,
+            "mean_collisions": 0.0
+          },
+          "u_trap": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          }
+        }
+      }
+    },
+    {
+      "beta": 0.018,
+      "seed": 307,
+      "familiar_success": 0.8,
+      "familiar_collisions": 0.0,
+      "validation": {
+        "success_rate": 0.8,
+        "mean_steps": 45.083333333333336,
+        "mean_collisions": 0.0,
+        "by_family": {
+          "open": {
+            "success_rate": 0.75,
+            "mean_collisions": 0.0
+          },
+          "pocket": {
+            "success_rate": 0.8333333333333334,
+            "mean_collisions": 0.0
+          },
+          "l_wall": {
+            "success_rate": 0.8333333333333334,
+            "mean_collisions": 0.0
+          },
+          "offset_barriers": {
+            "success_rate": 0.75,
+            "mean_collisions": 0.0
+          },
+          "u_trap": {
+            "success_rate": 0.8333333333333334,
+            "mean_collisions": 0.0
+          }
+        }
+      }
+    },
+    {
+      "beta": 0.018,
+      "seed": 419,
+      "familiar_success": 0.7833333333333333,
+      "familiar_collisions": 0.0,
+      "validation": {
+        "success_rate": 0.7833333333333333,
+        "mean_steps": 42.78333333333333,
+        "mean_collisions": 0.0,
+        "by_family": {
+          "open": {
+            "success_rate": 0.9166666666666666,
+            "mean_collisions": 0.0
+          },
+          "pocket": {
+            "success_rate": 0.8333333333333334,
+            "mean_collisions": 0.0
+          },
+          "l_wall": {
+            "success_rate": 0.8333333333333334,
+            "mean_collisions": 0.0
+          },
+          "offset_barriers": {
+            "success_rate": 0.5833333333333334,
+            "mean_collisions": 0.0
+          },
+          "u_trap": {
+            "success_rate": 0.75,
+            "mean_collisions": 0.0
+          }
+        }
+      }
+    },
+    {
+      "beta": 0.018,
+      "seed": 523,
+      "familiar_success": 0.95,
+      "familiar_collisions": 0.0,
+      "validation": {
+        "success_rate": 0.95,
+        "mean_steps": 34.18333333333333,
+        "mean_collisions": 0.0,
+        "by_family": {
+          "open": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "pocket": {
+            "success_rate": 0.9166666666666666,
+            "mean_collisions": 0.0
+          },
+          "l_wall": {
+            "success_rate": 0.9166666666666666,
+            "mean_collisions": 0.0
+          },
+          "offset_barriers": {
+            "success_rate": 0.9166666666666666,
+            "mean_collisions": 0.0
+          },
+          "u_trap": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          }
+        }
+      }
+    },
+    {
+      "beta": 0.024,
+      "seed": 101,
+      "familiar_success": 0.9666666666666667,
+      "familiar_collisions": 0.0,
+      "validation": {
+        "success_rate": 0.9666666666666667,
+        "mean_steps": 29.366666666666667,
+        "mean_collisions": 0.0,
+        "by_family": {
+          "open": {
+            "success_rate": 0.9166666666666666,
+            "mean_collisions": 0.0
+          },
+          "pocket": {
+            "success_rate": 0.9166666666666666,
+            "mean_collisions": 0.0
+          },
+          "l_wall": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "offset_barriers": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "u_trap": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          }
+        }
+      }
+    },
+    {
+      "beta": 0.024,
+      "seed": 211,
+      "familiar_success": 0.26666666666666666,
+      "familiar_collisions": 0.0,
+      "validation": {
+        "success_rate": 0.26666666666666666,
+        "mean_steps": 82.38333333333334,
+        "mean_collisions": 0.0,
+        "by_family": {
+          "open": {
+            "success_rate": 0.4166666666666667,
+            "mean_collisions": 0.0
+          },
+          "pocket": {
+            "success_rate": 0.08333333333333333,
+            "mean_collisions": 0.0
+          },
+          "l_wall": {
+            "success_rate": 0.5,
+            "mean_collisions": 0.0
+          },
+          "offset_barriers": {
+            "success_rate": 0.25,
+            "mean_collisions": 0.0
+          },
+          "u_trap": {
+            "success_rate": 0.08333333333333333,
+            "mean_collisions": 0.0
+          }
+        }
+      }
+    },
+    {
+      "beta": 0.024,
+      "seed": 307,
+      "familiar_success": 0.9666666666666667,
+      "familiar_collisions": 0.0,
+      "validation": {
+        "success_rate": 0.9666666666666667,
+        "mean_steps": 32.7,
+        "mean_collisions": 0.0,
+        "by_family": {
+          "open": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "pocket": {
+            "success_rate": 0.8333333333333334,
+            "mean_collisions": 0.0
+          },
+          "l_wall": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "offset_barriers": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "u_trap": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          }
+        }
+      }
+    },
+    {
+      "beta": 0.024,
+      "seed": 419,
+      "familiar_success": 0.9,
+      "familiar_collisions": 0.0,
+      "validation": {
+        "success_rate": 0.9,
+        "mean_steps": 44.333333333333336,
+        "mean_collisions": 0.0,
+        "by_family": {
+          "open": {
+            "success_rate": 0.9166666666666666,
+            "mean_collisions": 0.0
+          },
+          "pocket": {
+            "success_rate": 0.9166666666666666,
+            "mean_collisions": 0.0
+          },
+          "l_wall": {
+            "success_rate": 0.75,
+            "mean_collisions": 0.0
+          },
+          "offset_barriers": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "u_trap": {
+            "success_rate": 0.9166666666666666,
+            "mean_collisions": 0.0
+          }
+        }
+      }
+    },
+    {
+      "beta": 0.024,
+      "seed": 523,
+      "familiar_success": 0.8333333333333334,
+      "familiar_collisions": 0.0,
+      "validation": {
+        "success_rate": 0.8333333333333334,
+        "mean_steps": 44.55,
+        "mean_collisions": 0.0,
+        "by_family": {
+          "open": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "pocket": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "l_wall": {
+            "success_rate": 0.5833333333333334,
+            "mean_collisions": 0.0
+          },
+          "offset_barriers": {
+            "success_rate": 0.5833333333333334,
+            "mean_collisions": 0.0
+          },
+          "u_trap": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          }
+        }
+      }
+    }
+  ],
+  "final": {
+    "selected_curiosity_beta": 0.012,
+    "representative_seed": 101,
+    "checkpoint": "checkpoints/upgraded_foraging/best.pt",
+    "withheld_aggregate": {
+      "success_rate": 0.9824999999999999,
+      "mean_steps": 23.115000000000002,
+      "mean_collisions": 0.0,
+      "seed_success_rates": [
+        1.0,
+        0.975,
+        0.95,
+        1.0,
+        0.9875
+      ]
+    },
+    "memory_reset_aggregate": {
+      "success_rate": 0.5149999999999999,
+      "mean_steps": 61.82250000000001,
+      "mean_collisions": 0.0,
+      "seed_success_rates": [
+        0.625,
+        0.6,
+        0.45,
+        0.5375,
+        0.3625
+      ]
+    },
+    "no_reward_aggregate": {
+      "success_rate": 0.01,
+      "mean_steps": 95.75666666666666,
+      "mean_collisions": 0.0,
+      "seed_success_rates": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.05
+      ]
+    },
+    "withheld_by_family": {
+      "c_shape": {
+        "success_rate": 0.985,
+        "mean_collisions": 0.0
+      },
+      "zigzag_gate": {
+        "success_rate": 0.98,
+        "mean_collisions": 0.0
+      }
+    },
+    "memory_reset_by_family": {
+      "c_shape": {
+        "success_rate": 0.795,
+        "mean_collisions": 0.0
+      },
+      "zigzag_gate": {
+        "success_rate": 0.235,
+        "mean_collisions": 0.0
+      }
+    },
+    "memory_critical_success_drop": 0.745,
+    "strict_original_criteria": {
+      "withheld_success_at_least_90_percent": true,
+      "mean_collisions_near_zero": true,
+      "no_reward_control_zero_success": false,
+      "memory_reset_zero_success": false,
+      "all_passed": false
+    },
+    "deployment_criteria": {
+      "withheld_success_at_least_90_percent": true,
+      "mean_collisions_near_zero": true,
+      "no_reward_control_at_most_5_percent": true,
+      "memory_critical_family": "zigzag_gate",
+      "memory_reset_drop_at_least_50_points": true,
+      "memory_reset_success_at_most_25_percent_on_critical_family": true,
+      "shadow_mode_ready": true
+    }
+  },
+  "claim_boundary": "Passing supports repeated-seed zero-shot transfer across the two held topology families under this simulator. It does not guarantee Unity transfer, broad spatial intelligence, or general intelligence."
+}

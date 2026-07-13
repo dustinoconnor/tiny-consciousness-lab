@@ -460,7 +460,6 @@ class EmbodiedFunctionalEgo:
         self.shadow_entropy = float((-(probabilities * torch.log(probabilities.clamp_min(1e-8))).sum()).item())
         self.shadow_probabilities = [float(value) for value in probabilities.tolist()]
         self.shadow_body_safe_actions = sum(value >= 0.5 for value in body_clearance)
-        self.shadow_previous_action = self.action_index(active_action)
         self.shadow_previous_position = position
         self.shadow_previous_proposal = self.shadow_action
         self.shadow_last_reward = 0.0
@@ -498,6 +497,7 @@ class EmbodiedFunctionalEgo:
         self.shadow_takeover = base_learned_control and (
             safe_food_control or safe_course_control or safe_terrain_control
         )
+        self.shadow_previous_action = selected if self.shadow_takeover else self.action_index(active_action)
         if self.shadow_takeover:
             self.shadow_takeover_steps += 1
 

@@ -479,9 +479,7 @@ class EmbodiedFunctionalEgo:
         safe_terrain_control = (
             self.shadow_control == "terrain"
             and course_label in {None, "", "natural_terrain"}
-            and not self.current_stuck
-            and self.physics_wedge_ticks < int(round(self.hz * 2.0))
-            and not bool(body_state.get("horizontal_collision", False))
+            and self.physics_wedge_ticks < int(round(self.hz * 8.0))
         )
         self.shadow_takeover = base_learned_control and (
             safe_food_control or safe_course_control or safe_terrain_control

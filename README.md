@@ -1046,11 +1046,36 @@ some other families. This is evidence for a deployment-safe post-training gate
 and a measurable overtraining boundary, not a claim of uniformly smarter
 navigation.
 
-An eight-root policy-weighted MPC diagnostic reached 94.44% on 18 courses, but
-that small sample is exploratory and requires a full matched evaluation before
-promotion. The validated raw checkpoint is
-`checkpoints/unity_posttrained/best.pt`; complete metrics are in
-`outputs/unity_posttraining_metrics.json`.
+`unity_mpc_calibration_lab.py` then froze the policy and recurrent memory while
+calibrating only the three forward-model heads on a 25.6-minute terrain run.
+The recording contained 7,409 frames, 90 mushroom pickups, and 516 collision
+frames under learned control. On a chronological 731-transition test split,
+forward prediction MAE fell from `0.1267` to `0.0739`, a 41.7% improvement.
+
+Four-step, eight-root policy-weighted MPC was then evaluated on 108 matched
+continuous courses:
+
+```text
+metric                         raw GRU       calibrated MPC
+success                         90.74%            95.37%
+mean steps                     102.19             86.28
+mean path length                44.97             37.96
+mean reversals                   1.56              1.35
+mean collisions                  0.00              0.00
+```
+
+MPC evaluates every currently body-clear direction, rolls each one four model
+steps forward, and scores policy prior, predicted food progress, collision
+risk, model uncertainty, and angular jerk. It executes only the first action
+before re-anchoring to fresh Unity telemetry. This supports MPC promotion as a
+bounded controller in this simulator; it does not establish globally optimal
+planning or eliminate the need for live Unity validation.
+
+The raw checkpoint is `checkpoints/unity_posttrained/best.pt`; the
+Unity-calibrated predictive checkpoint is `checkpoints/unity_mpc/best.pt`.
+Complete results are in `outputs/unity_posttraining_metrics.json`,
+`outputs/unity_mpc_calibration_metrics.json`, and
+`outputs/unity_mpc_selected_evaluation.json`.
 
 Run the full gated experiment with:
 

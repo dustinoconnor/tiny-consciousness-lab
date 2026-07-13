@@ -1,0 +1,120 @@
+{
+  "configs": {
+    "balanced": {
+      "policy_weight": 0.12,
+      "jerk_weight": 0.08
+    },
+    "smooth": {
+      "policy_weight": 0.18,
+      "jerk_weight": 0.12
+    },
+    "strong_smooth": {
+      "policy_weight": 0.22,
+      "jerk_weight": 0.18
+    }
+  },
+  "results": {
+    "balanced": {
+      "success_rate": 0.9166666666666666,
+      "mean_steps": 103.47222222222223,
+      "mean_collisions": 0.0,
+      "mean_path_length": 45.52777777777771,
+      "mean_revisit_ratio": 0.23901306753202028,
+      "mean_reversals": 1.8888888888888888,
+      "by_family": {
+        "u_trap": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "c_shape": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "l_wall": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "zigzag_gate": {
+          "success_rate": 0.6666666666666666,
+          "mean_collisions": 0.0
+        },
+        "offset_barriers": {
+          "success_rate": 0.8333333333333334,
+          "mean_collisions": 0.0
+        },
+        "narrow_corridor": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        }
+      }
+    },
+    "smooth": {
+      "success_rate": 0.9444444444444444,
+      "mean_steps": 89.11111111111111,
+      "mean_collisions": 0.0,
+      "mean_path_length": 39.20888888888885,
+      "mean_revisit_ratio": 0.22229595024911392,
+      "mean_reversals": 1.75,
+      "by_family": {
+        "u_trap": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "c_shape": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "l_wall": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "zigzag_gate": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "offset_barriers": {
+          "success_rate": 0.8333333333333334,
+          "mean_collisions": 0.0
+        },
+        "narrow_corridor": {
+          "success_rate": 0.8333333333333334,
+          "mean_collisions": 0.0
+        }
+      }
+    },
+    "strong_smooth": {
+      "success_rate": 0.9722222222222222,
+      "mean_steps": 100.80555555555556,
+      "mean_collisions": 0.0,
+      "mean_path_length": 44.35444444444438,
+      "mean_revisit_ratio": 0.24555285524676107,
+      "mean_reversals": 1.8333333333333333,
+      "by_family": {
+        "u_trap": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "c_shape": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "l_wall": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "zigzag_gate": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "offset_barriers": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "narrow_corridor": {
+          "success_rate": 0.8333333333333334,
+          "mean_collisions": 0.0
+        }
+      }
+    }
+  }
+}

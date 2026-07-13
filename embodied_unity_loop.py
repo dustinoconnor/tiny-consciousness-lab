@@ -200,6 +200,7 @@ class ShadowRecorder:
             "shadow_takeover": ego.shadow_takeover,
             "shadow_takeover_steps": ego.shadow_takeover_steps,
             "shadow_mpc": ego.shadow_mpc,
+            "shadow_mpc_engaged": ego.shadow_mpc_engaged,
             "shadow_mpc_score": ego.shadow_mpc_score,
             "blocked": bool(body_state.get("blocked", False)),
             "body_collision": bool(body_state.get("horizontal_collision", False)),
@@ -370,6 +371,7 @@ class EmbodiedFunctionalEgo:
         self.shadow_takeover_steps = 0
         self.shadow_body_safe_actions = 0
         self.shadow_mpc = bool(shadow_mpc)
+        self.shadow_mpc_engaged = False
         self.shadow_mpc_score = 0.0
         self.trap_course_label = "natural_terrain"
         self.trap_course_episode = 0
@@ -436,7 +438,10 @@ class EmbodiedFunctionalEgo:
                 body_blocked[0, int(max(range(8), key=lambda index: rays[index]))] = False
             logits = logits.masked_fill(body_blocked, -1e9)
             probabilities = torch.softmax(logits, dim=-1)[0]
-            if self.shadow_mpc:
+            self.shadow_mpc_engaged = self.shadow_mpc and (
+                self.shadow_control != "course" or food_visible > 0.0
+            )
+            if self.shadow_mpc_engaged:
                 selected, self.shadow_mpc_score = self.select_mpc_action(
                     obs,
                     probabilities,
@@ -1739,6 +1744,7 @@ class EmbodiedFunctionalEgo:
             "shadow_takeover_steps": self.shadow_takeover_steps,
             "shadow_body_safe_actions": self.shadow_body_safe_actions,
             "shadow_mpc": self.shadow_mpc,
+            "shadow_mpc_engaged": self.shadow_mpc_engaged,
             "shadow_mpc_score": round(self.shadow_mpc_score, 4),
             "trap_course": self.trap_course_label,
             "trap_episode": self.trap_course_episode,

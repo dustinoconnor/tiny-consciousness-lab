@@ -1,0 +1,40 @@
+{
+  "protocol": {
+    "episodes": 108,
+    "mpc_requires_visible_food": true
+  },
+  "evaluation": {
+    "success_rate": 0.9444444444444444,
+    "mean_steps": 95.91666666666667,
+    "mean_collisions": 0.0,
+    "mean_path_length": 42.203333333333276,
+    "mean_revisit_ratio": 0.1901533670012354,
+    "mean_reversals": 0.8888888888888888,
+    "by_family": {
+      "u_trap": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      },
+      "c_shape": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      },
+      "l_wall": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      },
+      "zigzag_gate": {
+        "success_rate": 0.7777777777777778,
+        "mean_collisions": 0.0
+      },
+      "offset_barriers": {
+        "success_rate": 0.8888888888888888,
+        "mean_collisions": 0.0
+      },
+      "narrow_corridor": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      }
+    }
+  }
+}

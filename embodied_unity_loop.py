@@ -476,7 +476,16 @@ class EmbodiedFunctionalEgo:
             and course_label not in {None, "", "natural_terrain"}
             and self.physics_wedge_ticks < int(round(self.hz * 8.0))
         )
-        self.shadow_takeover = base_learned_control and (safe_food_control or safe_course_control)
+        safe_terrain_control = (
+            self.shadow_control == "terrain"
+            and course_label in {None, "", "natural_terrain"}
+            and not self.current_stuck
+            and self.physics_wedge_ticks < int(round(self.hz * 2.0))
+            and not bool(body_state.get("horizontal_collision", False))
+        )
+        self.shadow_takeover = base_learned_control and (
+            safe_food_control or safe_course_control or safe_terrain_control
+        )
         if self.shadow_takeover:
             self.shadow_takeover_steps += 1
 
@@ -1685,6 +1694,9 @@ class EmbodiedFunctionalEgo:
             if self.shadow_control == "course":
                 payload["action"] = "gru_course"
                 payload["intent"] = "learned_course_control"
+            elif self.shadow_control == "terrain":
+                payload["action"] = "gru_terrain"
+                payload["intent"] = "learned_terrain_control"
             else:
                 payload["action"] = "gru_food"
                 payload["intent"] = "learned_food_pursuit"
@@ -1788,7 +1800,7 @@ def main():
     parser.add_argument("--no-shadow-log", action="store_true", help="Disable automatic shadow telemetry recording.")
     parser.add_argument(
         "--shadow-control",
-        choices=["passive", "food", "course"],
+        choices=["passive", "food", "course", "terrain"],
         default="passive",
         help="Allow the learned policy to control only the selected validated context.",
     )

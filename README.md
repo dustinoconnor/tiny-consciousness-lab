@@ -1088,6 +1088,20 @@ different takeover settings and are therefore observational, not a matched
 causal comparison. They nevertheless provide useful evidence that the selected
 MPC controller remains stable under live Unity physics.
 
+Full-time MPC exposed a sharper boundary in the hidden-goal trap course. It
+solved all eight attempts across C-Trap, Zigzag, Offset Barriers, and Narrow
+Corridor, but timed out on all three U-Traps and both L-Walls, for 8/13 overall.
+The five failures contained no food-visible frames and no stuck frames: MPC was
+moving, but without a grounded goal-progress signal its uncertainty penalty
+favored predictable sweeps over recurrent exploration.
+
+A generic visibility gate restores the architectural division of labor: the
+raw recurrent policy explores while food is hidden, then MPC takes over once
+the target is sensor-grounded. On 108 matched offline courses this hybrid
+reached 94.44% success, zero collisions, 100% success on U-Trap, C-Shape,
+L-Wall, and Narrow Corridor, and only 0.89 reversals per episode. This result is
+promising but still requires a live Unity course replication.
+
 The raw checkpoint is `checkpoints/unity_posttrained/best.pt`; the
 Unity-calibrated predictive checkpoint is `checkpoints/unity_mpc/best.pt`.
 Complete results are in `outputs/unity_posttraining_metrics.json`,

@@ -442,6 +442,7 @@ def evaluate_continuous(
     use_mpc=False,
     reset_memory=False,
     mpc_kwargs=None,
+    mpc_requires_visible_food=False,
 ):
     rows = []
     for seed in seeds:
@@ -454,7 +455,7 @@ def evaluate_continuous(
                 reversals = 0
                 for step in range(MAX_STEPS):
                     with torch.no_grad():
-                        if use_mpc:
+                        if use_mpc and (not mpc_requires_visible_food or env.food_visible()):
                             action, hidden = mpc_action(policy, obs, hidden, env, **(mpc_kwargs or {}))
                         else:
                             logits, _, hidden = policy.step(obs, hidden)

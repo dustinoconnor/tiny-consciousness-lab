@@ -389,7 +389,16 @@ def posttrain(base_path, seed=701, updates=420, env_count=24, rollout=32):
     return policy, source_payload, curves
 
 
-def mpc_action(policy, obs, hidden, env, horizon=4, policy_weight=0.08, uncertainty_weight=0.16):
+def mpc_action(
+    policy,
+    obs,
+    hidden,
+    env,
+    horizon=4,
+    policy_weight=0.08,
+    uncertainty_weight=0.16,
+    jerk_weight=0.025,
+):
     with torch.no_grad():
         logits, _, next_hidden = policy.step(obs, hidden)
         logits = body_safety_mask_logits(logits, [env])
@@ -413,7 +422,7 @@ def mpc_action(policy, obs, hidden, env, horizon=4, policy_weight=0.08, uncertai
                     float(np.linalg.norm(MOVES[previous])) * float(np.linalg.norm(MOVES[root]))
                 )
                 jerk = 0.5 * (1.0 - np.clip(cosine, -1.0, 1.0)) if depth == 0 else 0.0
-                score += (0.08 * visible * (1.0 - min(1.0, food_distance))) - 0.34 * collision_risk - 0.025 * jerk
+                score += (0.08 * visible * (1.0 - min(1.0, food_distance))) - 0.34 * collision_risk - jerk_weight * jerk
                 score -= uncertainty_weight * uncertainty
                 previous_one_hot = torch.zeros(1, len(MOVES))
                 previous_one_hot[0, root] = 1.0
@@ -425,7 +434,15 @@ def mpc_action(policy, obs, hidden, env, horizon=4, policy_weight=0.08, uncertai
         return int(np.argmax(scores)), next_hidden
 
 
-def evaluate_continuous(policy, families, seeds, episodes_per_seed=12, use_mpc=False, reset_memory=False):
+def evaluate_continuous(
+    policy,
+    families,
+    seeds,
+    episodes_per_seed=12,
+    use_mpc=False,
+    reset_memory=False,
+    mpc_kwargs=None,
+):
     rows = []
     for seed in seeds:
         for family_index, family in enumerate(families):
@@ -438,7 +455,7 @@ def evaluate_continuous(policy, families, seeds, episodes_per_seed=12, use_mpc=F
                 for step in range(MAX_STEPS):
                     with torch.no_grad():
                         if use_mpc:
-                            action, hidden = mpc_action(policy, obs, hidden, env)
+                            action, hidden = mpc_action(policy, obs, hidden, env, **(mpc_kwargs or {}))
                         else:
                             logits, _, hidden = policy.step(obs, hidden)
                             logits = body_safety_mask_logits(logits, [env])

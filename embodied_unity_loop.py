@@ -199,6 +199,8 @@ class ShadowRecorder:
             "shadow_agreement": ego.shadow_agreement,
             "shadow_takeover": ego.shadow_takeover,
             "shadow_takeover_steps": ego.shadow_takeover_steps,
+            "shadow_mpc": ego.shadow_mpc,
+            "shadow_mpc_score": ego.shadow_mpc_score,
             "blocked": bool(body_state.get("blocked", False)),
             "body_collision": bool(body_state.get("horizontal_collision", False)),
             "stuck": ego.current_stuck,
@@ -247,6 +249,7 @@ class EmbodiedFunctionalEgo:
         shadow_checkpoint=None,
         shadow_control="passive",
         shadow_control_confidence=0.55,
+        shadow_mpc=False,
     ):
         self.crosstalk = 0.07
         self.complexity = 0.12
@@ -366,6 +369,8 @@ class EmbodiedFunctionalEgo:
         self.shadow_takeover = False
         self.shadow_takeover_steps = 0
         self.shadow_body_safe_actions = 0
+        self.shadow_mpc = bool(shadow_mpc)
+        self.shadow_mpc_score = 0.0
         self.trap_course_label = "natural_terrain"
         self.trap_course_episode = 0
         self.trap_course_successes = 0
@@ -431,7 +436,16 @@ class EmbodiedFunctionalEgo:
                 body_blocked[0, int(max(range(8), key=lambda index: rays[index]))] = False
             logits = logits.masked_fill(body_blocked, -1e9)
             probabilities = torch.softmax(logits, dim=-1)[0]
-        selected = int(torch.argmax(probabilities).item())
+            if self.shadow_mpc:
+                selected, self.shadow_mpc_score = self.select_mpc_action(
+                    obs,
+                    probabilities,
+                    self.shadow_hidden,
+                    body_clearance,
+                )
+            else:
+                selected = int(torch.argmax(probabilities).item())
+                self.shadow_mpc_score = 0.0
         if self.shadow_previous_position is not None and self.shadow_previous_proposal in SHADOW_VECTORS:
             dx = position[0] - self.shadow_previous_position[0]
             dz = position[1] - self.shadow_previous_position[1]
@@ -442,7 +456,7 @@ class EmbodiedFunctionalEgo:
                 cosine = (dx * proposed[0] + dz * proposed[1]) / (distance * proposed_norm)
                 self.shadow_agreement = clamp(0.5 * (cosine + 1.0))
         self.shadow_action = SHADOW_ACTIONS[selected]
-        self.shadow_confidence = float(probabilities[selected].item())
+        self.shadow_confidence = float(torch.max(probabilities).item()) if self.shadow_mpc else float(probabilities[selected].item())
         self.shadow_entropy = float((-(probabilities * torch.log(probabilities.clamp_min(1e-8))).sum()).item())
         self.shadow_probabilities = [float(value) for value in probabilities.tolist()]
         self.shadow_body_safe_actions = sum(value >= 0.5 for value in body_clearance)
@@ -486,6 +500,48 @@ class EmbodiedFunctionalEgo:
         )
         if self.shadow_takeover:
             self.shadow_takeover_steps += 1
+
+    def select_mpc_action(self, obs, probabilities, next_hidden, body_clearance):
+        torch = self.shadow_torch
+        previous = int(torch.argmax(obs[0, 12:20]).item())
+        scores = [-math.inf] * len(SHADOW_ACTIONS)
+        with torch.no_grad():
+            for root in range(len(SHADOW_ACTIONS)):
+                if body_clearance[root] < 0.5:
+                    continue
+                imagined_hidden = next_hidden.clone()
+                score = 0.18 * float(torch.log(probabilities[root].clamp_min(1e-8)).item())
+                prior_action = previous
+                for depth in range(4):
+                    action = torch.tensor([root], dtype=torch.long)
+                    ensemble = self.shadow_policy.predict_core(imagined_hidden, action)
+                    core = ensemble.mean(dim=0)
+                    core[:, :8] = core[:, :8].clamp(0.0, 1.0)
+                    core[:, 8:9] = core[:, 8:9].clamp(0.0, 1.0)
+                    core[:, 9:11] = core[:, 9:11].clamp(-1.0, 1.0)
+                    core[:, 11:12] = core[:, 11:12].clamp(0.0, 1.0)
+                    uncertainty = float(torch.var(ensemble, dim=0).mean().item())
+                    clearance = float(core[0, root].item())
+                    visible = float(core[0, 8].item())
+                    food_distance = float(torch.linalg.vector_norm(core[0, 9:11]).item())
+                    collision_risk = max(0.0, 0.12 - clearance) * 8.0
+                    old_vector = SHADOW_VECTORS[SHADOW_ACTIONS[prior_action]]
+                    new_vector = SHADOW_VECTORS[SHADOW_ACTIONS[root]]
+                    cosine = (old_vector[0] * new_vector[0] + old_vector[1] * new_vector[1]) / (
+                        math.hypot(*old_vector) * math.hypot(*new_vector)
+                    )
+                    jerk = 0.5 * (1.0 - max(-1.0, min(1.0, cosine))) if depth == 0 else 0.0
+                    score += 0.08 * visible * (1.0 - min(1.0, food_distance))
+                    score -= 0.34 * collision_risk + 0.12 * jerk + 0.16 * uncertainty
+                    previous_one_hot = torch.zeros(1, len(SHADOW_ACTIONS))
+                    previous_one_hot[0, root] = 1.0
+                    estimated_reward = torch.tensor([[max(-0.2, min(0.2, score / (depth + 1)))]])
+                    imagined_obs = torch.cat([core, previous_one_hot, estimated_reward], dim=-1)
+                    _logits, _value, imagined_hidden = self.shadow_policy.step(imagined_obs, imagined_hidden)
+                    prior_action = root
+                scores[root] = score
+        selected = max(range(len(scores)), key=lambda index: scores[index])
+        return selected, float(scores[selected])
 
     @staticmethod
     def action_index(action):
@@ -1682,6 +1738,8 @@ class EmbodiedFunctionalEgo:
             "shadow_world_z": SHADOW_VECTORS.get(self.shadow_action, (0.0, 0.0))[1],
             "shadow_takeover_steps": self.shadow_takeover_steps,
             "shadow_body_safe_actions": self.shadow_body_safe_actions,
+            "shadow_mpc": self.shadow_mpc,
+            "shadow_mpc_score": round(self.shadow_mpc_score, 4),
             "trap_course": self.trap_course_label,
             "trap_episode": self.trap_course_episode,
             "trap_successes": self.trap_course_successes,
@@ -1808,6 +1866,11 @@ def main():
         default=0.55,
         help="Minimum learned-policy confidence for bounded takeover.",
     )
+    parser.add_argument(
+        "--shadow-mpc",
+        action="store_true",
+        help="Use four-step policy-weighted MPC for learned-policy action selection.",
+    )
     args = parser.parse_args()
 
     link = UnityBodyLink(args.unity_host, args.unity_port, args.listen_port)
@@ -1833,6 +1896,7 @@ def main():
         shadow_checkpoint=args.shadow_policy,
         shadow_control=args.shadow_control,
         shadow_control_confidence=args.shadow_control_confidence,
+        shadow_mpc=args.shadow_mpc,
     )
     delay = 1.0 / max(args.hz, 0.1)
     started = time.time()

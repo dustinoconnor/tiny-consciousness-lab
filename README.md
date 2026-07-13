@@ -1011,6 +1011,53 @@ checkpoints preserve the repeated-seed result.
 
 ![Upgraded foraging pipeline](outputs/upgraded_foraging_pipeline_summary.png)
 
+## Unity-Continuous Post-Training
+
+`unity_posttraining_lab.py` tests the exported recurrent policy in a harder
+continuous-motion approximation before active Unity deployment. The simulator
+uses a `0.44`-unit stride, circular body clearance, continuous ray distances,
+half-cell revisit memory, and explicit movement-time, collision, revisit, and
+angular-jerk costs. A shortest-path oracle supplies post-training motor labels,
+while the sensor encoder and GRU memory remain frozen. Held-out behavioral
+validation selects an early snapshot before prolonged imitation begins to
+erode the base policy's exploration.
+
+Across five evaluation seeds and 360 randomized courses, the selected snapshot
+passed all deployment gates:
+
+```text
+metric                                      result
+continuous success                         90.56%
+mean collisions                             0.00
+original-grid withheld regression          100.00%
+memory-reset continuous success             44.17%
+memory-dependent performance drop           46.39 points
+U-trap success                             100.00%
+offset-barrier success                      86.67%
+```
+
+The collision result includes a grounded body-clearance action mask: the GRU
+chooses among movements that the simulated physics body can execute. It should
+not be interpreted as collision prediction learned entirely inside the GRU.
+The frozen baseline scored 90.83% under the same mask, so this run does not
+establish a broad aggregate improvement from oracle distillation. Distillation
+shifted competence toward U-traps and offset barriers while slightly reducing
+some other families. This is evidence for a deployment-safe post-training gate
+and a measurable overtraining boundary, not a claim of uniformly smarter
+navigation.
+
+An eight-root policy-weighted MPC diagnostic reached 94.44% on 18 courses, but
+that small sample is exploratory and requires a full matched evaluation before
+promotion. The validated raw checkpoint is
+`checkpoints/unity_posttrained/best.pt`; complete metrics are in
+`outputs/unity_posttraining_metrics.json`.
+
+Run the full gated experiment with:
+
+```bash
+python3 unity_posttraining_lab.py --updates 160
+```
+
 ## Latent Trap Intervention
 
 `latent_trap_intervention_lab.py` tests whether the post-hoc trap direction is

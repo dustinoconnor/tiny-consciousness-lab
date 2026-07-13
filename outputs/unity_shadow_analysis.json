@@ -1,0 +1,70 @@
+{
+  "source": "outputs/unity_shadow/shadow_20260712_122143.jsonl",
+  "frames": 9036,
+  "duration_minutes": 30.92672084569931,
+  "pickup_delta": 22,
+  "pickup_events": 22,
+  "physical_collision_frames": 162,
+  "pre_pickup_15_frame_window": {
+    "frames": 330,
+    "mean_directional_agreement": 0.64921247081872,
+    "agreement_at_0_85": 0.6333333333333333,
+    "exact_action_agreement": 0.0,
+    "mean_shadow_confidence": 0.6175317187200893
+  },
+  "contexts": {
+    "all": {
+      "frames": 9036,
+      "mean_directional_agreement": 0.4325401595702038,
+      "agreement_at_0_85": 0.24867197875166003,
+      "exact_action_agreement": 0.06042496679946879,
+      "mean_shadow_confidence": 0.6120579193431542,
+      "fraction": 1.0
+    },
+    "food_visible": {
+      "frames": 4152,
+      "mean_directional_agreement": 0.39512014386914,
+      "agreement_at_0_85": 0.2218208092485549,
+      "exact_action_agreement": 0.028901734104046242,
+      "mean_shadow_confidence": 0.7263291410147168,
+      "fraction": 0.4594953519256308
+    },
+    "physical_collision": {
+      "frames": 162,
+      "mean_directional_agreement": 0.5040706240097459,
+      "agreement_at_0_85": 0.35185185185185186,
+      "exact_action_agreement": 0.17901234567901234,
+      "mean_shadow_confidence": 0.503213405057236,
+      "fraction": 0.017928286852589643
+    },
+    "reported_stuck": {
+      "frames": 7789,
+      "mean_directional_agreement": 0.40202784237554257,
+      "agreement_at_0_85": 0.19835665682372577,
+      "exact_action_agreement": 0.03183977404031326,
+      "mean_shadow_confidence": 0.6222647338501065,
+      "fraction": 0.8619964586100044
+    },
+    "breakout": {
+      "frames": 7653,
+      "mean_directional_agreement": 0.40153408483532693,
+      "agreement_at_0_85": 0.197046909708611,
+      "exact_action_agreement": 0.03240559257807396,
+      "mean_shadow_confidence": 0.6233695680571275,
+      "fraction": 0.8469455511288181
+    },
+    "open_field": {
+      "frames": 648,
+      "mean_directional_agreement": 0.6619339857002684,
+      "agreement_at_0_85": 0.6219135802469136,
+      "exact_action_agreement": 0.41512345679012347,
+      "mean_shadow_confidence": 0.5124643804206525,
+      "fraction": 0.07171314741035857
+    }
+  },
+  "telemetry_warnings": [
+    "reported_stuck exceeds 50%; do not use it as a training label until recalibrated",
+    "breakout intent exceeds 50%; controller state is likely over-latching",
+    "blocked never fired despite physical collisions; forward-clear telemetry is not a contact label"
+  ]
+}

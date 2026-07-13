@@ -26,40 +26,57 @@ consciousness, open-ended general intelligence, or biological equivalence.
 
 ## Strongest Recent Result
 
-The first artificial-life experiment removes the scripted `approach_food`,
-`escape_U`, map, frontier, and enclosure rules. Policies learn only from local
-obstacle rays, visible-mushroom direction, hunger, previous action/reward, and
-mushroom contact reward. After training on open fields, L-walls, and offset
-barriers, frozen policies reached mushrooms in 67.5% of randomly rotated
-U-detours withheld from training. A recurrent control trained without mushroom
-reward reached 0%.
+The strongest embodied result is a visibility-gated recurrent/MPC controller
+that completed two full Unity trap-course cycles with **12/12 wins, zero
+timeouts, zero reported stuck frames, and 100% learned-control coverage**.
+The six-course suite included U-Trap, C-Trap, L-Wall, Zigzag, Offset Barriers,
+and Narrow Corridor. Mean completion time was 29.7 seconds. No topology-specific
+escape macro or Unity NavMesh supplied the successful routes; an engineered
+capsule-clearance mask bounded physically invalid actions.
 
-For the recurrent reward-trained policies, resetting hidden state after every
-movement reduced withheld-detour success from 67.5% to 0% without changing
-weights or current sensors. Post-hoc balanced probes decoded unlabeled trap
-context from recurrent state at 93-95% accuracy and outperformed current sensor
-snapshots by 5.7-10.3 percentage points.
+The controller uses a grounded division of labor. While the mushroom is hidden,
+the recurrent policy preserves temporal context and explores. Once Unity's food
+sensor grounds the target, a calibrated four-step, eight-root model-predictive
+controller evaluates policy prior, food progress, collision risk, model
+uncertainty, and angular jerk before executing one action and re-anchoring to
+fresh telemetry. Full-time MPC failed all U-Trap and L-Wall attempts when food
+was hidden; visibility gating changed the live result from 8/13 to 12/12.
+
+On 108 matched continuous courses, calibrated MPC reached **95.37% success**
+versus 90.74% for the raw GRU, reduced mean steps from 102.2 to 86.3, reduced
+mean path length from 45.0 to 38.0, and reduced reversals from 1.56 to 1.35,
+with zero simulated collisions. Calibration changed only the predictive heads:
+on a chronologically held-out Unity transition split, prediction MAE fell
+41.7%, from 0.1267 to 0.0739.
+
+A broader Unity-aligned training replication used eight actions and continuous
+rays across five independent seeds while withholding C-shapes and zigzag gates
+from training. The selected five-seed group averaged **98.25% zero-shot
+withheld-topology success** with zero collisions; every seed scored from 95% to
+100%. Reward-free controls reached food only 1% of the time. Resetting memory
+reduced the memory-intensive zigzag family from 98% to 23.5%.
+
+The foundational emergence experiment remains the key mechanistic ablation. It
+removed scripted `approach_food`, `escape_U`, map, frontier, and enclosure rules.
+Using only local rays, visible-food direction, hunger, previous action/reward,
+and mushroom contact reward, recurrent policies reached 67.5% success on
+randomly rotated U-detours withheld from training. Resetting hidden state after
+every movement reduced success to 0%, and a no-reward recurrent control also
+reached 0%. Balanced probes decoded unlabeled trap context from recurrent state
+at 93-95% accuracy.
 
 The disciplined claim is:
 
-> A minimal artificial-life agent can develop reward-grounded mushroom seeking,
-> memory-dependent zero-shot detour behavior, and a decodable unlabeled latent
-> trap representation without an explicit food-approach or trap-escape rule.
+> A compact embodied agent can develop reward-grounded foraging and
+> memory-dependent zero-shot detour behavior, then combine recurrent
+> hidden-goal exploration with morphology-grounded predictive control after the
+> goal becomes sensor-grounded.
 
 The mechanistic interpretation remains bounded. Selectively erasing one decoded
-trap direction reduced real U-detour success, but injecting that global direction
-did not create retreat behavior in clear or sensory-neutral corridors. This
-suggests trap-conditioned control is distributed and context-dependent rather
-than a single portable `retreat now` vector.
-
-A Unity-aligned replication then expanded the interface to eight directional
-actions and eight continuous normalized rays, trained across five independent
-seeds, selected curiosity strength using familiar layouts only, and reserved
-C-shapes plus zigzag gates as strictly withheld topology families. The selected
-five-seed group averaged 98.25% withheld success with zero collisions; every
-seed scored between 95% and 100%. Reward-free controls reached food only 1% of
-the time. Resetting memory reduced the memory-intensive zigzag family from 98%
-to 23.5%.
+trap direction reduced real U-detour success, but injecting that global
+direction did not create retreat behavior in clear or sensory-neutral
+corridors. Trap-conditioned control therefore appears distributed and
+context-dependent rather than a single portable `retreat now` vector.
 
 The working thesis emerging from these toy runs:
 

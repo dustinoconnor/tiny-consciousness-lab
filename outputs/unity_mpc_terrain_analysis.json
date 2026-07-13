@@ -1,0 +1,85 @@
+{
+  "source": "outputs/unity_shadow/shadow_20260713_113006.jsonl",
+  "frames": 9683,
+  "duration_minutes": 35.19281690120697,
+  "pickup_delta": 133,
+  "pickup_events": 133,
+  "physical_collision_frames": 15,
+  "pre_pickup_15_frame_window": {
+    "frames": 1797,
+    "deprecated_command_label_agreement": 0.9766409536158152,
+    "deprecated_exact_action_agreement": 0.0,
+    "mean_shadow_confidence": 0.4546114413454324
+  },
+  "contexts": {
+    "all": {
+      "frames": 9683,
+      "deprecated_command_label_agreement": 0.9554586198242508,
+      "deprecated_exact_action_agreement": 0.07270474026644635,
+      "mean_shadow_confidence": 0.4835425544028857,
+      "fraction": 1.0,
+      "world_motion_agreement": {
+        "moving_frames": 9682,
+        "mean_agreement": 0.9555573038378663,
+        "agreement_at_0_85": 0.9520760173517868
+      }
+    },
+    "food_visible": {
+      "frames": 1790,
+      "deprecated_command_label_agreement": 0.9744607491203041,
+      "deprecated_exact_action_agreement": 0.0,
+      "mean_shadow_confidence": 0.45615102428963733,
+      "fraction": 0.18486006402974284,
+      "world_motion_agreement": {
+        "moving_frames": 1790,
+        "mean_agreement": 0.9844502330406155,
+        "agreement_at_0_85": 0.9754189944134078
+      }
+    },
+    "physical_collision": {
+      "frames": 15,
+      "deprecated_command_label_agreement": 0.7612172233376844,
+      "deprecated_exact_action_agreement": 0.06666666666666667,
+      "mean_shadow_confidence": 0.6842607319355011,
+      "fraction": 0.0015491066818134876,
+      "world_motion_agreement": {
+        "moving_frames": 15,
+        "mean_agreement": 0.9085952140526523,
+        "agreement_at_0_85": 0.9333333333333333
+      }
+    },
+    "reported_stuck": {
+      "frames": 0,
+      "fraction": 0.0,
+      "world_motion_agreement": {
+        "moving_frames": 0,
+        "mean_agreement": 0.0,
+        "agreement_at_0_85": 0.0
+      }
+    },
+    "breakout": {
+      "frames": 0,
+      "fraction": 0.0,
+      "world_motion_agreement": {
+        "moving_frames": 0,
+        "mean_agreement": 0.0,
+        "agreement_at_0_85": 0.0
+      }
+    },
+    "open_field": {
+      "frames": 7882,
+      "deprecated_command_label_agreement": 0.9514848255574,
+      "deprecated_exact_action_agreement": 0.08919056077137782,
+      "mean_shadow_confidence": 0.4894966854038229,
+      "fraction": 0.8140039244035939,
+      "world_motion_agreement": {
+        "moving_frames": 7881,
+        "mean_agreement": 0.9490811887504338,
+        "agreement_at_0_85": 0.9468341581017637
+      }
+    }
+  },
+  "telemetry_warnings": [
+    "blocked never fired despite physical collisions; forward-clear telemetry is not a contact label"
+  ]
+}

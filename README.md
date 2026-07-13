@@ -1099,8 +1099,18 @@ A generic visibility gate restores the architectural division of labor: the
 raw recurrent policy explores while food is hidden, then MPC takes over once
 the target is sensor-grounded. On 108 matched offline courses this hybrid
 reached 94.44% success, zero collisions, 100% success on U-Trap, C-Shape,
-L-Wall, and Narrow Corridor, and only 0.89 reversals per episode. This result is
-promising but still requires a live Unity course replication.
+L-Wall, and Narrow Corridor, and only 0.89 reversals per episode. That offline
+result motivated a live Unity course replication.
+
+The subsequent live replication completed two full six-course cycles with
+12/12 wins, zero timeouts, zero reported stuck frames, and 100% learned-control
+coverage. Mean completion time was 29.7 seconds. One second-cycle Zigzag
+episode took 71.1 seconds, making long-tail path efficiency the remaining
+course-level weakness, but the controller recovered without scripted fallback.
+Together, the failed full-MPC run and successful visibility-gated run support a
+bounded conclusion: prospective control works best after a goal is grounded,
+while recurrent continuity remains useful for exploration under partial
+observability.
 
 The raw checkpoint is `checkpoints/unity_posttrained/best.pt`; the
 Unity-calibrated predictive checkpoint is `checkpoints/unity_mpc/best.pt`.

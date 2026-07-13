@@ -16,6 +16,14 @@ for making questions about recurrent systems visible:
 - Which hidden units causally influence other hidden units over time?
 - Does adding a valence-feedback node increase a tiny exact integration proxy?
 
+> **Current architecture:** A biologically inspired, neuromodulated embodied
+> agent that combines a regulated functional ego, recurrent memory,
+> reward-grounded foraging, morphology-aware model-predictive control, and
+> zero-shot detour transfer across withheld obstacle topologies.
+
+This is a compact functional research architecture, not evidence of phenomenal
+consciousness, open-ended general intelligence, or biological equivalence.
+
 ## Strongest Recent Result
 
 The first artificial-life experiment removes the scripted `approach_food`,
@@ -1070,6 +1078,15 @@ risk, model uncertainty, and angular jerk. It executes only the first action
 before re-anchoring to fresh Unity telemetry. This supports MPC promotion as a
 bounded controller in this simulator; it does not establish globally optimal
 planning or eliminate the need for live Unity validation.
+
+A subsequent 35.2-minute Unity terrain deployment produced 133 mushroom
+pickups, 15 physical-contact frames, zero reported stuck frames, and 99.4%
+learned-control coverage across 9,683 telemetry frames. Overall proposed-action
+changes fell from 14.6% in the preceding terrain recording to 4.4%, while
+opposite-direction reversals fell from 1.74% to 1.07%. The recordings used
+different takeover settings and are therefore observational, not a matched
+causal comparison. They nevertheless provide useful evidence that the selected
+MPC controller remains stable under live Unity physics.
 
 The raw checkpoint is `checkpoints/unity_posttrained/best.pt`; the
 Unity-calibrated predictive checkpoint is `checkpoints/unity_mpc/best.pt`.

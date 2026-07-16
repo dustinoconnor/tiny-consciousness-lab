@@ -24,7 +24,8 @@ for making questions about recurrent systems visible:
 This is a compact functional research architecture, not evidence of phenomenal
 consciousness, open-ended general intelligence, or biological equivalence.
 
-Research artifacts: [paper draft](paper/RESEARCH_PAPER_DRAFT.md),
+Research artifacts: [published research site](https://tiny-consciousness-lab.pix3ldust418476.chatgpt.site/),
+[paper draft](paper/RESEARCH_PAPER_DRAFT.md),
 [evidence ledger](paper/EVIDENCE_LEDGER.md), and
 [reproducibility guide](REPRODUCIBILITY.md).
 

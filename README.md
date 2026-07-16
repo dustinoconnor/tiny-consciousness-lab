@@ -2542,6 +2542,23 @@ This project could be turned into a short narrated explainer:
    only when it can alter future control; useful intelligence requires co-tuned
    cognition, reward, attention, and world modeling.
 
+## Cross-Domain MIDI Portability
+
+The recurrent design was adapted and retrained for 64-step symbolic music rather
+than reusing navigation weights. Across three seeds, the recurrent policy reached
+0.520 delayed-motif accuracy and 0.592 final-return accuracy, versus 0.380 and
+0.454 for the feedforward baseline. Resetting recurrent state reduced final-return
+accuracy to 0.352. Feedforward immediate next-note accuracy remained higher, so
+the result supports a bounded memory advantage on delayed structure rather than
+general recurrent superiority.
+
+The learned rhythm policy scored 0.576 on its engineered structural objective,
+versus 0.473 for weighted random timing and 0.444 after hidden-state reset. The
+standalone Apple Silicon app routes generated notes and chords to the macOS IAC
+Driver or another MIDI destination. It produces MIDI, not audio.
+
+[Download Recurrent MIDI Lab for Apple Silicon](https://tiny-consciousness-lab.pix3ldust418476.chatgpt.site/downloads/Recurrent-MIDI-Lab-1.0-Apple-Silicon.zip)
+
 ## How To Run
 
 Install `requirements.txt` in an isolated environment as described in

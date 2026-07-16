@@ -4,6 +4,7 @@
 import argparse
 import queue
 import signal
+import sys
 import threading
 import time
 import traceback
@@ -12,16 +13,20 @@ from pathlib import Path
 
 import mido
 import numpy as np
-import torch
 import tkinter as tk
 from tkinter import ttk
 
-from midi_transfer_lab import DEGREES, MOTIF, RecurrentPolicy, STEPS, feature
-from midi_rhythm_learning_lab import RhythmPolicy, rhythm_observation
+from midi_runtime import DEGREES, MOTIF, STEPS, NumpyGRUPolicy, feature, rhythm_observation, softmax
 
 
-CHECKPOINT = Path("checkpoints/midi_transfer/recurrent_valence.pt")
-RHYTHM_CHECKPOINT = Path("checkpoints/midi_transfer/learned_rhythm.pt")
+
+def resource_path(relative_path):
+    root = Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parent))
+    return root / relative_path
+
+
+CHECKPOINT = resource_path("checkpoints/midi_transfer/recurrent_valence_runtime.npz")
+RHYTHM_CHECKPOINT = resource_path("checkpoints/midi_transfer/learned_rhythm_runtime.npz")
 ROOTS = {
     "C": 0,
     "C# / Db": 1,
@@ -54,15 +59,9 @@ NOTE_NAMES = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
 
 class LiveGenerator:
     def __init__(self, checkpoint, rhythm_checkpoint=RHYTHM_CHECKPOINT):
-        payload = torch.load(checkpoint, map_location="cpu", weights_only=False)
-        if payload.get("condition") != "recurrent_valence":
-            raise ValueError(f"Expected recurrent_valence checkpoint, found {payload.get('condition')}")
-        self.model = RecurrentPolicy().eval()
-        self.model.load_state_dict(payload["state_dict"])
-        rhythm_payload = torch.load(rhythm_checkpoint, map_location="cpu", weights_only=False)
-        self.rhythm_policy = RhythmPolicy(hidden=int(rhythm_payload["hidden_size"])).eval()
-        self.rhythm_policy.load_state_dict(rhythm_payload["state_dict"])
-        self.hidden = torch.zeros(1, self.model.hidden)
+        self.model = NumpyGRUPolicy(checkpoint)
+        self.rhythm_policy = NumpyGRUPolicy(rhythm_checkpoint)
+        self.hidden = self.model.initial_state()
         self.rhythm_hidden = self.rhythm_policy.initial_state()
         self.rhythm_previous_action = 1
         self.rhythm_elapsed = 0.0
@@ -75,7 +74,7 @@ class LiveGenerator:
         self.rng = np.random.default_rng()
 
     def reset_memory(self):
-        self.hidden.zero_()
+        self.hidden = self.model.initial_state()
         self.previous_token = 0
         self.step = 0
         self.recent.clear()
@@ -88,10 +87,8 @@ class LiveGenerator:
 
     def next_token(self, temperature, novelty, motif_memory):
         phrase_step = self.step % STEPS
-        current = torch.tensor(feature(self.previous_token, phrase_step, True)).view(1, -1)
-        with torch.no_grad():
-            self.hidden = self.model.cell(current, self.hidden)
-            logits = self.model.head(self.hidden)[0].clone()
+        logits, self.hidden = self.model.step(feature(self.previous_token, phrase_step, True), self.hidden)
+        logits = logits.copy()
 
         counts = Counter(self.recent)
         for token, count in counts.items():
@@ -102,8 +99,8 @@ class LiveGenerator:
             if motif_position < len(self.motif):
                 logits[self.motif[motif_position]] += float(motif_memory) * 2.5
 
-        probabilities = torch.softmax(logits / max(0.05, float(temperature)), dim=-1)
-        token = int(torch.multinomial(probabilities, 1))
+        probabilities = softmax(logits, temperature)
+        token = int(self.rng.choice(DEGREES, p=probabilities))
         if phrase_step < MOTIF:
             if phrase_step == 0:
                 self.motif.clear()
@@ -116,16 +113,15 @@ class LiveGenerator:
     def next_duration(self, mode, confidence, motif_memory):
         phrase_step = (self.step - 1) % STEPS
         if mode == "Learned rhythm":
-            obs = rhythm_observation(
+            observation = rhythm_observation(
                 phrase_step,
                 self.previous_token,
                 confidence,
                 self.rhythm_previous_action,
                 self.rhythm_elapsed,
             )
-            with torch.no_grad():
-                logits, self.rhythm_hidden = self.rhythm_policy.step(torch.tensor(obs).view(1, -1), self.rhythm_hidden)
-                action = int(torch.distributions.Categorical(logits=logits[0]).sample())
+            logits, self.rhythm_hidden = self.rhythm_policy.step(observation, self.rhythm_hidden)
+            action = int(self.rng.choice(4, p=softmax(logits)))
             duration = float((0.25, 0.5, 1.0, 2.0)[action])
             self.rhythm_previous_action = action
             self.rhythm_elapsed += duration

@@ -4,6 +4,9 @@ __pycache__/
 .venv/
 outputs/*.tmp
 outputs/unity_shadow/
+build/
+dist/
+*.spec
 
 # Unity-generated state; keep Assets, Packages, and ProjectSettings.
 unity/**/[Ll]ibrary/

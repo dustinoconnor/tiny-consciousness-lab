@@ -54,6 +54,7 @@ This is an artifact audit, not a full independent replication. Stored metrics we
 | E33 | Dense recurrent cross-talk can degrade state separability, and offline down-selection can restore it. | **Demonstrated in a synthetic maintenance assay** | `sleep_homeostasis_lab.py`; `outputs/sleep_homeostasis_metrics.json` | Four fatigue cycles reduced the tiny Phi proxy 0.159→0.118 and separability 0.046→0.034; down-selection restored 0.168 and 0.049. “Sleep” is an algorithmic maintenance metaphor. |
 | E34 | Maintenance timing can be regulated by a fatigue self-model, with active repair and offline repair serving different regimes. | **Demonstrated in toy controller runs** | `sleep_cycle_agent_lab.py`; `adaptive_sleep_lab.py`; stored metrics | No-sleep late accuracy fell to 0.250; offline sleep reached 0.880 and active repair 0.840 in one 500-step setup. Results do not establish a biological need for sleep. |
 | E35 | The repository implements an engineered operational access-consciousness profile. | **Demonstrated as a composite functional claim** | E9–E11, E28, `ego_lens_lab.py`, `outputs/ego_lens_metrics.json` | Workspace state is reportable, shared across downstream functions, reusable across labels, and causally active under intervention. False broadcasts alter report and action, showing access without truth guarantee. This does not establish phenomenal consciousness. |
+| E36 | Recurrent design principles remain useful after adaptation and retraining in a symbolic-music domain. | **Demonstrated as bounded architecture-level portability** | `midi_transfer_lab.py`; `midi_rhythm_learning_lab.py`; `outputs/midi_transfer_metrics.json`; `outputs/midi_rhythm_learning_metrics.json` | Across three seeds, recurrent delayed-motif/final-return accuracy was 0.520/0.592 versus feedforward 0.380/0.454; recurrent reset reduced them to 0.367/0.352. Feedforward immediate next-note accuracy was better, and recurrent valence did not win the delayed-motif metric. Learned rhythm scored 0.576 versus weighted random 0.473 and hidden reset 0.444 under an engineered reward. Navigation weights were not reused. |
 
 ## Demonstrated results used as paper anchors
 
@@ -65,6 +66,7 @@ This is an artifact audit, not a full independent replication. Stored metrics we
 6. **Robustness:** controlled perturbation sweeps and governors expose failure regions and partial recoveries in a synthetic survival model (E19–E20).
 7. **Full Functional Ego thesis:** recurrence, bounded valence, grounded imagination, adaptive attention, self-report feedback, social correction, hierarchy, causal routing, and maintenance have distinct measured roles and failure modes across the toy suite (E23–E34).
 8. **Operational access consciousness:** shared workspace content jointly affects report and control and remains vulnerable to false broadcast (E9–E11, E28, E35).
+9. **Cross-domain architecture portability:** a separately trained MIDI policy retains recurrent memory benefits on delayed structure, with explicit feedforward counter-results and hidden-state ablation (E36).
 
 ## Hypotheses consistent with, but not established by, the evidence
 
@@ -86,6 +88,7 @@ This is an artifact audit, not a full independent replication. Stored metrics we
 - Replace hand-designed workspace rules with learned routers and test whether intervention and transfer properties survive.
 - Test irreversible dead ends, changed dynamics, sensor dropout, altered morphology, and reward shifts that were not represented during training.
 - Validate robustness governors across tasks and seeds, and rename biological/clinical metaphors where no biological mapping is tested.
+- Replicate the MIDI benchmark with more seeds, independent musical corpora, blinded human ratings, and additional non-musical temporal domains.
 
 ## Provenance notes
 

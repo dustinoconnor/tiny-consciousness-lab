@@ -2557,7 +2557,7 @@ versus 0.473 for weighted random timing and 0.444 after hidden-state reset. The
 standalone Apple Silicon app routes generated notes and chords to the macOS IAC
 Driver or another MIDI destination. It produces MIDI, not audio.
 
-[Download Recurrent MIDI Lab for Apple Silicon](https://tiny-consciousness-lab.pix3ldust418476.chatgpt.site/downloads/Recurrent-MIDI-Lab-1.0-Apple-Silicon.zip)
+[Download Recurrent MIDI Lab for Apple Silicon](https://github.com/dustinoconnor/tiny-consciousness-lab/releases/download/recurrent-midi-lab-v1.0/Recurrent-MIDI-Lab-1.0-Apple-Silicon.zip)
 
 ## How To Run
 

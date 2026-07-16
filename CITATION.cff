@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this research artifact, please cite it using this metadata."
+title: "Tiny Consciousness Lab: Grounded Recurrent Control in Toy Partially Observable Worlds"
+type: software
+authors:
+  - family-names: "O'Connor"
+    given-names: "Dustin"
+repository-code: "https://github.com/dustinoconnor/tiny-consciousness-lab"
+url: "https://github.com/dustinoconnor/tiny-consciousness-lab"
+version: 0.1.0
+date-released: 2026-07-16
+keywords:
+  - recurrent control
+  - partial observability
+  - model-predictive control
+  - zero-shot navigation
+  - Unity

@@ -1,0 +1,20 @@
+#!/bin/zsh
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO="$(cd "$SCRIPT_DIR/../../../.." && pwd)"
+PYTHON="$REPO/.venv/bin/python"
+LOG_DIR="$HOME/Library/Logs/Recurrent MIDI Lab"
+
+mkdir -p "$LOG_DIR"
+cd "$REPO" || exit 1
+
+if [[ ! -x "$PYTHON" ]]; then
+    PYTHON="$(command -v python3)"
+fi
+
+if [[ -z "$PYTHON" || ! -x "$PYTHON" ]]; then
+    osascript -e 'display alert "Recurrent MIDI Lab" message "Python 3 was not found. Install the repository requirements first."'
+    exit 1
+fi
+
+exec "$PYTHON" "$REPO/live_midi_generator.py" >>"$LOG_DIR/app.log" 2>&1

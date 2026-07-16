@@ -1,0 +1,39 @@
+{
+  "date": "2026-07-16",
+  "location": {
+    "x": 312.5,
+    "z": -328.0,
+    "selection_reason": "Repeated starvation failures in the prior overnight run occurred near this terrain location."
+  },
+  "duration_seconds_per_condition": 180,
+  "conditions": {
+    "normal_hunger": {
+      "pickups": 18,
+      "stuck_events": 0,
+      "survival_failures": 0,
+      "collision_seconds": 8.1
+    },
+    "critical_hunger_forced_mpc": {
+      "pickups": 0,
+      "stuck_events": 1,
+      "stuck_frames": 299,
+      "survival_failures": 0,
+      "collision_seconds": 77.8,
+      "mpc_mode": "critical_consensus"
+    },
+    "critical_hunger_reanchored": {
+      "pickups": 18,
+      "stuck_events": 0,
+      "survival_failures": 0,
+      "collision_seconds": 9.0,
+      "hunger_recovery_seconds": 25.3,
+      "control_seconds": {
+        "recurrent": 59.2,
+        "critical_targeting": 19.2,
+        "adaptive_stochastic": 101.4
+      }
+    }
+  },
+  "interpretation": "The location and food distribution were viable. Continuous critical-hunger MPC suppressed recurrent exploration when no target was visible. Allowing recurrent exploration without a visible target and engaging short stochastic MPC only for grounded targets or obstacles reproduced normal foraging in this controlled run.",
+  "limits": "This is a targeted three-minute engineering diagnostic, not an independent long-duration or randomized validation."
+}

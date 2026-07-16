@@ -5,7 +5,8 @@ The earlier sleep labs tested fixed offline sleep and always-on repair. This
 lab asks a more functional question:
 
     Can a tiny functional ego detect that it is tired, choose a sleep duration,
-    and avoid both under-sleeping and over-sleeping?
+    hand off to a refreshed successor state, and avoid both under-sleeping and
+    over-sleeping?
 
 The model is deliberately abstract. It tracks the quantities that matter for the
 architecture thesis:
@@ -18,7 +19,9 @@ architecture thesis:
 
 Sleep is modeled as offline dream repair. Short sleep fails to prune enough
 noise. Medium sleep restores separability. Very long sleep over-prunes and
-damages memory, producing computational amnesia.
+damages memory, producing computational amnesia. A successor handoff is modeled
+as a fast state distillation pass: preserve task memory and goals, discard weak
+echo-like crosstalk, and continue acting without a visible offline phase.
 """
 
 import json
@@ -79,6 +82,27 @@ def dream_repair(crosstalk, complexity, memory, sleep_steps):
     return clamp(crosstalk), clamp(complexity), clamp(memory)
 
 
+def successor_handoff(crosstalk, complexity, memory, prediction_error, repair_strength=1.0):
+    """Spawn a refreshed controller state without taking behavior offline.
+
+    This is less powerful than real sleep because it cannot freely replay and
+    prune everything. It does, however, compress the current self-model into a
+    successor: keep strong task memory, drop weak echoes, and reset some model
+    bloat. The tiny memory cost is the price of lossy handoff.
+    """
+    strength = clamp(repair_strength, 0.0, 1.0)
+    crosstalk = crosstalk * (1.0 - 0.68 * strength)
+    complexity = complexity * (1.0 - 0.52 * strength)
+    prediction_error = prediction_error * (1.0 - 0.36 * strength)
+    memory = memory * (1.0 - 0.003 * strength)
+    return (
+        clamp(crosstalk),
+        clamp(complexity),
+        clamp(memory),
+        clamp(prediction_error),
+    )
+
+
 def run_sleep_duration_sweep():
     rows = []
     for duration in SLEEP_DURATIONS:
@@ -133,15 +157,21 @@ def run_endurance_condition(name, steps=800, seed=1601):
     memory = 0.98
     prediction_error = 0.18
     asleep_remaining = 0
+    handoff_cooldown = 0
     rows = []
     failure_step = None
     failure_streak = 0
     total_sleep_steps = 0
     sleep_events = 0
+    handoff_events = 0
 
     for t in range(steps):
         event = "wake"
         sleep_steps = 0
+        handoff = False
+        if handoff_cooldown > 0:
+            handoff_cooldown -= 1
+
         if asleep_remaining > 0:
             crosstalk, complexity, memory = dream_repair(crosstalk, complexity, memory, 1)
             asleep_remaining -= 1
@@ -190,6 +220,57 @@ def run_endurance_condition(name, steps=800, seed=1601):
                     event = "sleep_start_hybrid"
                 else:
                     event = "waking_repair"
+            elif name == "successor_handoff":
+                crosstalk = clamp(crosstalk * 0.992)
+                complexity = clamp(complexity * 0.997)
+                current = metrics_from_state(crosstalk, complexity, memory, prediction_error)
+                urgency = clamp(
+                    0.55 * current["fatigue_report"]
+                    + 0.30 * current["delusion_index"]
+                    + 0.15 * complexity
+                )
+                if urgency > 0.56 and handoff_cooldown <= 0:
+                    crosstalk, complexity, memory, prediction_error = successor_handoff(
+                        crosstalk,
+                        complexity,
+                        memory,
+                        prediction_error,
+                        repair_strength=0.92,
+                    )
+                    handoff_events += 1
+                    handoff_cooldown = 50
+                    handoff = True
+                    event = "successor_handoff"
+                else:
+                    event = "waking_repair"
+            elif name == "handoff_plus_emergency_sleep":
+                crosstalk = clamp(crosstalk * 0.993)
+                complexity = clamp(complexity * 0.997)
+                current = metrics_from_state(crosstalk, complexity, memory, prediction_error)
+                urgency = clamp(
+                    0.55 * current["fatigue_report"]
+                    + 0.30 * current["delusion_index"]
+                    + 0.15 * complexity
+                )
+                if current["delusion_index"] > 0.94 and urgency > 0.90:
+                    sleep_steps = 35
+                    asleep_remaining = sleep_steps - 1
+                    sleep_events += 1
+                    event = "sleep_start_emergency"
+                elif urgency > 0.55 and handoff_cooldown <= 0:
+                    crosstalk, complexity, memory, prediction_error = successor_handoff(
+                        crosstalk,
+                        complexity,
+                        memory,
+                        prediction_error,
+                        repair_strength=0.96,
+                    )
+                    handoff_events += 1
+                    handoff_cooldown = 45
+                    handoff = True
+                    event = "successor_handoff"
+                else:
+                    event = "waking_repair"
             elif name == "no_sleep":
                 pass
             else:
@@ -199,6 +280,7 @@ def run_endurance_condition(name, steps=800, seed=1601):
             "t": t,
             "event": event,
             "sleep_steps": sleep_steps,
+            "handoff": handoff,
             **metrics_from_state(crosstalk, complexity, memory, prediction_error),
         }
         row["self_report"] = self_report(row, event)
@@ -214,6 +296,7 @@ def run_endurance_condition(name, steps=800, seed=1601):
         "failure_step": failure_step,
         "sleep_events": sleep_events,
         "total_sleep_steps": total_sleep_steps,
+        "handoff_events": handoff_events,
     }
 
 
@@ -234,6 +317,7 @@ def summarize_endurance(result):
     return {
         "failure_step": result["failure_step"],
         "sleep_events": result["sleep_events"],
+        "handoff_events": result["handoff_events"],
         "total_sleep_steps": result["total_sleep_steps"],
         "late_accuracy": float(np.mean([r["task_accuracy"] for r in late])),
         "late_delusion": float(np.mean([r["delusion_index"] for r in late])),
@@ -315,13 +399,21 @@ def main():
     set_seed(1601)
     OUT.mkdir(exist_ok=True)
     duration_rows = run_sleep_duration_sweep()
-    conditions = ["no_sleep", "waking_repair_only", "fixed_sleep", "adaptive_sleep", "hybrid_repair_plus_sleep"]
+    conditions = [
+        "no_sleep",
+        "waking_repair_only",
+        "successor_handoff",
+        "handoff_plus_emergency_sleep",
+        "fixed_sleep",
+        "adaptive_sleep",
+        "hybrid_repair_plus_sleep",
+    ]
     endurance = {name: run_endurance_condition(name) for name in conditions}
     endurance_summary = {name: summarize_endurance(result) for name, result in endurance.items()}
     payload = {
         "note": (
             "Adaptive sleep toy. The system reports fatigue from crosstalk, complexity, prediction error, and latency; "
-            "then compares fixed sleep, waking repair, adaptive sleep, and a hybrid repair-plus-sleep strategy."
+            "then compares fixed sleep, waking repair, successor handoff, adaptive sleep, and hybrid strategies."
         ),
         "sleep_duration_sweep": duration_rows,
         "sleep_duration_summary": summarize_duration(duration_rows),
@@ -330,14 +422,17 @@ def main():
             name: [
                 row
                 for row in result["rows"]
-                if row["event"].startswith("sleep_start") or row["fatigue_report"] > 0.78
+                if row["event"].startswith("sleep_start")
+                or row["event"] == "successor_handoff"
+                or row["fatigue_report"] > 0.78
             ][:5]
             for name, result in endurance.items()
         },
         "thesis": (
             "A functional ego needs a fatigue self-model, not just a fixed sleep timer. "
-            "Waking repair extends endurance, but once fatigue exceeds repair bandwidth, offline dream repair restores separability. "
-            "Too little sleep leaves delusion active; too much sleep over-prunes useful memory."
+            "Waking repair extends endurance, successor handoff can keep behavior online, and offline dream repair remains "
+            "the emergency path when fatigue exceeds online maintenance bandwidth. Too little sleep leaves delusion active; "
+            "too much sleep over-prunes useful memory."
         ),
     }
     (OUT / "adaptive_sleep_metrics.json").write_text(json.dumps(payload, indent=2))

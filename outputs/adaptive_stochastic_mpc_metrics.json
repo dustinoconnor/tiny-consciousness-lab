@@ -1,0 +1,202 @@
+{
+  "protocol": {
+    "checkpoint": "checkpoints/unity_mpc/best.pt",
+    "seeds": [
+      31,
+      47,
+      59
+    ],
+    "episodes_per_seed_family": 2,
+    "stochastic_samples": 3,
+    "hunger_food_sight": {
+      "normal": 7.0,
+      "hungry": 10.0,
+      "critical": 13.0
+    }
+  },
+  "conditions": {
+    "recurrent": {
+      "episodes": 36,
+      "success_rate": 0.9444444444444444,
+      "mean_steps": 90.41666666666667,
+      "mean_collisions": 0.0,
+      "mean_path_length": 39.78333333333328,
+      "mean_revisit_ratio": 0.19376204187741922,
+      "mean_reversals": 1.6388888888888888,
+      "elapsed_seconds": 2.391477833967656,
+      "planning_fraction": 0.0,
+      "mean_requested_horizon": 0.0,
+      "mean_realized_depth": 0.0,
+      "uncertainty_stops": 0,
+      "critical_rescue_frames": 0,
+      "mean_policy_entropy": 0.0,
+      "food_sight_frames": {},
+      "by_family": {
+        "u_trap": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "c_shape": {
+          "success_rate": 0.8333333333333334,
+          "mean_collisions": 0.0
+        },
+        "l_wall": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "zigzag_gate": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "offset_barriers": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "narrow_corridor": {
+          "success_rate": 0.8333333333333334,
+          "mean_collisions": 0.0
+        }
+      }
+    },
+    "fixed_mpc": {
+      "episodes": 36,
+      "success_rate": 0.9722222222222222,
+      "mean_steps": 88.11111111111111,
+      "mean_collisions": 0.0,
+      "mean_path_length": 38.76888888888884,
+      "mean_revisit_ratio": 0.23219824187594684,
+      "mean_reversals": 2.25,
+      "elapsed_seconds": 24.26941404188983,
+      "planning_fraction": 0.0,
+      "mean_requested_horizon": 0.0,
+      "mean_realized_depth": 0.0,
+      "uncertainty_stops": 0,
+      "critical_rescue_frames": 0,
+      "mean_policy_entropy": 0.0,
+      "food_sight_frames": {},
+      "by_family": {
+        "u_trap": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "c_shape": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "l_wall": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "zigzag_gate": {
+          "success_rate": 0.8333333333333334,
+          "mean_collisions": 0.0
+        },
+        "offset_barriers": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "narrow_corridor": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        }
+      }
+    },
+    "adaptive_stochastic": {
+      "episodes": 36,
+      "success_rate": 0.9722222222222222,
+      "mean_steps": 82.38888888888889,
+      "mean_collisions": 0.0,
+      "mean_path_length": 36.25111111111108,
+      "mean_revisit_ratio": 0.21466759638592572,
+      "mean_reversals": 1.5,
+      "elapsed_seconds": 8.343707958003506,
+      "planning_fraction": 0.7043155765340526,
+      "mean_requested_horizon": 6.20392532312111,
+      "mean_realized_depth": 5.0284027433555165,
+      "uncertainty_stops": 39545,
+      "critical_rescue_frames": 126,
+      "mean_policy_entropy": 0.71746893601011,
+      "food_sight_frames": {},
+      "by_family": {
+        "u_trap": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "c_shape": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "l_wall": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "zigzag_gate": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "offset_barriers": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "narrow_corridor": {
+          "success_rate": 0.8333333333333334,
+          "mean_collisions": 0.0
+        }
+      }
+    },
+    "adaptive_stochastic_hunger": {
+      "episodes": 36,
+      "success_rate": 0.9722222222222222,
+      "mean_steps": 82.27777777777777,
+      "mean_collisions": 0.0,
+      "mean_path_length": 36.20222222222218,
+      "mean_revisit_ratio": 0.21459897777497053,
+      "mean_reversals": 1.5,
+      "elapsed_seconds": 6.377541500143707,
+      "planning_fraction": 0.7039162727886563,
+      "mean_requested_horizon": 6.20431654676259,
+      "mean_realized_depth": 5.026538767803201,
+      "uncertainty_stops": 39545,
+      "critical_rescue_frames": 122,
+      "mean_policy_entropy": 0.7175690891041315,
+      "food_sight_frames": {
+        "7.0": 2630,
+        "10.0": 210,
+        "13.0": 122
+      },
+      "by_family": {
+        "u_trap": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "c_shape": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "l_wall": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "zigzag_gate": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "offset_barriers": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "narrow_corridor": {
+          "success_rate": 0.8333333333333334,
+          "mean_collisions": 0.0
+        }
+      }
+    }
+  },
+  "criteria": {
+    "candidate_success_not_below_fixed_mpc": true,
+    "candidate_collisions_not_above_fixed_mpc": true,
+    "adaptive_horizon_was_used": true,
+    "uncertainty_bound_was_active": true,
+    "all_passed": true
+  }
+}

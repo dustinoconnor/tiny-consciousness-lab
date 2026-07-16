@@ -1,0 +1,196 @@
+{
+  "protocol": {
+    "base_checkpoint": "checkpoints/unity_mpc/best.pt",
+    "updates": 24,
+    "teacher_signal_removed_during_evaluation": true,
+    "food_coordinates_hidden_when_not_visible": true,
+    "forward_heads_frozen": true,
+    "procedural_start_rotations": 4
+  },
+  "baseline_sparse": {
+    "episodes": 16,
+    "mean_pickups": 15.25,
+    "mean_first_pickup_steps": 217.0625,
+    "mean_max_meal_gap_steps": 767.5625,
+    "mean_unique_cells": 79.1875,
+    "mean_revisit_ratio": 0.9560313714602999,
+    "mean_collisions": 0.0,
+    "mean_reversals": 52.375
+  },
+  "candidate_sparse": {
+    "episodes": 16,
+    "mean_pickups": 20.75,
+    "mean_first_pickup_steps": 99.125,
+    "mean_max_meal_gap_steps": 614.3125,
+    "mean_unique_cells": 92.6875,
+    "mean_revisit_ratio": 0.9485355358134371,
+    "mean_collisions": 0.0,
+    "mean_reversals": 46.6875
+  },
+  "candidate_memory_reset": {
+    "episodes": 16,
+    "mean_pickups": 4.125,
+    "mean_first_pickup_steps": 722.875,
+    "mean_max_meal_gap_steps": 1349.3125,
+    "mean_unique_cells": 29.9375,
+    "mean_revisit_ratio": 0.9833772903942255,
+    "mean_collisions": 0.0,
+    "mean_reversals": 96.75
+  },
+  "baseline_courses": {
+    "success_rate": 0.9259259259259259,
+    "mean_steps": 93.8425925925926,
+    "mean_collisions": 0.0,
+    "mean_path_length": 41.29074074074068,
+    "mean_revisit_ratio": 0.20362071649604332,
+    "mean_reversals": 4.481481481481482,
+    "by_family": {
+      "u_trap": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      },
+      "c_shape": {
+        "success_rate": 0.9444444444444444,
+        "mean_collisions": 0.0
+      },
+      "l_wall": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      },
+      "zigzag_gate": {
+        "success_rate": 0.7777777777777778,
+        "mean_collisions": 0.0
+      },
+      "offset_barriers": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      },
+      "narrow_corridor": {
+        "success_rate": 0.8333333333333334,
+        "mean_collisions": 0.0
+      }
+    }
+  },
+  "candidate_courses": {
+    "success_rate": 0.9814814814814815,
+    "mean_steps": 88.12037037037037,
+    "mean_collisions": 0.0,
+    "mean_path_length": 38.77296296296293,
+    "mean_revisit_ratio": 0.21646159932435124,
+    "mean_reversals": 2.138888888888889,
+    "by_family": {
+      "u_trap": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      },
+      "c_shape": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      },
+      "l_wall": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      },
+      "zigzag_gate": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      },
+      "offset_barriers": {
+        "success_rate": 0.8888888888888888,
+        "mean_collisions": 0.0
+      },
+      "narrow_corridor": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      }
+    }
+  },
+  "criteria": {
+    "meal_gap_improves_15pct": true,
+    "pickups_not_reduced": true,
+    "collision_safety_preserved": true,
+    "course_success_regression_at_most_5_points": true,
+    "memory_reset_reduces_sparse_pickups": true,
+    "all_passed": true
+  },
+  "curves": {
+    "loss": [
+      -0.33217698335647583,
+      -0.07151104509830475,
+      0.15345318615436554,
+      -0.13882680237293243,
+      0.3965069055557251,
+      0.658780038356781,
+      -0.30168768763542175,
+      -0.0054480512626469135,
+      -0.155955508351326,
+      -0.12996433675289154,
+      -0.15382850170135498,
+      0.11264235526323318,
+      -0.2705134153366089,
+      -0.10629419982433319,
+      0.17402416467666626,
+      0.16226455569267273,
+      -0.2730163633823395,
+      0.07887721806764603,
+      0.3369959890842438,
+      0.26558688282966614,
+      -0.14643743634223938,
+      -0.07607024908065796,
+      -0.4010886251926422,
+      -0.20619149506092072
+    ],
+    "pickups": [
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "kl": [
+      -3.968598227821474e-10,
+      2.065992339339573e-05,
+      2.157892049581278e-05,
+      3.8152305933181196e-05,
+      0.00024681753711774945,
+      0.0001546340063214302,
+      0.00017060655227396637,
+      0.00022453685232903808,
+      0.0009217167971655726,
+      0.00043197712511755526,
+      0.0007592964684590697,
+      0.0003156147722620517,
+      0.000408985186368227,
+      0.00046766886953264475,
+      0.00041341589530929923,
+      0.0006459956639446318,
+      0.0005852888571098447,
+      0.0005182315944693983,
+      0.0007165551069192588,
+      0.0006111714756116271,
+      0.0005503493594005704,
+      0.0005352015141397715,
+      0.0012429001508280635,
+      0.0017038501100614667
+    ]
+  }
+}

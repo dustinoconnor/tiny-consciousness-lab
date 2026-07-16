@@ -1,0 +1,2200 @@
+{
+  "design": {
+    "conditions": [
+      "feedforward",
+      "feedforward_valence",
+      "recurrent",
+      "recurrent_valence"
+    ],
+    "train_families": [
+      "open",
+      "l_wall",
+      "offset_barriers"
+    ],
+    "withheld_families": [
+      "u_detour",
+      "c_shape"
+    ],
+    "seeds": 3,
+    "updates": 420,
+    "environment_steps_per_condition_seed": 282240,
+    "feedforward_context_frames": 8,
+    "parameter_counts": {
+      "feedforward": 9519,
+      "feedforward_valence": 9519,
+      "recurrent": 9893,
+      "recurrent_valence": 9893
+    },
+    "claim_boundary": "Tests recurrence and grounded reward-feedback components in one navigation POMDP; it does not prove recurrent systems are universally superior or evaluate every functional-ego module."
+  },
+  "results": {
+    "feedforward": {
+      "full_observable": {
+        "reward": {
+          "mean": 0.6361358750000001,
+          "std": 0.23695077874575848
+        },
+        "pickups": {
+          "mean": 7.953125,
+          "std": 1.8784256900172194
+        },
+        "preference_accuracy": {
+          "mean": 0.48634518685758854,
+          "std": 0.013230714843295292
+        },
+        "pre_switch_accuracy": {
+          "mean": 0.48634518685758854,
+          "std": 0.013230714843295292
+        },
+        "post_switch_accuracy": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "post_pickups": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "post_sampling_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "collisions": {
+          "mean": 6.427083333333333,
+          "std": 1.298056272588194
+        },
+        "coverage": {
+          "mean": 35.854166666666664,
+          "std": 4.772430818790241
+        }
+      },
+      "partial_detour": {
+        "reward": {
+          "mean": 0.3726696875000001,
+          "std": 0.08491268976730298
+        },
+        "pickups": {
+          "mean": 6.34375,
+          "std": 0.9825959452728606
+        },
+        "preference_accuracy": {
+          "mean": 0.4853171680804444,
+          "std": 0.006246955552430644
+        },
+        "pre_switch_accuracy": {
+          "mean": 0.4853171680804444,
+          "std": 0.006246955552430644
+        },
+        "post_switch_accuracy": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "post_pickups": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "post_sampling_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "collisions": {
+          "mean": 6.473958333333333,
+          "std": 1.314007897035715
+        },
+        "coverage": {
+          "mean": 28.953125,
+          "std": 2.0895869682587196
+        }
+      },
+      "reward_reversal": {
+        "reward": {
+          "mean": 0.5703259375000002,
+          "std": 0.11521523693079061
+        },
+        "pickups": {
+          "mean": 6.34375,
+          "std": 0.9825959452728606
+        },
+        "preference_accuracy": {
+          "mean": 0.5041672349053087,
+          "std": 0.012327806892697982
+        },
+        "pre_switch_accuracy": {
+          "mean": 0.4919231383810528,
+          "std": 0.011349536971912424
+        },
+        "post_switch_accuracy": {
+          "mean": 0.5286549707602339,
+          "std": 0.019027577921111007
+        },
+        "post_pickups": {
+          "mean": 2.0885416666666665,
+          "std": 0.48501861361761733
+        },
+        "post_sampling_rate": {
+          "mean": 0.5833333333333334,
+          "std": 0.03210632293213009
+        },
+        "collisions": {
+          "mean": 6.473958333333333,
+          "std": 1.314007897035715
+        },
+        "coverage": {
+          "mean": 28.953125,
+          "std": 2.0895869682587196
+        }
+      },
+      "sensor_noise": {
+        "reward": {
+          "mean": 0.7573586458333335,
+          "std": 0.014707594281715737
+        },
+        "pickups": {
+          "mean": 7.286458333333333,
+          "std": 0.9162818794666241
+        },
+        "preference_accuracy": {
+          "mean": 0.5064682662753365,
+          "std": 0.014932143177364342
+        },
+        "pre_switch_accuracy": {
+          "mean": 0.5068361661817197,
+          "std": 0.01185423860904918
+        },
+        "post_switch_accuracy": {
+          "mean": 0.5076453622979594,
+          "std": 0.031990732098637835
+        },
+        "post_pickups": {
+          "mean": 2.84375,
+          "std": 0.36331625055406847
+        },
+        "post_sampling_rate": {
+          "mean": 0.7916666666666666,
+          "std": 0.04101045767714485
+        },
+        "collisions": {
+          "mean": 6.723958333333333,
+          "std": 1.7146890155765533
+        },
+        "coverage": {
+          "mean": 33.401041666666664,
+          "std": 3.020366343214383
+        }
+      },
+      "deprivation": {
+        "reward": {
+          "mean": 0.4731672708333334,
+          "std": 0.12803062682503671
+        },
+        "pickups": {
+          "mean": 6.380208333333333,
+          "std": 1.630665870298252
+        },
+        "preference_accuracy": {
+          "mean": 0.4939883645765999,
+          "std": 0.016547147674410706
+        },
+        "pre_switch_accuracy": {
+          "mean": 0.4939883645765999,
+          "std": 0.016547147674410706
+        },
+        "post_switch_accuracy": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "post_pickups": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "post_sampling_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "collisions": {
+          "mean": 5.630208333333333,
+          "std": 1.8311865982577769
+        },
+        "coverage": {
+          "mean": 29.161458333333332,
+          "std": 3.2300653991272203
+        }
+      }
+    },
+    "feedforward_valence": {
+      "full_observable": {
+        "reward": {
+          "mean": 1.4082231875000002,
+          "std": 0.6647291013059283
+        },
+        "pickups": {
+          "mean": 10.494791666666666,
+          "std": 1.3043105950931404
+        },
+        "preference_accuracy": {
+          "mean": 0.5030931413607087,
+          "std": 0.023533253221717225
+        },
+        "pre_switch_accuracy": {
+          "mean": 0.5030931413607087,
+          "std": 0.023533253221717225
+        },
+        "post_switch_accuracy": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "post_pickups": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "post_sampling_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "collisions": {
+          "mean": 5.817708333333333,
+          "std": 1.288996736537977
+        },
+        "coverage": {
+          "mean": 42.114583333333336,
+          "std": 3.555556403265958
+        }
+      },
+      "partial_detour": {
+        "reward": {
+          "mean": 1.1437988958333334,
+          "std": 0.4859419757289498
+        },
+        "pickups": {
+          "mean": 8.609375,
+          "std": 1.1715624583222186
+        },
+        "preference_accuracy": {
+          "mean": 0.5108824507341166,
+          "std": 0.021655716518596164
+        },
+        "pre_switch_accuracy": {
+          "mean": 0.5108824507341166,
+          "std": 0.021655716518596164
+        },
+        "post_switch_accuracy": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "post_pickups": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "post_sampling_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "collisions": {
+          "mean": 5.854166666666667,
+          "std": 1.2891229994220448
+        },
+        "coverage": {
+          "mean": 35.802083333333336,
+          "std": 3.2795713298598783
+        }
+      },
+      "reward_reversal": {
+        "reward": {
+          "mean": 1.0919221250000002,
+          "std": 0.46044593056733973
+        },
+        "pickups": {
+          "mean": 8.505208333333334,
+          "std": 1.460210844982859
+        },
+        "preference_accuracy": {
+          "mean": 0.5097782242401077,
+          "std": 0.013382786078488413
+        },
+        "pre_switch_accuracy": {
+          "mean": 0.5136448664805483,
+          "std": 0.015997832318462458
+        },
+        "post_switch_accuracy": {
+          "mean": 0.5044013263487358,
+          "std": 0.039779780495176754
+        },
+        "post_pickups": {
+          "mean": 3.5208333333333335,
+          "std": 0.858885592966581
+        },
+        "post_sampling_rate": {
+          "mean": 0.7864583333333334,
+          "std": 0.05892556509887896
+        },
+        "collisions": {
+          "mean": 6.3125,
+          "std": 1.7187973478326835
+        },
+        "coverage": {
+          "mean": 35.338541666666664,
+          "std": 3.614080476548941
+        }
+      },
+      "sensor_noise": {
+        "reward": {
+          "mean": 0.8326135208333335,
+          "std": 0.5306279948281368
+        },
+        "pickups": {
+          "mean": 8.739583333333334,
+          "std": 1.182027778920144
+        },
+        "preference_accuracy": {
+          "mean": 0.484102079236519,
+          "std": 0.0254332755138582
+        },
+        "pre_switch_accuracy": {
+          "mean": 0.4756821534197311,
+          "std": 0.03958217799128268
+        },
+        "post_switch_accuracy": {
+          "mean": 0.49621967784424564,
+          "std": 0.00580748081168473
+        },
+        "post_pickups": {
+          "mean": 3.5833333333333335,
+          "std": 0.5390562097056505
+        },
+        "post_sampling_rate": {
+          "mean": 0.8802083333333334,
+          "std": 0.01948779888944761
+        },
+        "collisions": {
+          "mean": 5.328125,
+          "std": 0.6634034720037774
+        },
+        "coverage": {
+          "mean": 37.109375,
+          "std": 3.6604543135039944
+        }
+      },
+      "deprivation": {
+        "reward": {
+          "mean": 1.0625731250000001,
+          "std": 0.45361605838732344
+        },
+        "pickups": {
+          "mean": 8.098958333333334,
+          "std": 1.6988590176367064
+        },
+        "preference_accuracy": {
+          "mean": 0.5102333770353317,
+          "std": 0.008264453604566126
+        },
+        "pre_switch_accuracy": {
+          "mean": 0.5102333770353317,
+          "std": 0.008264453604566126
+        },
+        "post_switch_accuracy": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "post_pickups": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "post_sampling_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "collisions": {
+          "mean": 5.098958333333333,
+          "std": 0.7983884049376524
+        },
+        "coverage": {
+          "mean": 34.666666666666664,
+          "std": 4.919341830482904
+        }
+      }
+    },
+    "recurrent": {
+      "full_observable": {
+        "reward": {
+          "mean": 0.8426137916666668,
+          "std": 0.7190023159617392
+        },
+        "pickups": {
+          "mean": 7.5,
+          "std": 2.6871366033382076
+        },
+        "preference_accuracy": {
+          "mean": 0.49213532402649496,
+          "std": 0.028227559138758344
+        },
+        "pre_switch_accuracy": {
+          "mean": 0.49213532402649496,
+          "std": 0.028227559138758344
+        },
+        "post_switch_accuracy": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "post_pickups": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "post_sampling_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "collisions": {
+          "mean": 4.1875,
+          "std": 1.5673362653719207
+        },
+        "coverage": {
+          "mean": 30.15625,
+          "std": 7.741468758683113
+        }
+      },
+      "partial_detour": {
+        "reward": {
+          "mean": 0.17391812500000015,
+          "std": 0.6364900878402204
+        },
+        "pickups": {
+          "mean": 5.46875,
+          "std": 2.399645969981822
+        },
+        "preference_accuracy": {
+          "mean": 0.4561853402807677,
+          "std": 0.04195663308200764
+        },
+        "pre_switch_accuracy": {
+          "mean": 0.4561853402807677,
+          "std": 0.04195663308200764
+        },
+        "post_switch_accuracy": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "post_pickups": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "post_sampling_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "collisions": {
+          "mean": 2.875,
+          "std": 1.3363410087498875
+        },
+        "coverage": {
+          "mean": 22.09375,
+          "std": 7.142602069478368
+        }
+      },
+      "reward_reversal": {
+        "reward": {
+          "mean": 0.3457931250000002,
+          "std": 0.5328612308955382
+        },
+        "pickups": {
+          "mean": 5.46875,
+          "std": 2.399645969981822
+        },
+        "preference_accuracy": {
+          "mean": 0.4849046588609213,
+          "std": 0.03246712180155071
+        },
+        "pre_switch_accuracy": {
+          "mean": 0.46026211675048606,
+          "std": 0.05287685656255145
+        },
+        "post_switch_accuracy": {
+          "mean": 0.5985314129321285,
+          "std": 0.10832241165890584
+        },
+        "post_pickups": {
+          "mean": 1.6354166666666667,
+          "std": 1.0123210147011448
+        },
+        "post_sampling_rate": {
+          "mean": 0.3802083333333333,
+          "std": 0.17693008074440655
+        },
+        "collisions": {
+          "mean": 2.875,
+          "std": 1.3363410087498875
+        },
+        "coverage": {
+          "mean": 22.09375,
+          "std": 7.142602069478368
+        }
+      },
+      "sensor_noise": {
+        "reward": {
+          "mean": 0.46641625000000014,
+          "std": 0.5226567117777956
+        },
+        "pickups": {
+          "mean": 6.578125,
+          "std": 2.6627066136577398
+        },
+        "preference_accuracy": {
+          "mean": 0.47810181490601106,
+          "std": 0.01691833009635691
+        },
+        "pre_switch_accuracy": {
+          "mean": 0.4835553897510274,
+          "std": 0.0543792789998373
+        },
+        "post_switch_accuracy": {
+          "mean": 0.49230431453792106,
+          "std": 0.07293335538523305
+        },
+        "post_pickups": {
+          "mean": 2.640625,
+          "std": 1.4419654374903257
+        },
+        "post_sampling_rate": {
+          "mean": 0.6510416666666666,
+          "std": 0.24150048165353394
+        },
+        "collisions": {
+          "mean": 4.8125,
+          "std": 1.1522311915366639
+        },
+        "coverage": {
+          "mean": 29.427083333333332,
+          "std": 8.85431066059383
+        }
+      },
+      "deprivation": {
+        "reward": {
+          "mean": 0.16381358333333337,
+          "std": 0.7898212137760202
+        },
+        "pickups": {
+          "mean": 5.348958333333333,
+          "std": 2.4750491016453706
+        },
+        "preference_accuracy": {
+          "mean": 0.4448472993128842,
+          "std": 0.051380913542007356
+        },
+        "pre_switch_accuracy": {
+          "mean": 0.4448472993128842,
+          "std": 0.051380913542007356
+        },
+        "post_switch_accuracy": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "post_pickups": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "post_sampling_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "collisions": {
+          "mean": 2.2239583333333335,
+          "std": 0.37874289505620506
+        },
+        "coverage": {
+          "mean": 23.744791666666668,
+          "std": 8.153858339214155
+        }
+      }
+    },
+    "recurrent_valence": {
+      "full_observable": {
+        "reward": {
+          "mean": 0.23165747916666676,
+          "std": 0.37087479302708226
+        },
+        "pickups": {
+          "mean": 4.942708333333333,
+          "std": 1.6438377933884543
+        },
+        "preference_accuracy": {
+          "mean": 0.4830991831303142,
+          "std": 0.033108979850774614
+        },
+        "pre_switch_accuracy": {
+          "mean": 0.4830991831303142,
+          "std": 0.033108979850774614
+        },
+        "post_switch_accuracy": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "post_pickups": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "post_sampling_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "collisions": {
+          "mean": 4.625,
+          "std": 2.126646114875878
+        },
+        "coverage": {
+          "mean": 22.385416666666668,
+          "std": 4.2243853822347806
+        }
+      },
+      "partial_detour": {
+        "reward": {
+          "mean": 0.32822816666666677,
+          "std": 0.3811390166631104
+        },
+        "pickups": {
+          "mean": 3.9427083333333335,
+          "std": 1.2339024236025402
+        },
+        "preference_accuracy": {
+          "mean": 0.5066743094411078,
+          "std": 0.04217888730890843
+        },
+        "pre_switch_accuracy": {
+          "mean": 0.5066743094411078,
+          "std": 0.04217888730890843
+        },
+        "post_switch_accuracy": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "post_pickups": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "post_sampling_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "collisions": {
+          "mean": 1.4895833333333333,
+          "std": 0.7930703017212423
+        },
+        "coverage": {
+          "mean": 17.708333333333332,
+          "std": 5.02345302507537
+        }
+      },
+      "reward_reversal": {
+        "reward": {
+          "mean": 0.2972424166666668,
+          "std": 0.27418879656877704
+        },
+        "pickups": {
+          "mean": 4.140625,
+          "std": 1.6163129176977664
+        },
+        "preference_accuracy": {
+          "mean": 0.5008402976127507,
+          "std": 0.012782715407490255
+        },
+        "pre_switch_accuracy": {
+          "mean": 0.5048203115417639,
+          "std": 0.03359225277947809
+        },
+        "post_switch_accuracy": {
+          "mean": 0.4859290324807566,
+          "std": 0.0683822086878736
+        },
+        "post_pickups": {
+          "mean": 1.15625,
+          "std": 0.8239379211546624
+        },
+        "post_sampling_rate": {
+          "mean": 0.3020833333333333,
+          "std": 0.11853965288271918
+        },
+        "collisions": {
+          "mean": 1.65625,
+          "std": 0.8316062832955669
+        },
+        "coverage": {
+          "mean": 18.026041666666668,
+          "std": 5.516625755135309
+        }
+      },
+      "sensor_noise": {
+        "reward": {
+          "mean": 0.7553661666666667,
+          "std": 0.4422856115563263
+        },
+        "pickups": {
+          "mean": 5.557291666666667,
+          "std": 1.9096764514717028
+        },
+        "preference_accuracy": {
+          "mean": 0.5218226500710155,
+          "std": 0.003319036014889362
+        },
+        "pre_switch_accuracy": {
+          "mean": 0.49796873174155126,
+          "std": 0.01201485330974985
+        },
+        "post_switch_accuracy": {
+          "mean": 0.5782638414217361,
+          "std": 0.026514034917371233
+        },
+        "post_pickups": {
+          "mean": 1.8854166666666667,
+          "std": 0.9759755180359575
+        },
+        "post_sampling_rate": {
+          "mean": 0.5885416666666666,
+          "std": 0.12521682583511778
+        },
+        "collisions": {
+          "mean": 2.0833333333333335,
+          "std": 0.3702681788995046
+        },
+        "coverage": {
+          "mean": 24.770833333333332,
+          "std": 5.973320312485808
+        }
+      },
+      "deprivation": {
+        "reward": {
+          "mean": 0.3935435208333335,
+          "std": 0.4316128978966339
+        },
+        "pickups": {
+          "mean": 4.3125,
+          "std": 1.7356179855217757
+        },
+        "preference_accuracy": {
+          "mean": 0.5042530591596012,
+          "std": 0.04583293641993484
+        },
+        "pre_switch_accuracy": {
+          "mean": 0.5042530591596012,
+          "std": 0.04583293641993484
+        },
+        "post_switch_accuracy": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "post_pickups": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "post_sampling_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "collisions": {
+          "mean": 0.671875,
+          "std": 0.32199128158486945
+        },
+        "coverage": {
+          "mean": 18.479166666666668,
+          "std": 6.51566038825988
+        }
+      }
+    }
+  },
+  "recurrent_valence_ablations": {
+    "normal": {
+      "reward": 0.3194195000000001,
+      "pickups": 2.859375,
+      "preference_accuracy": 0.546448087431694,
+      "pre_switch_accuracy": 0.5584415584415584,
+      "post_switch_accuracy": 0.4827586206896552,
+      "post_pickups": 0.453125,
+      "post_sampling_rate": 0.203125,
+      "collisions": 0.40625,
+      "coverage": 13.03125
+    },
+    "hidden_reset": {
+      "reward": -0.2710185624999999,
+      "pickups": 0.734375,
+      "preference_accuracy": 0.5106382978723404,
+      "pre_switch_accuracy": 0.5111111111111111,
+      "post_switch_accuracy": 0.5,
+      "post_pickups": 0.03125,
+      "post_sampling_rate": 0.03125,
+      "collisions": 0.015625,
+      "coverage": 4.5
+    },
+    "valence_zero": {
+      "reward": 0.356261375,
+      "pickups": 3.03125,
+      "preference_accuracy": 0.5463917525773195,
+      "pre_switch_accuracy": 0.5584415584415584,
+      "post_switch_accuracy": 0.5,
+      "post_pickups": 0.625,
+      "post_sampling_rate": 0.15625,
+      "collisions": 0.5625,
+      "coverage": 13.046875
+    },
+    "valence_sign_flip": {
+      "reward": 0.5313673125000002,
+      "pickups": 2.765625,
+      "preference_accuracy": 0.5988700564971752,
+      "pre_switch_accuracy": 0.5933333333333334,
+      "post_switch_accuracy": 0.6296296296296297,
+      "post_pickups": 0.421875,
+      "post_sampling_rate": 0.1875,
+      "collisions": 0.515625,
+      "coverage": 12.734375
+    }
+  },
+  "training_curves": {
+    "feedforward": [
+      [
+        {
+          "update": 1,
+          "reward": 0.0,
+          "preference_accuracy": 0.0
+        },
+        {
+          "update": 21,
+          "reward": -0.026643570033567293,
+          "preference_accuracy": 0.442842970521542
+        },
+        {
+          "update": 41,
+          "reward": -0.062194901872426274,
+          "preference_accuracy": 0.49016666666666664
+        },
+        {
+          "update": 61,
+          "reward": -0.020124361533671618,
+          "preference_accuracy": 0.47906240981240983
+        },
+        {
+          "update": 81,
+          "reward": 0.08133907167240978,
+          "preference_accuracy": 0.48314772727272726
+        },
+        {
+          "update": 101,
+          "reward": 0.2385094866901636,
+          "preference_accuracy": 0.5163544372294372
+        },
+        {
+          "update": 121,
+          "reward": 0.11772845219355077,
+          "preference_accuracy": 0.48709000721500717
+        },
+        {
+          "update": 141,
+          "reward": 0.09162243377417326,
+          "preference_accuracy": 0.4878570526695527
+        },
+        {
+          "update": 161,
+          "reward": 0.2613471308723092,
+          "preference_accuracy": 0.5191717796092796
+        },
+        {
+          "update": 181,
+          "reward": 0.1883413314074278,
+          "preference_accuracy": 0.5241173687423688
+        },
+        {
+          "update": 201,
+          "reward": 0.10492135301232337,
+          "preference_accuracy": 0.49409613997113994
+        },
+        {
+          "update": 221,
+          "reward": 0.11530546505469828,
+          "preference_accuracy": 0.47658730158730156
+        },
+        {
+          "update": 241,
+          "reward": 0.0066265279427170755,
+          "preference_accuracy": 0.5058189657564658
+        },
+        {
+          "update": 261,
+          "reward": 0.1149961026199162,
+          "preference_accuracy": 0.5186359890109891
+        },
+        {
+          "update": 281,
+          "reward": 0.07514583891257644,
+          "preference_accuracy": 0.48879219391719386
+        },
+        {
+          "update": 301,
+          "reward": 0.21385859809815883,
+          "preference_accuracy": 0.5065565129315129
+        },
+        {
+          "update": 321,
+          "reward": 0.0597122485563159,
+          "preference_accuracy": 0.5107999986124986
+        },
+        {
+          "update": 341,
+          "reward": 0.10251855201087892,
+          "preference_accuracy": 0.508152195027195
+        },
+        {
+          "update": 361,
+          "reward": 0.19438237337395547,
+          "preference_accuracy": 0.5004147535471065
+        },
+        {
+          "update": 381,
+          "reward": 0.22080768993124367,
+          "preference_accuracy": 0.5166989015886074
+        },
+        {
+          "update": 401,
+          "reward": 0.2312408395111561,
+          "preference_accuracy": 0.53851820524247
+        },
+        {
+          "update": 420,
+          "reward": 0.14818001087754964,
+          "preference_accuracy": 0.4897302207596325
+        }
+      ],
+      [
+        {
+          "update": 1,
+          "reward": 0.0,
+          "preference_accuracy": 0.0
+        },
+        {
+          "update": 21,
+          "reward": -0.27952587290533953,
+          "preference_accuracy": 0.3887600494743352
+        },
+        {
+          "update": 41,
+          "reward": -0.169128497838974,
+          "preference_accuracy": 0.4518432539682539
+        },
+        {
+          "update": 61,
+          "reward": -0.10896467097103596,
+          "preference_accuracy": 0.4385
+        },
+        {
+          "update": 81,
+          "reward": -0.08399957634508609,
+          "preference_accuracy": 0.4282936507936508
+        },
+        {
+          "update": 101,
+          "reward": -0.10676979683339596,
+          "preference_accuracy": 0.4330456349206349
+        },
+        {
+          "update": 121,
+          "reward": -0.02425408523529768,
+          "preference_accuracy": 0.4432698412698413
+        },
+        {
+          "update": 141,
+          "reward": 0.061370587311685085,
+          "preference_accuracy": 0.49355844155844153
+        },
+        {
+          "update": 161,
+          "reward": -0.07664870537817478,
+          "preference_accuracy": 0.45178264790764794
+        },
+        {
+          "update": 181,
+          "reward": -0.04075618445873261,
+          "preference_accuracy": 0.4747575757575757
+        },
+        {
+          "update": 201,
+          "reward": -0.09520670518279076,
+          "preference_accuracy": 0.4827210012210012
+        },
+        {
+          "update": 221,
+          "reward": -0.11250353077426553,
+          "preference_accuracy": 0.4618301837051837
+        },
+        {
+          "update": 241,
+          "reward": -0.06775027385912835,
+          "preference_accuracy": 0.4666890331890332
+        },
+        {
+          "update": 261,
+          "reward": 0.06941330607980489,
+          "preference_accuracy": 0.5010295815295815
+        },
+        {
+          "update": 281,
+          "reward": 0.07590079087764025,
+          "preference_accuracy": 0.5141045066045067
+        },
+        {
+          "update": 301,
+          "reward": 0.19340367268770933,
+          "preference_accuracy": 0.5145477716727717
+        },
+        {
+          "update": 321,
+          "reward": 0.17779186446219683,
+          "preference_accuracy": 0.5107120102120102
+        },
+        {
+          "update": 341,
+          "reward": 0.18289326437748968,
+          "preference_accuracy": 0.5090420412920413
+        },
+        {
+          "update": 361,
+          "reward": 0.11124322998337448,
+          "preference_accuracy": 0.48129186785436784
+        },
+        {
+          "update": 381,
+          "reward": 0.02581772968173027,
+          "preference_accuracy": 0.47095714008214
+        },
+        {
+          "update": 401,
+          "reward": 0.18476746057160198,
+          "preference_accuracy": 0.5143653846153846
+        },
+        {
+          "update": 420,
+          "reward": 0.08352298820391298,
+          "preference_accuracy": 0.49468671606171605
+        }
+      ],
+      [
+        {
+          "update": 1,
+          "reward": 0.0,
+          "preference_accuracy": 0.0
+        },
+        {
+          "update": 21,
+          "reward": -0.21325247479336604,
+          "preference_accuracy": 0.433843537414966
+        },
+        {
+          "update": 41,
+          "reward": -0.14280461840331554,
+          "preference_accuracy": 0.45500213675213674
+        },
+        {
+          "update": 61,
+          "reward": -0.067986259162426,
+          "preference_accuracy": 0.4328255494505494
+        },
+        {
+          "update": 81,
+          "reward": -0.022684925347566606,
+          "preference_accuracy": 0.5093293650793651
+        },
+        {
+          "update": 101,
+          "reward": -0.05345642920583486,
+          "preference_accuracy": 0.5028511904761905
+        },
+        {
+          "update": 121,
+          "reward": -0.08363410398364067,
+          "preference_accuracy": 0.48602182539682537
+        },
+        {
+          "update": 141,
+          "reward": 0.021034255605190993,
+          "preference_accuracy": 0.49684511322011327
+        },
+        {
+          "update": 161,
+          "reward": 0.02081741167232394,
+          "preference_accuracy": 0.47756066156066157
+        },
+        {
+          "update": 181,
+          "reward": 0.012893003188073635,
+          "preference_accuracy": 0.47480663780663784
+        },
+        {
+          "update": 201,
+          "reward": 0.0824909783154726,
+          "preference_accuracy": 0.48063494838494836
+        },
+        {
+          "update": 221,
+          "reward": -0.01036713384091854,
+          "preference_accuracy": 0.48329978354978353
+        },
+        {
+          "update": 241,
+          "reward": 0.024045726768672466,
+          "preference_accuracy": 0.45975613275613275
+        },
+        {
+          "update": 261,
+          "reward": 0.04615761019289494,
+          "preference_accuracy": 0.49957800532800534
+        },
+        {
+          "update": 281,
+          "reward": -0.004645327962934971,
+          "preference_accuracy": 0.5097626956376956
+        },
+        {
+          "update": 301,
+          "reward": 0.05430313292890787,
+          "preference_accuracy": 0.49059604284604286
+        },
+        {
+          "update": 321,
+          "reward": 0.11571210781112314,
+          "preference_accuracy": 0.5094966283716285
+        },
+        {
+          "update": 341,
+          "reward": 0.1517741029523313,
+          "preference_accuracy": 0.5068839077589077
+        },
+        {
+          "update": 361,
+          "reward": 0.1795665146969259,
+          "preference_accuracy": 0.5036711691086692
+        },
+        {
+          "update": 381,
+          "reward": 0.11683580343611538,
+          "preference_accuracy": 0.505353343551873
+        },
+        {
+          "update": 401,
+          "reward": 0.11527432291768491,
+          "preference_accuracy": 0.5060285433520727
+        },
+        {
+          "update": 420,
+          "reward": 0.166342042600736,
+          "preference_accuracy": 0.49137336274836274
+        }
+      ]
+    ],
+    "feedforward_valence": [
+      [
+        {
+          "update": 1,
+          "reward": 0.0,
+          "preference_accuracy": 0.0
+        },
+        {
+          "update": 21,
+          "reward": -0.01214571138843894,
+          "preference_accuracy": 0.4377883426097712
+        },
+        {
+          "update": 41,
+          "reward": -0.03549565963447094,
+          "preference_accuracy": 0.4878189033189034
+        },
+        {
+          "update": 61,
+          "reward": -0.059221942611038685,
+          "preference_accuracy": 0.45064880952380953
+        },
+        {
+          "update": 81,
+          "reward": 0.13023630920797585,
+          "preference_accuracy": 0.49118109668109666
+        },
+        {
+          "update": 101,
+          "reward": 0.04158839240670204,
+          "preference_accuracy": 0.4762606421356422
+        },
+        {
+          "update": 121,
+          "reward": 0.03186475664377213,
+          "preference_accuracy": 0.4817561327561327
+        },
+        {
+          "update": 141,
+          "reward": 0.04933305259793997,
+          "preference_accuracy": 0.4764771894771895
+        },
+        {
+          "update": 161,
+          "reward": 0.03298411298543215,
+          "preference_accuracy": 0.5076836219336219
+        },
+        {
+          "update": 181,
+          "reward": 0.09343611041083932,
+          "preference_accuracy": 0.49415602453102453
+        },
+        {
+          "update": 201,
+          "reward": 0.16863878523930909,
+          "preference_accuracy": 0.5080124042624042
+        },
+        {
+          "update": 221,
+          "reward": 0.14032698452472686,
+          "preference_accuracy": 0.5109546980796981
+        },
+        {
+          "update": 241,
+          "reward": 0.059862931184470655,
+          "preference_accuracy": 0.5043481518481517
+        },
+        {
+          "update": 261,
+          "reward": 0.09997775892727077,
+          "preference_accuracy": 0.4927835289710289
+        },
+        {
+          "update": 281,
+          "reward": 0.25125729872845115,
+          "preference_accuracy": 0.5213112512487512
+        },
+        {
+          "update": 301,
+          "reward": 0.25425568599253895,
+          "preference_accuracy": 0.5164351481851481
+        },
+        {
+          "update": 321,
+          "reward": 0.35807211814448237,
+          "preference_accuracy": 0.5319266011766012
+        },
+        {
+          "update": 341,
+          "reward": 0.19815118025057019,
+          "preference_accuracy": 0.5175919913419914
+        },
+        {
+          "update": 361,
+          "reward": 0.1783463770058006,
+          "preference_accuracy": 0.5056900256606138
+        },
+        {
+          "update": 381,
+          "reward": 0.20603386114351452,
+          "preference_accuracy": 0.5094554963010846
+        },
+        {
+          "update": 401,
+          "reward": 0.18061710307374595,
+          "preference_accuracy": 0.4885654831279831
+        },
+        {
+          "update": 420,
+          "reward": 0.10755490781739355,
+          "preference_accuracy": 0.48608807858807856
+        }
+      ],
+      [
+        {
+          "update": 1,
+          "reward": 0.0,
+          "preference_accuracy": 0.0
+        },
+        {
+          "update": 21,
+          "reward": -0.2284458190202713,
+          "preference_accuracy": 0.4035374149659864
+        },
+        {
+          "update": 41,
+          "reward": -0.10125441188924014,
+          "preference_accuracy": 0.47010714285714283
+        },
+        {
+          "update": 61,
+          "reward": -0.06262953291647136,
+          "preference_accuracy": 0.49069246031746033
+        },
+        {
+          "update": 81,
+          "reward": -0.11846815451979636,
+          "preference_accuracy": 0.4450230463980464
+        },
+        {
+          "update": 101,
+          "reward": -0.13118044170551002,
+          "preference_accuracy": 0.44426384726384727
+        },
+        {
+          "update": 121,
+          "reward": -0.06221446478739381,
+          "preference_accuracy": 0.4709583333333333
+        },
+        {
+          "update": 141,
+          "reward": -0.08674814647063613,
+          "preference_accuracy": 0.45400523088023087
+        },
+        {
+          "update": 161,
+          "reward": 0.02425021506845951,
+          "preference_accuracy": 0.46650309412809404
+        },
+        {
+          "update": 181,
+          "reward": 0.11082379218190909,
+          "preference_accuracy": 0.4777036852036852
+        },
+        {
+          "update": 201,
+          "reward": 0.07201802381314337,
+          "preference_accuracy": 0.4920887307137307
+        },
+        {
+          "update": 221,
+          "reward": 0.010555984955281018,
+          "preference_accuracy": 0.4916072122322122
+        },
+        {
+          "update": 241,
+          "reward": 0.019956742785871028,
+          "preference_accuracy": 0.4944321789321789
+        },
+        {
+          "update": 261,
+          "reward": 0.2114630025625229,
+          "preference_accuracy": 0.5240921717171717
+        },
+        {
+          "update": 281,
+          "reward": 0.1879789626225829,
+          "preference_accuracy": 0.5250699855699855
+        },
+        {
+          "update": 301,
+          "reward": 0.10266550011001527,
+          "preference_accuracy": 0.4872166305916305
+        },
+        {
+          "update": 321,
+          "reward": 0.1631054552644491,
+          "preference_accuracy": 0.49590208402708397
+        },
+        {
+          "update": 341,
+          "reward": 0.09915854616090655,
+          "preference_accuracy": 0.4719985014985015
+        },
+        {
+          "update": 361,
+          "reward": 0.18102833978831767,
+          "preference_accuracy": 0.5132421814296815
+        },
+        {
+          "update": 381,
+          "reward": 0.31174031738191843,
+          "preference_accuracy": 0.5194578962703963
+        },
+        {
+          "update": 401,
+          "reward": 0.21031718195416033,
+          "preference_accuracy": 0.5075718170718171
+        },
+        {
+          "update": 420,
+          "reward": 0.22438751455396413,
+          "preference_accuracy": 0.47288487288854936
+        }
+      ],
+      [
+        {
+          "update": 1,
+          "reward": 0.0,
+          "preference_accuracy": 0.0
+        },
+        {
+          "update": 21,
+          "reward": -0.20233433384980473,
+          "preference_accuracy": 0.4296371882086168
+        },
+        {
+          "update": 41,
+          "reward": -0.20604367054998873,
+          "preference_accuracy": 0.4361210317460318
+        },
+        {
+          "update": 61,
+          "reward": -0.1993773140385747,
+          "preference_accuracy": 0.40612698412698406
+        },
+        {
+          "update": 81,
+          "reward": -0.054681345075368884,
+          "preference_accuracy": 0.4450496031746032
+        },
+        {
+          "update": 101,
+          "reward": 0.001966433636844158,
+          "preference_accuracy": 0.49701388888888887
+        },
+        {
+          "update": 121,
+          "reward": 0.03189227424561977,
+          "preference_accuracy": 0.49855555555555553
+        },
+        {
+          "update": 141,
+          "reward": 0.05459557576104999,
+          "preference_accuracy": 0.5060649350649351
+        },
+        {
+          "update": 161,
+          "reward": 0.027381872609257698,
+          "preference_accuracy": 0.4970340909090909
+        },
+        {
+          "update": 181,
+          "reward": 0.009779546782374382,
+          "preference_accuracy": 0.47205239368474666
+        },
+        {
+          "update": 201,
+          "reward": 0.00851914394646883,
+          "preference_accuracy": 0.49953717279452575
+        },
+        {
+          "update": 221,
+          "reward": -0.016845971718430518,
+          "preference_accuracy": 0.4931509462759462
+        },
+        {
+          "update": 241,
+          "reward": 0.03352186858654022,
+          "preference_accuracy": 0.5099478854478855
+        },
+        {
+          "update": 261,
+          "reward": 0.06661959256976843,
+          "preference_accuracy": 0.5099115606615606
+        },
+        {
+          "update": 281,
+          "reward": 0.1504442922025919,
+          "preference_accuracy": 0.48925888000887996
+        },
+        {
+          "update": 301,
+          "reward": 0.06216894887387753,
+          "preference_accuracy": 0.49510969585969583
+        },
+        {
+          "update": 321,
+          "reward": 0.25154136564582585,
+          "preference_accuracy": 0.5379693639693639
+        },
+        {
+          "update": 341,
+          "reward": 0.20841268753632902,
+          "preference_accuracy": 0.5045175241425242
+        },
+        {
+          "update": 361,
+          "reward": 0.08904586476739496,
+          "preference_accuracy": 0.48183870745267804
+        },
+        {
+          "update": 381,
+          "reward": -0.009020168469287455,
+          "preference_accuracy": 0.48686735935632997
+        },
+        {
+          "update": 401,
+          "reward": 0.018362650647759438,
+          "preference_accuracy": 0.478884312582842
+        },
+        {
+          "update": 420,
+          "reward": 0.14789054594933987,
+          "preference_accuracy": 0.5005152555777556
+        }
+      ]
+    ],
+    "recurrent": [
+      [
+        {
+          "update": 1,
+          "reward": 0.0,
+          "preference_accuracy": 0.0
+        },
+        {
+          "update": 21,
+          "reward": -0.10220771559647152,
+          "preference_accuracy": 0.4671588332302618
+        },
+        {
+          "update": 41,
+          "reward": -0.051214654967188834,
+          "preference_accuracy": 0.4945349927849928
+        },
+        {
+          "update": 61,
+          "reward": -0.0530633607506752,
+          "preference_accuracy": 0.44416558441558435
+        },
+        {
+          "update": 81,
+          "reward": -0.044541327990591524,
+          "preference_accuracy": 0.4734574314574314
+        },
+        {
+          "update": 101,
+          "reward": 0.003337019211612642,
+          "preference_accuracy": 0.47520256132756133
+        },
+        {
+          "update": 121,
+          "reward": -0.07894729949533939,
+          "preference_accuracy": 0.48328588078588086
+        },
+        {
+          "update": 141,
+          "reward": 0.04196219825185835,
+          "preference_accuracy": 0.500452380952381
+        },
+        {
+          "update": 161,
+          "reward": -0.007923383340239525,
+          "preference_accuracy": 0.4660010822510822
+        },
+        {
+          "update": 181,
+          "reward": 0.031112780310213566,
+          "preference_accuracy": 0.47990782828282824
+        },
+        {
+          "update": 201,
+          "reward": 0.0396463343128562,
+          "preference_accuracy": 0.4854794372294372
+        },
+        {
+          "update": 221,
+          "reward": 0.058731106780469416,
+          "preference_accuracy": 0.5008701298701298
+        },
+        {
+          "update": 241,
+          "reward": 0.1797494631819427,
+          "preference_accuracy": 0.5150178571428572
+        },
+        {
+          "update": 261,
+          "reward": 0.20521902177482843,
+          "preference_accuracy": 0.5185597041847042
+        },
+        {
+          "update": 281,
+          "reward": 0.21745265115052462,
+          "preference_accuracy": 0.5165892995892996
+        },
+        {
+          "update": 301,
+          "reward": -0.03344239030964673,
+          "preference_accuracy": 0.4975009018759019
+        },
+        {
+          "update": 321,
+          "reward": 0.11521249882876873,
+          "preference_accuracy": 0.48879120879120874
+        },
+        {
+          "update": 341,
+          "reward": 0.08296797469258309,
+          "preference_accuracy": 0.4804344128094128
+        },
+        {
+          "update": 361,
+          "reward": 0.1162899612262845,
+          "preference_accuracy": 0.49582804695304694
+        },
+        {
+          "update": 381,
+          "reward": 0.08209472667425871,
+          "preference_accuracy": 0.5035981795981797
+        },
+        {
+          "update": 401,
+          "reward": 0.04150475159287453,
+          "preference_accuracy": 0.4780930735930736
+        },
+        {
+          "update": 420,
+          "reward": 0.10495610479265452,
+          "preference_accuracy": 0.4816745892995893
+        }
+      ],
+      [
+        {
+          "update": 1,
+          "reward": 0.0,
+          "preference_accuracy": 0.0
+        },
+        {
+          "update": 21,
+          "reward": -0.1227615049374955,
+          "preference_accuracy": 0.4353231292517007
+        },
+        {
+          "update": 41,
+          "reward": -0.0669937134720385,
+          "preference_accuracy": 0.444984126984127
+        },
+        {
+          "update": 61,
+          "reward": -0.07162035631015896,
+          "preference_accuracy": 0.4808174603174603
+        },
+        {
+          "update": 81,
+          "reward": -0.11161483481526374,
+          "preference_accuracy": 0.4578630952380952
+        },
+        {
+          "update": 101,
+          "reward": -0.06467084053903818,
+          "preference_accuracy": 0.4620932539682539
+        },
+        {
+          "update": 121,
+          "reward": -0.10308923840522766,
+          "preference_accuracy": 0.458213924963925
+        },
+        {
+          "update": 141,
+          "reward": -0.08451038267463445,
+          "preference_accuracy": 0.4565595238095238
+        },
+        {
+          "update": 161,
+          "reward": -0.0697503968887031,
+          "preference_accuracy": 0.43896230158730165
+        },
+        {
+          "update": 181,
+          "reward": -0.09894746134057641,
+          "preference_accuracy": 0.4679210927960928
+        },
+        {
+          "update": 201,
+          "reward": -0.02746090172789991,
+          "preference_accuracy": 0.47326218226218225
+        },
+        {
+          "update": 221,
+          "reward": -0.006677821548655629,
+          "preference_accuracy": 0.47354960317460315
+        },
+        {
+          "update": 241,
+          "reward": -0.035437364764511585,
+          "preference_accuracy": 0.46187211399711403
+        },
+        {
+          "update": 261,
+          "reward": -0.033660805076360704,
+          "preference_accuracy": 0.49589448051948054
+        },
+        {
+          "update": 281,
+          "reward": -0.09458420611917973,
+          "preference_accuracy": 0.4803252858252858
+        },
+        {
+          "update": 301,
+          "reward": 0.029663590686395763,
+          "preference_accuracy": 0.47677417027417024
+        },
+        {
+          "update": 321,
+          "reward": 0.16017700593918563,
+          "preference_accuracy": 0.5159492313242313
+        },
+        {
+          "update": 341,
+          "reward": 0.1302661655191332,
+          "preference_accuracy": 0.4994664502164502
+        },
+        {
+          "update": 361,
+          "reward": 0.09975232598371804,
+          "preference_accuracy": 0.5012337662337663
+        },
+        {
+          "update": 381,
+          "reward": 0.07024937121197582,
+          "preference_accuracy": 0.49763061938061937
+        },
+        {
+          "update": 401,
+          "reward": 0.030063730105757712,
+          "preference_accuracy": 0.4669354256854257
+        },
+        {
+          "update": 420,
+          "reward": 0.12190363001078368,
+          "preference_accuracy": 0.461761544011544
+        }
+      ],
+      [
+        {
+          "update": 1,
+          "reward": 0.0,
+          "preference_accuracy": 0.0
+        },
+        {
+          "update": 21,
+          "reward": -0.05165393528129373,
+          "preference_accuracy": 0.4640901360544218
+        },
+        {
+          "update": 41,
+          "reward": -0.030756616666913032,
+          "preference_accuracy": 0.5079372294372294
+        },
+        {
+          "update": 61,
+          "reward": -0.16740603618323802,
+          "preference_accuracy": 0.4525753968253969
+        },
+        {
+          "update": 81,
+          "reward": -0.08664086375385523,
+          "preference_accuracy": 0.4440178571428571
+        },
+        {
+          "update": 101,
+          "reward": -0.14712235901504755,
+          "preference_accuracy": 0.42674693362193367
+        },
+        {
+          "update": 121,
+          "reward": -0.20202830053865908,
+          "preference_accuracy": 0.4450317460317461
+        },
+        {
+          "update": 141,
+          "reward": 0.026683778017759324,
+          "preference_accuracy": 0.5227770562770563
+        },
+        {
+          "update": 161,
+          "reward": -0.05871700663119554,
+          "preference_accuracy": 0.5024126984126984
+        },
+        {
+          "update": 181,
+          "reward": -0.015766450902447104,
+          "preference_accuracy": 0.4786179653679653
+        },
+        {
+          "update": 201,
+          "reward": 0.00013074991758912802,
+          "preference_accuracy": 0.45440367965367967
+        },
+        {
+          "update": 221,
+          "reward": -0.031003005863167347,
+          "preference_accuracy": 0.4584404761904761
+        },
+        {
+          "update": 241,
+          "reward": 0.013095812238752842,
+          "preference_accuracy": 0.49976028138528134
+        },
+        {
+          "update": 261,
+          "reward": 0.08539341378957033,
+          "preference_accuracy": 0.5052729076479077
+        },
+        {
+          "update": 281,
+          "reward": 0.08960855018347502,
+          "preference_accuracy": 0.5000327866577866
+        },
+        {
+          "update": 301,
+          "reward": 0.10079413510393351,
+          "preference_accuracy": 0.4907249278499279
+        },
+        {
+          "update": 321,
+          "reward": 0.11008375491946935,
+          "preference_accuracy": 0.48565817515817516
+        },
+        {
+          "update": 341,
+          "reward": 0.07911888989619911,
+          "preference_accuracy": 0.48347488622488627
+        },
+        {
+          "update": 361,
+          "reward": 0.06359464520588518,
+          "preference_accuracy": 0.5252068348318348
+        },
+        {
+          "update": 381,
+          "reward": 0.19161053432151676,
+          "preference_accuracy": 0.5179806427232898
+        },
+        {
+          "update": 401,
+          "reward": 0.18705470103770494,
+          "preference_accuracy": 0.5020478949155419
+        },
+        {
+          "update": 420,
+          "reward": 0.17334482166916132,
+          "preference_accuracy": 0.4982627858252857
+        }
+      ]
+    ],
+    "recurrent_valence": [
+      [
+        {
+          "update": 1,
+          "reward": 0.0,
+          "preference_accuracy": 0.0
+        },
+        {
+          "update": 21,
+          "reward": -0.1755283437137093,
+          "preference_accuracy": 0.48370645227788084
+        },
+        {
+          "update": 41,
+          "reward": -0.1080149355251342,
+          "preference_accuracy": 0.47568975468975466
+        },
+        {
+          "update": 61,
+          "reward": -0.05948666077107191,
+          "preference_accuracy": 0.4195663780663781
+        },
+        {
+          "update": 81,
+          "reward": -0.04038734383881092,
+          "preference_accuracy": 0.4423780663780664
+        },
+        {
+          "update": 101,
+          "reward": -0.02898170426953584,
+          "preference_accuracy": 0.45985335497835494
+        },
+        {
+          "update": 121,
+          "reward": -0.10230773642659187,
+          "preference_accuracy": 0.47668559218559214
+        },
+        {
+          "update": 141,
+          "reward": -0.03132998064160347,
+          "preference_accuracy": 0.4554231601731601
+        },
+        {
+          "update": 161,
+          "reward": -0.032063125893473626,
+          "preference_accuracy": 0.4648382034632034
+        },
+        {
+          "update": 181,
+          "reward": 0.027942934036254884,
+          "preference_accuracy": 0.4811935425685425
+        },
+        {
+          "update": 201,
+          "reward": 0.05475447313627228,
+          "preference_accuracy": 0.5021210317460317
+        },
+        {
+          "update": 221,
+          "reward": -0.07793394654989243,
+          "preference_accuracy": 0.4744960317460318
+        },
+        {
+          "update": 241,
+          "reward": -0.06606506805866957,
+          "preference_accuracy": 0.49885912698412693
+        },
+        {
+          "update": 261,
+          "reward": 0.021619306160137058,
+          "preference_accuracy": 0.4916921273171273
+        },
+        {
+          "update": 281,
+          "reward": 0.052631028965115546,
+          "preference_accuracy": 0.49226316738816733
+        },
+        {
+          "update": 301,
+          "reward": 0.07712797966785728,
+          "preference_accuracy": 0.5232494866244867
+        },
+        {
+          "update": 321,
+          "reward": 0.07754606202244758,
+          "preference_accuracy": 0.4930768537018537
+        },
+        {
+          "update": 341,
+          "reward": 0.14317596614360809,
+          "preference_accuracy": 0.4883115773115773
+        },
+        {
+          "update": 361,
+          "reward": 0.18185728170908988,
+          "preference_accuracy": 0.4955466755466756
+        },
+        {
+          "update": 381,
+          "reward": 0.21610966387204825,
+          "preference_accuracy": 0.5291382922632922
+        },
+        {
+          "update": 401,
+          "reward": 0.17944772947579624,
+          "preference_accuracy": 0.5427753496503496
+        },
+        {
+          "update": 420,
+          "reward": 0.21421592645347118,
+          "preference_accuracy": 0.4854416416916416
+        }
+      ],
+      [
+        {
+          "update": 1,
+          "reward": 0.0,
+          "preference_accuracy": 0.0
+        },
+        {
+          "update": 21,
+          "reward": -0.11224190885467189,
+          "preference_accuracy": 0.43830782312925165
+        },
+        {
+          "update": 41,
+          "reward": -0.1690850368142128,
+          "preference_accuracy": 0.4419742063492063
+        },
+        {
+          "update": 61,
+          "reward": -0.12327135852538049,
+          "preference_accuracy": 0.44389087301587293
+        },
+        {
+          "update": 81,
+          "reward": 0.04196792504750192,
+          "preference_accuracy": 0.48377380952380955
+        },
+        {
+          "update": 101,
+          "reward": -0.048623318374156954,
+          "preference_accuracy": 0.49452579365079363
+        },
+        {
+          "update": 121,
+          "reward": 0.02487552469596267,
+          "preference_accuracy": 0.4987242063492064
+        },
+        {
+          "update": 141,
+          "reward": -0.0895031375810504,
+          "preference_accuracy": 0.4455833333333334
+        },
+        {
+          "update": 161,
+          "reward": -0.0712852055951953,
+          "preference_accuracy": 0.44828968253968254
+        },
+        {
+          "update": 181,
+          "reward": -0.10577143280766904,
+          "preference_accuracy": 0.47034632034632035
+        },
+        {
+          "update": 201,
+          "reward": -0.03723299100995064,
+          "preference_accuracy": 0.491374555999556
+        },
+        {
+          "update": 221,
+          "reward": 0.0023801102861762046,
+          "preference_accuracy": 0.48054671717171715
+        },
+        {
+          "update": 241,
+          "reward": -0.020054648965597152,
+          "preference_accuracy": 0.47736850649350643
+        },
+        {
+          "update": 261,
+          "reward": 0.05068873163312673,
+          "preference_accuracy": 0.47340053002553006
+        },
+        {
+          "update": 281,
+          "reward": 0.07543475057929755,
+          "preference_accuracy": 0.5020575396825396
+        },
+        {
+          "update": 301,
+          "reward": 0.06558745227754116,
+          "preference_accuracy": 0.4637205988455989
+        },
+        {
+          "update": 321,
+          "reward": -0.07162349969148636,
+          "preference_accuracy": 0.42902182539682543
+        },
+        {
+          "update": 341,
+          "reward": 0.0900737940147519,
+          "preference_accuracy": 0.5219642857142857
+        },
+        {
+          "update": 361,
+          "reward": 0.05001655839383602,
+          "preference_accuracy": 0.5023306693306694
+        },
+        {
+          "update": 381,
+          "reward": 0.004341176711022854,
+          "preference_accuracy": 0.4861484487734488
+        },
+        {
+          "update": 401,
+          "reward": 0.04053312808275223,
+          "preference_accuracy": 0.504412968975469
+        },
+        {
+          "update": 420,
+          "reward": 0.0678470812458545,
+          "preference_accuracy": 0.5026015859140859
+        }
+      ],
+      [
+        {
+          "update": 1,
+          "reward": 0.0,
+          "preference_accuracy": 0.0
+        },
+        {
+          "update": 21,
+          "reward": -0.1088070198893547,
+          "preference_accuracy": 0.4523639455782313
+        },
+        {
+          "update": 41,
+          "reward": -0.08701083410531282,
+          "preference_accuracy": 0.48819318181818183
+        },
+        {
+          "update": 61,
+          "reward": -0.1384425797313452,
+          "preference_accuracy": 0.4568616522366522
+        },
+        {
+          "update": 81,
+          "reward": -0.09268397983163595,
+          "preference_accuracy": 0.45019895382395375
+        },
+        {
+          "update": 101,
+          "reward": -0.15414373628795147,
+          "preference_accuracy": 0.438242784992785
+        },
+        {
+          "update": 121,
+          "reward": -0.19255931507796048,
+          "preference_accuracy": 0.4407837301587301
+        },
+        {
+          "update": 141,
+          "reward": -0.01263513945043087,
+          "preference_accuracy": 0.48000793650793655
+        },
+        {
+          "update": 161,
+          "reward": 0.024103673473000527,
+          "preference_accuracy": 0.48116865079365084
+        },
+        {
+          "update": 181,
+          "reward": -0.009785810373723508,
+          "preference_accuracy": 0.48131349206349205
+        },
+        {
+          "update": 201,
+          "reward": -0.007790110856294632,
+          "preference_accuracy": 0.4669745670995671
+        },
+        {
+          "update": 221,
+          "reward": 0.029353218609467147,
+          "preference_accuracy": 0.463634657009657
+        },
+        {
+          "update": 241,
+          "reward": 0.07655941471457481,
+          "preference_accuracy": 0.4984806166056166
+        },
+        {
+          "update": 261,
+          "reward": 0.17242150694131853,
+          "preference_accuracy": 0.49734654234654235
+        },
+        {
+          "update": 281,
+          "reward": 0.000885187080129981,
+          "preference_accuracy": 0.48932084582084584
+        },
+        {
+          "update": 301,
+          "reward": 0.005164390280842781,
+          "preference_accuracy": 0.5043361222111222
+        },
+        {
+          "update": 321,
+          "reward": 0.14216140702366828,
+          "preference_accuracy": 0.5173518703518704
+        },
+        {
+          "update": 341,
+          "reward": 0.15539692817255854,
+          "preference_accuracy": 0.5051700521700522
+        },
+        {
+          "update": 361,
+          "reward": 0.09128393532708287,
+          "preference_accuracy": 0.5042272172272172
+        },
+        {
+          "update": 381,
+          "reward": 0.24716467659920455,
+          "preference_accuracy": 0.49174818237318235
+        },
+        {
+          "update": 401,
+          "reward": 0.31855760868638755,
+          "preference_accuracy": 0.536074155011655
+        },
+        {
+          "update": 420,
+          "reward": 0.3008755265176296,
+          "preference_accuracy": 0.519000666000666
+        }
+      ]
+    ]
+  }
+}

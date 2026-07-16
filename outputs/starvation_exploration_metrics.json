@@ -1,0 +1,71 @@
+{
+  "protocol": {
+    "checkpoint": "checkpoints/unity_mpc/best.pt",
+    "episodes": 8,
+    "world_size": 64.0,
+    "normal_sight": 7.0,
+    "extended_sight": 13.0,
+    "hunger_rise_per_episode": 1.2,
+    "food_coordinates_hidden_from_exploration": true,
+    "checkpoint_frozen": true,
+    "selected_candidate": "hunger_weighted_local_novelty"
+  },
+  "conditions": {
+    "current": {
+      "episodes": 8,
+      "first_pickup_success_rate": 1.0,
+      "mean_first_pickup_steps_on_success": 171.25,
+      "mean_pickups": 16.5,
+      "mean_collisions": 0.0,
+      "mean_unique_cells": 93.25,
+      "mean_revisit_ratio": 0.9482232093281511,
+      "mean_path_length": 792.0000000000323,
+      "mean_reversals": 34.5,
+      "mean_max_meal_gap_steps": 532.375
+    },
+    "radius_only": {
+      "episodes": 8,
+      "first_pickup_success_rate": 1.0,
+      "mean_first_pickup_steps_on_success": 142.625,
+      "mean_pickups": 26.125,
+      "mean_collisions": 0.0,
+      "mean_unique_cells": 83.625,
+      "mean_revisit_ratio": 0.9535674625208218,
+      "mean_path_length": 792.0000000000323,
+      "mean_reversals": 88.25,
+      "mean_max_meal_gap_steps": 680.625
+    },
+    "novelty": {
+      "episodes": 8,
+      "first_pickup_success_rate": 1.0,
+      "mean_first_pickup_steps_on_success": 154.875,
+      "mean_pickups": 17.625,
+      "mean_collisions": 0.0,
+      "mean_unique_cells": 91.25,
+      "mean_revisit_ratio": 0.9493337034980567,
+      "mean_path_length": 792.0000000000323,
+      "mean_reversals": 47.25,
+      "mean_max_meal_gap_steps": 484.5
+    },
+    "regional_novelty": {
+      "episodes": 8,
+      "first_pickup_success_rate": 1.0,
+      "mean_first_pickup_steps_on_success": 68.5,
+      "mean_pickups": 14.875,
+      "mean_collisions": 0.0,
+      "mean_unique_cells": 78.875,
+      "mean_revisit_ratio": 0.9562048861743476,
+      "mean_path_length": 792.0000000000323,
+      "mean_reversals": 45.875,
+      "mean_max_meal_gap_steps": 800.125
+    }
+  },
+  "criteria": {
+    "radius_alone_does_not_solve_coverage": true,
+    "local_novelty_preserves_pickups": true,
+    "local_novelty_reduces_longest_gap_10pct": false,
+    "local_novelty_preserves_collision_safety": true,
+    "local_novelty_avoids_excess_reversals": false,
+    "all_passed": false
+  }
+}

@@ -47,6 +47,74 @@ def set_repeat_table_header(row):
     tr_pr.append(tbl_header)
 
 
+def create_list_numbering(doc, kind):
+    """Create a fresh, properly spaced single-level list definition."""
+    numbering = doc.part.numbering_part.element
+    abstract_ids = [
+        int(node.get(qn("w:abstractNumId")))
+        for node in numbering.findall(qn("w:abstractNum"))
+    ]
+    num_ids = [int(node.get(qn("w:numId"))) for node in numbering.findall(qn("w:num"))]
+    abstract_id = max(abstract_ids, default=-1) + 1
+    num_id = max(num_ids, default=0) + 1
+
+    abstract = OxmlElement("w:abstractNum")
+    abstract.set(qn("w:abstractNumId"), str(abstract_id))
+    multi = OxmlElement("w:multiLevelType")
+    multi.set(qn("w:val"), "singleLevel")
+    abstract.append(multi)
+    level = OxmlElement("w:lvl")
+    level.set(qn("w:ilvl"), "0")
+    start = OxmlElement("w:start")
+    start.set(qn("w:val"), "1")
+    level.append(start)
+    num_fmt = OxmlElement("w:numFmt")
+    num_fmt.set(qn("w:val"), "decimal" if kind == "number" else "bullet")
+    level.append(num_fmt)
+    level_text = OxmlElement("w:lvlText")
+    level_text.set(qn("w:val"), "%1." if kind == "number" else "•")
+    level.append(level_text)
+    suffix = OxmlElement("w:suff")
+    suffix.set(qn("w:val"), "tab")
+    level.append(suffix)
+    p_pr = OxmlElement("w:pPr")
+    tabs = OxmlElement("w:tabs")
+    tab = OxmlElement("w:tab")
+    tab.set(qn("w:val"), "num")
+    tab.set(qn("w:pos"), "540")
+    tabs.append(tab)
+    p_pr.append(tabs)
+    indent = OxmlElement("w:ind")
+    indent.set(qn("w:left"), "540")
+    indent.set(qn("w:hanging"), "300")
+    p_pr.append(indent)
+    level.append(p_pr)
+    abstract.append(level)
+    numbering.append(abstract)
+
+    num = OxmlElement("w:num")
+    num.set(qn("w:numId"), str(num_id))
+    abstract_ref = OxmlElement("w:abstractNumId")
+    abstract_ref.set(qn("w:val"), str(abstract_id))
+    num.append(abstract_ref)
+    numbering.append(num)
+    return num_id
+
+
+def apply_list_numbering(paragraph, num_id):
+    p_pr = paragraph._p.get_or_add_pPr()
+    num_pr = p_pr.find(qn("w:numPr"))
+    if num_pr is None:
+        num_pr = OxmlElement("w:numPr")
+        p_pr.append(num_pr)
+    ilvl = OxmlElement("w:ilvl")
+    ilvl.set(qn("w:val"), "0")
+    num_ref = OxmlElement("w:numId")
+    num_ref.set(qn("w:val"), str(num_id))
+    num_pr.append(ilvl)
+    num_pr.append(num_ref)
+
+
 def set_run(run, size=11, bold=None, italic=None, color=None, font=BODY_FONT):
     run.font.name = font
     run._element.get_or_add_rPr().rFonts.set(qn("w:ascii"), font)
@@ -206,8 +274,8 @@ def add_cover(doc):
     subtitle.paragraph_format.space_after = Pt(22)
     set_run(
         subtitle.add_run(
-            "Memory, workspace routing, zero-shot detours, Python-to-Unity deployment, "
-            "stochastic model-predictive control, and robustness"
+            "A thesis-driven synthesis of recurrence, grounded valence, attention, world models, "
+            "hierarchical access, maintenance, and embodied predictive control"
         ),
         size=13,
         color=BLUE,
@@ -232,8 +300,9 @@ def add_cover(doc):
     note.alignment = WD_ALIGN_PARAGRAPH.CENTER
     set_run(
         note.add_run(
-            "Scope statement: This paper evaluates functional control mechanisms in toy systems. "
-            "It does not claim phenomenal consciousness, sentience, AGI, or biological equivalence."
+            "Scope statement: This paper evaluates an engineered operational access-consciousness "
+            "architecture in toy systems. It does not claim phenomenal consciousness, sentience, "
+            "AGI, or biological equivalence."
         ),
         size=10.5,
         italic=True,
@@ -291,6 +360,8 @@ def add_body_from_markdown(doc):
     index = next(i for i, line in enumerate(lines) if line.strip() == "### Abstract")
     in_abstract = False
     buffer = []
+    active_list_kind = None
+    active_list_id = None
 
     def flush():
         nonlocal buffer
@@ -308,13 +379,17 @@ def add_body_from_markdown(doc):
         line = raw.strip()
         if not line:
             flush()
+            active_list_kind = None
+            active_list_id = None
             index += 1
             continue
         if line.startswith("!["):
             flush()
+            active_list_kind = None
             add_figure(doc, line)
         elif line.startswith("### "):
             flush()
+            active_list_kind = None
             text = line[4:]
             if text == "Abstract":
                 in_abstract = True
@@ -327,18 +402,28 @@ def add_body_from_markdown(doc):
                 doc.add_paragraph(text, style="Heading 2")
         elif line.startswith("## "):
             flush()
+            active_list_kind = None
             in_abstract = False
             doc.add_paragraph(line[3:], style="Heading 1")
         elif re.match(r"^\d+\. ", line):
             flush()
+            if active_list_kind != "number":
+                active_list_kind = "number"
+                active_list_id = create_list_numbering(doc, "number")
             p = doc.add_paragraph(style="List Number")
+            apply_list_numbering(p, active_list_id)
             add_inline_markdown(p, re.sub(r"^\d+\. ", "", line))
         elif line.startswith("- "):
             flush()
+            if active_list_kind != "bullet":
+                active_list_kind = "bullet"
+                active_list_id = create_list_numbering(doc, "bullet")
             p = doc.add_paragraph(style="List Bullet")
+            apply_list_numbering(p, active_list_id)
             add_inline_markdown(p, line[2:])
         elif line.startswith("> "):
             flush()
+            active_list_kind = None
             p = doc.add_paragraph()
             p.paragraph_format.left_indent = Inches(0.35)
             p.paragraph_format.right_indent = Inches(0.25)
@@ -349,12 +434,14 @@ def add_body_from_markdown(doc):
             add_inline_markdown(p, line[2:], size=10.5, color=INK)
         elif line.startswith("**Keywords:**"):
             flush()
+            active_list_kind = None
             p = doc.add_paragraph()
             p.paragraph_format.space_before = Pt(2)
             p.paragraph_format.space_after = Pt(14)
             add_inline_markdown(p, line, size=10)
             in_abstract = False
         else:
+            active_list_kind = None
             buffer.append(line)
         index += 1
     flush()
@@ -369,9 +456,9 @@ def build():
     add_body_from_markdown(doc)
     props = doc.core_properties
     props.title = "Grounded Recurrent Control in Toy Partially Observable Worlds"
-    props.subject = "Audit-first research paper draft"
+    props.subject = "Thesis-driven audit of a regulated Functional Ego architecture"
     props.author = "Tiny Consciousness Lab"
-    props.keywords = "recurrent control, POMDP, Unity, MPC, workspace routing, robustness"
+    props.keywords = "functional ego, access consciousness, recurrent control, grounded valence, hierarchical workspace, Unity, MPC"
     doc.save(OUTPUT)
     print(OUTPUT)
 

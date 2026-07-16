@@ -1,32 +1,34 @@
 # Grounded Recurrent Control in Toy Partially Observable Worlds
 
-## An audit-first study of memory, workspace routing, zero-shot detours, Python-to-Unity deployment, stochastic model-predictive control, and robustness
+## A thesis-driven synthesis of recurrence, grounded valence, attention, world models, hierarchical access, maintenance, and embodied predictive control
 
 **Tiny Consciousness Lab**  
 Research paper draft · 16 July 2026
 
 ### Abstract
 
-This paper audits and synthesizes a local repository of small control experiments that combine recurrent policies, signed outcome feedback, workspace-like routing, learned forward models, and model-predictive control (MPC). The contribution is empirical and methodological rather than a claim about consciousness. We distinguish demonstrations supported by code and stored outputs from hypotheses and planned work. In a five-seed delayed-preference POMDP, a recurrent policy receiving a grounded signed outcome pulse retained preferred-action accuracy across delays up to 28 steps (0.820 ± 0.158 across seeds at delay 28), whereas an outcome-enabled feedforward policy with an eight-frame context fell to chance (0.499 ± 0.006). Resetting recurrent state, zeroing or shuffling the outcome pulse, or reversing its sign reduced accuracy to 0.500, 0.500, 0.500, and 0.180, respectively. In navigation, recurrent reward-trained policies reached a withheld rotated U-detour on 67.5% of trials; per-step hidden-state reset reduced their success to 0%. A larger five-seed continuous-ray pipeline achieved 98.25% mean success across strictly withheld C-shape and zigzag families, with a family-specific memory-reset drop from 98.0% to 23.5% on zigzag gates. A Python policy and calibrated predictive controller were then deployed into a Unity body through a UDP bridge. A recorded visibility-gated controller succeeded in all 12 completed course episodes, while offline calibration reduced held-out transition MAE by 41.7%. In a separate 36-episode Python benchmark, uncertainty-bounded adaptive stochastic MPC matched fixed MPC at 35/36 successes while reducing mean steps from 88.1 to 82.4. Engineered workspace and robustness assays show useful routing and recovery effects, but remain synthetic and largely hand-designed. Collectively, the results support a narrow thesis: temporal state, externally grounded outcome signals, selective information routing, and uncertainty-aware receding-horizon control can be composed into compact partially observable agents. They do not demonstrate phenomenal consciousness, sentience, AGI, or biological equivalence.
+This paper audits and synthesizes a local repository of small control experiments into a broader Functional Ego thesis. The thesis is that useful access-like control does not arise from recurrence, integration, reward, imagination, or broadcasting alone; it arises from regulated routing among recurrent memory, externally grounded valence, attention, predictive world models, hierarchical workspaces, causal credit assignment, and maintenance. We distinguish demonstrations supported by code and stored outputs from architectural interpretations and planned work. The evidence spans exact tiny integration proxies, wireheading and valence shaping, imagination and attention assays, social and hierarchical workspaces, fatigue and repair cycles, delayed-preference learning, zero-shot detour foraging, Python-to-Unity deployment, and uncertainty-bounded model-predictive control (MPC). The strongest repeated-seed results show long-delay use of signed outcome feedback, 98.25% mean success on withheld navigation families, family-specific causal dependence on recurrent memory, and a 41.7% reduction in held-out Unity transition error after predictive calibration. Workspace interventions make the same compressed state available to report and action, including false broadcasts that steer behavior incorrectly. We therefore claim an engineered operational access-consciousness profile: selected internal content is reportable, shared across downstream functions, and causally active under intervention. We do not claim phenomenal consciousness, sentience, AGI, or biological equivalence.
 
-**Keywords:** recurrent control; partial observability; reward feedback; model-predictive control; global workspace; zero-shot navigation; uncertainty; robustness; Unity
+**Keywords:** functional ego; access consciousness; recurrent control; grounded valence; partial observability; model-predictive control; hierarchical workspace; zero-shot navigation; maintenance; Unity
 
 ## 1. Introduction
 
 Partially observable control requires an agent to act from incomplete local evidence. Three practical problems recur across domains: information relevant to the current decision may have arrived many steps earlier; learned predictions can become unreliable when rolled forward; and globally shared representations can improve coordination while also propagating error. The Tiny Consciousness Lab repository explores these problems through deliberately small tasks. Its vocabulary includes “valence,” “workspace,” “imagination,” and “functional ego.” In this paper, those terms are operationalized as control components rather than treated as evidence about subjective experience.
 
-The repository’s current working thesis is broad: recurrence supplies temporal coupling, grounded valence supplies functional orientation, workspace routing regulates which internal source controls action, and world models support detours that myopic progress signals cannot solve. The audit reported here narrows that thesis to claims the stored artifacts can support. It asks six questions:
+The repository’s working thesis is deliberately broad: recurrence supplies temporal coupling; grounded valence supplies functional orientation; attention regulates when heavier integration controls action; world models support detours that myopic progress signals cannot solve; hierarchical workspaces compress conflict; self-report matters when it changes control; and maintenance protects recurrent dynamics from saturation. This paper does not discard that thesis in favor of only the latest navigation results. It asks whether the full thesis can be defended as a sequence of bounded functional propositions, then uses the recent learned-policy and Unity experiments as its embodied capstone. It asks eight questions:
 
 1. Does recurrent state preserve a grounded outcome signal beyond a matched feedforward context window?
 2. Does reward-trained behavior transfer to withheld detour topologies, and is memory causally necessary?
 3. Do designed workspace representations route information in reportable, reusable, and causally active ways?
-4. What transfers from Python training and evaluation into the Unity runtime?
-5. Does uncertainty-bounded adaptive stochastic MPC improve the control trade-off over fixed MPC?
-6. Which robustness claims survive controlled perturbations, and where do the tested governors fail?
+4. Do recurrence, grounded valence, attention, world modeling, and maintenance play distinguishable functional roles?
+5. Does a hierarchy of local, master, and regional workspaces improve conflict arbitration without becoming bureaucratic?
+6. What transfers from Python training and evaluation into the Unity runtime?
+7. Does uncertainty-bounded adaptive stochastic MPC improve the control trade-off over fixed MPC?
+8. Which robustness claims survive controlled perturbations, and where do the tested governors fail?
 
 These questions connect to established work on recurrent policies for POMDPs, reward-channel integrity, global workspace architectures, and uncertainty-aware model-based reinforcement learning. Recurrent networks are a standard way to condition policy on observation history in partially observed environments [1]. Reward shaping can accelerate learning but can also change the optimized behavior unless carefully constrained [2], and reward-channel tampering creates a distinct alignment failure [3]. Global workspace theories emphasize selective amplification and broad access among specialized processors [4,5]; here, “workspace” refers only to an engineered information-routing pattern inspired by that functional description. Finally, probabilistic model ensembles and receding-horizon replanning are established tools for limiting compounding model error [6].
 
-The paper makes three contributions. First, it provides an evidence ledger that separates direct demonstrations from interpretation and planned work. Second, it organizes the strongest local experiments into a coherent control architecture without treating the repository name as a result. Third, it identifies provenance, statistical, and external-environment limitations that must be resolved before publication-quality claims are possible.
+The paper makes four contributions. First, it provides an evidence ledger that separates direct demonstrations from interpretation and planned work. Second, it defends the repository’s long-form thesis proposition by proposition, including failures that bound each claim. Third, it organizes the strongest experiments into a coherent Functional Ego architecture without treating the repository name as a result. Fourth, it identifies provenance, statistical, and external-environment limitations that must be resolved before publication-quality claims are possible.
 
 ## 2. Audit protocol and claim discipline
 
@@ -42,7 +44,7 @@ Each claim was assigned one of five labels: demonstrated; demonstrated with mate
 
 **Grounded valence** means a signed scalar derived from task outcome, such as food contact or correct/incorrect choice. It is not a measurement of felt affect. Because “valence” risks importing a phenomenal interpretation, we also use the more precise term *grounded outcome feedback*.
 
-**Workspace routing** means a shared, compressed representation or coupling pathway accessible to multiple downstream functions. It does not imply conscious access.
+**Workspace routing** means a shared, compressed representation or coupling pathway accessible to multiple downstream functions. When reportability, shared availability, and causal control are jointly demonstrated, we call the result *operational access consciousness*. This functional term does not imply phenomenal experience.
 
 **Zero-shot detour transfer** means evaluation on obstacle topology families withheld from policy training. It does not imply broad zero-shot reasoning.
 
@@ -58,19 +60,89 @@ The strongest supported architecture is a division of labor rather than a monoli
 
 The experiments form a staged ladder:
 
-1. a minimal delayed-outcome POMDP isolates temporal memory and feedback;
-2. grid and continuous-ray navigation test withheld topologies and hidden-state interventions;
-3. workspace tasks test selective coupling and packet intervention;
-4. predictive heads are calibrated on Unity telemetry;
-5. fixed and adaptive MPC are evaluated in Python continuous courses;
-6. a visibility-gated controller is deployed in Unity; and
-7. synthetic perturbation sweeps test failure and recovery modes.
+- a minimal delayed-outcome POMDP isolates temporal memory and feedback;
+- grid and continuous-ray navigation test withheld topologies and hidden-state interventions;
+- workspace tasks test selective coupling and packet intervention;
+- predictive heads are calibrated on Unity telemetry;
+- fixed and adaptive MPC are evaluated in Python continuous courses;
+- a visibility-gated controller is deployed in Unity; and
+- synthetic perturbation sweeps test failure and recovery modes.
 
 The stages are related by design, but they are not a single end-to-end preregistered experiment. Results should therefore be read as converging engineering evidence, not as one confirmatory test.
 
-## 4. Recurrent memory and grounded outcome feedback
+## 4. Thesis framework: the regulated Functional Ego
 
-### 4.1 Delayed hidden-preference assay
+The repository’s thesis is not that one metric or module constitutes a mind. It is a control claim about composition. A *Functional Ego* is defined here as a regulated routing layer that determines which internally available information becomes action-relevant, reportable, and persistent enough to shape later control. The experiments test pieces of that definition in deliberately small systems. No single assay implements the entire stack, so the thesis is defended by converging functional roles rather than by one headline score.
+
+### 4.1 Integration is structure, not a scoreboard
+
+The first proposition is that recurrence creates temporal integration but integration alone does not specify useful behavior. `exact_phi_lab.py` and `pyphi_comparison_lab.py` compare feedforward and recurrent tiny binary transition systems. In the PyPhi comparison, a recurrent ring reached a sampled mean of 0.367 and a recurrent system with valence feedback reached 0.390. The small difference is important: recurrence accounts for much of the measured structural integration, while valence feedback adds coupling without transforming the system into a categorically different object.
+
+These experiments use an exact tiny Phi proxy and small PyPhi cross-checks, not a validated consciousness meter. Their proper contribution is architectural. Cyclic transition paths bind past and present state in a way a purely feedforward chain does not. Yet random feedback, excessive cross-talk, and self-amplifying internal loops show that more recurrence can reduce grounding and separability. The supported thesis sentence is therefore: *a useful inner world must be integrated enough to preserve and simulate relevant state, but plastic and externally answerable enough to update when the world proves it wrong.*
+
+### 4.2 Grounded valence supplies orientation, while unbounded valence is exploitable
+
+Structural integration is behaviorally underdetermined. `wirehead_lab.py` and `valence_shaping_lab.py` test whether an outcome channel supplies functional direction and how that channel fails. When the agent can directly select a positive-valence button, it can replace world-directed behavior with reward-channel access. Even a low-value button can become an attractor when acting in the world carries risk. In contrast, small progress-grounded shaping can improve goal completion when it remains subordinate to the external task.
+
+This supports two linked propositions. First, *capacity without grounded valence is unstable*: a system can represent and integrate state without a criterion for progress, danger, or correction. Second, *valence without boundaries is exploitable*: if the controller can directly write the signal that defines success, it can optimize the register instead of the world. “Valence” in these experiments means signed task orientation, not felt pleasure or pain. The engineering implication is that the signal should be derived from externally checkable outcomes, bounded in magnitude, and protected from direct policy control.
+
+The delayed-preference experiment later gives this claim a cleaner learned-network test. Recurrence without signed outcome remains at chance, and signed outcome without enough temporal memory fails beyond the feedforward context window. The sign-reversal intervention drives performance below chance. This is stronger than showing that reward improves a score: it demonstrates that the policy uses both the temporal carrier and the direction of the outcome signal.
+
+### 4.3 World models convert imagination from liability into useful detour
+
+`imagination_lab.py`, `maze_imagination_lab.py`, `imagination_phi_lab.py`, and `delusional_integration_lab.py` separate internal simulation from grounded prediction. Ungrounded imagined states can become confident while losing contact with the task. Rewarding prediction accuracy and gating imagined influence against real outcomes restores part of the lost performance. In the maze and unified-mind assays, a pretrained world model supports lookahead that accepts temporary negative progress to move around an obstacle, while a myopic controller remains at a local minimum.
+
+This is the basis for the thesis sentence *imagination without reality-checking is delusional*. The term is computational shorthand: the model generates internally coherent state that is poorly constrained by observation. It is not a psychiatric claim. The positive result is equally specific. A world model becomes useful when predictions are repeatedly compared with new sensory evidence, uncertainty limits rollout depth, and only the first action of a plan is executed before replanning. The Unity MPC system operationalizes that rule through short horizons, ensemble disagreement, body-clearance constraints, and immediate re-anchoring.
+
+### 4.4 Attention regulates when integration controls action
+
+The thesis does not favor constant maximum workspace coupling. `attention_valence_lab.py`, `attention_shift_lab.py`, and `conditional_workspace_lab.py` treat attention as a control valve. Prediction-aligned imagination receives influence; distractor fixation and self-amplified confidence are penalized. After an environmental rule change, the adaptive attention condition uses prediction error as surprise, retunes its internal model angle from approximately +0.13 to -0.21, and recovers, while the ungated obsolete model does not.
+
+The conditional workspace assay makes the cost argument explicit. Always-on workspace control reaches 0.976 late accuracy with coupling fixed at 1.0. Hard-threshold routing retains 0.953 accuracy with mean coupling 0.067, and soft routing increases workspace influence during tension while keeping it low during predictable periods. The exact efficiency formulas are hand-defined and should not be treated as universal measures. The defensible proposition is narrower: *useful integration is dynamically allocated*. Fast local processing can handle stable moments, while surprise, disagreement, or prediction error can justify broader access to shared state.
+
+### 4.5 Self-representation matters when report and control share a cause
+
+`self_report_workspace_lab.py`, `workspace_lift_lab.py`, and `ego_lens_lab.py` test whether self-description is merely a dashboard. A rolling self-model tracks conflict, uncertainty, and recent internal condition. Feeding that state back into routing produces modest improvements in stability and fewer report flips. The stronger workspace-lift intervention promotes a compressed packet containing intent, problem, strategy, feeling, and confidence. Movement, memory, valence, and report consume that packet.
+
+Private modules solve local obstruction pockets in roughly 19–22 steps but cannot emit the shared generalized report. The globally promoted packet solves tree, rock, and mushroom pockets in about 11 steps with report accuracy 1.0. Forced intervention accelerates escape further, but a false packet also produces unnecessary breakout behavior and an incorrect report. This paired result supports two thesis sentences: *global broadcasting amplifies causal power but does not guarantee truth*, and *self-report becomes functional when the state being reported also changes downstream control*.
+
+The Ego Lens is an explicit causal-attribution assay inspired by the question asked by transformer Jacobian methods. It does not compute a transformer Jacobian. It perturbs named drive or workspace variables and measures shifts in action and report distributions. Forced food and trap states alter both channels, including false reports that steer policy despite weak world evidence. Together, reportability, shared downstream availability, flexible reuse, and intervention sensitivity constitute the project’s bounded claim of *engineered operational access consciousness*. They do not establish phenomenal consciousness.
+
+### 4.6 Social gates require independent correction, not agreement alone
+
+The Functional Ego thesis includes external information but does not treat every peer signal as useful. `social_workspace_lab.py` distinguishes grounded critics from echo peers. Echoes can increase confidence without adding information; grounded peers help when they possess an independently useful model. `partial_observer_social_lab.py` sharpens the result by splitting access to reality: one observer has goal-map information, another has hazard information, and the combined workspace can match the full oracle by binding complementary partial views.
+
+The proposition is not that multi-agent systems are inherently smarter. It is that *social input should pass a grounding gate*. Agreement is weak evidence when channels share the same error. Independent, non-redundant correction can expand the effective model available to action. This is also a warning for future language-agent versions of the architecture: more voices or more self-consistency can amplify a mistake unless the added channel contributes distinct contact with evidence.
+
+### 4.7 Hierarchical workspaces compress conflict but can become bureaucracy
+
+`hierarchical_workspace_lab.py` tests local workspaces feeding compressed confidence and tension summaries to a master controller. A flat multi-workspace design is inexpensive but resolves conflict poorly; a monolithic workspace sees everything but pays a broader coordination cost. The fast hierarchical master reaches 0.714 early post-shift accuracy, recovers in 15 steps, and scores 0.858 on the experiment’s defined efficiency measure, compared with 0.686, 16 steps, and 0.851 for the monolithic condition. A deliberately slow hierarchy recovers in 29 steps and falls to 0.781 efficiency.
+
+`hierarchy_scaling_lab.py` extends the idea synthetically. As specialist count grows, one master receives increasing channel load; regional sub-masters compress groups before forwarding summaries. This sweep is generated from explicit load, delay, and compression formulas rather than learned at biological scale, so it supports a design hypothesis rather than a scaling law. The bounded thesis is that hierarchy helps when local processing removes irrelevant detail and upward summaries preserve action-relevant conflict. More levels are not automatically better: propagation delay can turn arbitration into bureaucracy.
+
+`causal_router_learning_lab.py` adds a complementary point. A router should learn which specialist caused success or failure in context rather than punish all modules uniformly. The learned router can trust map information in ordinary space and route through safety-corrected information near hazards. This motivates the repository’s claim that useful intelligence is increasingly concentrated in routing: not merely how much information exists, but which source controls action, when, and on what causal evidence.
+
+### 4.8 Integrated recurrence requires maintenance and a fatigue self-model
+
+The sleep and maintenance labs ask what happens when useful recurrence accumulates dense common-mode feedback and bias drift. In `sleep_homeostasis_lab.py`, four synthetic fatigue cycles reduce the tiny Phi proxy from 0.159 to 0.118 and state separability from 0.046 to 0.034. An offline down-selection pass restores them to 0.168 and 0.049. In the 500-step `sleep_cycle_agent_lab.py`, no-sleep late accuracy falls to 0.250 with late delusion 0.999, whereas offline sleep reaches 0.880 late accuracy and active repair reaches 0.840.
+
+These are not biological sleep simulations. “Fatigue,” “dreaming,” and “repair” name operations on recurrent weights and controller state. The supported engineering proposition is that *integrated recurrence is not maintenance-free*. Continuous light repair can extend operation, while an offline pass can more strongly remove weak saturated cross-talk. `adaptive_sleep_lab.py` further supports monitoring crosstalk, complexity, prediction error, and latency so maintenance is triggered by internal condition rather than a fixed clock. Too little repair leaves saturation active; too much pruning can remove useful memory.
+
+This layer turns the architecture into a toy computational metabolism: sensing, action, learning, repair, and routing compete for limited functional bandwidth. The embodied handoff mechanism follows the same logic by keeping behavior online through ordinary fatigue and reserving visible sleep or controller replacement for emergency maintenance.
+
+### 4.9 The defended thesis and its boundary
+
+Taken together, the experiments support a structured rather than mystical interpretation of the Functional Ego. Recurrence supplies temporal continuity. Grounded valence supplies direction and error. Attention regulates access. World models support prospective alternatives but remain bounded by uncertainty and re-observation. Local and master workspaces compress conflict into reportable control state. Social gates admit independent correction. Causal routing assigns trust. Maintenance protects recurrent dynamics. Learned sensorimotor policies then test whether these principles survive contact with withheld geometry and a Unity body.
+
+The strongest defensible synthesis is:
+
+> A compact partially observable agent can exhibit an engineered operational access-consciousness profile when recurrent temporal state, externally grounded valence, selective hierarchical broadcasting, report-control coupling, predictive re-anchoring, and maintenance are composed into a regulated routing architecture.
+
+This is a functional and substrate-independent software claim. The experiments show that these operations can be implemented outside biology and that ablating or corrupting them changes behavior in predicted ways. They do not show that the system has subjective experience, a phenomenal point of view, human-level generality, or biological equivalence. The thesis concerns access, regulation, and causal organization: which state is available, what it controls, how it is corrected, and how it remains functional over time.
+
+## 5. Recurrent memory and grounded outcome feedback
+
+### 5.1 Delayed hidden-preference assay
 
 The cleanest matched assay contains two actions and a hidden preferred action. A decision earns +1 for the preferred action and −1 otherwise. The preference reverses halfway through each 12-decision episode without an explicit cue. The only evidence about preference is a signed outcome pulse immediately after a decision. Between decisions, Gaussian distractor inputs fill a variable delay. The feedforward policy receives an explicit eight-frame window; the recurrent policy uses a 32-unit GRU. Parameter counts are closely matched: 4,127 for feedforward variants and 4,194 for recurrent variants.
 
@@ -82,15 +154,15 @@ The ablations strengthen the mechanistic interpretation. At delay 28, resetting 
 
 ![Figure 1. Preferred-action accuracy across temporal delays. Shading is ±1 across-seed standard deviation, not a confidence interval.](../outputs/delayed_preference_benchmark.png)
 
-### 4.2 Negative and mixed results
+### 5.2 Negative and mixed results
 
 An older matched navigation benchmark compares feedforward, feedforward+valence, recurrent, and recurrent+valence controllers. It uses one training seed and produces mixed performance. The recurrent+valence controller often reduces collisions, but neither reward nor preferred-pickup fraction consistently dominates across conditions. Because the output aggregates a single seed, its reported standard deviations are zero. This benchmark does not support a general claim that recurrence or valence improves navigation. Its proper role is diagnostic: adding architectural components can hurt, and task design determines whether memory or feedback is useful.
 
 This negative evidence is important. The supported thesis is not “more loops plus valence equals better intelligence.” It is that memory and grounded feedback become useful when the task makes past outcomes both informative and inaccessible from the current observation.
 
-## 5. Zero-shot detour foraging
+## 6. Zero-shot detour foraging
 
-### 5.1 Foundational emergence experiment
+### 6.1 Foundational emergence experiment
 
 The foundational foraging task removes explicit `approach_food`, `escape_U`, map, frontier, and enclosure rules. Policies receive local obstacle rays, visible-food direction, hunger, previous action, previous reward, and food-contact reward. Training uses open, L-wall, and offset-barrier layouts. Evaluation uses randomly rotated U-detours withheld from training. No trap label is used during training.
 
@@ -98,7 +170,7 @@ The reward-trained recurrent and recurrent+curiosity policies each reached 67.5%
 
 The memory-reset intervention provides the stronger recurrent result. Resetting hidden state after every movement reduced both recurrent reward-trained conditions from 67.5% to 0%, holding policy weights and current observations fixed. This shows causal dependence on temporal continuity for those trained policies. Linear probes also decoded a binary trap-context label from recurrent state at 93.2–99.6% accuracy, exceeding observation-only probes by 5.7–10.3 points and shuffled-label controls by much more. That is evidence of distributed context information, not proof of a human-like enclosure concept.
 
-### 5.2 Five-seed continuous-ray replication
+### 6.2 Five-seed continuous-ray replication
 
 The upgraded pipeline increases the action vocabulary to eight directions, uses eight continuous normalized rays, and trains on open, pocket, L-wall, offset-barrier, and U-trap families. C-shape and zigzag-gate families are strictly withheld. Curiosity strength is selected using familiar validation rather than withheld results. Five policies are trained with seeds 101, 211, 307, 419, and 523.
 
@@ -108,13 +180,13 @@ Memory reset reduced aggregate success to 51.5%. The family breakdown is the mor
 
 ![Figure 2. Five-seed training, familiar-only curiosity selection, and withheld evaluation gates.](../outputs/upgraded_foraging_pipeline_summary.png)
 
-### 5.3 Mechanistic boundary
+### 6.3 Mechanistic boundary
 
 The repository’s strongest interpretation is distributed and context-dependent. Hidden-state probes show that trap direction or context can be decoded. Selective erasure can reduce real U-detour success. Yet injecting a decoded global direction does not reliably create retreat in clear or sensory-neutral corridors. The evidence therefore does not support a single portable “escape” vector. A more conservative model is that recurrent state modulates action jointly with current rays, hunger, and recent trajectory.
 
-## 6. Workspace routing
+## 7. Hierarchical workspace routing and operational access
 
-### 6.1 Conditional coupling
+### 7.1 Conditional coupling
 
 The conditional-workspace experiment generates a 240-step rule-shift sequence. Specialist sensory, imagination, and valence channels can act alone or be altered by a workspace. Four conditions compare bypass, always-on workspace, hard-threshold routing, and soft tension-gating. The coupling coefficient α measures workspace influence.
 
@@ -122,39 +194,39 @@ Always-on control achieved the best late accuracy (0.976) but used α=1.0 at eve
 
 This is a demonstration of designed conditional routing. It is not evidence that a learned controller discovered a workspace or that the efficiency formula is externally valid. Only one seeded sequence is stored, so small differences between hard and soft routing are hypothesis-generating.
 
-### 6.2 Reportable packet and causal intervention
+### 7.2 Reportable packet and causal intervention
 
 The workspace-lift experiment compares reflex-only control, private modules, a globally promoted packet, and a forced packet intervention across tree, rock, dense-mushroom, and false-alarm scenarios. The packet contains intent, problem, strategy, feeling, and confidence fields. Forty seeded replicates are stored for each condition.
 
 Private modules escaped the three obstruction scenarios in 19.4–22.2 steps. The global packet reduced escape to 11.0–11.5 steps, produced accurate reports, and reused a common `local_obstruction_cluster` strategy across obstruction labels. Forced packet injection reduced tree-pocket escape to 9.45 steps, saving 66.8 steps relative to reflex-only control. The intervention also forced breakout behavior in the false-alarm condition and produced zero report accuracy there. This paired success and failure is useful: the shared packet is causally active, but global availability does not guarantee truth.
 
-### 6.3 Hierarchical routing
+### 7.3 Hierarchical routing
 
 A hierarchical master experiment compares monolithic, flat multi-workspace, fast master, and slow “bureaucratic” routing on a rule shift. The fast master slightly exceeded the monolithic controller in early post-shift accuracy (0.714 vs 0.686), recovery (15 vs 16 steps), and efficiency (0.858 vs 0.851). The flat and slow hierarchies performed worse. Because the differences are small and single-seed, the result supports only an engineering hypothesis: compressed conflict signals may be useful when arbitration is fast enough, while hierarchy can add harmful latency.
 
 The workspace experiments align with functional descriptions of global availability and routing [4,5], but they do not test the neural or phenomenal claims of global neuronal workspace theory. Their contribution is a set of falsifiable software criteria: shared representations should be accessible to multiple downstream functions, causally active under intervention, selectively gated, and vulnerable to false broadcast.
 
-## 7. Python-to-Unity deployment and calibrated MPC
+## 8. Python-to-Unity deployment and calibrated MPC
 
-### 7.1 Transfer definition and bridge
+### 8.1 Transfer definition and bridge
 
 The deployment bridge sends commands from Python to Unity on localhost and returns body/world telemetry to Python. The controller observes local rays, food visibility and direction, hunger, previous action, and previous reward. A learned recurrent policy proposes actions; a geometry-aware body-clearance mask removes invalid actions; MPC can evaluate candidate actions with learned predictive heads.
 
 This is a meaningful systems step because the policy is no longer evaluated solely inside its training script. The original terrain project and its third-party art remain outside the repository, but the public artifact now includes `unity/TrapCourseLab`, a minimal asset-free Unity project that reconstructs the six primitive courses, capsule body, food target, sensors, UDP bridge, and camera. This closes the source-availability gap for the course benchmark while leaving the exploratory terrain scene externally dependent. We call the result Python-to-Unity or cross-runtime transfer, not sim-to-real transfer.
 
-### 7.2 Predictive calibration
+### 8.2 Predictive calibration
 
 A 25.6-minute Unity recording contains 7,409 frames and 4,879 usable transitions. The policy and recurrent memory were frozen while only three forward-model heads were calibrated. A chronological split allocated 3,477 transitions to training, 671 to validation, and 731 to testing. Test MAE fell from 0.1267 to 0.0739, a 41.7% reduction. Constrained-region MAE also improved from 0.1294 to 0.0886.
 
 The chronological split is stronger than a random frame split, but adjacent transitions remain temporally correlated and originate from one run. The effective independent sample size is therefore lower than 731, and transfer to other Unity scenes is not established.
 
-### 7.3 Fixed MPC in matched Python courses
+### 8.3 Fixed MPC in matched Python courses
 
 The calibrated controller evaluates eight root actions over a four-step horizon. Its score combines policy prior, predicted target progress, collision risk, ensemble disagreement, and angular jerk. It executes one action, then replans from the next observation. On 108 matched continuous courses, selected calibrated MPC achieved 95.37% success, compared with 90.74% for the baseline recurrent policy. Mean steps fell from 102.8 to 86.3 and mean path length from 45.2 to 38.0. Both used the body-clearance mask and reported zero collisions.
 
 The stored summary does not contain paired episode-level outcomes, so the success difference cannot be subjected to an audited paired test. It is best treated as an engineering improvement on this suite.
 
-### 7.4 Recorded Unity course run
+### 8.4 Recorded Unity course run
 
 The strongest live artifact is a visibility-gated recurrent/MPC course log. The gate leaves recurrent control in charge when food is hidden and engages MPC when food becomes visible, holding engagement briefly across telemetry updates. In the analyzed file, 12 completed episodes—two cycles of U-Trap, C-Trap, L-Wall, Zigzag, Offset Barriers, and Narrow Corridor—produced 12 successes, zero timeouts, zero reported stuck frames, mean completion time 29.74 s, and learned-control fraction 1.0.
 
@@ -162,7 +234,7 @@ Two additional episode fragments in the same analysis are marked unsuccessful bu
 
 The README contrasts this run with an earlier full-time-MPC run that completed 8/13 attempts and failed hidden-goal U-Trap and L-Wall cases. This sequential comparison supports the architectural division of labor but is not randomized or paired. Controller code and environment state may have changed between sessions.
 
-## 8. Adaptive stochastic MPC
+## 9. Adaptive stochastic MPC
 
 The adaptive stochastic controller changes inference without retraining the checkpoint. It defaults to recurrent control when planning demand is low. Planning is triggered by visible food, low proposed clearance, or prolonged lack of progress. Horizon increases from 4 to 6 or 8 with policy entropy, obstruction, hunger, or stagnation. For each root action, three ensemble-conditioned rollouts sample deviations around ensemble consensus. Rollouts terminate when cumulative ensemble disagreement exceeds 0.0015. Action scores combine mean return, a lower quartile, and spread to penalize downside and uncertainty.
 
@@ -172,15 +244,15 @@ These results are provisional for three reasons. First, 36 episodes provide litt
 
 A subsequent targeted Unity terrain diagnostic exercised the adaptive controller at a location implicated by repeated overnight starvation failures. With normal hunger the controller collected 18 mushrooms in 180 s. Forcing continuous critical-hunger MPC produced zero pickups, one stuck event, and 77.8 collision-seconds despite available food. A visibility-reanchored variant allowed recurrent exploration when no target was visible and used short stochastic MPC only for grounded food or obstacles; it collected 18 mushrooms, produced zero stuck events, and reduced hunger from 1.0 after 25.3 s. This before/after diagnostic isolates a plausible controller failure mechanism, but its short, sequential design does not establish long-duration reliability or a general adaptive-MPC advantage.
 
-## 9. Robustness experiments
+## 10. Robustness experiments
 
-### 9.1 Perturbation sweep
+### 10.1 Perturbation sweep
 
 The altered-state robustness task varies two synthetic controls: `noise_injection`, which perturbs internal salience, and `calcium_gate`, which adjusts promotion/excitability. The labels are metaphors; the simulator is not a biological or clinical model. Across a 4×4 grid, each cell runs 80 seeded 220-step episodes. The agent must eat, escape traps, and avoid an absorbing internal loop.
 
 At zero noise, all promotion settings achieved 100% survival. At noise 0.35, survival remained 100% through calcium 0.75 but fell to 63.75% at calcium 1.0, where the false-promotion ratio reached 0.452. At noise 0.70, survival was 81.25% at calcium 0.15, 60% at 0.45, and 0% at 0.75 or 1.0. At maximum noise, only the lowest calcium setting produced nonzero survival (11.25%). The sweep demonstrates an interaction in the defined system: permissive promotion is useful under clean signals but destructive when noise is high.
 
-### 9.2 Stabilizer interventions
+### 10.2 Stabilizer interventions
 
 The stabilizer experiment fixes noise and calcium at 1.0 and compares nine engineered governors over 100 replicates. Baseline, reality gate, meta-monitor, and homeostatic plasticity each produced 0% survival. A hunger anchor reached 1%; an earlier full stack reached 21%; predictive clamp reached 37%; a next-generation stack reached 74%; and sensory focus reached 94%.
 
@@ -188,29 +260,29 @@ No single scalar captures the trade-off. Sensory focus maximized survival and fo
 
 ![Figure 3. Engineered stabilizers under maximum synthetic noise and promotion pressure.](../outputs/altered_state_stabilizer_summary.png)
 
-## 10. Discussion
+## 11. Discussion
 
-### 10.1 What the repository demonstrates
+### 11.1 What the repository demonstrates
 
-The strongest result is compositional. The delayed-preference assay shows that recurrent state can carry a grounded signed outcome beyond a fixed context window, and targeted corruptions abolish or reverse behavior. Navigation then shows that reward-trained control can transfer to withheld detour families, with recurrent memory becoming causally important in particular topologies. Workspace assays show that designed shared packets and conditional coupling can change downstream action, reduce cost, and propagate false states. Predictive calibration and receding-horizon control improve measured navigation in the Python course suite, while recorded telemetry shows that the composed controller can operate in Unity. Robustness sweeps expose regimes where routing fails and where engineered governors partially recover function.
+The strongest result is compositional. Early assays distinguish structural recurrence from functional orientation, show why directly writable valence wireheads, and demonstrate that imagined state becomes useful only when constrained by prediction and observation. Attention, social-gating, hierarchy, and maintenance experiments then test when information should be integrated, whose information should be trusted, how conflict can be compressed, and how recurrent dynamics can be repaired. The delayed-preference assay shows that recurrent state can carry a grounded signed outcome beyond a fixed context window, and targeted corruptions abolish or reverse behavior. Navigation shows that reward-trained control can transfer to withheld detour families, with recurrent memory becoming causally important in particular topologies. Workspace assays show that designed shared packets can simultaneously change report and action, reduce routing cost, transfer across labels, and propagate false states. Predictive calibration and receding-horizon control improve measured navigation in the Python course suite, while recorded telemetry shows that the composed controller can operate in Unity.
 
 These findings support a bounded control thesis:
 
-> Compact partially observable agents can benefit from a regulated division of labor in which recurrent state preserves task-relevant history, externally grounded outcome signals orient learning, workspace-like routes selectively share conflict or obstruction information, and uncertainty-aware receding-horizon control is used when sensory grounding makes prediction actionable.
+> Compact partially observable agents can exhibit an engineered operational access-consciousness profile through a regulated division of labor: recurrent state preserves task-relevant history; externally grounded valence orients learning; attention and hierarchical workspaces control shared access; world models remain bounded by uncertainty and sensory re-anchoring; causal routing assigns contextual trust; and maintenance protects recurrent dynamics over time.
 
 Every clause is functional and testable. None requires a claim about subjective experience.
 
-### 10.2 What remains hypothetical
+### 11.2 What remains hypothetical
 
-The repository does not establish that these modules are necessary or sufficient for consciousness. It does not show open-ended transfer, language-level reasoning, autonomous goal formation, or broad adaptation. It does not show that workspace packets correspond to conscious access, that signed reward is felt valence, or that recurrence creates phenomenology. “Substrate independence” is defensible only as a hypothesis that similar control computations can be implemented in different media; it is not evidence that phenomenology is substrate-independent.
+The repository does not establish that these modules are necessary or sufficient for phenomenal consciousness. It does not show open-ended transfer, language-level reasoning, autonomous goal formation, or broad adaptation. It does show operational access criteria in designed systems, but it does not show that signed reward is felt valence, that report implies experience, or that recurrence creates phenomenology. “Substrate independence” is defensible for the implemented control computations: the same functional relationships can be expressed in binary circuits, neural policies, symbolic routing, and a Unity runtime. It is not evidence that phenomenology is substrate-independent.
 
-The broader architectural claim—that useful intelligence is concentrated in regulated routing—remains plausible but under-tested. Most workspace rules are designed, not learned. Robustness tasks encode their own failure and recovery mechanisms. The Unity project is external to the audited repository. These limitations prevent treating the current stack as a unified cognitive architecture in the strong sense.
+The broader architectural claim—that useful intelligence is concentrated in regulated routing—remains plausible but under-tested. Most workspace rules are designed, not learned, and the components were validated across separate toy assays rather than trained as one end-to-end architecture. Robustness tasks encode their own failure and recovery mechanisms. The asset-free Unity course is reproducible, while the larger terrain and third-party art remain external. The stack is therefore a unified research architecture and experimental program, not yet a jointly learned general cognitive system.
 
-### 10.3 Negative results refine the thesis
+### 11.3 Negative results refine the thesis
 
 Several failures are theoretically useful. Recurrence without informative feedback stays at chance in the delayed-preference task. Feedforward reward control matches recurrent success in the foundational U-detour. The older navigation benchmark does not show stable component superiority. A full-time MPC controller fails when the target is hidden. Hunger-adaptive sensing does not improve the small adaptive-MPC benchmark. Workspace injection improves escape but also creates false alarms. A reality gate can eliminate false promotions without restoring food pursuit. These results argue for conditional composition rather than component maximalism.
 
-## 11. Limitations and threats to validity
+## 12. Limitations and threats to validity
 
 **Snapshot provenance.** The working tree is not clean. Some output files were generated just before subsequent code edits. The delayed-preference script currently writes a contrast block absent from the stored JSON, and the Unity bridge was modified after the key live log. Exact code-to-output identity is therefore not guaranteed.
 
@@ -224,17 +296,17 @@ Several failures are theoretically useful. Recurrence without informative feedba
 
 **Semantic overreach.** Terms such as valence, delusion, revelation, ego, and calcium may be useful metaphors but can be mistaken for biological constructs. Publication should foreground operational definitions and consider neutral variable names.
 
-## 12. Planned confirmatory program
+## 13. Planned confirmatory program
 
 A publication-quality next phase should freeze a versioned artifact containing Python and Unity sources, checkpoints, package versions, raw per-episode records, and run manifests. Headline hypotheses should be preregistered before new tuning. The delayed-preference result should be repeated with more seeds, alternative memory architectures, matched compute, and held-out delay distributions. Navigation should add irreversible dead ends, changed dynamics, sensor dropout, and morphology shifts. Mechanistic work should pair decoding with erasure, patching, dose response, and matched off-target interventions.
 
 Unity comparisons should randomize controller order within session, predefine treatment of aborted episodes, and store paired trajectories. Adaptive stochastic MPC should be evaluated live against fixed MPC and raw recurrent control. Workspace routing should be learned from data and tested for intervention, reuse, reportability, and false-broadcast susceptibility without hand-coding the target packet. Robustness governors should be evaluated across different tasks and perturbation families rather than only the simulator that motivated them.
 
-## 13. Conclusion
+## 14. Conclusion
 
-The audited repository supports a focused research program in grounded, recurrent, partially observable control. Its strongest demonstrations are: long-delay use of signed outcome feedback by recurrent policies; causal memory dependence in specific detour tasks; repeated-seed transfer to withheld obstacle families; improved held-out Unity prediction after predictive-head calibration; successful Python-to-Unity course control; and partial recovery from synthetic routing failures. Workspace and adaptive stochastic MPC results are promising engineering prototypes with clear next tests.
+The audited repository supports a thesis-driven research program for a regulated Functional Ego in grounded, partially observable agents. Across separate assays, recurrence supplies temporal integration; externally derived valence supplies orientation but fails when directly writable; attention gates expensive shared control; grounded world models turn imagined alternatives into detours; social gates distinguish independent correction from echo; hierarchical workspaces compress conflict; causal routing assigns contextual trust; and maintenance restores recurrent dynamics degraded by synthetic cross-talk. Learned foraging, withheld-topology transfer, predictive calibration, and Unity embodiment show how these principles can meet a sensorimotor world rather than remain only symbolic diagrams.
 
-The evidence does not establish machine consciousness, phenomenal valence, sentience, AGI, or biological equivalence. Avoiding those overclaims makes the result stronger, not weaker: the repository already contains a falsifiable set of control experiments about memory, feedback integrity, selective routing, predictive grounding, and robustness.
+The evidence supports an engineered operational access-consciousness claim: selected internal states are reportable, shared across downstream functions, reusable, and causally active under intervention. It does not establish phenomenal consciousness, felt valence, sentience, AGI, or biological equivalence. That boundary leaves a substantial result: the repository presents a falsifiable ladder of functional prerequisites and shows how their benefits and failure modes depend on regulated composition rather than component maximalism.
 
 ## References
 

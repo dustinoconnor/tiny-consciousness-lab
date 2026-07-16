@@ -1,0 +1,193 @@
+{
+  "design": {
+    "train_sequences": 768,
+    "held_out_sequences": 192,
+    "seeds": 3,
+    "context_steps_for_feedforward": 8,
+    "sequence_steps": 64,
+    "grounded_valence_definition": "previous-note harmonic fit plus V-to-I cadence resolution",
+    "claim_boundary": "Tests architecture transfer to a procedural symbolic-music task; it does not transfer navigation weights or establish general intelligence."
+  },
+  "feedforward": {
+    "parameters": 17427,
+    "final_training_loss": 0.9502263135380216,
+    "evaluation": {
+      "cross_entropy": 0.9672368168830872,
+      "next_note_accuracy": 0.5853407184282938,
+      "delayed_motif_accuracy": 0.3797743022441864,
+      "final_return_accuracy": 0.4542100727558136,
+      "cadence_tonic_accuracy": 1.0
+    },
+    "seed_evaluations": [
+      {
+        "cross_entropy": 0.9633380770683289,
+        "next_note_accuracy": 0.590087890625,
+        "delayed_motif_accuracy": 0.3795572817325592,
+        "final_return_accuracy": 0.4694010317325592,
+        "cadence_tonic_accuracy": 1.0
+      },
+      {
+        "cross_entropy": 0.9627956748008728,
+        "next_note_accuracy": 0.5880534052848816,
+        "delayed_motif_accuracy": 0.3919270932674408,
+        "final_return_accuracy": 0.4505208432674408,
+        "cadence_tonic_accuracy": 1.0
+      },
+      {
+        "cross_entropy": 0.9755766987800598,
+        "next_note_accuracy": 0.577880859375,
+        "delayed_motif_accuracy": 0.3678385317325592,
+        "final_return_accuracy": 0.4427083432674408,
+        "cadence_tonic_accuracy": 1.0
+      }
+    ],
+    "generation": {
+      "self_motif_return": 0.20833333333333334,
+      "self_final_return": 0.041666666666666664,
+      "ends_on_tonic": 1.0,
+      "harmonic_fit": 0.4895833333333333,
+      "unique_degrees": 7.0,
+      "bigram_repetition_ratio": 0.5978835978835979
+    }
+  },
+  "feedforward_valence": {
+    "parameters": 17427,
+    "final_training_loss": 0.9397813181082407,
+    "evaluation": {
+      "cross_entropy": 0.958317498366038,
+      "next_note_accuracy": 0.591417113939921,
+      "delayed_motif_accuracy": 0.3786892394224803,
+      "final_return_accuracy": 0.4518229166666667,
+      "cadence_tonic_accuracy": 1.0
+    },
+    "seed_evaluations": [
+      {
+        "cross_entropy": 0.9558115005493164,
+        "next_note_accuracy": 0.5924479365348816,
+        "delayed_motif_accuracy": 0.3723958432674408,
+        "final_return_accuracy": 0.4641927182674408,
+        "cadence_tonic_accuracy": 1.0
+      },
+      {
+        "cross_entropy": 0.9582311511039734,
+        "next_note_accuracy": 0.593017578125,
+        "delayed_motif_accuracy": 0.384765625,
+        "final_return_accuracy": 0.4479166567325592,
+        "cadence_tonic_accuracy": 1.0
+      },
+      {
+        "cross_entropy": 0.9609098434448242,
+        "next_note_accuracy": 0.5887858271598816,
+        "delayed_motif_accuracy": 0.37890625,
+        "final_return_accuracy": 0.443359375,
+        "cadence_tonic_accuracy": 1.0
+      }
+    ],
+    "generation": {
+      "self_motif_return": 0.25,
+      "self_final_return": 0.041666666666666664,
+      "ends_on_tonic": 1.0,
+      "harmonic_fit": 0.5,
+      "unique_degrees": 7.0,
+      "bigram_repetition_ratio": 0.5925925925925927
+    }
+  },
+  "recurrent": {
+    "parameters": 17543,
+    "final_training_loss": 1.0486724707815382,
+    "evaluation": {
+      "cross_entropy": 1.0597400267918904,
+      "next_note_accuracy": 0.5530056556065878,
+      "delayed_motif_accuracy": 0.5197482705116272,
+      "final_return_accuracy": 0.591796875,
+      "cadence_tonic_accuracy": 1.0
+    },
+    "seed_evaluations": [
+      {
+        "cross_entropy": 1.0587083101272583,
+        "next_note_accuracy": 0.556396484375,
+        "delayed_motif_accuracy": 0.552734375,
+        "final_return_accuracy": 0.599609375,
+        "cadence_tonic_accuracy": 1.0
+      },
+      {
+        "cross_entropy": 1.0592314004898071,
+        "next_note_accuracy": 0.5553385615348816,
+        "delayed_motif_accuracy": 0.5182291865348816,
+        "final_return_accuracy": 0.583984375,
+        "cadence_tonic_accuracy": 1.0
+      },
+      {
+        "cross_entropy": 1.061280369758606,
+        "next_note_accuracy": 0.5472819209098816,
+        "delayed_motif_accuracy": 0.48828125,
+        "final_return_accuracy": 0.591796875,
+        "cadence_tonic_accuracy": 1.0
+      }
+    ],
+    "memory_reset": {
+      "cross_entropy": 1.5780026117960613,
+      "next_note_accuracy": 0.34423828125,
+      "delayed_motif_accuracy": 0.3671875,
+      "final_return_accuracy": 0.3522135416666667,
+      "cadence_tonic_accuracy": 0.2986111044883728
+    },
+    "generation": {
+      "self_motif_return": 0.20833333333333334,
+      "self_final_return": 0.2916666666666667,
+      "ends_on_tonic": 1.0,
+      "harmonic_fit": 0.5416666666666666,
+      "unique_degrees": 7.0,
+      "bigram_repetition_ratio": 0.5873015873015873
+    }
+  },
+  "recurrent_valence": {
+    "parameters": 17543,
+    "final_training_loss": 1.053201425406668,
+    "evaluation": {
+      "cross_entropy": 1.0656443039576213,
+      "next_note_accuracy": 0.549913207689921,
+      "delayed_motif_accuracy": 0.4845920205116272,
+      "final_return_accuracy": 0.5920138955116272,
+      "cadence_tonic_accuracy": 0.9982638955116272
+    },
+    "seed_evaluations": [
+      {
+        "cross_entropy": 1.0594669580459595,
+        "next_note_accuracy": 0.551025390625,
+        "delayed_motif_accuracy": 0.4876302182674408,
+        "final_return_accuracy": 0.6041666865348816,
+        "cadence_tonic_accuracy": 1.0
+      },
+      {
+        "cross_entropy": 1.085227370262146,
+        "next_note_accuracy": 0.5431315302848816,
+        "delayed_motif_accuracy": 0.4680989682674408,
+        "final_return_accuracy": 0.5703125,
+        "cadence_tonic_accuracy": 1.0
+      },
+      {
+        "cross_entropy": 1.0522385835647583,
+        "next_note_accuracy": 0.5555827021598816,
+        "delayed_motif_accuracy": 0.498046875,
+        "final_return_accuracy": 0.6015625,
+        "cadence_tonic_accuracy": 0.9947916865348816
+      }
+    ],
+    "memory_reset": {
+      "cross_entropy": 1.5726123253504436,
+      "next_note_accuracy": 0.3491210838158925,
+      "delayed_motif_accuracy": 0.3708767294883728,
+      "final_return_accuracy": 0.3604600628217061,
+      "cadence_tonic_accuracy": 0.3437499900658925
+    },
+    "generation": {
+      "self_motif_return": 0.375,
+      "self_final_return": 0.08333333333333333,
+      "ends_on_tonic": 1.0,
+      "harmonic_fit": 0.5416666666666666,
+      "unique_degrees": 7.0,
+      "bigram_repetition_ratio": 0.6296296296296297
+    }
+  }
+}

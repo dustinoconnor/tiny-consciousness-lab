@@ -1,0 +1,81 @@
+# Evidence Ledger: Tiny Consciousness Lab
+
+Audit date: 2026-07-16  
+Audited source: repository working tree  
+Git baseline: `main` at `183ce36aae98b95623bd29c152756da3d6d43e5c`  
+Scope: README, relevant experiment code, stored JSON metrics, checkpoints, plots, and Unity telemetry present locally. No GitHub state was used.
+
+## Status vocabulary
+
+- **Demonstrated**: the local repository contains executable code and a result artifact that directly measures the claim.
+- **Demonstrated with material qualification**: the measurement exists, but design, provenance, external dependencies, or replication limits materially narrow the inference.
+- **Hypothesis**: an interpretation consistent with results but not isolated by the current experiments.
+- **Planned**: proposed work without a completed result artifact.
+- **Unsupported**: not established by the audited evidence and should not appear as a paper conclusion.
+
+This is an artifact audit, not a full independent replication. Stored metrics were parsed and cross-checked against current code and README summaries. Full training runs were not repeated. Several relevant files are untracked or modified relative to the Git baseline, so the local snapshot—not the commit—is the evidence source.
+
+## Claim ledger
+
+| ID | Claim | Status | Direct evidence | Audit judgment and boundary |
+|---|---|---|---|---|
+| E1 | A recurrent controller can preserve grounded outcome information beyond an eight-frame feedforward context window in a delayed hidden-preference task. | **Demonstrated** | `delayed_preference_benchmark.py`; `outputs/delayed_preference_benchmark_metrics.json` | Five training seeds. At delay 28, recurrent+outcome accuracy was 0.820 ± 0.158 across seeds; feedforward+outcome was 0.499 ± 0.006. Plain recurrent and plain feedforward controls were at chance. This supports memory for a task-specific outcome signal, not general recurrent superiority. |
+| E2 | The long-delay behavior causally depends on both recurrent state and the correctly signed grounded outcome channel. | **Demonstrated** | Same as E1; stored ablations | At delay 28, normal recurrent+outcome accuracy was 0.820; hidden reset 0.500; outcome zeroing 0.500; outcome shuffling 0.500; sign flip 0.180. The assay labels this outcome input “valence”; operationally it is a signed reward/outcome pulse. |
+| E3 | The older matched navigation benchmark establishes recurrent or valence superiority. | **Unsupported** | `recurrent_valence_benchmark.py`; `outputs/recurrent_valence_benchmark_metrics.json` | One training seed and mixed outcomes. Several conditions perform poorly, and the stored standard deviations are zero because there is one seed. Use as a negative or exploratory result, not a headline claim. |
+| E4 | Reward-trained policies can reach a rotated U-detour withheld from training without an explicit approach-food rule. | **Demonstrated with material qualification** | `emergent_foraging_lab.py`; `outputs/emergent_foraging_metrics.json` | Recurrent reward and curiosity policies each reached 0.675 success in the withheld U-detour evaluation; no-reward recurrent control reached 0.0. A feedforward reward control also reached 0.675, so recurrence is not necessary for success in this particular assay. The result is one training seed. |
+| E5 | Temporal continuity is causally necessary for the recurrent policies’ U-detour behavior in the foundational assay. | **Demonstrated** | Same as E4 | Resetting recurrent state every movement reduced recurrent reward and recurrent curiosity success from 0.675 to 0.0 while leaving weights and current observations intact. This is a clean intervention on temporal state in that policy class. |
+| E6 | Recurrent hidden state contains information about trap context beyond the current observation. | **Demonstrated as decodability, not mechanism** | Same as E4 | Linear probes reached 0.932–0.996 hidden-state accuracy versus 0.843–0.926 from observations and about 0.48–0.52 for shuffled labels. Decodability does not establish that the policy uses a single portable trap representation. |
+| E7 | The upgraded continuous-ray recurrent policy transfers across strictly withheld C-shape and zigzag topology families. | **Demonstrated with material qualification** | `upgraded_foraging_pipeline.py`; `outputs/upgraded_foraging_pipeline_metrics.json`; five checkpoints | Five seeds, 80 withheld episodes per seed. Mean success 0.9825, seed range 0.95–1.00, zero simulator collisions under a body-clearance action mask. No-reward controls averaged 0.01. The mask contributes directly to zero collisions. |
+| E8 | The upgraded transfer is memory dependent. | **Demonstrated, family-specific** | Same as E7 | Aggregate memory reset success was 0.515, but the critical zigzag family fell from 0.98 to 0.235 (74.5-point drop), while C-shape remained 0.795. The correct claim is family-specific memory dependence, not universal collapse under reset. |
+| E9 | A compressed workspace packet can be reportable, reused across obstruction types, and causally alter control. | **Demonstrated in an engineered toy system** | `workspace_lift_lab.py`; `outputs/workspace_lift_metrics.json` | Forty seeded replicates per condition. Global-workspace escape took 11.5/11.0/11.3 steps for tree/rock/mushroom pockets versus 20.8/22.2/19.4 for private modules. Forced packet injection saved 66.8 tree-pocket steps versus reflex, but also produced a false-alarm misreport. The packet and routing rules are designed, not learned. |
+| E10 | Conditional workspace routing can retain high rule-shift accuracy with less coupling than an always-on workspace. | **Demonstrated in a single seeded synthetic sequence** | `conditional_workspace_lab.py`; `outputs/conditional_workspace_metrics.json` | Hard-threshold routing reached 0.953 late accuracy with mean coupling 0.067 and efficiency 0.891; always-on reached 0.976 with coupling 1.0 and efficiency 0.763. The efficiency score is hand-defined, and only one generated sequence is stored. |
+| E11 | A fast hierarchical master slightly outperforms a monolithic workspace on the repository’s rule-shift score. | **Demonstrated but hypothesis-generating** | `hierarchical_workspace_lab.py`; `outputs/hierarchical_workspace_metrics.json` | Early accuracy 0.714 vs 0.686, recovery 15 vs 16 steps, efficiency 0.858 vs 0.851. The differences are small, single-seed, and dependent on engineered routing and cost terms. |
+| E12 | The Python-trained policy and calibrated predictive heads execute a Unity controller through the UDP bridge. | **Demonstrated with terrain-project limitation** | `embodied_unity_loop.py`; `unity/TrapCourseLab`; `outputs/unity_shadow/*.jsonl`; `outputs/unity_mpc_visibility_gated_course_analysis.json` | This is Python-to-Unity cross-runtime deployment, not sim-to-real transfer. A minimal primitive course project is included; the third-party terrain scene used in exploratory runs remains external. |
+| E13 | The recorded visibility-gated recurrent/MPC Unity run completed two six-course cycles. | **Demonstrated with selection and sample-size qualifications** | `outputs/unity_shadow/shadow_20260713_130039.jsonl`; course analysis JSON | Twelve completed episodes produced 12/12 success, mean 29.74 s, no timeouts, no reported stuck frames, learned-control fraction 1.0. The file also contains two incomplete/aborted episodes excluded from `completed_episodes`; 12/12 therefore describes completed course episodes, not every episode record. With n=12, uncertainty remains wide. |
+| E14 | Visibility gating improved Unity performance relative to full-time MPC. | **Demonstrated as a sequential live comparison, not a randomized trial** | README’s analysis of local Unity logs; course artifacts | The repository reports 8/13 for full-time MPC and 12/12 for visibility-gated control. The comparison is not paired or randomized, and controller/code state may differ chronologically. It supports an engineering decision, not a precise causal effect size. |
+| E15 | Calibrating only predictive heads improves held-out Unity transition prediction. | **Demonstrated** | `unity_mpc_calibration_lab.py`; `outputs/unity_mpc_calibration_metrics.json` | Chronological split of 4,879 transitions; 731 test transitions. MAE fell from 0.1267 to 0.0739 (41.7%). Frames are temporally correlated and come from one 25.6-minute recording; the effective sample size is lower than 731 independent draws. |
+| E16 | Calibrated fixed MPC improves aggregate Python continuous-course metrics over the raw GRU. | **Demonstrated without paired significance test** | `outputs/unity_mpc_selected_evaluation.json`; `outputs/unity_posttraining_metrics.json` | On 108 matched courses, selected MPC success was 0.9537 versus raw baseline 0.9074; mean steps 86.3 vs 102.8; path length 38.0 vs 45.2; zero collisions under the same safety mask. Per-episode paired outcomes are not stored in these summaries, so statistical significance cannot be audited. |
+| E17 | Adaptive stochastic MPC preserves fixed-MPC success while reducing steps and planning time in the Python course simulator. | **Demonstrated provisionally** | `adaptive_stochastic_mpc_lab.py`; `outputs/adaptive_stochastic_mpc_metrics.json` | Thirty-six episodes per condition. Fixed and adaptive stochastic MPC both reached 35/36 success; adaptive used 82.4 mean steps vs 88.1 and 8.34 s evaluation time vs 24.27 s. This is a small benchmark; timing is not a controlled systems benchmark. The recorded 12/12 Unity run predates this artifact, so live Unity validation remains planned. |
+| E18 | Hunger-adaptive sensing improves the adaptive stochastic controller. | **Not demonstrated** | Same as E17 | Hunger-adaptive and non-adaptive sensing had the same 35/36 success and nearly identical steps. The sensor-radius intervention was exercised, but no benefit is established. |
+| E19 | Noise and promotion-threshold sweeps produce a robustness phase transition in the synthetic survival task. | **Demonstrated in the defined simulator** | `altered_state_robustness_lab.py`; `outputs/altered_state_robustness_metrics.json` | Sixteen cells, 80 replicates each, 220-step horizon. Survival declines sharply at jointly high noise and excitability; e.g., noise 0.35/calcium 1.0 gives 0.6375 survival, while 0.70/0.75 and 1.0/1.0 give 0.0. “Noise,” “calcium,” “delusion,” and “revelation” are computational labels, not biological or clinical models. |
+| E20 | Grounding governors improve survival under the hardest synthetic perturbation. | **Demonstrated in the defined simulator** | `altered_state_stabilizer_lab.py`; `outputs/altered_state_stabilizer_metrics.json` | At noise=1/calcium=1 over 100 replicates, baseline survival was 0.00; sensory focus 0.94; next-generation stack 0.74; predictive clamp 0.37; earlier full stack 0.21. Sensory focus retained a high false-promotion ratio (0.585), while the next-generation stack reduced it to zero. These are engineered policies with no out-of-distribution validation. |
+| E21 | The repository demonstrates consciousness, phenomenal experience, sentience, AGI, or biological equivalence. | **Unsupported** | No valid operational measure in repository | The experiments evaluate functional control motifs in toy tasks. They neither identify subjective experience nor establish open-ended general intelligence. |
+| E22 | Recurrent re-anchoring corrects the reproduced critical-hunger terrain failure at the implicated location. | **Demonstrated as a targeted engineering diagnostic** | `embodied_unity_loop.py`; `outputs/unity_critical_hunger_reanchoring_metrics.json` | Three sequential 180-s runs at x=312.5, z=-328.0 yielded 18 pickups under normal hunger, 0 under forced critical MPC, and 18 after recurrent no-target exploration was restored. The repaired run had zero stuck events and recovered hunger in 25.3 s. This is not randomized and does not replace overnight validation. |
+
+## Demonstrated results used as paper anchors
+
+1. **Long-delay grounded memory:** five-seed recurrent+outcome performance persists to delay 28 and collapses under state reset or outcome corruption (E1–E2).
+2. **Zero-shot topology transfer:** reward-trained policies generalize to withheld obstacle families; memory dependence is strong on the zigzag family (E4–E8).
+3. **Workspace routing:** designed global packets and conditional routing alter action, transfer across obstruction labels, and trade accuracy against coupling cost (E9–E11).
+4. **Python-to-Unity deployment:** a Python policy/MPC controller acts in Unity; calibrated prediction and completed course logs support a bounded cross-runtime transfer claim (E12–E16).
+5. **Adaptive stochastic MPC:** uncertainty-bounded rollouts match fixed-MPC success in a small Python benchmark while using fewer steps and less measured evaluation time (E17–E18).
+6. **Robustness:** controlled perturbation sweeps and governors expose failure regions and partial recoveries in a synthetic survival model (E19–E20).
+
+## Hypotheses consistent with, but not established by, the evidence
+
+- Recurrent memory and grounded outcome feedback are complementary primitives for partially observable control.
+- Dynamic workspace routing may be more efficient than constant global coupling when conflict is sparse.
+- A useful controller may benefit from dividing labor between memory-driven exploration when goals are hidden and model-predictive optimization when targets are sensor-grounded.
+- Ensemble disagreement can be a useful operational uncertainty signal for truncating imagined rollouts.
+- Robust control under internal perturbation may require both epistemic grounding and motivational fallback signals.
+- These motifs may be substrate-independent at the level of computation. This is a design hypothesis, not evidence for consciousness.
+
+## Planned work required for stronger claims
+
+- Freeze a versioned release containing code, checkpoints, environment definitions, raw per-episode outputs, package versions, and exact commands.
+- Re-run all headline experiments from a clean checkout and write an immutable run manifest into every output.
+- Add paired per-episode logs, confidence intervals, preregistered primary outcomes, multiple-testing controls, and held-out model selection.
+- Repeat Unity courses across independent sessions and randomized controller order; include failures and aborted episodes in a prespecified intention-to-test analysis.
+- Validate the included minimal Unity project from a clean clone and archive its generated scene with exact Unity/package versions.
+- Validate adaptive stochastic MPC live in Unity and compare it against fixed MPC and raw GRU on matched courses.
+- Replace hand-designed workspace rules with learned routers and test whether intervention and transfer properties survive.
+- Test irreversible dead ends, changed dynamics, sensor dropout, altered morphology, and reward shifts that were not represented during training.
+- Validate robustness governors across tasks and seeds, and rename biological/clinical metaphors where no biological mapping is tested.
+
+## Provenance notes
+
+- The delayed-preference code was modified 42 seconds after its stored metrics file and now contains a `contrasts` payload absent from that JSON. Results above use the stored JSON; the current code is used only to interpret the assay.
+- `embodied_unity_loop.py` was modified after the 2026-07-13 course log. The current implementation cannot be assumed byte-identical to the controller that generated the recorded run.
+- The local working tree contains modified and untracked experiment files. These are preserved as user work and were not normalized during this audit.
+- Zero simulated collisions in several navigation results include an explicit body-clearance mask. They do not show that collision avoidance emerged solely from the learned policy or predictive model.
+- README prose is treated as project framing unless corroborated by code and stored outputs.

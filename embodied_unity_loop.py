@@ -189,6 +189,10 @@ class ShadowRecorder:
             "food_visible": bool(body_state.get("food_visible", False)),
             "food_distance": body_state.get("food_distance"),
             "food_world": [body_state.get("food_world_x"), body_state.get("food_world_z")],
+            "food_available_in_radius": int(body_state.get("food_available_in_radius", 0) or 0),
+            "food_visible_in_radius": int(body_state.get("food_visible_in_radius", 0) or 0),
+            "food_occluded_in_radius": int(body_state.get("food_occluded_in_radius", 0) or 0),
+            "nearest_available_food_distance": body_state.get("nearest_available_food_distance"),
             "hunger": ego.hunger,
             "active_action": active_action,
             "active_intent": ego.intent_label(active_action),
@@ -202,10 +206,28 @@ class ShadowRecorder:
             "shadow_mpc": ego.shadow_mpc,
             "shadow_mpc_engaged": ego.shadow_mpc_engaged,
             "shadow_mpc_score": ego.shadow_mpc_score,
+            "shadow_mpc_mode": ego.shadow_mpc_mode,
+            "shadow_mpc_horizon": ego.shadow_mpc_horizon,
+            "shadow_mpc_depth": ego.shadow_mpc_depth,
+            "shadow_mpc_uncertainty_stops": ego.shadow_mpc_uncertainty_stops,
+            "food_sensor_radius": ego.shadow_food_sensor_radius,
             "blocked": bool(body_state.get("blocked", False)),
             "body_collision": bool(body_state.get("horizontal_collision", False)),
             "stuck": ego.current_stuck,
+            "stuck_events": ego.stuck_events,
+            "physics_wedge_seconds": ego.physics_wedge_ticks / ego.hz,
+            "fallback_active": ego.shadow_fallback_hold_ticks > 0,
+            "fallback_seconds_remaining": ego.shadow_fallback_hold_ticks / ego.hz,
+            "unstuck_respawns": ego.unstuck_respawns,
             "trap_pressure": ego.local_trap_pressure(body_state),
+            "survival_state": ego.survival_state,
+            "survival_failures": ego.survival_failure_events,
+            "survival_failure_reason": ego.survival_failure_reason,
+            "critical_hunger_seconds": ego.critical_hunger_ticks / ego.hz,
+            "forage_lapse_seconds": ego.forage_lapse_ticks / ego.hz,
+            "seconds_since_food": ego.ticks_since_food / ego.hz,
+            "generation": ego.generation,
+            "handoff_events": ego.handoff_events,
             "workspace_problem": ego.workspace_packet["problem"],
             "workspace_strategy": ego.workspace_packet["strategy"],
             "trap_course": body_state.get("trap_course", "natural_terrain"),
@@ -215,6 +237,7 @@ class ShadowRecorder:
             "trap_outcome": body_state.get("trap_outcome", "inactive"),
             "mushroom_pickups_total": body_state.get("mushroom_pickups_total", 0),
             "mushroom_reward_total": body_state.get("mushroom_reward_total", 0.0),
+            "mushrooms_eaten": ego.mushrooms_eaten,
         }
         self.handle.write(json.dumps(row, separators=(",", ":")) + "\n")
         self.rows += 1
@@ -246,7 +269,7 @@ class EmbodiedFunctionalEgo:
         acetylcholine=0.35,
         noise_injection=0.0,
         calcium_gate=0.45,
-        unstuck_respawn_seconds=0.0,
+        unstuck_respawn_seconds=45.0,
         shadow_checkpoint=None,
         shadow_control="passive",
         shadow_control_confidence=0.55,
@@ -308,6 +331,7 @@ class EmbodiedFunctionalEgo:
         self.mushrooms_eaten = 0
         self.last_mushroom_pickup_total = 0
         self.last_mushroom_reward_total = 0.0
+        self.food_feedback_initialized = False
         self.ticks_since_food = 0
         self.food_seek_ticks = 0
         self.food_seek_move = (0.0, 0.0)
@@ -372,7 +396,16 @@ class EmbodiedFunctionalEgo:
         self.shadow_body_safe_actions = 0
         self.shadow_mpc = bool(shadow_mpc)
         self.shadow_mpc_engaged = False
+        self.shadow_mpc_hold_ticks = 0
+        self.shadow_fallback_hold_ticks = 0
         self.shadow_mpc_score = 0.0
+        self.shadow_mpc_mode = "recurrent"
+        self.shadow_mpc_horizon = 0
+        self.shadow_mpc_depth = 0.0
+        self.shadow_mpc_uncertainty_stops = 0
+        self.shadow_mpc_planning_frames = 0
+        self.shadow_mpc_critical_frames = 0
+        self.shadow_food_sensor_radius = 16.0
         self.trap_course_label = "natural_terrain"
         self.trap_course_episode = 0
         self.trap_course_successes = 0
@@ -438,8 +471,26 @@ class EmbodiedFunctionalEgo:
                 body_blocked[0, int(max(range(8), key=lambda index: rays[index]))] = False
             logits = logits.masked_fill(body_blocked, -1e9)
             probabilities = torch.softmax(logits, dim=-1)[0]
+            self.shadow_entropy = float((-(probabilities * torch.log(probabilities.clamp_min(1e-8))).sum()).item())
+            recurrent_selected = int(torch.argmax(probabilities).item())
+            tactical_obstacle = (
+                rays[recurrent_selected] < 0.72
+                or bool(body_state.get("blocked", False))
+                or bool(body_state.get("horizontal_collision", False))
+            )
+            if self.shadow_control == "terrain":
+                mpc_needed = food_visible > 0.0 or tactical_obstacle
+            else:
+                mpc_needed = food_visible > 0.0
+            if mpc_needed:
+                self.shadow_mpc_hold_ticks = max(
+                    self.shadow_mpc_hold_ticks,
+                    max(2, int(round(self.hz * 1.5))),
+                )
+            else:
+                self.shadow_mpc_hold_ticks = max(0, self.shadow_mpc_hold_ticks - 1)
             self.shadow_mpc_engaged = self.shadow_mpc and (
-                self.shadow_control != "course" or food_visible > 0.0
+                mpc_needed or self.shadow_mpc_hold_ticks > 0
             )
             if self.shadow_mpc_engaged:
                 selected, self.shadow_mpc_score = self.select_mpc_action(
@@ -449,8 +500,12 @@ class EmbodiedFunctionalEgo:
                     body_clearance,
                 )
             else:
-                selected = int(torch.argmax(probabilities).item())
+                selected = recurrent_selected
                 self.shadow_mpc_score = 0.0
+                self.shadow_mpc_mode = "recurrent"
+                self.shadow_mpc_horizon = 0
+                self.shadow_mpc_depth = 0.0
+                self.shadow_mpc_uncertainty_stops = 0
         if self.shadow_previous_position is not None and self.shadow_previous_proposal in SHADOW_VECTORS:
             dx = position[0] - self.shadow_previous_position[0]
             dz = position[1] - self.shadow_previous_position[1]
@@ -462,7 +517,6 @@ class EmbodiedFunctionalEgo:
                 self.shadow_agreement = clamp(0.5 * (cosine + 1.0))
         self.shadow_action = SHADOW_ACTIONS[selected]
         self.shadow_confidence = float(torch.max(probabilities).item()) if self.shadow_mpc else float(probabilities[selected].item())
-        self.shadow_entropy = float((-(probabilities * torch.log(probabilities.clamp_min(1e-8))).sum()).item())
         self.shadow_probabilities = [float(value) for value in probabilities.tolist()]
         self.shadow_body_safe_actions = sum(value >= 0.5 for value in body_clearance)
         self.shadow_previous_position = position
@@ -489,24 +543,58 @@ class EmbodiedFunctionalEgo:
             and self.local_trap_pressure(body_state) < 0.20
         )
         course_label = body_state.get("trap_course", "natural_terrain")
+        if course_label not in {None, "", "natural_terrain"}:
+            self.shadow_food_sensor_radius = 13.0 if self.hunger >= 0.92 else 10.0 if self.hunger >= 0.70 else 7.0
+        else:
+            self.shadow_food_sensor_radius = 28.0 if self.hunger >= 0.92 else 22.0 if self.hunger >= 0.70 else 16.0
         safe_course_control = (
             self.shadow_control == "course"
             and course_label not in {None, "", "natural_terrain"}
-            and self.physics_wedge_ticks < int(round(self.hz * 8.0))
         )
         safe_terrain_control = (
             self.shadow_control == "terrain"
             and course_label in {None, "", "natural_terrain"}
-            and self.physics_wedge_ticks < int(round(self.hz * 8.0))
         )
+        fallback_threshold = int(round(self.hz * 8.0))
+        if self.physics_wedge_ticks >= fallback_threshold and self.shadow_fallback_hold_ticks <= 0:
+            self.shadow_fallback_hold_ticks = max(1, int(round(self.hz * 12.0)))
+            self.breakout_plan.clear()
+            self.escape_ticks = 0
+            self.escape_action = None
+            self.stuck_cooldown = 0
+        fallback_active = self.shadow_fallback_hold_ticks > 0
+        if fallback_active:
+            self.shadow_fallback_hold_ticks -= 1
         self.shadow_takeover = base_learned_control and (
             safe_food_control or safe_course_control or safe_terrain_control
-        )
+        ) and not fallback_active
         self.shadow_previous_action = selected if self.shadow_takeover else self.action_index(active_action)
         if self.shadow_takeover:
             self.shadow_takeover_steps += 1
 
     def select_mpc_action(self, obs, probabilities, next_hidden, body_clearance):
+        normalized_entropy = self.shadow_entropy / math.log(len(SHADOW_ACTIONS)) if self.shadow_entropy > 0.0 else 0.0
+        proposed = int(self.shadow_torch.argmax(probabilities).item())
+        proposed_clearance = float(obs[0, proposed].item())
+        horizon = 4
+        if normalized_entropy >= 0.55 or proposed_clearance < 0.48 or self.physics_wedge_ticks > 0:
+            horizon = 6
+        if self.hunger >= 0.70 or self.physics_wedge_ticks >= int(round(self.hz * 3.0)):
+            horizon = max(horizon, 6)
+        self.shadow_mpc_mode = "critical_targeting" if self.hunger >= 0.92 else "adaptive_stochastic"
+        self.shadow_mpc_horizon = horizon
+        self.shadow_mpc_planning_frames += 1
+        if self.hunger >= 0.92:
+            self.shadow_mpc_critical_frames += 1
+        return self.select_stochastic_mpc_action(
+            obs,
+            probabilities,
+            next_hidden,
+            body_clearance,
+            horizon=horizon,
+        )
+
+    def select_consensus_mpc_action(self, obs, probabilities, next_hidden, body_clearance, horizon=4):
         torch = self.shadow_torch
         previous = int(torch.argmax(obs[0, 12:20]).item())
         scores = [-math.inf] * len(SHADOW_ACTIONS)
@@ -517,7 +605,7 @@ class EmbodiedFunctionalEgo:
                 imagined_hidden = next_hidden.clone()
                 score = 0.18 * float(torch.log(probabilities[root].clamp_min(1e-8)).item())
                 prior_action = previous
-                for depth in range(4):
+                for depth in range(horizon):
                     action = torch.tensor([root], dtype=torch.long)
                     ensemble = self.shadow_policy.predict_core(imagined_hidden, action)
                     core = ensemble.mean(dim=0)
@@ -537,7 +625,7 @@ class EmbodiedFunctionalEgo:
                     )
                     jerk = 0.5 * (1.0 - max(-1.0, min(1.0, cosine))) if depth == 0 else 0.0
                     score += 0.08 * visible * (1.0 - min(1.0, food_distance))
-                    score -= 0.34 * collision_risk + 0.12 * jerk + 0.16 * uncertainty
+                    score -= 0.34 * collision_risk + 0.025 * jerk + 0.16 * uncertainty
                     previous_one_hot = torch.zeros(1, len(SHADOW_ACTIONS))
                     previous_one_hot[0, root] = 1.0
                     estimated_reward = torch.tensor([[max(-0.2, min(0.2, score / (depth + 1)))]])
@@ -547,6 +635,90 @@ class EmbodiedFunctionalEgo:
                 scores[root] = score
         selected = max(range(len(scores)), key=lambda index: scores[index])
         return selected, float(scores[selected])
+
+    def select_stochastic_mpc_action(
+        self,
+        obs,
+        probabilities,
+        next_hidden,
+        body_clearance,
+        horizon,
+        samples=3,
+        uncertainty_budget=0.0015,
+    ):
+        torch = self.shadow_torch
+        roots = len(SHADOW_ACTIONS)
+        batch = roots * samples
+        root_actions = torch.arange(roots, dtype=torch.long).repeat_interleave(samples)
+        imagined_hidden = next_hidden.repeat(batch, 1)
+        scores = 0.18 * torch.log(probabilities[root_actions].clamp_min(1e-8))
+        cumulative_uncertainty = torch.zeros(batch)
+        active = torch.ones(batch, dtype=torch.bool)
+        depths = torch.zeros(batch)
+        previous = int(torch.argmax(obs[0, 12:20]).item())
+        previous_actions = torch.full((batch,), previous, dtype=torch.long)
+        move_tensor = torch.tensor(
+            [SHADOW_VECTORS[action] for action in SHADOW_ACTIONS],
+            dtype=torch.float32,
+        )
+        move_tensor /= torch.linalg.vector_norm(move_tensor, dim=-1, keepdim=True)
+        uncertainty_stops = 0
+
+        with torch.no_grad():
+            for depth in range(horizon):
+                ensemble = self.shadow_policy.predict_core(imagined_hidden, root_actions)
+                disagreement = torch.var(ensemble, dim=0).mean(dim=-1)
+                consensus = ensemble.mean(dim=0)
+                head_indices = torch.randint(ensemble.shape[0], (batch,))
+                batch_indices = torch.arange(batch)
+                sampled = ensemble[head_indices, batch_indices]
+                core = (consensus + 0.35 * (sampled - consensus)).clone()
+                core[:, :8] = core[:, :8].clamp(0.0, 1.0)
+                core[:, 8:9] = core[:, 8:9].clamp(0.0, 1.0)
+                core[:, 9:11] = core[:, 9:11].clamp(-1.0, 1.0)
+                core[:, 11:12] = core[:, 11:12].clamp(0.0, 1.0)
+
+                cumulative_uncertainty += disagreement * active.float()
+                trusted = active & (cumulative_uncertainty <= uncertainty_budget)
+                uncertainty_stops += int(torch.sum(active & ~trusted).item())
+                step_mask = active.float()
+                clearance = core[batch_indices, root_actions]
+                visible = torch.sigmoid(5.0 * (core[:, 8] - 0.5))
+                food_distance = torch.linalg.vector_norm(core[:, 9:11], dim=-1).clamp(0.0, 1.0)
+                collision_risk = torch.clamp(0.12 - clearance, min=0.0) * 8.0
+                cosine = torch.sum(move_tensor[previous_actions] * move_tensor[root_actions], dim=-1).clamp(-1.0, 1.0)
+                jerk = 0.5 * (1.0 - cosine) if depth == 0 else torch.zeros(batch)
+                step_score = (
+                    0.08 * visible * (1.0 - food_distance)
+                    - 0.34 * collision_risk
+                    - 0.025 * jerk
+                    - 0.16 * disagreement
+                )
+                scores += step_mask * step_score
+                depths += step_mask
+
+                previous_one_hot = torch.zeros(batch, roots)
+                previous_one_hot[batch_indices, root_actions] = 1.0
+                estimated_reward = torch.clamp(scores / float(depth + 1), -0.2, 0.2).unsqueeze(-1)
+                imagined_obs = torch.cat([core, previous_one_hot, estimated_reward], dim=-1)
+                _logits, _value, imagined_hidden = self.shadow_policy.step(imagined_obs, imagined_hidden)
+                previous_actions = root_actions
+                active = trusted
+                if not bool(torch.any(active).item()):
+                    break
+
+        sample_scores = scores.reshape(roots, samples)
+        mean = sample_scores.mean(dim=-1)
+        downside = torch.quantile(sample_scores, 0.25, dim=-1)
+        spread = sample_scores.std(dim=-1, unbiased=False)
+        risk_adjusted = 0.75 * mean + 0.25 * downside - 0.25 * spread
+        for root, clearance in enumerate(body_clearance):
+            if clearance < 0.5:
+                risk_adjusted[root] = -math.inf
+        selected = int(torch.argmax(risk_adjusted).item())
+        self.shadow_mpc_depth = float(depths.reshape(roots, samples)[selected].mean().item())
+        self.shadow_mpc_uncertainty_stops = uncertainty_stops
+        return selected, float(risk_adjusted[selected].item())
 
     @staticmethod
     def action_index(action):
@@ -698,6 +870,13 @@ class EmbodiedFunctionalEgo:
             except (TypeError, ValueError):
                 reward_total = self.last_mushroom_reward_total
 
+            if not self.food_feedback_initialized:
+                self.last_mushroom_pickup_total = pickup_total
+                self.last_mushroom_reward_total = reward_total
+                self.food_feedback_initialized = True
+                pickup_total = self.last_mushroom_pickup_total
+                reward_total = self.last_mushroom_reward_total
+
             if pickup_total < self.last_mushroom_pickup_total or reward_total < self.last_mushroom_reward_total:
                 self.last_mushroom_pickup_total = 0
                 self.last_mushroom_reward_total = 0.0
@@ -714,7 +893,6 @@ class EmbodiedFunctionalEgo:
                 self.critical_hunger_ticks = 0
                 self.forage_lapse_ticks = 0
                 self.survival_failed = False
-                self.survival_failure_reason = "none"
                 self.dopamine_food_boost = clamp(self.dopamine_food_boost + reward)
                 self.shadow_last_reward = reward
             self.last_mushroom_pickup_total = pickup_total
@@ -941,7 +1119,6 @@ class EmbodiedFunctionalEgo:
             self.survival_failure_reason = "sustained_starvation"
         elif self.hunger < 0.55:
             self.survival_failed = False
-            self.survival_failure_reason = "none"
 
         if failing_now:
             self.survival_state = "failing"
@@ -1075,13 +1252,23 @@ class EmbodiedFunctionalEgo:
 
         start_x, start_z = self.position_history[0]
         distance = math.hypot(x - start_x, z - start_z)
+        path_length = sum(
+            math.hypot(current_x - previous_x, current_z - previous_z)
+            for (previous_x, previous_z), (current_x, current_z)
+            in zip(self.position_history, list(self.position_history)[1:])
+        )
+        xs = [sample_x for sample_x, _sample_z in self.position_history]
+        zs = [sample_z for _sample_x, sample_z in self.position_history]
+        pocket_span = math.hypot(max(xs) - min(xs), max(zs) - min(zs))
         trying_to_move = self.last_action not in {"idle", "sleep", "wake"}
         contact_evidence = (
             bool(body_state.get("blocked", False))
             or bool(body_state.get("horizontal_collision", False))
             or body_state.get("animation") == "Idle"
         )
-        return trying_to_move and contact_evidence and distance < 0.45
+        stalled = distance < 0.80
+        orbiting = path_length >= 1.0 and pocket_span < 1.8
+        return trying_to_move and contact_evidence and (stalled or orbiting)
 
     def memory_cell(self, body_state):
         if body_state is None:
@@ -1318,6 +1505,21 @@ class EmbodiedFunctionalEgo:
         if body_state is None:
             self.last_action = "idle"
             return "idle"
+
+        if self.unstuck_respawn_ticks > 0 and self.physics_wedge_ticks >= self.unstuck_respawn_ticks:
+            self.survival_failure_events += 1
+            self.survival_failure_reason = "persistent_physics_wedge"
+            self.unstuck_respawns += 1
+            self.physics_wedge_ticks = 0
+            self.contact_probe_ticks = 0
+            self.stuck_cooldown = max(self.stuck_cooldown, int(round(self.hz * 8.0)))
+            self.breakout_plan.clear()
+            self.breakout_style = "none"
+            self.escape_ticks = 0
+            self.escape_action = None
+            self.heading_ticks = 0
+            self.last_action = "unstuck_respawn"
+            return "unstuck_respawn"
 
         if self.survival_failed:
             self.unstuck_respawns += 1
@@ -1746,6 +1948,13 @@ class EmbodiedFunctionalEgo:
             "shadow_mpc": self.shadow_mpc,
             "shadow_mpc_engaged": self.shadow_mpc_engaged,
             "shadow_mpc_score": round(self.shadow_mpc_score, 4),
+            "shadow_mpc_mode": self.shadow_mpc_mode,
+            "shadow_mpc_horizon": self.shadow_mpc_horizon,
+            "shadow_mpc_depth": round(self.shadow_mpc_depth, 3),
+            "shadow_mpc_uncertainty_stops": self.shadow_mpc_uncertainty_stops,
+            "shadow_mpc_planning_frames": self.shadow_mpc_planning_frames,
+            "shadow_mpc_critical_frames": self.shadow_mpc_critical_frames,
+            "food_sensor_radius": round(self.shadow_food_sensor_radius, 2),
             "trap_course": self.trap_course_label,
             "trap_episode": self.trap_course_episode,
             "trap_successes": self.trap_course_successes,
@@ -1845,7 +2054,13 @@ def main():
     parser.add_argument("--acetylcholine", type=float, default=0.35, help="Baseline cleanup/attention dose; higher values improve waking repair.")
     parser.add_argument("--noise-injection", type=float, default=0.0, help="Injected perception/noise pressure for testing unstable behavior.")
     parser.add_argument("--calcium-gate", type=float, default=0.45, help="Excitability/promotion gate; high values amplify weak signals and false salience.")
-    parser.add_argument("--unstuck-respawn-seconds", type=float, default=0.0, help="Deprecated diagnostic setting. Respawn now happens only after survival failure.")
+    parser.add_argument(
+        "--initial-hunger",
+        type=float,
+        default=None,
+        help="Diagnostic initial hunger override in the normalized 0..1 range.",
+    )
+    parser.add_argument("--unstuck-respawn-seconds", type=float, default=45.0, help="Respawn after this many seconds in a persistent physics wedge; use 0 to disable.")
     parser.add_argument("--delusion-drive", type=float, default=None, help="Deprecated alias for --noise-injection.")
     parser.add_argument(
         "--shadow-policy",
@@ -1904,6 +2119,8 @@ def main():
         shadow_control_confidence=args.shadow_control_confidence,
         shadow_mpc=args.shadow_mpc,
     )
+    if args.initial_hunger is not None:
+        ego.hunger = clamp(args.initial_hunger)
     delay = 1.0 / max(args.hz, 0.1)
     started = time.time()
     latest_body = None

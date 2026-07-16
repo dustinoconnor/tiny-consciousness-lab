@@ -24,6 +24,10 @@ for making questions about recurrent systems visible:
 This is a compact functional research architecture, not evidence of phenomenal
 consciousness, open-ended general intelligence, or biological equivalence.
 
+Research artifacts: [paper draft](paper/RESEARCH_PAPER_DRAFT.md),
+[evidence ledger](paper/EVIDENCE_LEDGER.md), and
+[reproducibility guide](REPRODUCIBILITY.md).
+
 ## Strongest Recent Result
 
 The strongest embodied result is a visibility-gated recurrent/MPC controller
@@ -41,6 +45,15 @@ controller evaluates policy prior, food progress, collision risk, model
 uncertainty, and angular jerk before executing one action and re-anchoring to
 fresh telemetry. Full-time MPC failed all U-Trap and L-Wall attempts when food
 was hidden; visibility gating changed the live result from 8/13 to 12/12.
+
+A later terrain diagnostic reproduced a critical-hunger failure at the exact
+location implicated by an overnight run. Normal control collected 18 mushrooms
+in three minutes, whereas continuous critical-hunger MPC collected zero and
+accumulated 77.8 collision-seconds. Restoring recurrent exploration whenever no
+target was visible, while reserving short stochastic MPC for grounded targets
+or obstacles, restored 18 pickups, zero stuck events, and hunger recovery in
+25.3 seconds. This is a targeted mechanism test, not a substitute for a new
+long-duration validation.
 
 On 108 matched continuous courses, calibrated MPC reached **95.37% success**
 versus 90.74% for the raw GRU, reduced mean steps from 102.2 to 86.3, reduced
@@ -1133,7 +1146,18 @@ The raw checkpoint is `checkpoints/unity_posttrained/best.pt`; the
 Unity-calibrated predictive checkpoint is `checkpoints/unity_mpc/best.pt`.
 Complete results are in `outputs/unity_posttraining_metrics.json`,
 `outputs/unity_mpc_calibration_metrics.json`, and
-`outputs/unity_mpc_selected_evaluation.json`.
+`outputs/unity_mpc_selected_evaluation.json`. The critical-hunger reproduction
+and repair summary is in
+`outputs/unity_critical_hunger_reanchoring_metrics.json`.
+
+### Reproducible Unity Course
+
+`unity/TrapCourseLab` is a small standalone Unity project for reproducing the
+six-course UDP experiment. It builds the deck, walls, capsule robot, mushroom,
+camera, colliders, and HUD entirely from Unity primitives. It deliberately
+excludes the 4.1 GB terrain/art asset collection used for exploratory terrain
+runs. Open the folder in Unity Hub and follow
+`unity/TrapCourseLab/README.md`; no purchased or downloaded art is required.
 
 Run the full gated experiment with:
 
@@ -2340,8 +2364,10 @@ That gives the current capstone rule:
 ## Embodied Unity Loop
 
 `embodied_unity_loop.py` is the first bridge from the Python functional ego to a
-Unity body. It talks to the Unity project at `/Users/dustinoconnor/My project`
-through UDP:
+Unity body. The reproducible course project is included at
+`unity/TrapCourseLab`; exploratory terrain runs use a separate local project
+whose third-party art is not part of this repository. Both communicate through
+UDP:
 
 - Python sends commands to Unity on `127.0.0.1:5055`
 - Unity sends robot/body state back to Python on `127.0.0.1:5056`
@@ -2368,7 +2394,6 @@ take control without removing the embodied loop.
 Run the Python side with:
 
 ```zsh
-cd /Users/dustinoconnor/tiny_consciousness_lab
 ./embodied_unity_loop.py --sleep-seconds 60
 ```
 
@@ -2518,50 +2543,49 @@ This project could be turned into a short narrated explainer:
 
 ## How To Run
 
-This project currently uses the local Miniforge Python on this machine because
-it already has PyTorch and Matplotlib installed.
+Install `requirements.txt` in an isolated environment as described in
+`REPRODUCIBILITY.md`, then run these commands from the repository root:
 
 ```zsh
-cd /Users/dustinoconnor/tiny_consciousness_lab
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 tiny_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 hidden_binarization_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 pyphi_comparison_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 exact_phi_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 intervention_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 wirehead_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 valence_shaping_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 valence_scaling_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 imagination_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 maze_imagination_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 imagination_phi_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 delusional_integration_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 attention_valence_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 attention_shift_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 modular_workspace_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 conditional_workspace_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 self_report_workspace_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 workspace_lift_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 ego_lens_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 altered_state_robustness_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 altered_state_stabilizer_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 unified_mind_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 social_workspace_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 partial_observer_social_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 hierarchical_workspace_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 hierarchy_scaling_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 executive_blindspot_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 sleep_homeostasis_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 sleep_cycle_agent_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 adaptive_sleep_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 biological_control_lab.py
-/opt/homebrew/Caskroom/miniforge/base/bin/python3.13 unified_functional_ego_lab.py
+python tiny_lab.py
+python hidden_binarization_lab.py
+python pyphi_comparison_lab.py
+python exact_phi_lab.py
+python intervention_lab.py
+python wirehead_lab.py
+python valence_shaping_lab.py
+python valence_scaling_lab.py
+python imagination_lab.py
+python maze_imagination_lab.py
+python imagination_phi_lab.py
+python delusional_integration_lab.py
+python attention_valence_lab.py
+python attention_shift_lab.py
+python modular_workspace_lab.py
+python conditional_workspace_lab.py
+python self_report_workspace_lab.py
+python workspace_lift_lab.py
+python ego_lens_lab.py
+python altered_state_robustness_lab.py
+python altered_state_stabilizer_lab.py
+python unified_mind_lab.py
+python social_workspace_lab.py
+python partial_observer_social_lab.py
+python hierarchical_workspace_lab.py
+python hierarchy_scaling_lab.py
+python executive_blindspot_lab.py
+python sleep_homeostasis_lab.py
+python sleep_cycle_agent_lab.py
+python adaptive_sleep_lab.py
+python biological_control_lab.py
+python unified_functional_ego_lab.py
 ./embodied_unity_loop.py --sleep-seconds 60
 ```
 
 Outputs land in:
 
 ```text
-/Users/dustinoconnor/tiny_consciousness_lab/outputs
+outputs/
 ```
 
 ## Files
@@ -2600,6 +2624,17 @@ Outputs land in:
 - `biological_control_lab.py` - low-road veto, inhibitory action gate, and neuromodulation toy tests
 - `unified_functional_ego_lab.py` - combined hierarchy, neuromodulation, causal credit, fatigue, repair, and sleep stack
 - `embodied_unity_loop.py` - UDP bridge from the functional ego to a Unity robot body
+- `adaptive_stochastic_mpc_lab.py` - uncertainty-bounded adaptive MPC comparison
+- `delayed_preference_benchmark.py` - matched delayed-outcome memory benchmark
+- `recurrent_valence_benchmark.py` - exploratory matched architecture benchmark
+- `starvation_exploration_lab.py` - deprivation-driven exploration assay
+- `starvation_posttraining_lab.py` - Unity-calibrated novelty post-training
+- `midi_transfer_lab.py` - cross-domain temporal-policy transfer benchmark
+- `midi_rhythm_learning_lab.py` - learned stochastic rhythm checkpoint
+- `live_midi_generator.py` - interactive IAC MIDI generator
+- `paper/RESEARCH_PAPER_DRAFT.md` - audit-first research paper draft
+- `paper/EVIDENCE_LEDGER.md` - claim-by-claim evidence and limitation ledger
+- `unity/TrapCourseLab` - asset-free reproducible Unity trap-course project
 - `outputs/metrics.json` - recurrent agent metrics
 - `outputs/hidden_binarization_metrics.json` - empirical integration on binarized trained hidden states
 - `outputs/pyphi_comparison_metrics.json` - PyPhi comparison metrics
@@ -2632,6 +2667,7 @@ Outputs land in:
 - `outputs/adaptive_sleep_metrics.json` - adaptive sleep and fatigue self-report metrics
 - `outputs/biological_control_metrics.json` - biological control motif metrics
 - `outputs/unified_functional_ego_metrics.json` - combined functional-ego stack metrics and traces
+- `outputs/unity_critical_hunger_reanchoring_metrics.json` - matched terrain failure reproduction and repair
 
 ## Next Steps
 

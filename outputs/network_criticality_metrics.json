@@ -1,0 +1,2972 @@
+{
+  "summary": [
+    {
+      "gain": 0.5,
+      "seeds": 8,
+      "mean_lyapunov": -0.6971136044697646,
+      "std_lyapunov": 0.003229333255949037,
+      "mean_memory_capacity": 7.051947390785037,
+      "std_memory_capacity": 0.35359324356732663,
+      "mean_delayed_accuracy": 0.48636363636363633,
+      "std_delayed_accuracy": 0.030491836056815314,
+      "mean_dynamic_range_db": 20.740739822387695,
+      "std_dynamic_range_db": 0.0,
+      "mean_effective_dimension": 1.4293612557923066,
+      "std_effective_dimension": 0.12468565198481002,
+      "mean_saturation_fraction": 0.0,
+      "std_saturation_fraction": 0.0,
+      "mean_mean_avalanche_size": 8.836805555555555,
+      "std_mean_avalanche_size": 1.5591747023072222,
+      "mean_avalanche_size_cv": 0.3174876174653619,
+      "std_avalanche_size_cv": 0.04981357748225149,
+      "mean_mean_avalanche_duration": 1.2291666666666665,
+      "std_mean_avalanche_duration": 0.1633052224486784,
+      "mean_branching_ratio": 2.4931679261127835,
+      "std_branching_ratio": 0.10291115073452523,
+      "mean_runaway_fraction": 0.0,
+      "std_runaway_fraction": 0.0,
+      "mean_seed": 7303.5,
+      "std_seed": 2.29128784747792
+    },
+    {
+      "gain": 0.65,
+      "seeds": 8,
+      "mean_lyapunov": -0.4349991718397873,
+      "std_lyapunov": 0.0021584472736413327,
+      "mean_memory_capacity": 8.665892072424697,
+      "std_memory_capacity": 0.3205610133783384,
+      "mean_delayed_accuracy": 0.49715909090909094,
+      "std_delayed_accuracy": 0.03706270513022827,
+      "mean_dynamic_range_db": 20.740739822387695,
+      "std_dynamic_range_db": 0.0,
+      "mean_effective_dimension": 1.8296365926347855,
+      "std_effective_dimension": 0.2541096194504954,
+      "mean_saturation_fraction": 0.0,
+      "std_saturation_fraction": 0.0,
+      "mean_mean_avalanche_size": 19.34027777777778,
+      "std_mean_avalanche_size": 3.5284270509256253,
+      "mean_avalanche_size_cv": 0.2672859326535493,
+      "std_avalanche_size_cv": 0.03657533112872968,
+      "mean_mean_avalanche_duration": 2.28125,
+      "std_mean_avalanche_duration": 0.28622149300071015,
+      "mean_branching_ratio": 0.9321278432818805,
+      "std_branching_ratio": 0.5759600287742007,
+      "mean_runaway_fraction": 0.0,
+      "std_runaway_fraction": 0.0,
+      "mean_seed": 7303.5,
+      "std_seed": 2.29128784747792
+    },
+    {
+      "gain": 0.8,
+      "seeds": 8,
+      "mean_lyapunov": -0.2291131237843867,
+      "std_lyapunov": 0.0022513465267913146,
+      "mean_memory_capacity": 10.02814088650382,
+      "std_memory_capacity": 0.4804155347912222,
+      "mean_delayed_accuracy": 0.50625,
+      "std_delayed_accuracy": 0.04033290573618478,
+      "mean_dynamic_range_db": 20.740739822387695,
+      "std_dynamic_range_db": 0.0,
+      "mean_effective_dimension": 2.4993439149376107,
+      "std_effective_dimension": 0.45957537785624886,
+      "mean_saturation_fraction": 0.0,
+      "std_saturation_fraction": 0.0,
+      "mean_mean_avalanche_size": 42.44444444444444,
+      "std_mean_avalanche_size": 9.961323257175756,
+      "mean_avalanche_size_cv": 0.26742138352685263,
+      "std_avalanche_size_cv": 0.030374674677161113,
+      "mean_mean_avalanche_duration": 4.185763888888889,
+      "std_mean_avalanche_duration": 0.7245867243494013,
+      "mean_branching_ratio": 0.7847157740407178,
+      "std_branching_ratio": 0.024809888867363433,
+      "mean_runaway_fraction": 0.0,
+      "std_runaway_fraction": 0.0,
+      "mean_seed": 7303.5,
+      "std_seed": 2.29128784747792
+    },
+    {
+      "gain": 0.95,
+      "seeds": 8,
+      "mean_lyapunov": -0.0626379208403792,
+      "std_lyapunov": 0.005552592736940421,
+      "mean_memory_capacity": 11.166902400429235,
+      "std_memory_capacity": 0.8301488394482405,
+      "mean_delayed_accuracy": 0.5159090909090909,
+      "std_delayed_accuracy": 0.0381655809630606,
+      "mean_dynamic_range_db": 21.481481075286865,
+      "std_dynamic_range_db": 1.2830014852835891,
+      "mean_effective_dimension": 3.6211669827015824,
+      "std_effective_dimension": 0.7045867739203143,
+      "mean_saturation_fraction": 4.734848484848485e-05,
+      "std_saturation_fraction": 8.416850773973095e-05,
+      "mean_mean_avalanche_size": 130.76909722222223,
+      "std_mean_avalanche_size": 48.853891719938225,
+      "mean_avalanche_size_cv": 0.36391927464582574,
+      "std_avalanche_size_cv": 0.0809525717617089,
+      "mean_mean_avalanche_duration": 11.588541666666666,
+      "std_mean_avalanche_duration": 3.1472352277055493,
+      "mean_branching_ratio": 0.9081131346532983,
+      "std_branching_ratio": 0.019539948359655456,
+      "mean_runaway_fraction": 0.0,
+      "std_runaway_fraction": 0.0,
+      "mean_seed": 7303.5,
+      "std_seed": 2.29128784747792
+    },
+    {
+      "gain": 1.1,
+      "seeds": 8,
+      "mean_lyapunov": -0.021244487537038514,
+      "std_lyapunov": 0.0285644014423114,
+      "mean_memory_capacity": 11.153051472518968,
+      "std_memory_capacity": 0.5680992611616076,
+      "mean_delayed_accuracy": 0.6829545454545455,
+      "std_delayed_accuracy": 0.1788933786060594,
+      "mean_dynamic_range_db": 23.703704595565796,
+      "std_dynamic_range_db": 1.4814820289612392,
+      "mean_effective_dimension": 5.405272871375665,
+      "std_effective_dimension": 0.8579670167564071,
+      "mean_saturation_fraction": 0.000625,
+      "std_saturation_fraction": 0.0009565800226647266,
+      "mean_mean_avalanche_size": 3034.159722222222,
+      "std_mean_avalanche_size": 137.40920683657555,
+      "mean_avalanche_size_cv": 0.07162140023000385,
+      "std_avalanche_size_cv": 0.08955856449875245,
+      "mean_mean_avalanche_duration": 79.33159722222223,
+      "std_mean_avalanche_duration": 1.7684275256247717,
+      "mean_branching_ratio": 1.0164102485862192,
+      "std_branching_ratio": 0.005736993932625224,
+      "mean_runaway_fraction": 0.9895833333333333,
+      "std_runaway_fraction": 0.027559909490256163,
+      "mean_seed": 7303.5,
+      "std_seed": 2.29128784747792
+    },
+    {
+      "gain": 1.25,
+      "seeds": 8,
+      "mean_lyapunov": -0.0019292014897020274,
+      "std_lyapunov": 0.04812294819987244,
+      "mean_memory_capacity": 9.025457535667346,
+      "std_memory_capacity": 0.5490964322353052,
+      "mean_delayed_accuracy": 0.7488636363636364,
+      "std_delayed_accuracy": 0.16421535824732572,
+      "mean_dynamic_range_db": 24.814815521240234,
+      "std_dynamic_range_db": 1.434437729178763,
+      "mean_effective_dimension": 6.617983867242467,
+      "std_effective_dimension": 1.685797660524144,
+      "mean_saturation_fraction": 0.004649621212121213,
+      "std_saturation_fraction": 0.003861395945043519,
+      "mean_mean_avalanche_size": 3463.909722222222,
+      "std_mean_avalanche_size": 28.46463228782106,
+      "mean_avalanche_size_cv": 0.009371411751226515,
+      "std_avalanche_size_cv": 0.003665117327922058,
+      "mean_mean_avalanche_duration": 80.0,
+      "std_mean_avalanche_duration": 0.0,
+      "mean_branching_ratio": 1.0155961125118564,
+      "std_branching_ratio": 0.009507550579704408,
+      "mean_runaway_fraction": 1.0,
+      "std_runaway_fraction": 0.0,
+      "mean_seed": 7303.5,
+      "std_seed": 2.29128784747792
+    },
+    {
+      "gain": 1.4,
+      "seeds": 8,
+      "mean_lyapunov": 0.020194464079791193,
+      "std_lyapunov": 0.05654834398804912,
+      "mean_memory_capacity": 7.382196326458138,
+      "std_memory_capacity": 0.6470189521637163,
+      "mean_delayed_accuracy": 0.7556818181818181,
+      "std_delayed_accuracy": 0.15105944727679313,
+      "mean_dynamic_range_db": 26.666666984558105,
+      "std_dynamic_range_db": 2.095130629070087,
+      "mean_effective_dimension": 7.0567552879444,
+      "std_effective_dimension": 2.917191827885361,
+      "mean_saturation_fraction": 0.023304924242424245,
+      "std_saturation_fraction": 0.00953108417301439,
+      "mean_mean_avalanche_size": 3582.8055555555557,
+      "std_mean_avalanche_size": 13.717077940933791,
+      "mean_avalanche_size_cv": 0.00579751334825643,
+      "std_avalanche_size_cv": 0.0010601407280974259,
+      "mean_mean_avalanche_duration": 80.0,
+      "std_mean_avalanche_duration": 0.0,
+      "mean_branching_ratio": 1.010837693445791,
+      "std_branching_ratio": 0.006724820033276087,
+      "mean_runaway_fraction": 1.0,
+      "std_runaway_fraction": 0.0,
+      "mean_seed": 7303.5,
+      "std_seed": 2.29128784747792
+    },
+    {
+      "gain": 1.55,
+      "seeds": 8,
+      "mean_lyapunov": 0.05784250647089862,
+      "std_lyapunov": 0.06385190909597749,
+      "mean_memory_capacity": 5.529185723293061,
+      "std_memory_capacity": 0.8795562800328451,
+      "mean_delayed_accuracy": 0.7568181818181818,
+      "std_delayed_accuracy": 0.14393740030517285,
+      "mean_dynamic_range_db": 27.037036418914795,
+      "std_dynamic_range_db": 1.7762335845117028,
+      "mean_effective_dimension": 7.890748125547726,
+      "std_effective_dimension": 3.35865527532748,
+      "mean_saturation_fraction": 0.05628787878787878,
+      "std_saturation_fraction": 0.016864145150102032,
+      "mean_mean_avalanche_size": 3640.2291666666665,
+      "std_mean_avalanche_size": 18.398754801364714,
+      "mean_avalanche_size_cv": 0.004152715064350848,
+      "std_avalanche_size_cv": 0.0008674183170001975,
+      "mean_mean_avalanche_duration": 80.0,
+      "std_mean_avalanche_duration": 0.0,
+      "mean_branching_ratio": 1.0090577850490203,
+      "std_branching_ratio": 0.005483318824815778,
+      "mean_runaway_fraction": 1.0,
+      "std_runaway_fraction": 0.0,
+      "mean_seed": 7303.5,
+      "std_seed": 2.29128784747792
+    },
+    {
+      "gain": 1.7,
+      "seeds": 8,
+      "mean_lyapunov": 0.09151001555952629,
+      "std_lyapunov": 0.04734116673964285,
+      "mean_memory_capacity": 4.527193611234527,
+      "std_memory_capacity": 0.9638186194934202,
+      "mean_delayed_accuracy": 0.7340909090909091,
+      "std_delayed_accuracy": 0.15432805564877236,
+      "mean_dynamic_range_db": 27.40740704536438,
+      "std_dynamic_range_db": 1.9598154288568206,
+      "mean_effective_dimension": 8.101359080107875,
+      "std_effective_dimension": 3.74961387347673,
+      "mean_saturation_fraction": 0.10333333333333333,
+      "std_saturation_fraction": 0.020504813372515477,
+      "mean_mean_avalanche_size": 3667.9444444444443,
+      "std_mean_avalanche_size": 6.859972352642031,
+      "mean_avalanche_size_cv": 0.003405777188959351,
+      "std_avalanche_size_cv": 0.0003200952012465194,
+      "mean_mean_avalanche_duration": 80.0,
+      "std_mean_avalanche_duration": 0.0,
+      "mean_branching_ratio": 1.008288009159288,
+      "std_branching_ratio": 0.005223242285444372,
+      "mean_runaway_fraction": 1.0,
+      "std_runaway_fraction": 0.0,
+      "mean_seed": 7303.5,
+      "std_seed": 2.29128784747792
+    }
+  ],
+  "per_seed": [
+    {
+      "gain": 0.5,
+      "lyapunov": -0.6964289796136283,
+      "memory_capacity": 7.047559335780192,
+      "delayed_accuracy": 0.4681818181818182,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 1.480082821381125,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 7.319444444444445,
+      "avalanche_size_cv": 0.2984802242729255,
+      "mean_avalanche_duration": 1.0694444444444444,
+      "branching_ratio": 2.468448281972012,
+      "runaway_fraction": 0.0,
+      "seed": 7300
+    },
+    {
+      "gain": 0.65,
+      "lyapunov": -0.4346500082408421,
+      "memory_capacity": 8.995421588242882,
+      "delayed_accuracy": 0.4409090909090909,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 1.893345852879942,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 16.305555555555557,
+      "avalanche_size_cv": 0.22455581476088698,
+      "mean_avalanche_duration": 2.0972222222222223,
+      "branching_ratio": 0.7060684145835087,
+      "runaway_fraction": 0.0,
+      "seed": 7300
+    },
+    {
+      "gain": 0.8,
+      "lyapunov": -0.226523058712272,
+      "memory_capacity": 11.007632704372824,
+      "delayed_accuracy": 0.45,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 2.5349316911906303,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 33.97222222222222,
+      "avalanche_size_cv": 0.2579705797311639,
+      "mean_avalanche_duration": 3.6666666666666665,
+      "branching_ratio": 0.777298136237076,
+      "runaway_fraction": 0.0,
+      "seed": 7300
+    },
+    {
+      "gain": 0.95,
+      "lyapunov": -0.05730628978935564,
+      "memory_capacity": 12.878696847690218,
+      "delayed_accuracy": 0.4818181818181818,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 3.5378789965470387,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 100.13888888888889,
+      "avalanche_size_cv": 0.5287996949363083,
+      "mean_avalanche_duration": 10.722222222222221,
+      "branching_ratio": 0.913917149488185,
+      "runaway_fraction": 0.0,
+      "seed": 7300
+    },
+    {
+      "gain": 1.1,
+      "lyapunov": -0.003909429308047918,
+      "memory_capacity": 12.092203345945126,
+      "delayed_accuracy": 0.5136363636363637,
+      "dynamic_range_db": 23.703704833984375,
+      "effective_dimension": 5.445628339100626,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 3004.402777777778,
+      "avalanche_size_cv": 0.06309940817659346,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0184093051687158,
+      "runaway_fraction": 1.0,
+      "seed": 7300
+    },
+    {
+      "gain": 1.25,
+      "lyapunov": -0.00889035370182159,
+      "memory_capacity": 8.234598861253474,
+      "delayed_accuracy": 0.6181818181818182,
+      "dynamic_range_db": 23.703704833984375,
+      "effective_dimension": 4.649235078896152,
+      "saturation_fraction": 0.0024242424242424242,
+      "mean_avalanche_size": 3410.0,
+      "avalanche_size_cv": 0.00909642565885091,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0050795833166073,
+      "runaway_fraction": 1.0,
+      "seed": 7300
+    },
+    {
+      "gain": 1.4,
+      "lyapunov": -0.017987174643924256,
+      "memory_capacity": 6.826011757447869,
+      "delayed_accuracy": 0.6045454545454545,
+      "dynamic_range_db": 26.666667938232422,
+      "effective_dimension": 3.780155777467055,
+      "saturation_fraction": 0.014848484848484849,
+      "mean_avalanche_size": 3563.7083333333335,
+      "avalanche_size_cv": 0.0050484142985307645,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0031167431346915,
+      "runaway_fraction": 1.0,
+      "seed": 7300
+    },
+    {
+      "gain": 1.55,
+      "lyapunov": -0.0065432511979222775,
+      "memory_capacity": 5.649947253795553,
+      "delayed_accuracy": 0.6545454545454545,
+      "dynamic_range_db": 29.629629135131836,
+      "effective_dimension": 3.5282254581726598,
+      "saturation_fraction": 0.04393939393939394,
+      "mean_avalanche_size": 3615.9166666666665,
+      "avalanche_size_cv": 0.0035717232594943828,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0005781248481915,
+      "runaway_fraction": 1.0,
+      "seed": 7300
+    },
+    {
+      "gain": 1.7,
+      "lyapunov": 0.0693683703873212,
+      "memory_capacity": 4.793670766671021,
+      "delayed_accuracy": 0.7181818181818181,
+      "dynamic_range_db": 29.629629135131836,
+      "effective_dimension": 3.280051139116809,
+      "saturation_fraction": 0.08583333333333333,
+      "mean_avalanche_size": 3656.5694444444443,
+      "avalanche_size_cv": 0.0035258547407296882,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 0.9992025246533257,
+      "runaway_fraction": 1.0,
+      "seed": 7300
+    },
+    {
+      "gain": 0.5,
+      "lyapunov": -0.6968710177765128,
+      "memory_capacity": 6.7583485488822905,
+      "delayed_accuracy": 0.4409090909090909,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 1.3080175480504048,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 8.333333333333334,
+      "avalanche_size_cv": 0.3286335345030996,
+      "mean_avalanche_duration": 1.1111111111111112,
+      "branching_ratio": 2.4491916472436808,
+      "runaway_fraction": 0.0,
+      "seed": 7301
+    },
+    {
+      "gain": 0.65,
+      "lyapunov": -0.4341900010954553,
+      "memory_capacity": 8.577496267198258,
+      "delayed_accuracy": 0.5136363636363637,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 1.6061039317087533,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 17.541666666666668,
+      "avalanche_size_cv": 0.2794282165190995,
+      "mean_avalanche_duration": 2.2222222222222223,
+      "branching_ratio": 0.7184720309895934,
+      "runaway_fraction": 0.0,
+      "seed": 7301
+    },
+    {
+      "gain": 0.8,
+      "lyapunov": -0.22994662415947723,
+      "memory_capacity": 10.01849694122152,
+      "delayed_accuracy": 0.5181818181818182,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 2.1525367601732017,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 39.375,
+      "avalanche_size_cv": 0.28924140749336,
+      "mean_avalanche_duration": 3.9444444444444446,
+      "branching_ratio": 0.7878917160313619,
+      "runaway_fraction": 0.0,
+      "seed": 7301
+    },
+    {
+      "gain": 0.95,
+      "lyapunov": -0.06357989278735081,
+      "memory_capacity": 11.230047100045699,
+      "delayed_accuracy": 0.5045454545454545,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 3.223113518771363,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 106.125,
+      "avalanche_size_cv": 0.3308485856147777,
+      "mean_avalanche_duration": 9.277777777777779,
+      "branching_ratio": 0.8935697489046646,
+      "runaway_fraction": 0.0,
+      "seed": 7301
+    },
+    {
+      "gain": 1.1,
+      "lyapunov": -0.042590028538855025,
+      "memory_capacity": 10.964366105940886,
+      "delayed_accuracy": 0.8363636363636363,
+      "dynamic_range_db": 23.703704833984375,
+      "effective_dimension": 4.910274533473111,
+      "saturation_fraction": 7.575757575757576e-05,
+      "mean_avalanche_size": 2901.3055555555557,
+      "avalanche_size_cv": 0.0516276201736353,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.01500251686193,
+      "runaway_fraction": 1.0,
+      "seed": 7301
+    },
+    {
+      "gain": 1.25,
+      "lyapunov": -0.019671772531015205,
+      "memory_capacity": 8.872180247309117,
+      "delayed_accuracy": 0.9227272727272727,
+      "dynamic_range_db": 23.703704833984375,
+      "effective_dimension": 6.437780158451986,
+      "saturation_fraction": 0.0017424242424242424,
+      "mean_avalanche_size": 3435.8055555555557,
+      "avalanche_size_cv": 0.00822214735196034,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0147778722015457,
+      "runaway_fraction": 1.0,
+      "seed": 7301
+    },
+    {
+      "gain": 1.4,
+      "lyapunov": 0.025592521109771033,
+      "memory_capacity": 6.727843159092705,
+      "delayed_accuracy": 0.95,
+      "dynamic_range_db": 23.703704833984375,
+      "effective_dimension": 9.317803758270149,
+      "saturation_fraction": 0.011818181818181818,
+      "mean_avalanche_size": 3570.5555555555557,
+      "avalanche_size_cv": 0.006209919297325262,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.011089610733783,
+      "runaway_fraction": 1.0,
+      "seed": 7301
+    },
+    {
+      "gain": 1.55,
+      "lyapunov": 0.09177167303006338,
+      "memory_capacity": 4.0625583319675265,
+      "delayed_accuracy": 0.9545454545454546,
+      "dynamic_range_db": 26.666664123535156,
+      "effective_dimension": 9.718280212010793,
+      "saturation_fraction": 0.037196969696969694,
+      "mean_avalanche_size": 3638.1388888888887,
+      "avalanche_size_cv": 0.004771010721414693,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0129244029011888,
+      "runaway_fraction": 1.0,
+      "seed": 7301
+    },
+    {
+      "gain": 1.7,
+      "lyapunov": 0.08068091289152372,
+      "memory_capacity": 3.302349635973735,
+      "delayed_accuracy": 0.9590909090909091,
+      "dynamic_range_db": 26.666664123535156,
+      "effective_dimension": 9.933083193004007,
+      "saturation_fraction": 0.08416666666666667,
+      "mean_avalanche_size": 3673.5,
+      "avalanche_size_cv": 0.0038647138403968702,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0122295926617524,
+      "runaway_fraction": 1.0,
+      "seed": 7301
+    },
+    {
+      "gain": 0.5,
+      "lyapunov": -0.6978547493699854,
+      "memory_capacity": 7.457658731076299,
+      "delayed_accuracy": 0.5363636363636364,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 1.6847482212983493,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 12.208333333333334,
+      "avalanche_size_cv": 0.29373354855524336,
+      "mean_avalanche_duration": 1.5833333333333333,
+      "branching_ratio": 2.609959459088944,
+      "runaway_fraction": 0.0,
+      "seed": 7302
+    },
+    {
+      "gain": 0.65,
+      "lyapunov": -0.4368764463640496,
+      "memory_capacity": 8.535269871913536,
+      "delayed_accuracy": 0.5409090909090909,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 2.3573330230960443,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 26.916666666666668,
+      "avalanche_size_cv": 0.25377556199781015,
+      "mean_avalanche_duration": 2.8472222222222223,
+      "branching_ratio": 0.7416861945210216,
+      "runaway_fraction": 0.0,
+      "seed": 7302
+    },
+    {
+      "gain": 0.8,
+      "lyapunov": -0.23115901136465106,
+      "memory_capacity": 9.553487943374627,
+      "delayed_accuracy": 0.5181818181818182,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 3.444355293456204,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 63.611111111111114,
+      "avalanche_size_cv": 0.20666420407910446,
+      "mean_avalanche_duration": 5.652777777777778,
+      "branching_ratio": 0.8323467413003115,
+      "runaway_fraction": 0.0,
+      "seed": 7302
+    },
+    {
+      "gain": 0.95,
+      "lyapunov": -0.06242822399757052,
+      "memory_capacity": 10.288008652754554,
+      "delayed_accuracy": 0.5545454545454546,
+      "dynamic_range_db": 23.703704833984375,
+      "effective_dimension": 5.012004117425053,
+      "saturation_fraction": 0.00022727272727272727,
+      "mean_avalanche_size": 223.68055555555554,
+      "avalanche_size_cv": 0.21891894305748197,
+      "mean_avalanche_duration": 17.083333333333332,
+      "branching_ratio": 0.9402779903089176,
+      "runaway_fraction": 0.0,
+      "seed": 7302
+    },
+    {
+      "gain": 1.1,
+      "lyapunov": -0.0031059509420336344,
+      "memory_capacity": 10.562832486954822,
+      "delayed_accuracy": 0.759090909090909,
+      "dynamic_range_db": 26.666667938232422,
+      "effective_dimension": 6.982908393509525,
+      "saturation_fraction": 0.0026515151515151517,
+      "mean_avalanche_size": 3185.0833333333335,
+      "avalanche_size_cv": 0.013918533340094958,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0194874165675052,
+      "runaway_fraction": 1.0,
+      "seed": 7302
+    },
+    {
+      "gain": 1.25,
+      "lyapunov": 0.07401686571133952,
+      "memory_capacity": 9.891154434506628,
+      "delayed_accuracy": 0.8818181818181818,
+      "dynamic_range_db": 26.666664123535156,
+      "effective_dimension": 9.132861333500902,
+      "saturation_fraction": 0.013409090909090909,
+      "mean_avalanche_size": 3493.7083333333335,
+      "avalanche_size_cv": 0.0056699395672764755,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0148052570812545,
+      "runaway_fraction": 1.0,
+      "seed": 7302
+    },
+    {
+      "gain": 1.4,
+      "lyapunov": 0.1107341914400444,
+      "memory_capacity": 8.624034751267969,
+      "delayed_accuracy": 0.85,
+      "dynamic_range_db": 26.666664123535156,
+      "effective_dimension": 11.005822817830325,
+      "saturation_fraction": 0.03696969696969697,
+      "mean_avalanche_size": 3590.0833333333335,
+      "avalanche_size_cv": 0.005039055266740477,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.014931278119798,
+      "runaway_fraction": 1.0,
+      "seed": 7302
+    },
+    {
+      "gain": 1.55,
+      "lyapunov": 0.1394720875022777,
+      "memory_capacity": 6.5700268639881685,
+      "delayed_accuracy": 0.7818181818181819,
+      "dynamic_range_db": 26.666667938232422,
+      "effective_dimension": 12.364774260259995,
+      "saturation_fraction": 0.07287878787878788,
+      "mean_avalanche_size": 3644.8055555555557,
+      "avalanche_size_cv": 0.0034227147070877047,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0116691161923077,
+      "runaway_fraction": 1.0,
+      "seed": 7302
+    },
+    {
+      "gain": 1.7,
+      "lyapunov": 0.18197825451185795,
+      "memory_capacity": 5.49635374754281,
+      "delayed_accuracy": 0.6318181818181818,
+      "dynamic_range_db": 26.666667938232422,
+      "effective_dimension": 13.813361148141393,
+      "saturation_fraction": 0.11954545454545455,
+      "mean_avalanche_size": 3675.125,
+      "avalanche_size_cv": 0.0037225464332325538,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0111134551030747,
+      "runaway_fraction": 1.0,
+      "seed": 7302
+    },
+    {
+      "gain": 0.5,
+      "lyapunov": -0.7051567297577951,
+      "memory_capacity": 7.213340359472307,
+      "delayed_accuracy": 0.4954545454545455,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 1.5181847636338508,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 10.0,
+      "avalanche_size_cv": 0.23033791601808754,
+      "mean_avalanche_duration": 1.3611111111111112,
+      "branching_ratio": 2.6654433626382272,
+      "runaway_fraction": 0.0,
+      "seed": 7303
+    },
+    {
+      "gain": 0.65,
+      "lyapunov": -0.43882010589504433,
+      "memory_capacity": 8.651459941602647,
+      "delayed_accuracy": 0.5136363636363637,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 2.015496178395898,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 22.65277777777778,
+      "avalanche_size_cv": 0.21590820136420028,
+      "mean_avalanche_duration": 2.625,
+      "branching_ratio": 0.6998883786880596,
+      "runaway_fraction": 0.0,
+      "seed": 7303
+    },
+    {
+      "gain": 0.8,
+      "lyapunov": -0.2312155684719658,
+      "memory_capacity": 9.766918011487181,
+      "delayed_accuracy": 0.5727272727272728,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 2.8646404549552753,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 52.486111111111114,
+      "avalanche_size_cv": 0.27686501956832815,
+      "mean_avalanche_duration": 5.013888888888889,
+      "branching_ratio": 0.8161697533608759,
+      "runaway_fraction": 0.0,
+      "seed": 7303
+    },
+    {
+      "gain": 0.95,
+      "lyapunov": -0.07392044114647188,
+      "memory_capacity": 10.42266537614071,
+      "delayed_accuracy": 0.5636363636363636,
+      "dynamic_range_db": 23.703704833984375,
+      "effective_dimension": 4.230871075529349,
+      "saturation_fraction": 0.00015151515151515152,
+      "mean_avalanche_size": 199.77777777777777,
+      "avalanche_size_cv": 0.3335760553317483,
+      "mean_avalanche_duration": 16.125,
+      "branching_ratio": 0.9330694873616198,
+      "runaway_fraction": 0.0,
+      "seed": 7303
+    },
+    {
+      "gain": 1.1,
+      "lyapunov": 0.0061486643439412495,
+      "memory_capacity": 10.295490728445692,
+      "delayed_accuracy": 0.8136363636363636,
+      "dynamic_range_db": 23.703704833984375,
+      "effective_dimension": 5.95584549610401,
+      "saturation_fraction": 0.0018181818181818182,
+      "mean_avalanche_size": 3169.027777777778,
+      "avalanche_size_cv": 0.023211411038050064,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0187732472374949,
+      "runaway_fraction": 1.0,
+      "seed": 7303
+    },
+    {
+      "gain": 1.25,
+      "lyapunov": 0.04934476402644665,
+      "memory_capacity": 9.144079865640627,
+      "delayed_accuracy": 0.8045454545454546,
+      "dynamic_range_db": 26.666667938232422,
+      "effective_dimension": 7.781750393760621,
+      "saturation_fraction": 0.008181818181818182,
+      "mean_avalanche_size": 3493.7083333333335,
+      "avalanche_size_cv": 0.007792464891234877,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0164294995472787,
+      "runaway_fraction": 1.0,
+      "seed": 7303
+    },
+    {
+      "gain": 1.4,
+      "lyapunov": 0.06220005843518518,
+      "memory_capacity": 7.65393748777449,
+      "delayed_accuracy": 0.6727272727272727,
+      "dynamic_range_db": 29.629629135131836,
+      "effective_dimension": 9.742278278760764,
+      "saturation_fraction": 0.028636363636363637,
+      "mean_avalanche_size": 3597.4444444444443,
+      "avalanche_size_cv": 0.005997417838485888,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0084298505665847,
+      "runaway_fraction": 1.0,
+      "seed": 7303
+    },
+    {
+      "gain": 1.55,
+      "lyapunov": 0.11095133814231176,
+      "memory_capacity": 5.606272714428192,
+      "delayed_accuracy": 0.6409090909090909,
+      "dynamic_range_db": 29.629629135131836,
+      "effective_dimension": 11.859675481554655,
+      "saturation_fraction": 0.06696969696969697,
+      "mean_avalanche_size": 3643.2916666666665,
+      "avalanche_size_cv": 0.003883696214247014,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0097082061995728,
+      "runaway_fraction": 1.0,
+      "seed": 7303
+    },
+    {
+      "gain": 1.7,
+      "lyapunov": 0.11158996247804735,
+      "memory_capacity": 4.08890115141902,
+      "delayed_accuracy": 0.55,
+      "dynamic_range_db": 29.629629135131836,
+      "effective_dimension": 12.787554109579046,
+      "saturation_fraction": 0.11287878787878788,
+      "mean_avalanche_size": 3677.777777777778,
+      "avalanche_size_cv": 0.003355072970247056,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.009283811084422,
+      "runaway_fraction": 1.0,
+      "seed": 7303
+    },
+    {
+      "gain": 0.5,
+      "lyapunov": -0.6941255518584385,
+      "memory_capacity": 7.390384760382713,
+      "delayed_accuracy": 0.5136363636363637,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 1.458288096814112,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 8.805555555555555,
+      "avalanche_size_cv": 0.3405040947500219,
+      "mean_avalanche_duration": 1.2083333333333333,
+      "branching_ratio": 2.48048126739846,
+      "runaway_fraction": 0.0,
+      "seed": 7304
+    },
+    {
+      "gain": 0.65,
+      "lyapunov": -0.4346734686553265,
+      "memory_capacity": 8.89390403735892,
+      "delayed_accuracy": 0.4954545454545455,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 1.91079326798511,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 19.22222222222222,
+      "avalanche_size_cv": 0.2808528892810043,
+      "mean_avalanche_duration": 2.2222222222222223,
+      "branching_ratio": 0.7172627056937605,
+      "runaway_fraction": 0.0,
+      "seed": 7304
+    },
+    {
+      "gain": 0.8,
+      "lyapunov": -0.23038488306316723,
+      "memory_capacity": 10.00095933921299,
+      "delayed_accuracy": 0.5272727272727272,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 2.7043253608424105,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 40.861111111111114,
+      "avalanche_size_cv": 0.25926606902772903,
+      "mean_avalanche_duration": 4.180555555555555,
+      "branching_ratio": 0.7709787123533,
+      "runaway_fraction": 0.0,
+      "seed": 7304
+    },
+    {
+      "gain": 0.95,
+      "lyapunov": -0.0660194817150011,
+      "memory_capacity": 10.789048866640403,
+      "delayed_accuracy": 0.4863636363636364,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 4.048118156215688,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 120.83333333333333,
+      "avalanche_size_cv": 0.34657488342584913,
+      "mean_avalanche_duration": 11.527777777777779,
+      "branching_ratio": 0.904403639242429,
+      "runaway_fraction": 0.0,
+      "seed": 7304
+    },
+    {
+      "gain": 1.1,
+      "lyapunov": -0.009558500830935505,
+      "memory_capacity": 10.990688162809768,
+      "delayed_accuracy": 0.55,
+      "dynamic_range_db": 23.703704833984375,
+      "effective_dimension": 6.066700882815,
+      "saturation_fraction": 0.00022727272727272727,
+      "mean_avalanche_size": 3106.3888888888887,
+      "avalanche_size_cv": 0.025593404365281153,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0077219895876546,
+      "runaway_fraction": 1.0,
+      "seed": 7304
+    },
+    {
+      "gain": 1.25,
+      "lyapunov": -0.021232726494643014,
+      "memory_capacity": 9.841093345084689,
+      "delayed_accuracy": 0.6545454545454545,
+      "dynamic_range_db": 26.666667938232422,
+      "effective_dimension": 8.455836357828066,
+      "saturation_fraction": 0.004090909090909091,
+      "mean_avalanche_size": 3482.5555555555557,
+      "avalanche_size_cv": 0.00648234157709942,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.014432700353693,
+      "runaway_fraction": 1.0,
+      "seed": 7304
+    },
+    {
+      "gain": 1.4,
+      "lyapunov": 0.030822716656061976,
+      "memory_capacity": 7.999408235372758,
+      "delayed_accuracy": 0.7318181818181818,
+      "dynamic_range_db": 29.629629135131836,
+      "effective_dimension": 9.552914927652196,
+      "saturation_fraction": 0.019015151515151516,
+      "mean_avalanche_size": 3589.5555555555557,
+      "avalanche_size_cv": 0.004378049441127185,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0090487602815306,
+      "runaway_fraction": 1.0,
+      "seed": 7304
+    },
+    {
+      "gain": 1.55,
+      "lyapunov": 0.0634874683491243,
+      "memory_capacity": 5.850839737302908,
+      "delayed_accuracy": 0.7681818181818182,
+      "dynamic_range_db": 26.666664123535156,
+      "effective_dimension": 9.950631914113737,
+      "saturation_fraction": 0.04348484848484849,
+      "mean_avalanche_size": 3637.4583333333335,
+      "avalanche_size_cv": 0.0029191533117777432,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0122928345984858,
+      "runaway_fraction": 1.0,
+      "seed": 7304
+    },
+    {
+      "gain": 1.7,
+      "lyapunov": 0.09559869099241243,
+      "memory_capacity": 4.547846011663609,
+      "delayed_accuracy": 0.7545454545454545,
+      "dynamic_range_db": 29.629629135131836,
+      "effective_dimension": 9.532086372541231,
+      "saturation_fraction": 0.08871212121212121,
+      "mean_avalanche_size": 3665.3333333333335,
+      "avalanche_size_cv": 0.0034602864779930183,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0138553802190398,
+      "runaway_fraction": 1.0,
+      "seed": 7304
+    },
+    {
+      "gain": 0.5,
+      "lyapunov": -0.6962170950920767,
+      "memory_capacity": 6.404227465419281,
+      "delayed_accuracy": 0.45454545454545453,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 1.369661204378435,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 6.861111111111111,
+      "avalanche_size_cv": 0.41531042419731107,
+      "mean_avalanche_duration": 1.0972222222222223,
+      "branching_ratio": 2.3146936608510957,
+      "runaway_fraction": 0.0,
+      "seed": 7305
+    },
+    {
+      "gain": 0.65,
+      "lyapunov": -0.4324581470164284,
+      "memory_capacity": 8.150848934913036,
+      "delayed_accuracy": 0.4636363636363636,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 1.69350214110259,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 15.416666666666666,
+      "avalanche_size_cv": 0.31919365170691083,
+      "mean_avalanche_duration": 1.9583333333333333,
+      "branching_ratio": 2.4553714566800497,
+      "runaway_fraction": 0.0,
+      "seed": 7305
+    },
+    {
+      "gain": 0.8,
+      "lyapunov": -0.22625495299653486,
+      "memory_capacity": 9.74913503961111,
+      "delayed_accuracy": 0.4727272727272727,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 2.199451091003021,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 30.666666666666668,
+      "avalanche_size_cv": 0.3188045516535318,
+      "mean_avalanche_duration": 3.263888888888889,
+      "branching_ratio": 0.7541047691819417,
+      "runaway_fraction": 0.0,
+      "seed": 7305
+    },
+    {
+      "gain": 0.95,
+      "lyapunov": -0.05977506234890701,
+      "memory_capacity": 11.444661577571427,
+      "delayed_accuracy": 0.4727272727272727,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 2.985767688005706,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 73.56944444444444,
+      "avalanche_size_cv": 0.3632177452822318,
+      "mean_avalanche_duration": 7.166666666666667,
+      "branching_ratio": 0.8756651418883062,
+      "runaway_fraction": 0.0,
+      "seed": 7305
+    },
+    {
+      "gain": 1.1,
+      "lyapunov": -0.08794465228259768,
+      "memory_capacity": 11.38970468403164,
+      "delayed_accuracy": 0.4727272727272727,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 4.360292689764387,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 2750.6944444444443,
+      "avalanche_size_cv": 0.30506242778318987,
+      "mean_avalanche_duration": 74.65277777777777,
+      "branching_ratio": 1.0083233454480958,
+      "runaway_fraction": 0.9166666666666666,
+      "seed": 7305
+    },
+    {
+      "gain": 1.25,
+      "lyapunov": -0.09823005072224128,
+      "memory_capacity": 8.60503962733763,
+      "delayed_accuracy": 0.5454545454545454,
+      "dynamic_range_db": 23.703704833984375,
+      "effective_dimension": 3.99944866050779,
+      "saturation_fraction": 0.002803030303030303,
+      "mean_avalanche_size": 3463.4444444444443,
+      "avalanche_size_cv": 0.018326888790841683,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0011363610787112,
+      "runaway_fraction": 1.0,
+      "seed": 7305
+    },
+    {
+      "gain": 1.4,
+      "lyapunov": -0.0978416367954977,
+      "memory_capacity": 7.545736874437855,
+      "delayed_accuracy": 0.5545454545454546,
+      "dynamic_range_db": 26.666667938232422,
+      "effective_dimension": 3.6004820773468356,
+      "saturation_fraction": 0.038636363636363635,
+      "mean_avalanche_size": 3601.1944444444443,
+      "avalanche_size_cv": 0.007683004015807527,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0002975728710932,
+      "runaway_fraction": 1.0,
+      "seed": 7305
+    },
+    {
+      "gain": 1.55,
+      "lyapunov": -0.07447959781075754,
+      "memory_capacity": 6.87094229805864,
+      "delayed_accuracy": 0.55,
+      "dynamic_range_db": 26.666667938232422,
+      "effective_dimension": 3.663482631441589,
+      "saturation_fraction": 0.08878787878787879,
+      "mean_avalanche_size": 3682.972222222222,
+      "avalanche_size_cv": 0.005762111072025663,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0002894783668368,
+      "runaway_fraction": 1.0,
+      "seed": 7305
+    },
+    {
+      "gain": 1.7,
+      "lyapunov": -0.00039756140078101514,
+      "memory_capacity": 6.351332752206719,
+      "delayed_accuracy": 0.5272727272727272,
+      "dynamic_range_db": 26.666667938232422,
+      "effective_dimension": 4.058222236889906,
+      "saturation_fraction": 0.14734848484848484,
+      "mean_avalanche_size": 3664.6944444444443,
+      "avalanche_size_cv": 0.0028019051122628786,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0001935349559963,
+      "runaway_fraction": 1.0,
+      "seed": 7305
+    },
+    {
+      "gain": 0.5,
+      "lyapunov": -0.6949904724798163,
+      "memory_capacity": 7.379006316735678,
+      "delayed_accuracy": 0.509090909090909,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 1.3015289599275868,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 8.319444444444445,
+      "avalanche_size_cv": 0.2929443150997176,
+      "mean_avalanche_duration": 1.125,
+      "branching_ratio": 2.421901823782881,
+      "runaway_fraction": 0.0,
+      "seed": 7306
+    },
+    {
+      "gain": 0.65,
+      "lyapunov": -0.4318813502745955,
+      "memory_capacity": 9.181433890818383,
+      "delayed_accuracy": 0.55,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 1.5756023953412195,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 17.51388888888889,
+      "avalanche_size_cv": 0.31818940348164193,
+      "mean_avalanche_duration": 2.013888888888889,
+      "branching_ratio": 0.7314596026578756,
+      "runaway_fraction": 0.0,
+      "seed": 7306
+    },
+    {
+      "gain": 0.8,
+      "lyapunov": -0.226024501901503,
+      "memory_capacity": 10.570297974902276,
+      "delayed_accuracy": 0.5363636363636364,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 2.0687634046506185,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 38.138888888888886,
+      "avalanche_size_cv": 0.2779090522434812,
+      "mean_avalanche_duration": 3.875,
+      "branching_ratio": 0.7717437320864605,
+      "runaway_fraction": 0.0,
+      "seed": 7306
+    },
+    {
+      "gain": 0.95,
+      "lyapunov": -0.05432354415226437,
+      "memory_capacity": 11.859149036664718,
+      "delayed_accuracy": 0.5727272727272728,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 3.1315246612116456,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 109.94444444444444,
+      "avalanche_size_cv": 0.3932655107982298,
+      "mean_avalanche_duration": 10.333333333333334,
+      "branching_ratio": 0.8997061212606601,
+      "runaway_fraction": 0.0,
+      "seed": 7306
+    },
+    {
+      "gain": 1.1,
+      "lyapunov": -0.017270020506693278,
+      "memory_capacity": 11.854480597699848,
+      "delayed_accuracy": 0.990909090909091,
+      "dynamic_range_db": 23.703704833984375,
+      "effective_dimension": 5.254536355078129,
+      "saturation_fraction": 0.00022727272727272727,
+      "mean_avalanche_size": 3110.597222222222,
+      "avalanche_size_cv": 0.042585154649766414,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0171089127396322,
+      "runaway_fraction": 1.0,
+      "seed": 7306
+    },
+    {
+      "gain": 1.25,
+      "lyapunov": 0.008758238731476835,
+      "memory_capacity": 8.984959248760973,
+      "delayed_accuracy": 1.0,
+      "dynamic_range_db": 23.703704833984375,
+      "effective_dimension": 5.680910295495407,
+      "saturation_fraction": 0.003181818181818182,
+      "mean_avalanche_size": 3484.097222222222,
+      "avalanche_size_cv": 0.010439976071169579,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0247004297275066,
+      "runaway_fraction": 1.0,
+      "seed": 7306
+    },
+    {
+      "gain": 1.4,
+      "lyapunov": 0.029408277479372327,
+      "memory_capacity": 6.8567585206446795,
+      "delayed_accuracy": 1.0,
+      "dynamic_range_db": 23.703704833984375,
+      "effective_dimension": 5.171713242482648,
+      "saturation_fraction": 0.016893939393939395,
+      "mean_avalanche_size": 3585.347222222222,
+      "avalanche_size_cv": 0.007007781556421894,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0206784082472695,
+      "runaway_fraction": 1.0,
+      "seed": 7306
+    },
+    {
+      "gain": 1.55,
+      "lyapunov": 0.07373589118274342,
+      "memory_capacity": 4.808376418626119,
+      "delayed_accuracy": 0.9954545454545455,
+      "dynamic_range_db": 26.666664123535156,
+      "effective_dimension": 7.244157170632312,
+      "saturation_fraction": 0.04477272727272727,
+      "mean_avalanche_size": 3633.0,
+      "avalanche_size_cv": 0.004898836149341505,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.016706575686519,
+      "runaway_fraction": 1.0,
+      "seed": 7306
+    },
+    {
+      "gain": 1.7,
+      "lyapunov": 0.10707336064137547,
+      "memory_capacity": 4.263899612111027,
+      "delayed_accuracy": 0.9590909090909091,
+      "dynamic_range_db": 26.666664123535156,
+      "effective_dimension": 6.537971980664845,
+      "saturation_fraction": 0.09143939393939395,
+      "mean_avalanche_size": 3669.5416666666665,
+      "avalanche_size_cv": 0.0034583878040505473,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.008305695715924,
+      "runaway_fraction": 1.0,
+      "seed": 7306
+    },
+    {
+      "gain": 0.5,
+      "lyapunov": -0.6952642398098641,
+      "memory_capacity": 6.765053608531538,
+      "delayed_accuracy": 0.4727272727272727,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 1.3143784308545887,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 8.847222222222221,
+      "avalanche_size_cv": 0.3399568823264887,
+      "mean_avalanche_duration": 1.2777777777777777,
+      "branching_ratio": 2.5352239059269666,
+      "runaway_fraction": 0.0,
+      "seed": 7307
+    },
+    {
+      "gain": 0.65,
+      "lyapunov": -0.4364438471765568,
+      "memory_capacity": 8.341302047349915,
+      "delayed_accuracy": 0.4590909090909091,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 1.5849159505687251,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 19.15277777777778,
+      "avalanche_size_cv": 0.2463837221168402,
+      "mean_avalanche_duration": 2.263888888888889,
+      "branching_ratio": 0.6868139624411741,
+      "runaway_fraction": 0.0,
+      "seed": 7307
+    },
+    {
+      "gain": 0.8,
+      "lyapunov": -0.23139638960552236,
+      "memory_capacity": 9.558199137848035,
+      "delayed_accuracy": 0.45454545454545453,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 2.0257472632295244,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 40.44444444444444,
+      "avalanche_size_cv": 0.2526501844181225,
+      "mean_avalanche_duration": 3.888888888888889,
+      "branching_ratio": 0.7671926317744155,
+      "runaway_fraction": 0.0,
+      "seed": 7307
+    },
+    {
+      "gain": 0.95,
+      "lyapunov": -0.06375043078611231,
+      "memory_capacity": 10.422941745926153,
+      "delayed_accuracy": 0.4909090909090909,
+      "dynamic_range_db": 20.740739822387695,
+      "effective_dimension": 2.8000576479068204,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 112.08333333333333,
+      "avalanche_size_cv": 0.3961527787199794,
+      "mean_avalanche_duration": 10.472222222222221,
+      "branching_ratio": 0.9042957987716049,
+      "runaway_fraction": 0.0,
+      "seed": 7307
+    },
+    {
+      "gain": 1.1,
+      "lyapunov": -0.011725982231086292,
+      "memory_capacity": 11.074645668323962,
+      "delayed_accuracy": 0.5272727272727272,
+      "dynamic_range_db": 23.703704833984375,
+      "effective_dimension": 4.265996281160525,
+      "saturation_fraction": 0.0,
+      "mean_avalanche_size": 3045.777777777778,
+      "avalanche_size_cv": 0.047873242313419634,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0264552550787238,
+      "runaway_fraction": 1.0,
+      "seed": 7307
+    },
+    {
+      "gain": 1.25,
+      "lyapunov": 0.0004714230628418729,
+      "memory_capacity": 8.630554655445636,
+      "delayed_accuracy": 0.5636363636363636,
+      "dynamic_range_db": 23.703704833984375,
+      "effective_dimension": 6.806048659498814,
+      "saturation_fraction": 0.0013636363636363637,
+      "mean_avalanche_size": 3447.9583333333335,
+      "avalanche_size_cv": 0.00894111010137884,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.033407196788254,
+      "runaway_fraction": 1.0,
+      "seed": 7307
+    },
+    {
+      "gain": 1.4,
+      "lyapunov": 0.01862675895731658,
+      "memory_capacity": 6.823839825626782,
+      "delayed_accuracy": 0.6818181818181818,
+      "dynamic_range_db": 26.666667938232422,
+      "effective_dimension": 4.282871423745232,
+      "saturation_fraction": 0.019621212121212123,
+      "mean_avalanche_size": 3564.5555555555557,
+      "avalanche_size_cv": 0.005016465071612435,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0191093236115774,
+      "runaway_fraction": 1.0,
+      "seed": 7307
+    },
+    {
+      "gain": 1.55,
+      "lyapunov": 0.06434444256934828,
+      "memory_capacity": 4.814522168177383,
+      "delayed_accuracy": 0.7090909090909091,
+      "dynamic_range_db": 23.703704833984375,
+      "effective_dimension": 4.796757876196068,
+      "saturation_fraction": 0.05227272727272727,
+      "mean_avalanche_size": 3626.25,
+      "avalanche_size_cv": 0.003992475079418079,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.00829354159906,
+      "runaway_fraction": 1.0,
+      "seed": 7307
+    },
+    {
+      "gain": 1.7,
+      "lyapunov": 0.08618813397445321,
+      "memory_capacity": 3.3731952122882722,
+      "delayed_accuracy": 0.7727272727272727,
+      "dynamic_range_db": 23.703704833984375,
+      "effective_dimension": 4.8685424609257595,
+      "saturation_fraction": 0.09674242424242424,
+      "mean_avalanche_size": 3661.0138888888887,
+      "avalanche_size_cv": 0.003057450132762195,
+      "mean_avalanche_duration": 80.0,
+      "branching_ratio": 1.0121200788807687,
+      "runaway_fraction": 1.0,
+      "seed": 7307
+    }
+  ],
+  "gain_tuning": [
+    {
+      "seed": 7300,
+      "start_gain": 0.55,
+      "final_gain": 1.030638971352087,
+      "history": [
+        {
+          "iteration": 0,
+          "gain": 0.55,
+          "lyapunov": -0.6031173614393355
+        },
+        {
+          "iteration": 1,
+          "gain": 0.6670839058540403,
+          "lyapunov": -0.4081560674641157
+        },
+        {
+          "iteration": 2,
+          "gain": 0.7601575964060133,
+          "lyapunov": -0.2773781558148313
+        },
+        {
+          "iteration": 3,
+          "gain": 0.8307150079699273,
+          "lyapunov": -0.18927433074933359
+        },
+        {
+          "iteration": 4,
+          "gain": 0.8825845319886517,
+          "lyapunov": -0.13225077221232154
+        },
+        {
+          "iteration": 5,
+          "gain": 0.9207373517063026,
+          "lyapunov": -0.08926735504973951
+        },
+        {
+          "iteration": 6,
+          "gain": 0.9474179831588491,
+          "lyapunov": -0.06352398542541815
+        },
+        {
+          "iteration": 7,
+          "gain": 0.9668738648012533,
+          "lyapunov": -0.04426361542222842
+        },
+        {
+          "iteration": 8,
+          "gain": 0.9806664623722338,
+          "lyapunov": -0.03950961479944111
+        },
+        {
+          "iteration": 9,
+          "gain": 0.9931438135569378,
+          "lyapunov": -0.018566179781491745
+        },
+        {
+          "iteration": 10,
+          "gain": 0.9990618198214952,
+          "lyapunov": -0.012846776003898974
+        },
+        {
+          "iteration": 11,
+          "gain": 1.0031773849966723,
+          "lyapunov": -0.019412134922316547
+        },
+        {
+          "iteration": 12,
+          "gain": 1.0094284009055852,
+          "lyapunov": -0.028194493206387707
+        },
+        {
+          "iteration": 13,
+          "gain": 1.0185769119703016,
+          "lyapunov": 0.003838679326653137
+        },
+        {
+          "iteration": 14,
+          "gain": 1.017326483283626,
+          "lyapunov": -0.0014168991856905605
+        },
+        {
+          "iteration": 15,
+          "gain": 1.0177878515707368,
+          "lyapunov": -0.01138403046717152
+        },
+        {
+          "iteration": 16,
+          "gain": 1.021502302061431,
+          "lyapunov": -0.007354940571953561
+        },
+        {
+          "iteration": 17,
+          "gain": 1.0239093219006297,
+          "lyapunov": -0.02047187677697489
+        }
+      ]
+    },
+    {
+      "seed": 7300,
+      "start_gain": 1.55,
+      "final_gain": 1.4578800804185197,
+      "history": [
+        {
+          "iteration": 0,
+          "gain": 1.55,
+          "lyapunov": 0.0394713361369552
+        },
+        {
+          "iteration": 1,
+          "gain": 1.5305453401484754,
+          "lyapunov": 0.02402880439237175
+        },
+        {
+          "iteration": 2,
+          "gain": 1.5188217745632986,
+          "lyapunov": 0.027789593609979797
+        },
+        {
+          "iteration": 3,
+          "gain": 1.505375270076448,
+          "lyapunov": 0.032711006935270875
+        },
+        {
+          "iteration": 4,
+          "gain": 1.4896999052310693,
+          "lyapunov": 0.03978377339949907
+        },
+        {
+          "iteration": 5,
+          "gain": 1.470855032268289,
+          "lyapunov": -0.008524306789367886
+        },
+        {
+          "iteration": 6,
+          "gain": 1.474872675649128,
+          "lyapunov": 0.05708226457224651
+        },
+        {
+          "iteration": 7,
+          "gain": 1.4481767331687014,
+          "lyapunov": 0.005935446173875155
+        },
+        {
+          "iteration": 8,
+          "gain": 1.4454287596506423,
+          "lyapunov": 0.024447074141759693
+        },
+        {
+          "iteration": 9,
+          "gain": 1.4341651935953696,
+          "lyapunov": 0.0037623953655587074
+        },
+        {
+          "iteration": 10,
+          "gain": 1.4324395457420311,
+          "lyapunov": -0.02976523191412183
+        },
+        {
+          "iteration": 11,
+          "gain": 1.4461485367964444,
+          "lyapunov": 0.022176130134051283
+        },
+        {
+          "iteration": 12,
+          "gain": 1.4359224706357692,
+          "lyapunov": 0.005614389307832242
+        },
+        {
+          "iteration": 13,
+          "gain": 1.4333450017901028,
+          "lyapunov": 0.021615033402115857
+        },
+        {
+          "iteration": 14,
+          "gain": 1.4234650340842505,
+          "lyapunov": -0.03343372387676435
+        },
+        {
+          "iteration": 15,
+          "gain": 1.4387761490584685,
+          "lyapunov": -0.008002417574612813
+        },
+        {
+          "iteration": 16,
+          "gain": 1.442465250532556,
+          "lyapunov": 0.010297268020061395
+        },
+        {
+          "iteration": 17,
+          "gain": 1.4377199685624362,
+          "lyapunov": -0.04351524138243712
+        }
+      ]
+    },
+    {
+      "seed": 7301,
+      "start_gain": 0.55,
+      "final_gain": 1.133544438540702,
+      "history": [
+        {
+          "iteration": 0,
+          "gain": 0.55,
+          "lyapunov": -0.622378560604921
+        },
+        {
+          "iteration": 1,
+          "gain": 0.6712082306183779,
+          "lyapunov": -0.40806242349775745
+        },
+        {
+          "iteration": 2,
+          "gain": 0.7648344407918417,
+          "lyapunov": -0.2721088711243313
+        },
+        {
+          "iteration": 3,
+          "gain": 0.8344177964503736,
+          "lyapunov": -0.18581534305781847
+        },
+        {
+          "iteration": 4,
+          "gain": 0.8855377978913873,
+          "lyapunov": -0.1341855934331476
+        },
+        {
+          "iteration": 5,
+          "gain": 0.9243904354454159,
+          "lyapunov": -0.09563975257612597
+        },
+        {
+          "iteration": 6,
+          "gain": 0.9531185117235844,
+          "lyapunov": -0.0659862388637764
+        },
+        {
+          "iteration": 7,
+          "gain": 0.973458163787109,
+          "lyapunov": -0.05995292448240709
+        },
+        {
+          "iteration": 8,
+          "gain": 0.9923141937138393,
+          "lyapunov": -0.05630898896575631
+        },
+        {
+          "iteration": 9,
+          "gain": 1.010356644771443,
+          "lyapunov": -0.05983713836362099
+        },
+        {
+          "iteration": 10,
+          "gain": 1.0298892440741418,
+          "lyapunov": -0.04082479475127771
+        },
+        {
+          "iteration": 11,
+          "gain": 1.0434319172061461,
+          "lyapunov": -0.044952112535943514
+        },
+        {
+          "iteration": 12,
+          "gain": 1.0585498196588432,
+          "lyapunov": -0.045244174845244
+        },
+        {
+          "iteration": 13,
+          "gain": 1.0739871299381496,
+          "lyapunov": -0.023799882142680664
+        },
+        {
+          "iteration": 14,
+          "gain": 1.0821978018118583,
+          "lyapunov": -0.02847621111938229
+        },
+        {
+          "iteration": 15,
+          "gain": 1.092104274858398,
+          "lyapunov": -0.03989632366876881
+        },
+        {
+          "iteration": 16,
+          "gain": 1.1061363594417009,
+          "lyapunov": -0.04414620662209906
+        },
+        {
+          "iteration": 17,
+          "gain": 1.1218734064444367,
+          "lyapunov": -0.032341945795796315
+        }
+      ]
+    },
+    {
+      "seed": 7301,
+      "start_gain": 1.55,
+      "final_gain": 1.3323024508727166,
+      "history": [
+        {
+          "iteration": 0,
+          "gain": 1.55,
+          "lyapunov": 0.051543618960355794
+        },
+        {
+          "iteration": 1,
+          "gain": 1.5246440498244331,
+          "lyapunov": 0.06313250034360456
+        },
+        {
+          "iteration": 2,
+          "gain": 1.4941516278425588,
+          "lyapunov": 0.01017869102854824
+        },
+        {
+          "iteration": 3,
+          "gain": 1.4892928226562452,
+          "lyapunov": 0.045300372668568276
+        },
+        {
+          "iteration": 4,
+          "gain": 1.467859581034212,
+          "lyapunov": 0.02391614682642284
+        },
+        {
+          "iteration": 5,
+          "gain": 1.4566686840741447,
+          "lyapunov": 0.04859741816355914
+        },
+        {
+          "iteration": 6,
+          "gain": 1.4341910063144325,
+          "lyapunov": 0.06476740715432212
+        },
+        {
+          "iteration": 7,
+          "gain": 1.4047724906130916,
+          "lyapunov": 0.04108728655380309
+        },
+        {
+          "iteration": 8,
+          "gain": 1.3864235276407666,
+          "lyapunov": 0.038239381166960594
+        },
+        {
+          "iteration": 9,
+          "gain": 1.369561790348369,
+          "lyapunov": 0.041325516778691174
+        },
+        {
+          "iteration": 10,
+          "gain": 1.3515697060999117,
+          "lyapunov": 0.0003639793248707987
+        },
+        {
+          "iteration": 11,
+          "gain": 1.3514122933699608,
+          "lyapunov": 0.04906793836348802
+        },
+        {
+          "iteration": 12,
+          "gain": 1.3303584917523903,
+          "lyapunov": -0.017523291113107388
+        },
+        {
+          "iteration": 13,
+          "gain": 1.337839369409261,
+          "lyapunov": 0.004124286434941953
+        },
+        {
+          "iteration": 14,
+          "gain": 1.336074891535037,
+          "lyapunov": 0.022820660430731728
+        },
+        {
+          "iteration": 15,
+          "gain": 1.3263535945123586,
+          "lyapunov": -0.02332022769991334
+        },
+        {
+          "iteration": 16,
+          "gain": 1.336288495579312,
+          "lyapunov": -0.0021789291958690645
+        },
+        {
+          "iteration": 17,
+          "gain": 1.3372205574505212,
+          "lyapunov": 0.01151449183691608
+        }
+      ]
+    },
+    {
+      "seed": 7302,
+      "start_gain": 0.55,
+      "final_gain": 1.0381571766007964,
+      "history": [
+        {
+          "iteration": 0,
+          "gain": 0.55,
+          "lyapunov": -0.6028783489082921
+        },
+        {
+          "iteration": 1,
+          "gain": 0.6670328865530635,
+          "lyapunov": -0.41365809839060824
+        },
+        {
+          "iteration": 2,
+          "gain": 0.7614389065648468,
+          "lyapunov": -0.2793927272384833
+        },
+        {
+          "iteration": 3,
+          "gain": 0.8326518553745793,
+          "lyapunov": -0.1894385442632349
+        },
+        {
+          "iteration": 4,
+          "gain": 0.8846888030894657,
+          "lyapunov": -0.13452661048288045
+        },
+        {
+          "iteration": 5,
+          "gain": 0.9236049746309619,
+          "lyapunov": -0.08456643232349294
+        },
+        {
+          "iteration": 6,
+          "gain": 0.9489401421287913,
+          "lyapunov": -0.06229699980701968
+        },
+        {
+          "iteration": 7,
+          "gain": 0.9680471181618653,
+          "lyapunov": -0.04763242610548983
+        },
+        {
+          "iteration": 8,
+          "gain": 0.9829154834116364,
+          "lyapunov": -0.028899086105061624
+        },
+        {
+          "iteration": 9,
+          "gain": 0.9920473577238762,
+          "lyapunov": -0.028960500523023274
+        },
+        {
+          "iteration": 10,
+          "gain": 1.0012837502744558,
+          "lyapunov": -0.019905170460746725
+        },
+        {
+          "iteration": 11,
+          "gain": 1.0076819373558654,
+          "lyapunov": -0.01940030747123044
+        },
+        {
+          "iteration": 12,
+          "gain": 1.0139571844911746,
+          "lyapunov": -0.017643350060985896
+        },
+        {
+          "iteration": 13,
+          "gain": 1.0196980478283448,
+          "lyapunov": -0.02781345046314554
+        },
+        {
+          "iteration": 14,
+          "gain": 1.028814178583444,
+          "lyapunov": -0.0202047156812729
+        },
+        {
+          "iteration": 15,
+          "gain": 1.0354875360121738,
+          "lyapunov": -0.007461073396249916
+        },
+        {
+          "iteration": 16,
+          "gain": 1.0379627612125382,
+          "lyapunov": 0.0018245015700275487
+        },
+        {
+          "iteration": 17,
+          "gain": 1.0373569333831714,
+          "lyapunov": -0.0024097742019383896
+        }
+      ]
+    },
+    {
+      "seed": 7302,
+      "start_gain": 1.55,
+      "final_gain": 1.111404680169727,
+      "history": [
+        {
+          "iteration": 0,
+          "gain": 1.55,
+          "lyapunov": 0.12714963049908296
+        },
+        {
+          "iteration": 1,
+          "gain": 1.4881995731700515,
+          "lyapunov": 0.15399238732475637
+        },
+        {
+          "iteration": 2,
+          "gain": 1.4166422874021294,
+          "lyapunov": 0.09355309779325596
+        },
+        {
+          "iteration": 3,
+          "gain": 1.3748608059167586,
+          "lyapunov": 0.10384698320419364
+        },
+        {
+          "iteration": 4,
+          "gain": 1.329923549906633,
+          "lyapunov": 0.09628166597806252
+        },
+        {
+          "iteration": 5,
+          "gain": 1.2895732197031236,
+          "lyapunov": 0.06937083131753144
+        },
+        {
+          "iteration": 6,
+          "gain": 1.2612618147996668,
+          "lyapunov": 0.06703481857991588
+        },
+        {
+          "iteration": 7,
+          "gain": 1.2344944304733279,
+          "lyapunov": 0.053388627152495816
+        },
+        {
+          "iteration": 8,
+          "gain": 1.2135830200188484,
+          "lyapunov": 0.03707404483751762
+        },
+        {
+          "iteration": 9,
+          "gain": 1.1992705094986373,
+          "lyapunov": 0.04447591612408171
+        },
+        {
+          "iteration": 10,
+          "gain": 1.1823230268701608,
+          "lyapunov": 0.012804070279079871
+        },
+        {
+          "iteration": 11,
+          "gain": 1.1774886026016098,
+          "lyapunov": 0.03862588575825887
+        },
+        {
+          "iteration": 12,
+          "gain": 1.1630240866344168,
+          "lyapunov": 0.03912410639109972
+        },
+        {
+          "iteration": 13,
+          "gain": 1.1485541265287225,
+          "lyapunov": 0.03142211891115313
+        },
+        {
+          "iteration": 14,
+          "gain": 1.137063193071773,
+          "lyapunov": 0.02331616664139043
+        },
+        {
+          "iteration": 15,
+          "gain": 1.1286109385851173,
+          "lyapunov": -0.0036202986853407526
+        },
+        {
+          "iteration": 16,
+          "gain": 1.1299191870219254,
+          "lyapunov": 0.038699330102284456
+        },
+        {
+          "iteration": 17,
+          "gain": 1.1160127946397216,
+          "lyapunov": 0.012930111598863172
+        }
+      ]
+    },
+    {
+      "seed": 7303,
+      "start_gain": 0.55,
+      "final_gain": 1.0313084781312396,
+      "history": [
+        {
+          "iteration": 0,
+          "gain": 0.55,
+          "lyapunov": -0.612072791780218
+        },
+        {
+          "iteration": 1,
+          "gain": 0.6689983351741354,
+          "lyapunov": -0.42443530707952204
+        },
+        {
+          "iteration": 2,
+          "gain": 0.7663207914457404,
+          "lyapunov": -0.2879886813737054
+        },
+        {
+          "iteration": 3,
+          "gain": 0.8402985521366567,
+          "lyapunov": -0.18829381154608282
+        },
+        {
+          "iteration": 4,
+          "gain": 0.892486392997115,
+          "lyapunov": -0.12462880906165028
+        },
+        {
+          "iteration": 5,
+          "gain": 0.9287991233172505,
+          "lyapunov": -0.09394934981704872
+        },
+        {
+          "iteration": 6,
+          "gain": 0.9571463240291093,
+          "lyapunov": -0.055517799861272775
+        },
+        {
+          "iteration": 7,
+          "gain": 0.974302640319029,
+          "lyapunov": -0.044128115209435624
+        },
+        {
+          "iteration": 8,
+          "gain": 0.9881583629201169,
+          "lyapunov": -0.04308470645948943
+        },
+        {
+          "iteration": 9,
+          "gain": 1.0018765568778853,
+          "lyapunov": -0.015192886673073797
+        },
+        {
+          "iteration": 10,
+          "gain": 1.0067592634822324,
+          "lyapunov": -0.02426248946590394
+        },
+        {
+          "iteration": 11,
+          "gain": 1.01460616123676,
+          "lyapunov": -0.005439756646095859
+        },
+        {
+          "iteration": 12,
+          "gain": 1.0163738467098133,
+          "lyapunov": -0.00711164562759556
+        },
+        {
+          "iteration": 13,
+          "gain": 1.018689469572061,
+          "lyapunov": -0.017658289452976032
+        },
+        {
+          "iteration": 14,
+          "gain": 1.0244620238871696,
+          "lyapunov": -0.00942411750533465
+        },
+        {
+          "iteration": 15,
+          "gain": 1.0275561752432467,
+          "lyapunov": -0.000917359087699969
+        },
+        {
+          "iteration": 16,
+          "gain": 1.027857863680695,
+          "lyapunov": -0.008122658191923201
+        },
+        {
+          "iteration": 17,
+          "gain": 1.030532999039091,
+          "lyapunov": -0.002350687290042127
+        }
+      ]
+    },
+    {
+      "seed": 7303,
+      "start_gain": 1.55,
+      "final_gain": 1.1310244793107225,
+      "history": [
+        {
+          "iteration": 0,
+          "gain": 1.55,
+          "lyapunov": 0.0905886965483286
+        },
+        {
+          "iteration": 1,
+          "gain": 1.5057130118470927,
+          "lyapunov": 0.10508275485952692
+        },
+        {
+          "iteration": 2,
+          "gain": 1.4559230039600706,
+          "lyapunov": 0.08122433572753475
+        },
+        {
+          "iteration": 3,
+          "gain": 1.4185685205683236,
+          "lyapunov": 0.1075243352167579
+        },
+        {
+          "iteration": 4,
+          "gain": 1.3705888866841887,
+          "lyapunov": 0.09244649281553786
+        },
+        {
+          "iteration": 5,
+          "gain": 1.330636785945891,
+          "lyapunov": 0.07991372443315622
+        },
+        {
+          "iteration": 6,
+          "gain": 1.2970406186872017,
+          "lyapunov": 0.06291405946516634
+        },
+        {
+          "iteration": 7,
+          "gain": 1.2711890511884112,
+          "lyapunov": 0.010067760025334905
+        },
+        {
+          "iteration": 8,
+          "gain": 1.2671002726789353,
+          "lyapunov": 0.07081838177214746
+        },
+        {
+          "iteration": 9,
+          "gain": 1.2387083182413277,
+          "lyapunov": 0.04334524571509825
+        },
+        {
+          "iteration": 10,
+          "gain": 1.221645449622881,
+          "lyapunov": 0.036967358118587056
+        },
+        {
+          "iteration": 11,
+          "gain": 1.2072790695495426,
+          "lyapunov": 0.06620863074604448
+        },
+        {
+          "iteration": 12,
+          "gain": 1.181969792963994,
+          "lyapunov": 0.028065515720989892
+        },
+        {
+          "iteration": 13,
+          "gain": 1.1714020887077046,
+          "lyapunov": 0.030369988503530076
+        },
+        {
+          "iteration": 14,
+          "gain": 1.1600730780320767,
+          "lyapunov": 0.05014318117654652
+        },
+        {
+          "iteration": 15,
+          "gain": 1.141607302017164,
+          "lyapunov": 0.004900364868675957
+        },
+        {
+          "iteration": 16,
+          "gain": 1.1398185313430254,
+          "lyapunov": 0.014523994534136008
+        },
+        {
+          "iteration": 17,
+          "gain": 1.1345333130557371,
+          "lyapunov": 0.009679836248228806
+        }
+      ]
+    },
+    {
+      "seed": 7304,
+      "start_gain": 0.55,
+      "final_gain": 1.0619677650012516,
+      "history": [
+        {
+          "iteration": 0,
+          "gain": 0.55,
+          "lyapunov": -0.5989591153848344
+        },
+        {
+          "iteration": 1,
+          "gain": 0.6661968484751285,
+          "lyapunov": -0.4074265000440519
+        },
+        {
+          "iteration": 2,
+          "gain": 0.7589695630163106,
+          "lyapunov": -0.27963154930396417
+        },
+        {
+          "iteration": 3,
+          "gain": 0.8300149983603307,
+          "lyapunov": -0.2042362196030582
+        },
+        {
+          "iteration": 4,
+          "gain": 0.8860730188082298,
+          "lyapunov": -0.13315999286839253
+        },
+        {
+          "iteration": 5,
+          "gain": 0.9246456277112789,
+          "lyapunov": -0.09835242833160936
+        },
+        {
+          "iteration": 6,
+          "gain": 0.954209582998569,
+          "lyapunov": -0.058591177052310095
+        },
+        {
+          "iteration": 7,
+          "gain": 0.9722689975800685,
+          "lyapunov": -0.03976640011485453
+        },
+        {
+          "iteration": 8,
+          "gain": 0.9847204174125179,
+          "lyapunov": -0.04229621017835387
+        },
+        {
+          "iteration": 9,
+          "gain": 0.9981390027731829,
+          "lyapunov": -0.020611687900952892
+        },
+        {
+          "iteration": 10,
+          "gain": 1.0047442274742018,
+          "lyapunov": -0.03825673635596728
+        },
+        {
+          "iteration": 11,
+          "gain": 1.0171200615588403,
+          "lyapunov": -0.01155963761604629
+        },
+        {
+          "iteration": 12,
+          "gain": 1.020889441470829,
+          "lyapunov": -0.021419769995171332
+        },
+        {
+          "iteration": 13,
+          "gain": 1.027910987412882,
+          "lyapunov": -0.04613765613151701
+        },
+        {
+          "iteration": 14,
+          "gain": 1.0431997005349567,
+          "lyapunov": -0.0009781710009168943
+        },
+        {
+          "iteration": 15,
+          "gain": 1.0435262885081849,
+          "lyapunov": 0.003929820794712452
+        },
+        {
+          "iteration": 16,
+          "gain": 1.0422148344670215,
+          "lyapunov": -0.01405039223475762
+        },
+        {
+          "iteration": 17,
+          "gain": 1.0469113132438737,
+          "lyapunov": -0.04462295795462991
+        }
+      ]
+    },
+    {
+      "seed": 7304,
+      "start_gain": 1.55,
+      "final_gain": 1.290017012273919,
+      "history": [
+        {
+          "iteration": 0,
+          "gain": 1.55,
+          "lyapunov": 0.07860649291713273
+        },
+        {
+          "iteration": 1,
+          "gain": 1.5114974575991273,
+          "lyapunov": 0.079550763708254
+        },
+        {
+          "iteration": 2,
+          "gain": 1.4735060201666184,
+          "lyapunov": 0.07481957426691059
+        },
+        {
+          "iteration": 3,
+          "gain": 1.4386459303320456,
+          "lyapunov": 0.045438298217014485
+        },
+        {
+          "iteration": 4,
+          "gain": 1.4178789951791062,
+          "lyapunov": 0.04062484418064417
+        },
+        {
+          "iteration": 5,
+          "gain": 1.3995659313052287,
+          "lyapunov": 0.017225000629373675
+        },
+        {
+          "iteration": 6,
+          "gain": 1.39187274550878,
+          "lyapunov": 0.03619162215898365
+        },
+        {
+          "iteration": 7,
+          "gain": 1.375846007626244,
+          "lyapunov": 0.010900871311664456
+        },
+        {
+          "iteration": 8,
+          "gain": 1.371055034122409,
+          "lyapunov": 0.051261470869927925
+        },
+        {
+          "iteration": 9,
+          "gain": 1.3487481563918884,
+          "lyapunov": 0.037778626086110864
+        },
+        {
+          "iteration": 10,
+          "gain": 1.3325410859824258,
+          "lyapunov": 0.006220940393040646
+        },
+        {
+          "iteration": 11,
+          "gain": 1.3298910338147374,
+          "lyapunov": 0.004462321799307721
+        },
+        {
+          "iteration": 12,
+          "gain": 1.3279933804472954,
+          "lyapunov": 0.02940795590457143
+        },
+        {
+          "iteration": 13,
+          "gain": 1.3155548562455797,
+          "lyapunov": 0.014131523103287125
+        },
+        {
+          "iteration": 14,
+          "gain": 1.3096192330336605,
+          "lyapunov": 0.03546067091218067
+        },
+        {
+          "iteration": 15,
+          "gain": 1.2948424382762784,
+          "lyapunov": -0.020977497028477385
+        },
+        {
+          "iteration": 16,
+          "gain": 1.3035636946358815,
+          "lyapunov": 0.013572996178690244
+        },
+        {
+          "iteration": 17,
+          "gain": 1.2979141277506063,
+          "lyapunov": 0.01907203950167531
+        }
+      ]
+    },
+    {
+      "seed": 7305,
+      "start_gain": 0.55,
+      "final_gain": 1.0822870014362234,
+      "history": [
+        {
+          "iteration": 0,
+          "gain": 0.55,
+          "lyapunov": -0.6023752137170982
+        },
+        {
+          "iteration": 1,
+          "gain": 0.6669255007279788,
+          "lyapunov": -0.4070920257007538
+        },
+        {
+          "iteration": 2,
+          "gain": 0.7597183669807236,
+          "lyapunov": -0.2779789923607042
+        },
+        {
+          "iteration": 3,
+          "gain": 0.8303946522279589,
+          "lyapunov": -0.19362782892226676
+        },
+        {
+          "iteration": 4,
+          "gain": 0.8834741013643238,
+          "lyapunov": -0.12798054561328837
+        },
+        {
+          "iteration": 5,
+          "gain": 0.9204068055417507,
+          "lyapunov": -0.11660770369804349
+        },
+        {
+          "iteration": 6,
+          "gain": 0.9554001112797867,
+          "lyapunov": -0.058902333234159575
+        },
+        {
+          "iteration": 7,
+          "gain": 0.9735789922675199,
+          "lyapunov": -0.03702721886135477
+        },
+        {
+          "iteration": 8,
+          "gain": 0.9851832594805693,
+          "lyapunov": -0.03266525167235991
+        },
+        {
+          "iteration": 9,
+          "gain": 0.9955352723166471,
+          "lyapunov": -0.024153932765818852
+        },
+        {
+          "iteration": 10,
+          "gain": 1.0032598358852933,
+          "lyapunov": -0.006048158761171152
+        },
+        {
+          "iteration": 11,
+          "gain": 1.005203436036126,
+          "lyapunov": -0.02693524915574604
+        },
+        {
+          "iteration": 12,
+          "gain": 1.0139050124258326,
+          "lyapunov": -0.02400208085872215
+        },
+        {
+          "iteration": 13,
+          "gain": 1.0217224612302316,
+          "lyapunov": -0.01598943426794874
+        },
+        {
+          "iteration": 14,
+          "gain": 1.026963622832145,
+          "lyapunov": -0.041939732268972886
+        },
+        {
+          "iteration": 15,
+          "gain": 1.040839109443103,
+          "lyapunov": -0.009712137833055707
+        },
+        {
+          "iteration": 16,
+          "gain": 1.0440789486835027,
+          "lyapunov": -0.029939359093374206
+        },
+        {
+          "iteration": 17,
+          "gain": 1.0541299163902318,
+          "lyapunov": -0.08237716644137952
+        }
+      ]
+    },
+    {
+      "seed": 7305,
+      "start_gain": 1.55,
+      "final_gain": 1.711947183243899,
+      "history": [
+        {
+          "iteration": 0,
+          "gain": 1.55,
+          "lyapunov": -0.05699579103979304
+        },
+        {
+          "iteration": 1,
+          "gain": 1.5785292894149683,
+          "lyapunov": -0.06858206422630435
+        },
+        {
+          "iteration": 2,
+          "gain": 1.6135550408224935,
+          "lyapunov": -0.04820224406319462
+        },
+        {
+          "iteration": 3,
+          "gain": 1.6386366132726145,
+          "lyapunov": -0.05419588238818481
+        },
+        {
+          "iteration": 4,
+          "gain": 1.667302823569058,
+          "lyapunov": -0.021964998095299275
+        },
+        {
+          "iteration": 5,
+          "gain": 1.6790632430360954,
+          "lyapunov": -0.03737320022968397
+        },
+        {
+          "iteration": 6,
+          "gain": 1.6992644289030088,
+          "lyapunov": -0.02835164727445042
+        },
+        {
+          "iteration": 7,
+          "gain": 1.714751197367942,
+          "lyapunov": -0.009224988099836854
+        },
+        {
+          "iteration": 8,
+          "gain": 1.719820615142332,
+          "lyapunov": 0.025609228316962197
+        },
+        {
+          "iteration": 9,
+          "gain": 1.7057843577155063,
+          "lyapunov": 0.007642638345751365
+        },
+        {
+          "iteration": 10,
+          "gain": 1.7016177131161434,
+          "lyapunov": -0.020466596677150995
+        },
+        {
+          "iteration": 11,
+          "gain": 1.7127987105631928,
+          "lyapunov": -0.026001581017619367
+        },
+        {
+          "iteration": 12,
+          "gain": 1.7271095163939116,
+          "lyapunov": -0.0048093569472426306
+        },
+        {
+          "iteration": 13,
+          "gain": 1.729769574344213,
+          "lyapunov": 0.012531497757581236
+        },
+        {
+          "iteration": 14,
+          "gain": 1.7228469506224855,
+          "lyapunov": 0.010719967293859139
+        },
+        {
+          "iteration": 15,
+          "gain": 1.7169470397562043,
+          "lyapunov": 0.027621641887376498
+        },
+        {
+          "iteration": 16,
+          "gain": 1.7018379453966204,
+          "lyapunov": 0.011542953412426931
+        },
+        {
+          "iteration": 17,
+          "gain": 1.6955633852853238,
+          "lyapunov": -0.030051125091317986
+        }
+      ]
+    },
+    {
+      "seed": 7306,
+      "start_gain": 0.55,
+      "final_gain": 1.0198302388198597,
+      "history": [
+        {
+          "iteration": 0,
+          "gain": 0.55,
+          "lyapunov": -0.5980189102204754
+        },
+        {
+          "iteration": 1,
+          "gain": 0.665996442874648,
+          "lyapunov": -0.4098165653217999
+        },
+        {
+          "iteration": 2,
+          "gain": 0.759321772617679,
+          "lyapunov": -0.2807730403918113
+        },
+        {
+          "iteration": 3,
+          "gain": 0.8307035591254915,
+          "lyapunov": -0.19073290017981823
+        },
+        {
+          "iteration": 4,
+          "gain": 0.8829843982156985,
+          "lyapunov": -0.12956698797393476
+        },
+        {
+          "iteration": 5,
+          "gain": 0.9203637455813375,
+          "lyapunov": -0.08929791406129829
+        },
+        {
+          "iteration": 6,
+          "gain": 0.947042811852897,
+          "lyapunov": -0.0614748157895046
+        },
+        {
+          "iteration": 7,
+          "gain": 0.9658574355616601,
+          "lyapunov": -0.0477390196749937
+        },
+        {
+          "iteration": 8,
+          "gain": 0.9807256211070768,
+          "lyapunov": -0.028128443125062925
+        },
+        {
+          "iteration": 9,
+          "gain": 0.9895930808445231,
+          "lyapunov": -0.018477380549454907
+        },
+        {
+          "iteration": 10,
+          "gain": 0.9954616415899581,
+          "lyapunov": -0.01935787275036607
+        },
+        {
+          "iteration": 11,
+          "gain": 1.0016471863803016,
+          "lyapunov": -0.016304917537580087
+        },
+        {
+          "iteration": 12,
+          "gain": 1.0068870120094782,
+          "lyapunov": -0.009239477643264063
+        },
+        {
+          "iteration": 13,
+          "gain": 1.009868412502682,
+          "lyapunov": -0.014394972409031467
+        },
+        {
+          "iteration": 14,
+          "gain": 1.014530992029838,
+          "lyapunov": 0.0019196630561111885
+        },
+        {
+          "iteration": 15,
+          "gain": 1.0139079649570613,
+          "lyapunov": 0.006584187924390902
+        },
+        {
+          "iteration": 16,
+          "gain": 1.011773970460443,
+          "lyapunov": -0.011461770776136936
+        },
+        {
+          "iteration": 17,
+          "gain": 1.0154917350637176,
+          "lyapunov": -0.013322555297284397
+        }
+      ]
+    },
+    {
+      "seed": 7306,
+      "start_gain": 1.55,
+      "final_gain": 1.3143158987930208,
+      "history": [
+        {
+          "iteration": 0,
+          "gain": 1.55,
+          "lyapunov": 0.07464035718419952
+        },
+        {
+          "iteration": 1,
+          "gain": 1.5134170127606565,
+          "lyapunov": 0.07506782728813814
+        },
+        {
+          "iteration": 2,
+          "gain": 1.4774953334741634,
+          "lyapunov": 0.05270106799488154
+        },
+        {
+          "iteration": 3,
+          "gain": 1.452787275382593,
+          "lyapunov": 0.04529613258522431
+        },
+        {
+          "iteration": 4,
+          "gain": 1.4318813482157768,
+          "lyapunov": 0.02804097467332318
+        },
+        {
+          "iteration": 5,
+          "gain": 1.419090389831364,
+          "lyapunov": 0.016491253571385873
+        },
+        {
+          "iteration": 6,
+          "gain": 1.41162128971001,
+          "lyapunov": 0.050381557614890805
+        },
+        {
+          "iteration": 7,
+          "gain": 1.3890454661409,
+          "lyapunov": 0.037308055018493894
+        },
+        {
+          "iteration": 8,
+          "gain": 1.3725608363564457,
+          "lyapunov": 0.011704518588142667
+        },
+        {
+          "iteration": 9,
+          "gain": 1.3674295993173085,
+          "lyapunov": 0.011544039362121413
+        },
+        {
+          "iteration": 10,
+          "gain": 1.362387506471842,
+          "lyapunov": 0.02718290139881043
+        },
+        {
+          "iteration": 11,
+          "gain": 1.3505881329823763,
+          "lyapunov": 0.01851197577569511
+        },
+        {
+          "iteration": 12,
+          "gain": 1.342611125999028,
+          "lyapunov": 0.02749462746004746
+        },
+        {
+          "iteration": 13,
+          "gain": 1.3308502698487783,
+          "lyapunov": 0.02835361769521849
+        },
+        {
+          "iteration": 14,
+          "gain": 1.3188298694811773,
+          "lyapunov": -0.006339773652178885
+        },
+        {
+          "iteration": 15,
+          "gain": 1.3215081318095412,
+          "lyapunov": 0.02738402756365883
+        },
+        {
+          "iteration": 16,
+          "gain": 1.3099784932240848,
+          "lyapunov": -0.005168734787017498
+        },
+        {
+          "iteration": 17,
+          "gain": 1.3121469841170283,
+          "lyapunov": -0.005161207453007292
+        }
+      ]
+    },
+    {
+      "seed": 7307,
+      "start_gain": 0.55,
+      "final_gain": 1.0340751003207271,
+      "history": [
+        {
+          "iteration": 0,
+          "gain": 0.55,
+          "lyapunov": -0.5993326433556305
+        },
+        {
+          "iteration": 1,
+          "gain": 0.6662764830445798,
+          "lyapunov": -0.40699661687519795
+        },
+        {
+          "iteration": 2,
+          "gain": 0.7589558761381092,
+          "lyapunov": -0.2801168303750582
+        },
+        {
+          "iteration": 3,
+          "gain": 0.8301289309496309,
+          "lyapunov": -0.19412059100466666
+        },
+        {
+          "iteration": 4,
+          "gain": 0.8833306709969451,
+          "lyapunov": -0.13167015130862642
+        },
+        {
+          "iteration": 5,
+          "gain": 0.9213445446841748,
+          "lyapunov": -0.09310455894983023
+        },
+        {
+          "iteration": 6,
+          "gain": 0.9492075927409587,
+          "lyapunov": -0.06833631094818218
+        },
+        {
+          "iteration": 7,
+          "gain": 0.9701931187032615,
+          "lyapunov": -0.06066329110902371
+        },
+        {
+          "iteration": 8,
+          "gain": 0.9892107433991194,
+          "lyapunov": -0.045753778357925004
+        },
+        {
+          "iteration": 9,
+          "gain": 1.0038005301436672,
+          "lyapunov": -0.008991344674466963
+        },
+        {
+          "iteration": 10,
+          "gain": 1.0066928543861033,
+          "lyapunov": -0.0072282109577913355
+        },
+        {
+          "iteration": 11,
+          "gain": 1.0090240576782108,
+          "lyapunov": -0.017649559396690214
+        },
+        {
+          "iteration": 12,
+          "gain": 1.0147390067123498,
+          "lyapunov": -0.011674078350514844
+        },
+        {
+          "iteration": 13,
+          "gain": 1.0185368617831303,
+          "lyapunov": 0.004716282273234627
+        },
+        {
+          "iteration": 14,
+          "gain": 1.0170008348178863,
+          "lyapunov": -0.010305846443428811
+        },
+        {
+          "iteration": 15,
+          "gain": 1.0203603087483615,
+          "lyapunov": -0.031113596039954096
+        },
+        {
+          "iteration": 16,
+          "gain": 1.0305701157252056,
+          "lyapunov": -4.18965082227254e-05
+        },
+        {
+          "iteration": 17,
+          "gain": 1.0305839325504105,
+          "lyapunov": -0.01056824347887914
+        }
+      ]
+    },
+    {
+      "seed": 7307,
+      "start_gain": 1.55,
+      "final_gain": 1.325702016217949,
+      "history": [
+        {
+          "iteration": 0,
+          "gain": 1.55,
+          "lyapunov": 0.053395413151232016
+        },
+        {
+          "iteration": 1,
+          "gain": 1.5237408528181795,
+          "lyapunov": 0.057551304303780894
+        },
+        {
+          "iteration": 2,
+          "gain": 1.4959358256592172,
+          "lyapunov": 0.04446180037799748
+        },
+        {
+          "iteration": 3,
+          "gain": 1.474802680962808,
+          "lyapunov": 0.06287789131006562
+        },
+        {
+          "iteration": 4,
+          "gain": 1.445424832385683,
+          "lyapunov": 0.03731862485595615
+        },
+        {
+          "iteration": 5,
+          "gain": 1.4282662841838434,
+          "lyapunov": 0.026524816728613954
+        },
+        {
+          "iteration": 6,
+          "gain": 1.4161945482958709,
+          "lyapunov": 0.0004445930919579967
+        },
+        {
+          "iteration": 7,
+          "gain": 1.4159930809273977,
+          "lyapunov": 0.028740813148791643
+        },
+        {
+          "iteration": 8,
+          "gain": 1.4030298106727666,
+          "lyapunov": 0.03344818172491171
+        },
+        {
+          "iteration": 9,
+          "gain": 1.3880926777229217,
+          "lyapunov": 0.025239998396589358
+        },
+        {
+          "iteration": 10,
+          "gain": 1.3769264857443857,
+          "lyapunov": 0.013889452223146897
+        },
+        {
+          "iteration": 11,
+          "gain": 1.3708201445100312,
+          "lyapunov": 0.03450496756701728
+        },
+        {
+          "iteration": 12,
+          "gain": 1.355767367255861,
+          "lyapunov": 0.009101437358560694
+        },
+        {
+          "iteration": 13,
+          "gain": 1.351824493608681,
+          "lyapunov": 0.017626254917904878
+        },
+        {
+          "iteration": 14,
+          "gain": 1.3442211237949282,
+          "lyapunov": 0.013456091343857206
+        },
+        {
+          "iteration": 15,
+          "gain": 1.338445419750157,
+          "lyapunov": 0.0025441957788776186
+        },
+        {
+          "iteration": 16,
+          "gain": 1.3373561777096226,
+          "lyapunov": -0.011406754443912556
+        },
+        {
+          "iteration": 17,
+          "gain": 1.3422466637388233,
+          "lyapunov": 0.038758381412151
+        }
+      ]
+    }
+  ],
+  "per_seed_alignment": [
+    {
+      "seed": 7300,
+      "critical_gain": 1.1,
+      "memory_peak_gain": 0.95,
+      "accuracy_peak_gain": 1.7,
+      "memory_distance_from_edge": 0.15000000000000013,
+      "accuracy_distance_from_edge": 0.5999999999999999
+    },
+    {
+      "seed": 7301,
+      "critical_gain": 1.25,
+      "memory_peak_gain": 0.95,
+      "accuracy_peak_gain": 1.7,
+      "memory_distance_from_edge": 0.30000000000000004,
+      "accuracy_distance_from_edge": 0.44999999999999996
+    },
+    {
+      "seed": 7302,
+      "critical_gain": 1.1,
+      "memory_peak_gain": 1.1,
+      "accuracy_peak_gain": 1.25,
+      "memory_distance_from_edge": 0.0,
+      "accuracy_distance_from_edge": 0.1499999999999999
+    },
+    {
+      "seed": 7303,
+      "critical_gain": 1.1,
+      "memory_peak_gain": 0.95,
+      "accuracy_peak_gain": 1.1,
+      "memory_distance_from_edge": 0.15000000000000013,
+      "accuracy_distance_from_edge": 0.0
+    },
+    {
+      "seed": 7304,
+      "critical_gain": 1.1,
+      "memory_peak_gain": 1.1,
+      "accuracy_peak_gain": 1.55,
+      "memory_distance_from_edge": 0.0,
+      "accuracy_distance_from_edge": 0.44999999999999996
+    },
+    {
+      "seed": 7305,
+      "critical_gain": 1.7,
+      "memory_peak_gain": 0.95,
+      "accuracy_peak_gain": 1.4,
+      "memory_distance_from_edge": 0.75,
+      "accuracy_distance_from_edge": 0.30000000000000004
+    },
+    {
+      "seed": 7306,
+      "critical_gain": 1.25,
+      "memory_peak_gain": 0.95,
+      "accuracy_peak_gain": 1.25,
+      "memory_distance_from_edge": 0.30000000000000004,
+      "accuracy_distance_from_edge": 0.0
+    },
+    {
+      "seed": 7307,
+      "critical_gain": 1.25,
+      "memory_peak_gain": 1.1,
+      "accuracy_peak_gain": 1.7,
+      "memory_distance_from_edge": 0.1499999999999999,
+      "accuracy_distance_from_edge": 0.44999999999999996
+    }
+  ],
+  "diagnostics": {
+    "empirical_critical_gain": 1.25,
+    "memory_peak_gain": 0.95,
+    "delayed_accuracy_peak_gain": 1.55,
+    "memory_peak_distance_from_edge": 0.30000000000000004,
+    "accuracy_peak_distance_from_edge": 0.30000000000000004,
+    "mean_tuned_gain": 1.19415018571896,
+    "std_tuned_gain": 0.18970014111827518,
+    "mean_seed_memory_distance_from_edge": 0.22500000000000003,
+    "mean_seed_accuracy_distance_from_edge": 0.29999999999999993,
+    "seed_memory_peak_at_edge_fraction": 0.25,
+    "seed_accuracy_peak_at_edge_fraction": 0.25
+  },
+  "claim_boundary": "Near-critical dynamics can optimize selected computational metrics, but criticality is neither unique to conscious systems nor sufficient evidence for phenomenal consciousness."
+}

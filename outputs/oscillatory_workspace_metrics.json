@@ -1,0 +1,274 @@
+{
+  "trials_per_condition": 1600,
+  "seed": 19,
+  "conditions": {
+    "coherent_40hz": {
+      "binding_correct": 1.0,
+      "binding_correct_95ci": [
+        1.0,
+        1.0
+      ],
+      "report_correct": 1.0,
+      "report_correct_95ci": [
+        1.0,
+        1.0
+      ],
+      "action_correct": 1.0,
+      "action_correct_95ci": [
+        1.0,
+        1.0
+      ],
+      "report_action_consistent": 1.0,
+      "report_action_consistent_95ci": [
+        1.0,
+        1.0
+      ],
+      "false_binding": 0.0,
+      "false_binding_95ci": [
+        0.0,
+        0.0
+      ],
+      "confidence": 0.9992129439664492,
+      "confidence_95ci": [
+        0.9991979708911485,
+        0.9992271797956348
+      ],
+      "coherence": 0.9981853985893135,
+      "coherence_95ci": [
+        0.9981537746849822,
+        0.9982186971898276
+      ]
+    },
+    "coherent_20hz_control": {
+      "binding_correct": 1.0,
+      "binding_correct_95ci": [
+        1.0,
+        1.0
+      ],
+      "report_correct": 1.0,
+      "report_correct_95ci": [
+        1.0,
+        1.0
+      ],
+      "action_correct": 1.0,
+      "action_correct_95ci": [
+        1.0,
+        1.0
+      ],
+      "report_action_consistent": 1.0,
+      "report_action_consistent_95ci": [
+        1.0,
+        1.0
+      ],
+      "false_binding": 0.0,
+      "false_binding_95ci": [
+        0.0,
+        0.0
+      ],
+      "confidence": 0.9991983938383402,
+      "confidence_95ci": [
+        0.9991844790433233,
+        0.9992129784415201
+      ],
+      "coherence": 0.9981518524606174,
+      "coherence_95ci": [
+        0.9981197835170937,
+        0.9981824533906497
+      ]
+    },
+    "coherent_40hz_jitter": {
+      "binding_correct": 0.760625,
+      "binding_correct_95ci": [
+        0.751625,
+        0.769815625
+      ],
+      "report_correct": 0.760625,
+      "report_correct_95ci": [
+        0.7507437499999999,
+        0.76925
+      ],
+      "action_correct": 0.7655,
+      "action_correct_95ci": [
+        0.7558750000000001,
+        0.775065625
+      ],
+      "report_action_consistent": 0.984375,
+      "report_action_consistent_95ci": [
+        0.9817500000000001,
+        0.987
+      ],
+      "false_binding": 0.02025,
+      "false_binding_95ci": [
+        0.01725,
+        0.023375000000000003
+      ],
+      "confidence": 0.719917329165753,
+      "confidence_95ci": [
+        0.7165584205683385,
+        0.7234556599937635
+      ],
+      "coherence": 0.9023857866877085,
+      "coherence_95ci": [
+        0.9006043819226103,
+        0.9040937260556311
+      ]
+    },
+    "same_40hz_unlocked": {
+      "binding_correct": 0.312,
+      "binding_correct_95ci": [
+        0.289875,
+        0.333821875
+      ],
+      "report_correct": 0.312,
+      "report_correct_95ci": [
+        0.29,
+        0.335
+      ],
+      "action_correct": 0.42712500000000003,
+      "action_correct_95ci": [
+        0.401434375,
+        0.44956562499999997
+      ],
+      "report_action_consistent": 0.426875,
+      "report_action_consistent_95ci": [
+        0.40561875,
+        0.451315625
+      ],
+      "false_binding": 0.6863750000000001,
+      "false_binding_95ci": [
+        0.662934375,
+        0.708315625
+      ],
+      "confidence": 0.6077106248323804,
+      "confidence_95ci": [
+        0.6007216280015665,
+        0.6148369132640477
+      ],
+      "coherence": 0.8246106072524326,
+      "coherence_95ci": [
+        0.8208011928929758,
+        0.8284941758957834
+      ]
+    },
+    "mixed_frequency": {
+      "binding_correct": 0.30175,
+      "binding_correct_95ci": [
+        0.29418437500000005,
+        0.30975625
+      ],
+      "report_correct": 0.30175,
+      "report_correct_95ci": [
+        0.294434375,
+        0.30912500000000004
+      ],
+      "action_correct": 0.4005,
+      "action_correct_95ci": [
+        0.392625,
+        0.40825
+      ],
+      "report_action_consistent": 0.3995,
+      "report_action_consistent_95ci": [
+        0.392,
+        0.4072500000000001
+      ],
+      "false_binding": 0.6977500000000001,
+      "false_binding_95ci": [
+        0.6898749999999998,
+        0.705315625
+      ],
+      "confidence": 0.590663292233375,
+      "confidence_95ci": [
+        0.5893686794619885,
+        0.5918944150748957
+      ],
+      "coherence": 0.8374459237602814,
+      "coherence_95ci": [
+        0.8370444961471841,
+        0.8378637900731182
+      ]
+    },
+    "phase_shift_intervention": {
+      "binding_correct": 0.0,
+      "binding_correct_95ci": [
+        0.0,
+        0.0
+      ],
+      "report_correct": 0.0,
+      "report_correct_95ci": [
+        0.0,
+        0.0
+      ],
+      "action_correct": 0.0,
+      "action_correct_95ci": [
+        0.0,
+        0.0
+      ],
+      "report_action_consistent": 0.0,
+      "report_action_consistent_95ci": [
+        0.0,
+        0.0
+      ],
+      "false_binding": 1.0,
+      "false_binding_95ci": [
+        1.0,
+        1.0
+      ],
+      "confidence": 0.9992134643735859,
+      "confidence_95ci": [
+        0.9991991922782659,
+        0.9992276022893397
+      ],
+      "coherence": 0.9981865984168785,
+      "coherence_95ci": [
+        0.9981537327712022,
+        0.9982202990346254
+      ]
+    },
+    "asynchronous": {
+      "binding_correct": 0.24425000000000005,
+      "binding_correct_95ci": [
+        0.23337500000000003,
+        0.254440625
+      ],
+      "report_correct": 0.24425000000000005,
+      "report_correct_95ci": [
+        0.234375,
+        0.25556562499999996
+      ],
+      "action_correct": 0.420375,
+      "action_correct_95ci": [
+        0.40875,
+        0.43156562499999995
+      ],
+      "report_action_consistent": 0.45787500000000003,
+      "report_action_consistent_95ci": [
+        0.44636875,
+        0.469375
+      ],
+      "false_binding": 0.6809999999999999,
+      "false_binding_95ci": [
+        0.668875,
+        0.692190625
+      ],
+      "confidence": 0.5491585667491865,
+      "confidence_95ci": [
+        0.5450641190412424,
+        0.5531310424088225
+      ],
+      "coherence": 0.7419211400050688,
+      "coherence_95ci": [
+        0.7382723020524051,
+        0.7455505765598719
+      ]
+    }
+  },
+  "contrasts": {
+    "phase_lock_effect_vs_same_frequency_unlocked": 0.688,
+    "valence_phase_intervention_effect": 1.0,
+    "coherent_40_minus_coherent_20": 0.0
+  },
+  "interpretation": {
+    "supported_if_positive": "Shared phase can serve as a routing/binding coordinate in this explicit software mechanism.",
+    "not_tested": "Biological gamma, phenomenal consciousness, or a privileged causal role for exactly 40 Hz."
+  }
+}

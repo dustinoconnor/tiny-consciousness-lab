@@ -1,0 +1,3386 @@
+{
+  "question": "Can spatial superposition and relative phase jointly encode a bound workspace state?",
+  "task": {
+    "spatial_identities": 4,
+    "temporal_contexts": 2,
+    "classes": 8,
+    "grid": [
+      16,
+      16
+    ],
+    "time_bins": 8,
+    "train_samples_per_class": 100,
+    "test_samples_per_class": 200
+  },
+  "summary": {
+    "discrete_message:clean": {
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "mean_accuracy": 1.0,
+      "std_accuracy": 0.0,
+      "min_accuracy": 1.0,
+      "max_accuracy": 1.0,
+      "seeds": 24
+    },
+    "discrete_message:source_drop_50": {
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "mean_accuracy": 0.7633333333333333,
+      "std_accuracy": 0.010407808733777196,
+      "min_accuracy": 0.74625,
+      "max_accuracy": 0.786875,
+      "seeds": 24
+    },
+    "discrete_message:readout_mask_50": {
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "mean_accuracy": 0.7525,
+      "std_accuracy": 0.010090734198593628,
+      "min_accuracy": 0.735625,
+      "max_accuracy": 0.77375,
+      "seeds": 24
+    },
+    "discrete_message:phase_scramble": {
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "mean_accuracy": 0.5008333333333334,
+      "std_accuracy": 0.01147158324828017,
+      "min_accuracy": 0.479375,
+      "max_accuracy": 0.52,
+      "seeds": 24
+    },
+    "random_distributed_code:clean": {
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "mean_accuracy": 1.0,
+      "std_accuracy": 0.0,
+      "min_accuracy": 1.0,
+      "max_accuracy": 1.0,
+      "seeds": 24
+    },
+    "random_distributed_code:source_drop_50": {
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "mean_accuracy": 0.7619010416666666,
+      "std_accuracy": 0.010333752039148082,
+      "min_accuracy": 0.734375,
+      "max_accuracy": 0.783125,
+      "seeds": 24
+    },
+    "random_distributed_code:readout_mask_50": {
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "mean_accuracy": 1.0,
+      "std_accuracy": 0.0,
+      "min_accuracy": 1.0,
+      "max_accuracy": 1.0,
+      "seeds": 24
+    },
+    "random_distributed_code:phase_scramble": {
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "mean_accuracy": 0.5005989583333333,
+      "std_accuracy": 0.011578647461596309,
+      "min_accuracy": 0.478125,
+      "max_accuracy": 0.521875,
+      "seeds": 24
+    },
+    "spatial_field_only:clean": {
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "mean_accuracy": 0.5006510416666666,
+      "std_accuracy": 0.010877034003192097,
+      "min_accuracy": 0.475625,
+      "max_accuracy": 0.516875,
+      "seeds": 24
+    },
+    "spatial_field_only:source_drop_50": {
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "mean_accuracy": 0.4286197916666666,
+      "std_accuracy": 0.016505384189659567,
+      "min_accuracy": 0.40125,
+      "max_accuracy": 0.46625,
+      "seeds": 24
+    },
+    "spatial_field_only:readout_mask_50": {
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "mean_accuracy": 0.49921875000000004,
+      "std_accuracy": 0.01397571601102546,
+      "min_accuracy": 0.4725,
+      "max_accuracy": 0.530625,
+      "seeds": 24
+    },
+    "spatial_field_only:spatial_scramble": {
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "mean_accuracy": 0.23377604166666668,
+      "std_accuracy": 0.08771170059228091,
+      "min_accuracy": 0.095625,
+      "max_accuracy": 0.39625,
+      "seeds": 24
+    },
+    "temporal_phase_only:clean": {
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "mean_accuracy": 0.2497135416666667,
+      "std_accuracy": 0.011378003218854524,
+      "min_accuracy": 0.2275,
+      "max_accuracy": 0.27,
+      "seeds": 24
+    },
+    "temporal_phase_only:source_drop_50": {
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "mean_accuracy": 0.21916666666666665,
+      "std_accuracy": 0.011404704042874397,
+      "min_accuracy": 0.198125,
+      "max_accuracy": 0.241875,
+      "seeds": 24
+    },
+    "temporal_phase_only:readout_mask_50": {
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "mean_accuracy": 0.244765625,
+      "std_accuracy": 0.010684289996737035,
+      "min_accuracy": 0.2225,
+      "max_accuracy": 0.265625,
+      "seeds": 24
+    },
+    "temporal_phase_only:phase_scramble": {
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "mean_accuracy": 0.12661458333333334,
+      "std_accuracy": 0.008678871364395387,
+      "min_accuracy": 0.113125,
+      "max_accuracy": 0.1475,
+      "seeds": 24
+    },
+    "spatiotemporal_field:clean": {
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "mean_accuracy": 1.0,
+      "std_accuracy": 0.0,
+      "min_accuracy": 1.0,
+      "max_accuracy": 1.0,
+      "seeds": 24
+    },
+    "spatiotemporal_field:source_drop_50": {
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "mean_accuracy": 0.764609375,
+      "std_accuracy": 0.012962551857217062,
+      "min_accuracy": 0.72875,
+      "max_accuracy": 0.790625,
+      "seeds": 24
+    },
+    "spatiotemporal_field:readout_mask_50": {
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "mean_accuracy": 1.0,
+      "std_accuracy": 0.0,
+      "min_accuracy": 1.0,
+      "max_accuracy": 1.0,
+      "seeds": 24
+    },
+    "spatiotemporal_field:spatial_scramble": {
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "mean_accuracy": 0.291328125,
+      "std_accuracy": 0.18957517546264518,
+      "min_accuracy": 0.0,
+      "max_accuracy": 0.831875,
+      "seeds": 24
+    },
+    "spatiotemporal_field:phase_scramble": {
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "mean_accuracy": 0.44195312499999995,
+      "std_accuracy": 0.011872686863527363,
+      "min_accuracy": 0.4225,
+      "max_accuracy": 0.4675,
+      "seeds": 24
+    },
+    "spatiotemporal_field:space_phase_scramble": {
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "mean_accuracy": 0.20104166666666667,
+      "std_accuracy": 0.045778020600926915,
+      "min_accuracy": 0.10875,
+      "max_accuracy": 0.28125,
+      "seeds": 24
+    }
+  },
+  "per_seed": [
+    {
+      "seed": 9100,
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9100,
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "accuracy": 0.76625
+    },
+    {
+      "seed": 9100,
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.738125
+    },
+    {
+      "seed": 9100,
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "accuracy": 0.5125
+    },
+    {
+      "seed": 9100,
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9100,
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "accuracy": 0.76375
+    },
+    {
+      "seed": 9100,
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9100,
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "accuracy": 0.51375
+    },
+    {
+      "seed": 9100,
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "accuracy": 0.50125
+    },
+    {
+      "seed": 9100,
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.451875
+    },
+    {
+      "seed": 9100,
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.530625
+    },
+    {
+      "seed": 9100,
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.371875
+    },
+    {
+      "seed": 9100,
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "accuracy": 0.24875
+    },
+    {
+      "seed": 9100,
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.224375
+    },
+    {
+      "seed": 9100,
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.244375
+    },
+    {
+      "seed": 9100,
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "accuracy": 0.128125
+    },
+    {
+      "seed": 9100,
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9100,
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "accuracy": 0.774375
+    },
+    {
+      "seed": 9100,
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9100,
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.125
+    },
+    {
+      "seed": 9100,
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "accuracy": 0.4425
+    },
+    {
+      "seed": 9100,
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "accuracy": 0.258125
+    },
+    {
+      "seed": 9101,
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9101,
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "accuracy": 0.775
+    },
+    {
+      "seed": 9101,
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.745625
+    },
+    {
+      "seed": 9101,
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "accuracy": 0.50625
+    },
+    {
+      "seed": 9101,
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9101,
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "accuracy": 0.773125
+    },
+    {
+      "seed": 9101,
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9101,
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "accuracy": 0.505625
+    },
+    {
+      "seed": 9101,
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "accuracy": 0.51125
+    },
+    {
+      "seed": 9101,
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.439375
+    },
+    {
+      "seed": 9101,
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.496875
+    },
+    {
+      "seed": 9101,
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.148125
+    },
+    {
+      "seed": 9101,
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "accuracy": 0.260625
+    },
+    {
+      "seed": 9101,
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.235
+    },
+    {
+      "seed": 9101,
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.24625
+    },
+    {
+      "seed": 9101,
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "accuracy": 0.11625
+    },
+    {
+      "seed": 9101,
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9101,
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "accuracy": 0.76375
+    },
+    {
+      "seed": 9101,
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9101,
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.33875
+    },
+    {
+      "seed": 9101,
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "accuracy": 0.455
+    },
+    {
+      "seed": 9101,
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "accuracy": 0.21125
+    },
+    {
+      "seed": 9102,
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9102,
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "accuracy": 0.76375
+    },
+    {
+      "seed": 9102,
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.751875
+    },
+    {
+      "seed": 9102,
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "accuracy": 0.505
+    },
+    {
+      "seed": 9102,
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9102,
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "accuracy": 0.76625
+    },
+    {
+      "seed": 9102,
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9102,
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "accuracy": 0.50625
+    },
+    {
+      "seed": 9102,
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "accuracy": 0.515
+    },
+    {
+      "seed": 9102,
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.426875
+    },
+    {
+      "seed": 9102,
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.506875
+    },
+    {
+      "seed": 9102,
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.125
+    },
+    {
+      "seed": 9102,
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "accuracy": 0.25375
+    },
+    {
+      "seed": 9102,
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.22
+    },
+    {
+      "seed": 9102,
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.24
+    },
+    {
+      "seed": 9102,
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "accuracy": 0.13
+    },
+    {
+      "seed": 9102,
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9102,
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "accuracy": 0.77375
+    },
+    {
+      "seed": 9102,
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9102,
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.4275
+    },
+    {
+      "seed": 9102,
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "accuracy": 0.4325
+    },
+    {
+      "seed": 9102,
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "accuracy": 0.169375
+    },
+    {
+      "seed": 9103,
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9103,
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "accuracy": 0.77375
+    },
+    {
+      "seed": 9103,
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.75875
+    },
+    {
+      "seed": 9103,
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "accuracy": 0.479375
+    },
+    {
+      "seed": 9103,
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9103,
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "accuracy": 0.77
+    },
+    {
+      "seed": 9103,
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9103,
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "accuracy": 0.4875
+    },
+    {
+      "seed": 9103,
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "accuracy": 0.49375
+    },
+    {
+      "seed": 9103,
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.4325
+    },
+    {
+      "seed": 9103,
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.50875
+    },
+    {
+      "seed": 9103,
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.25
+    },
+    {
+      "seed": 9103,
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "accuracy": 0.234375
+    },
+    {
+      "seed": 9103,
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.200625
+    },
+    {
+      "seed": 9103,
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.240625
+    },
+    {
+      "seed": 9103,
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "accuracy": 0.113125
+    },
+    {
+      "seed": 9103,
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9103,
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "accuracy": 0.783125
+    },
+    {
+      "seed": 9103,
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9103,
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.539375
+    },
+    {
+      "seed": 9103,
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "accuracy": 0.438125
+    },
+    {
+      "seed": 9103,
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "accuracy": 0.238125
+    },
+    {
+      "seed": 9104,
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9104,
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "accuracy": 0.749375
+    },
+    {
+      "seed": 9104,
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.756875
+    },
+    {
+      "seed": 9104,
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "accuracy": 0.485
+    },
+    {
+      "seed": 9104,
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9104,
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "accuracy": 0.734375
+    },
+    {
+      "seed": 9104,
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9104,
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "accuracy": 0.490625
+    },
+    {
+      "seed": 9104,
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "accuracy": 0.48875
+    },
+    {
+      "seed": 9104,
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.430625
+    },
+    {
+      "seed": 9104,
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.49
+    },
+    {
+      "seed": 9104,
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.36125
+    },
+    {
+      "seed": 9104,
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "accuracy": 0.254375
+    },
+    {
+      "seed": 9104,
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.226875
+    },
+    {
+      "seed": 9104,
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.265625
+    },
+    {
+      "seed": 9104,
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "accuracy": 0.116875
+    },
+    {
+      "seed": 9104,
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9104,
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "accuracy": 0.72875
+    },
+    {
+      "seed": 9104,
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9104,
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.831875
+    },
+    {
+      "seed": 9104,
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "accuracy": 0.428125
+    },
+    {
+      "seed": 9104,
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "accuracy": 0.28125
+    },
+    {
+      "seed": 9105,
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9105,
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "accuracy": 0.7625
+    },
+    {
+      "seed": 9105,
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.741875
+    },
+    {
+      "seed": 9105,
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "accuracy": 0.49
+    },
+    {
+      "seed": 9105,
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9105,
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "accuracy": 0.76375
+    },
+    {
+      "seed": 9105,
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9105,
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "accuracy": 0.49
+    },
+    {
+      "seed": 9105,
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "accuracy": 0.48
+    },
+    {
+      "seed": 9105,
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.419375
+    },
+    {
+      "seed": 9105,
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.495625
+    },
+    {
+      "seed": 9105,
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.139375
+    },
+    {
+      "seed": 9105,
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "accuracy": 0.251875
+    },
+    {
+      "seed": 9105,
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.216875
+    },
+    {
+      "seed": 9105,
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.2225
+    },
+    {
+      "seed": 9105,
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "accuracy": 0.125625
+    },
+    {
+      "seed": 9105,
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9105,
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "accuracy": 0.76625
+    },
+    {
+      "seed": 9105,
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9105,
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.03875
+    },
+    {
+      "seed": 9105,
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "accuracy": 0.439375
+    },
+    {
+      "seed": 9105,
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "accuracy": 0.16625
+    },
+    {
+      "seed": 9106,
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9106,
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "accuracy": 0.7675
+    },
+    {
+      "seed": 9106,
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.749375
+    },
+    {
+      "seed": 9106,
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "accuracy": 0.5025
+    },
+    {
+      "seed": 9106,
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9106,
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "accuracy": 0.77625
+    },
+    {
+      "seed": 9106,
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9106,
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "accuracy": 0.5
+    },
+    {
+      "seed": 9106,
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "accuracy": 0.49375
+    },
+    {
+      "seed": 9106,
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.41625
+    },
+    {
+      "seed": 9106,
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.505
+    },
+    {
+      "seed": 9106,
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.2375
+    },
+    {
+      "seed": 9106,
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "accuracy": 0.235625
+    },
+    {
+      "seed": 9106,
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.205
+    },
+    {
+      "seed": 9106,
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.23125
+    },
+    {
+      "seed": 9106,
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "accuracy": 0.126875
+    },
+    {
+      "seed": 9106,
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9106,
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "accuracy": 0.775
+    },
+    {
+      "seed": 9106,
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9106,
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.444375
+    },
+    {
+      "seed": 9106,
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "accuracy": 0.4625
+    },
+    {
+      "seed": 9106,
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "accuracy": 0.201875
+    },
+    {
+      "seed": 9107,
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9107,
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "accuracy": 0.769375
+    },
+    {
+      "seed": 9107,
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.759375
+    },
+    {
+      "seed": 9107,
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "accuracy": 0.5175
+    },
+    {
+      "seed": 9107,
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9107,
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "accuracy": 0.7525
+    },
+    {
+      "seed": 9107,
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9107,
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "accuracy": 0.519375
+    },
+    {
+      "seed": 9107,
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "accuracy": 0.475625
+    },
+    {
+      "seed": 9107,
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.403125
+    },
+    {
+      "seed": 9107,
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.476875
+    },
+    {
+      "seed": 9107,
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.186875
+    },
+    {
+      "seed": 9107,
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "accuracy": 0.2525
+    },
+    {
+      "seed": 9107,
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.241875
+    },
+    {
+      "seed": 9107,
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.235625
+    },
+    {
+      "seed": 9107,
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "accuracy": 0.1475
+    },
+    {
+      "seed": 9107,
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9107,
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "accuracy": 0.758125
+    },
+    {
+      "seed": 9107,
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9107,
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.268125
+    },
+    {
+      "seed": 9107,
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "accuracy": 0.44125
+    },
+    {
+      "seed": 9107,
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "accuracy": 0.1675
+    },
+    {
+      "seed": 9108,
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9108,
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "accuracy": 0.769375
+    },
+    {
+      "seed": 9108,
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.750625
+    },
+    {
+      "seed": 9108,
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "accuracy": 0.511875
+    },
+    {
+      "seed": 9108,
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9108,
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "accuracy": 0.76375
+    },
+    {
+      "seed": 9108,
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9108,
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "accuracy": 0.50375
+    },
+    {
+      "seed": 9108,
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "accuracy": 0.50375
+    },
+    {
+      "seed": 9108,
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.4325
+    },
+    {
+      "seed": 9108,
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.498125
+    },
+    {
+      "seed": 9108,
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.221875
+    },
+    {
+      "seed": 9108,
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "accuracy": 0.24625
+    },
+    {
+      "seed": 9108,
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.2225
+    },
+    {
+      "seed": 9108,
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.229375
+    },
+    {
+      "seed": 9108,
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "accuracy": 0.14
+    },
+    {
+      "seed": 9108,
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9108,
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "accuracy": 0.753125
+    },
+    {
+      "seed": 9108,
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9108,
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.364375
+    },
+    {
+      "seed": 9108,
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "accuracy": 0.44
+    },
+    {
+      "seed": 9108,
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "accuracy": 0.255
+    },
+    {
+      "seed": 9109,
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9109,
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "accuracy": 0.786875
+    },
+    {
+      "seed": 9109,
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.75875
+    },
+    {
+      "seed": 9109,
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "accuracy": 0.511875
+    },
+    {
+      "seed": 9109,
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9109,
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "accuracy": 0.783125
+    },
+    {
+      "seed": 9109,
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9109,
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "accuracy": 0.514375
+    },
+    {
+      "seed": 9109,
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "accuracy": 0.491875
+    },
+    {
+      "seed": 9109,
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.46625
+    },
+    {
+      "seed": 9109,
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.514375
+    },
+    {
+      "seed": 9109,
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.2575
+    },
+    {
+      "seed": 9109,
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "accuracy": 0.2325
+    },
+    {
+      "seed": 9109,
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.214375
+    },
+    {
+      "seed": 9109,
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.24375
+    },
+    {
+      "seed": 9109,
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "accuracy": 0.124375
+    },
+    {
+      "seed": 9109,
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9109,
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "accuracy": 0.790625
+    },
+    {
+      "seed": 9109,
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9109,
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.2275
+    },
+    {
+      "seed": 9109,
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "accuracy": 0.44875
+    },
+    {
+      "seed": 9109,
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "accuracy": 0.195625
+    },
+    {
+      "seed": 9110,
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9110,
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "accuracy": 0.773125
+    },
+    {
+      "seed": 9110,
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.735625
+    },
+    {
+      "seed": 9110,
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "accuracy": 0.496875
+    },
+    {
+      "seed": 9110,
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9110,
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "accuracy": 0.774375
+    },
+    {
+      "seed": 9110,
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9110,
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "accuracy": 0.499375
+    },
+    {
+      "seed": 9110,
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "accuracy": 0.516875
+    },
+    {
+      "seed": 9110,
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.443125
+    },
+    {
+      "seed": 9110,
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.493125
+    },
+    {
+      "seed": 9110,
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.25625
+    },
+    {
+      "seed": 9110,
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "accuracy": 0.2625
+    },
+    {
+      "seed": 9110,
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.214375
+    },
+    {
+      "seed": 9110,
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.235625
+    },
+    {
+      "seed": 9110,
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "accuracy": 0.1325
+    },
+    {
+      "seed": 9110,
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9110,
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "accuracy": 0.75875
+    },
+    {
+      "seed": 9110,
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9110,
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.249375
+    },
+    {
+      "seed": 9110,
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "accuracy": 0.44375
+    },
+    {
+      "seed": 9110,
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "accuracy": 0.176875
+    },
+    {
+      "seed": 9111,
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9111,
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "accuracy": 0.76
+    },
+    {
+      "seed": 9111,
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.7525
+    },
+    {
+      "seed": 9111,
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "accuracy": 0.4925
+    },
+    {
+      "seed": 9111,
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9111,
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "accuracy": 0.771875
+    },
+    {
+      "seed": 9111,
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9111,
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "accuracy": 0.496875
+    },
+    {
+      "seed": 9111,
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "accuracy": 0.513125
+    },
+    {
+      "seed": 9111,
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.406875
+    },
+    {
+      "seed": 9111,
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.481875
+    },
+    {
+      "seed": 9111,
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.215625
+    },
+    {
+      "seed": 9111,
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "accuracy": 0.23625
+    },
+    {
+      "seed": 9111,
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.2175
+    },
+    {
+      "seed": 9111,
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.24375
+    },
+    {
+      "seed": 9111,
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "accuracy": 0.12375
+    },
+    {
+      "seed": 9111,
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9111,
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "accuracy": 0.76625
+    },
+    {
+      "seed": 9111,
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9111,
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.41625
+    },
+    {
+      "seed": 9111,
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "accuracy": 0.4225
+    },
+    {
+      "seed": 9111,
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "accuracy": 0.23375
+    },
+    {
+      "seed": 9112,
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9112,
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "accuracy": 0.75625
+    },
+    {
+      "seed": 9112,
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.763125
+    },
+    {
+      "seed": 9112,
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "accuracy": 0.5175
+    },
+    {
+      "seed": 9112,
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9112,
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "accuracy": 0.75625
+    },
+    {
+      "seed": 9112,
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9112,
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "accuracy": 0.51375
+    },
+    {
+      "seed": 9112,
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "accuracy": 0.5
+    },
+    {
+      "seed": 9112,
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.441875
+    },
+    {
+      "seed": 9112,
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.523125
+    },
+    {
+      "seed": 9112,
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.39625
+    },
+    {
+      "seed": 9112,
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "accuracy": 0.260625
+    },
+    {
+      "seed": 9112,
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.229375
+    },
+    {
+      "seed": 9112,
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.264375
+    },
+    {
+      "seed": 9112,
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "accuracy": 0.139375
+    },
+    {
+      "seed": 9112,
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9112,
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "accuracy": 0.759375
+    },
+    {
+      "seed": 9112,
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9112,
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.259375
+    },
+    {
+      "seed": 9112,
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "accuracy": 0.4475
+    },
+    {
+      "seed": 9112,
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "accuracy": 0.24625
+    },
+    {
+      "seed": 9113,
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9113,
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "accuracy": 0.77125
+    },
+    {
+      "seed": 9113,
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.746875
+    },
+    {
+      "seed": 9113,
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "accuracy": 0.485625
+    },
+    {
+      "seed": 9113,
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9113,
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "accuracy": 0.760625
+    },
+    {
+      "seed": 9113,
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9113,
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "accuracy": 0.478125
+    },
+    {
+      "seed": 9113,
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "accuracy": 0.49125
+    },
+    {
+      "seed": 9113,
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.444375
+    },
+    {
+      "seed": 9113,
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.480625
+    },
+    {
+      "seed": 9113,
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.246875
+    },
+    {
+      "seed": 9113,
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "accuracy": 0.23625
+    },
+    {
+      "seed": 9113,
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.198125
+    },
+    {
+      "seed": 9113,
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.233125
+    },
+    {
+      "seed": 9113,
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "accuracy": 0.124375
+    },
+    {
+      "seed": 9113,
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9113,
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "accuracy": 0.7675
+    },
+    {
+      "seed": 9113,
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9113,
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.11375
+    },
+    {
+      "seed": 9113,
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "accuracy": 0.436875
+    },
+    {
+      "seed": 9113,
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "accuracy": 0.155
+    },
+    {
+      "seed": 9114,
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9114,
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "accuracy": 0.758125
+    },
+    {
+      "seed": 9114,
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.741875
+    },
+    {
+      "seed": 9114,
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "accuracy": 0.49125
+    },
+    {
+      "seed": 9114,
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9114,
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "accuracy": 0.763125
+    },
+    {
+      "seed": 9114,
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9114,
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "accuracy": 0.485
+    },
+    {
+      "seed": 9114,
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "accuracy": 0.511875
+    },
+    {
+      "seed": 9114,
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.40125
+    },
+    {
+      "seed": 9114,
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.503125
+    },
+    {
+      "seed": 9114,
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.095625
+    },
+    {
+      "seed": 9114,
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "accuracy": 0.265
+    },
+    {
+      "seed": 9114,
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.225
+    },
+    {
+      "seed": 9114,
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.245625
+    },
+    {
+      "seed": 9114,
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "accuracy": 0.13375
+    },
+    {
+      "seed": 9114,
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9114,
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "accuracy": 0.750625
+    },
+    {
+      "seed": 9114,
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9114,
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.061875
+    },
+    {
+      "seed": 9114,
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "accuracy": 0.42875
+    },
+    {
+      "seed": 9114,
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "accuracy": 0.120625
+    },
+    {
+      "seed": 9115,
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9115,
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "accuracy": 0.759375
+    },
+    {
+      "seed": 9115,
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.746875
+    },
+    {
+      "seed": 9115,
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "accuracy": 0.495625
+    },
+    {
+      "seed": 9115,
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9115,
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "accuracy": 0.748125
+    },
+    {
+      "seed": 9115,
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9115,
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "accuracy": 0.49375
+    },
+    {
+      "seed": 9115,
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "accuracy": 0.500625
+    },
+    {
+      "seed": 9115,
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.44625
+    },
+    {
+      "seed": 9115,
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.4725
+    },
+    {
+      "seed": 9115,
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.12
+    },
+    {
+      "seed": 9115,
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "accuracy": 0.246875
+    },
+    {
+      "seed": 9115,
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.22125
+    },
+    {
+      "seed": 9115,
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.23625
+    },
+    {
+      "seed": 9115,
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "accuracy": 0.126875
+    },
+    {
+      "seed": 9115,
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9115,
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "accuracy": 0.7675
+    },
+    {
+      "seed": 9115,
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9115,
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.0
+    },
+    {
+      "seed": 9115,
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "accuracy": 0.43625
+    },
+    {
+      "seed": 9115,
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "accuracy": 0.10875
+    },
+    {
+      "seed": 9116,
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9116,
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "accuracy": 0.75125
+    },
+    {
+      "seed": 9116,
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.7425
+    },
+    {
+      "seed": 9116,
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "accuracy": 0.4875
+    },
+    {
+      "seed": 9116,
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9116,
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "accuracy": 0.759375
+    },
+    {
+      "seed": 9116,
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9116,
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "accuracy": 0.48875
+    },
+    {
+      "seed": 9116,
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "accuracy": 0.51
+    },
+    {
+      "seed": 9116,
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.415
+    },
+    {
+      "seed": 9116,
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.514375
+    },
+    {
+      "seed": 9116,
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.37
+    },
+    {
+      "seed": 9116,
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "accuracy": 0.2275
+    },
+    {
+      "seed": 9116,
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.20375
+    },
+    {
+      "seed": 9116,
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.243125
+    },
+    {
+      "seed": 9116,
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "accuracy": 0.12875
+    },
+    {
+      "seed": 9116,
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9116,
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "accuracy": 0.769375
+    },
+    {
+      "seed": 9116,
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9116,
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.4175
+    },
+    {
+      "seed": 9116,
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "accuracy": 0.441875
+    },
+    {
+      "seed": 9116,
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "accuracy": 0.245625
+    },
+    {
+      "seed": 9117,
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9117,
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "accuracy": 0.75625
+    },
+    {
+      "seed": 9117,
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.764375
+    },
+    {
+      "seed": 9117,
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "accuracy": 0.50875
+    },
+    {
+      "seed": 9117,
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9117,
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "accuracy": 0.76125
+    },
+    {
+      "seed": 9117,
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9117,
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "accuracy": 0.509375
+    },
+    {
+      "seed": 9117,
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "accuracy": 0.511875
+    },
+    {
+      "seed": 9117,
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.431875
+    },
+    {
+      "seed": 9117,
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.50875
+    },
+    {
+      "seed": 9117,
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.136875
+    },
+    {
+      "seed": 9117,
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "accuracy": 0.265625
+    },
+    {
+      "seed": 9117,
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.216875
+    },
+    {
+      "seed": 9117,
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.2575
+    },
+    {
+      "seed": 9117,
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "accuracy": 0.114375
+    },
+    {
+      "seed": 9117,
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9117,
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "accuracy": 0.768125
+    },
+    {
+      "seed": 9117,
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9117,
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.474375
+    },
+    {
+      "seed": 9117,
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "accuracy": 0.4675
+    },
+    {
+      "seed": 9117,
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "accuracy": 0.22625
+    },
+    {
+      "seed": 9118,
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9118,
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "accuracy": 0.781875
+    },
+    {
+      "seed": 9118,
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.77125
+    },
+    {
+      "seed": 9118,
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "accuracy": 0.493125
+    },
+    {
+      "seed": 9118,
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9118,
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "accuracy": 0.75625
+    },
+    {
+      "seed": 9118,
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9118,
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "accuracy": 0.49875
+    },
+    {
+      "seed": 9118,
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "accuracy": 0.494375
+    },
+    {
+      "seed": 9118,
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.41625
+    },
+    {
+      "seed": 9118,
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.489375
+    },
+    {
+      "seed": 9118,
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.36875
+    },
+    {
+      "seed": 9118,
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "accuracy": 0.25875
+    },
+    {
+      "seed": 9118,
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.229375
+    },
+    {
+      "seed": 9118,
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.249375
+    },
+    {
+      "seed": 9118,
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "accuracy": 0.12
+    },
+    {
+      "seed": 9118,
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9118,
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "accuracy": 0.78375
+    },
+    {
+      "seed": 9118,
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9118,
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.456875
+    },
+    {
+      "seed": 9118,
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "accuracy": 0.425625
+    },
+    {
+      "seed": 9118,
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "accuracy": 0.19875
+    },
+    {
+      "seed": 9119,
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9119,
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "accuracy": 0.75
+    },
+    {
+      "seed": 9119,
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.77375
+    },
+    {
+      "seed": 9119,
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "accuracy": 0.49875
+    },
+    {
+      "seed": 9119,
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9119,
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "accuracy": 0.76
+    },
+    {
+      "seed": 9119,
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9119,
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "accuracy": 0.496875
+    },
+    {
+      "seed": 9119,
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "accuracy": 0.500625
+    },
+    {
+      "seed": 9119,
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.40875
+    },
+    {
+      "seed": 9119,
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.49125
+    },
+    {
+      "seed": 9119,
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.30125
+    },
+    {
+      "seed": 9119,
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "accuracy": 0.248125
+    },
+    {
+      "seed": 9119,
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.218125
+    },
+    {
+      "seed": 9119,
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.249375
+    },
+    {
+      "seed": 9119,
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "accuracy": 0.12125
+    },
+    {
+      "seed": 9119,
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9119,
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "accuracy": 0.7575
+    },
+    {
+      "seed": 9119,
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9119,
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.243125
+    },
+    {
+      "seed": 9119,
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "accuracy": 0.445
+    },
+    {
+      "seed": 9119,
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "accuracy": 0.26125
+    },
+    {
+      "seed": 9120,
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9120,
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "accuracy": 0.74625
+    },
+    {
+      "seed": 9120,
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.74125
+    },
+    {
+      "seed": 9120,
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "accuracy": 0.505
+    },
+    {
+      "seed": 9120,
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9120,
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "accuracy": 0.748125
+    },
+    {
+      "seed": 9120,
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9120,
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "accuracy": 0.50375
+    },
+    {
+      "seed": 9120,
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "accuracy": 0.50625
+    },
+    {
+      "seed": 9120,
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.448125
+    },
+    {
+      "seed": 9120,
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.491875
+    },
+    {
+      "seed": 9120,
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.18625
+    },
+    {
+      "seed": 9120,
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "accuracy": 0.27
+    },
+    {
+      "seed": 9120,
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.241875
+    },
+    {
+      "seed": 9120,
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.2575
+    },
+    {
+      "seed": 9120,
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "accuracy": 0.118125
+    },
+    {
+      "seed": 9120,
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9120,
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "accuracy": 0.745
+    },
+    {
+      "seed": 9120,
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9120,
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.24375
+    },
+    {
+      "seed": 9120,
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "accuracy": 0.43375
+    },
+    {
+      "seed": 9120,
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "accuracy": 0.139375
+    },
+    {
+      "seed": 9121,
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9121,
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "accuracy": 0.7625
+    },
+    {
+      "seed": 9121,
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.76125
+    },
+    {
+      "seed": 9121,
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "accuracy": 0.4925
+    },
+    {
+      "seed": 9121,
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9121,
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "accuracy": 0.765625
+    },
+    {
+      "seed": 9121,
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9121,
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "accuracy": 0.485
+    },
+    {
+      "seed": 9121,
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "accuracy": 0.511875
+    },
+    {
+      "seed": 9121,
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.421875
+    },
+    {
+      "seed": 9121,
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.496875
+    },
+    {
+      "seed": 9121,
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.164375
+    },
+    {
+      "seed": 9121,
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "accuracy": 0.24375
+    },
+    {
+      "seed": 9121,
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.215
+    },
+    {
+      "seed": 9121,
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.251875
+    },
+    {
+      "seed": 9121,
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "accuracy": 0.12125
+    },
+    {
+      "seed": 9121,
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9121,
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "accuracy": 0.76625
+    },
+    {
+      "seed": 9121,
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9121,
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.0
+    },
+    {
+      "seed": 9121,
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "accuracy": 0.4325
+    },
+    {
+      "seed": 9121,
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "accuracy": 0.18125
+    },
+    {
+      "seed": 9122,
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9122,
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "accuracy": 0.761875
+    },
+    {
+      "seed": 9122,
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.760625
+    },
+    {
+      "seed": 9122,
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "accuracy": 0.52
+    },
+    {
+      "seed": 9122,
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9122,
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "accuracy": 0.7625
+    },
+    {
+      "seed": 9122,
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9122,
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "accuracy": 0.521875
+    },
+    {
+      "seed": 9122,
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "accuracy": 0.50125
+    },
+    {
+      "seed": 9122,
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.428125
+    },
+    {
+      "seed": 9122,
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.511875
+    },
+    {
+      "seed": 9122,
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.245625
+    },
+    {
+      "seed": 9122,
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "accuracy": 0.246875
+    },
+    {
+      "seed": 9122,
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.21625
+    },
+    {
+      "seed": 9122,
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.2525
+    },
+    {
+      "seed": 9122,
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "accuracy": 0.125
+    },
+    {
+      "seed": 9122,
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9122,
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "accuracy": 0.77
+    },
+    {
+      "seed": 9122,
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9122,
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.243125
+    },
+    {
+      "seed": 9122,
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "accuracy": 0.4675
+    },
+    {
+      "seed": 9122,
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "accuracy": 0.16625
+    },
+    {
+      "seed": 9123,
+      "architecture": "discrete_message",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9123,
+      "architecture": "discrete_message",
+      "lesion": "source_drop_50",
+      "accuracy": 0.748125
+    },
+    {
+      "seed": 9123,
+      "architecture": "discrete_message",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.746875
+    },
+    {
+      "seed": 9123,
+      "architecture": "discrete_message",
+      "lesion": "phase_scramble",
+      "accuracy": 0.513125
+    },
+    {
+      "seed": 9123,
+      "architecture": "random_distributed_code",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9123,
+      "architecture": "random_distributed_code",
+      "lesion": "source_drop_50",
+      "accuracy": 0.75125
+    },
+    {
+      "seed": 9123,
+      "architecture": "random_distributed_code",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9123,
+      "architecture": "random_distributed_code",
+      "lesion": "phase_scramble",
+      "accuracy": 0.511875
+    },
+    {
+      "seed": 9123,
+      "architecture": "spatial_field_only",
+      "lesion": "clean",
+      "accuracy": 0.490625
+    },
+    {
+      "seed": 9123,
+      "architecture": "spatial_field_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.414375
+    },
+    {
+      "seed": 9123,
+      "architecture": "spatial_field_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.499375
+    },
+    {
+      "seed": 9123,
+      "architecture": "spatial_field_only",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.2075
+    },
+    {
+      "seed": 9123,
+      "architecture": "temporal_phase_only",
+      "lesion": "clean",
+      "accuracy": 0.254375
+    },
+    {
+      "seed": 9123,
+      "architecture": "temporal_phase_only",
+      "lesion": "source_drop_50",
+      "accuracy": 0.205625
+    },
+    {
+      "seed": 9123,
+      "architecture": "temporal_phase_only",
+      "lesion": "readout_mask_50",
+      "accuracy": 0.255
+    },
+    {
+      "seed": 9123,
+      "architecture": "temporal_phase_only",
+      "lesion": "phase_scramble",
+      "accuracy": 0.140625
+    },
+    {
+      "seed": 9123,
+      "architecture": "spatiotemporal_field",
+      "lesion": "clean",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9123,
+      "architecture": "spatiotemporal_field",
+      "lesion": "source_drop_50",
+      "accuracy": 0.75375
+    },
+    {
+      "seed": 9123,
+      "architecture": "spatiotemporal_field",
+      "lesion": "readout_mask_50",
+      "accuracy": 1.0
+    },
+    {
+      "seed": 9123,
+      "architecture": "spatiotemporal_field",
+      "lesion": "spatial_scramble",
+      "accuracy": 0.206875
+    },
+    {
+      "seed": 9123,
+      "architecture": "spatiotemporal_field",
+      "lesion": "phase_scramble",
+      "accuracy": 0.449375
+    },
+    {
+      "seed": 9123,
+      "architecture": "spatiotemporal_field",
+      "lesion": "space_phase_scramble",
+      "accuracy": 0.220625
+    }
+  ],
+  "claim_boundary": "This tests software spatial coding, temporal coding, redundancy, and causal coordinate lesions. It does not instantiate a physical electromagnetic field, test qualia, or establish Pockett's identity theory."
+}

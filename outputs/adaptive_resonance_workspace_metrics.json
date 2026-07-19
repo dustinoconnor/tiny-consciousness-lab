@@ -1,0 +1,2523 @@
+{
+  "summary": {
+    "seeds": [
+      113,
+      210,
+      307,
+      404,
+      501,
+      598,
+      695,
+      792,
+      889,
+      986,
+      1083,
+      1180,
+      1277,
+      1374,
+      1471,
+      1568,
+      1665,
+      1762,
+      1859,
+      1956,
+      2053,
+      2150,
+      2247,
+      2344
+    ],
+    "conditions": {
+      "full_art": {
+        "categories": {
+          "mean": 6.0,
+          "std": 0.0,
+          "min": 6.0,
+          "max": 6.0
+        },
+        "resets": {
+          "mean": 15.166666666666666,
+          "std": 0.48154341234307685,
+          "min": 15.0,
+          "max": 17.0
+        },
+        "unknown_rejection": {
+          "mean": 1.0,
+          "std": 0.0,
+          "min": 1.0,
+          "max": 1.0
+        },
+        "familiar_retention": {
+          "action_accuracy": {
+            "mean": 1.0,
+            "std": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "report_accuracy": {
+            "mean": 0.9998697916666667,
+            "std": 0.0006378879538497951,
+            "min": 0.996875,
+            "max": 1.0
+          },
+          "promotion_rate": {
+            "mean": 1.0,
+            "std": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "report_control_alignment": {
+            "mean": 1.0,
+            "std": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          }
+        },
+        "novel_adaptation": {
+          "action_accuracy": {
+            "mean": 1.0,
+            "std": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "report_accuracy": {
+            "mean": 0.9973958333333334,
+            "std": 0.009013250109490566,
+            "min": 0.95625,
+            "max": 1.0
+          },
+          "promotion_rate": {
+            "mean": 1.0,
+            "std": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "report_control_alignment": {
+            "mean": 1.0,
+            "std": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          }
+        },
+        "forced_false_resonance": {
+          "eligible_trials": {
+            "mean": 160.0,
+            "std": 0.0,
+            "min": 160.0,
+            "max": 160.0
+          },
+          "action_switch_rate": {
+            "mean": 1.0,
+            "std": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "report_switch_rate": {
+            "mean": 1.0,
+            "std": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "joint_report_control_switch_rate": {
+            "mean": 1.0,
+            "std": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "forced_category_mean_sensory_match": {
+            "mean": 0.48344180484759475,
+            "std": 0.004045724935932907,
+            "min": 0.47467100043765686,
+            "max": 0.49205376466286255
+          }
+        }
+      },
+      "reset_lesion": {
+        "categories": {
+          "mean": 1.0,
+          "std": 0.0,
+          "min": 1.0,
+          "max": 1.0
+        },
+        "resets": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "unknown_rejection": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "familiar_retention": {
+          "action_accuracy": {
+            "mean": 0.25,
+            "std": 0.0,
+            "min": 0.25,
+            "max": 0.25
+          },
+          "report_accuracy": {
+            "mean": 0.25,
+            "std": 0.0,
+            "min": 0.25,
+            "max": 0.25
+          },
+          "promotion_rate": {
+            "mean": 1.0,
+            "std": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "report_control_alignment": {
+            "mean": 0.25,
+            "std": 0.4423258684646914,
+            "min": 0.0,
+            "max": 1.0
+          }
+        },
+        "novel_adaptation": {
+          "action_accuracy": {
+            "mean": 0.5,
+            "std": 0.0,
+            "min": 0.5,
+            "max": 0.5
+          },
+          "report_accuracy": {
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "promotion_rate": {
+            "mean": 1.0,
+            "std": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "report_control_alignment": {
+            "mean": 0.25,
+            "std": 0.4423258684646914,
+            "min": 0.0,
+            "max": 1.0
+          }
+        }
+      },
+      "resonance_lesion": {
+        "categories": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "resets": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "unknown_rejection": {
+          "mean": 1.0,
+          "std": 0.0,
+          "min": 1.0,
+          "max": 1.0
+        },
+        "familiar_retention": {
+          "action_accuracy": {
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "report_accuracy": {
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "promotion_rate": {
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "report_control_alignment": {
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          }
+        },
+        "novel_adaptation": {
+          "action_accuracy": {
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "report_accuracy": {
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "promotion_rate": {
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "report_control_alignment": {
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          }
+        }
+      },
+      "stability_lesion": {
+        "categories": {
+          "mean": 4.041666666666667,
+          "std": 0.2041241452319315,
+          "min": 4.0,
+          "max": 5.0
+        },
+        "resets": {
+          "mean": 6.166666666666667,
+          "std": 0.816496580927726,
+          "min": 6.0,
+          "max": 10.0
+        },
+        "unknown_rejection": {
+          "mean": 0.999375,
+          "std": 0.0030618621784789754,
+          "min": 0.985,
+          "max": 1.0
+        },
+        "familiar_retention": {
+          "action_accuracy": {
+            "mean": 0.9890625000000001,
+            "std": 0.017313642836239564,
+            "min": 0.928125,
+            "max": 1.0
+          },
+          "report_accuracy": {
+            "mean": 0.5104166666666666,
+            "std": 0.05103103630798288,
+            "min": 0.5,
+            "max": 0.75
+          },
+          "promotion_rate": {
+            "mean": 0.9890625000000001,
+            "std": 0.017313642836239564,
+            "min": 0.928125,
+            "max": 1.0
+          },
+          "report_control_alignment": {
+            "mean": 1.0,
+            "std": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          }
+        },
+        "novel_adaptation": {
+          "action_accuracy": {
+            "mean": 1.0,
+            "std": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "report_accuracy": {
+            "mean": 1.0,
+            "std": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "promotion_rate": {
+            "mean": 1.0,
+            "std": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "report_control_alignment": {
+            "mean": 1.0,
+            "std": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          }
+        }
+      }
+    },
+    "causal_contrasts": {
+      "reset_contribution_to_novel_action_accuracy": 0.5,
+      "stable_resonance_contribution_to_familiar_category_report_retention": 0.48945312500000004,
+      "forced_false_joint_switch_rate": 1.0
+    },
+    "interpretation": {
+      "supported": "ART-like match, vigilance, reset, and stable category learning preserve old action/report associations while admitting novel ones; an internal category intervention jointly redirects report and control through the shared workspace packet.",
+      "not_supported": "Phenomenal consciousness, qualia, a complete biological ART implementation, or the claim that every computational resonance is conscious."
+    }
+  },
+  "runs": [
+    {
+      "condition": "full_art",
+      "seed": 113,
+      "categories": 6,
+      "resets": 15,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": {
+        "eligible_trials": 160,
+        "action_switch_rate": 1.0,
+        "report_switch_rate": 1.0,
+        "joint_report_control_switch_rate": 1.0,
+        "forced_category_mean_sensory_match": 0.4809402644219422
+      }
+    },
+    {
+      "condition": "reset_lesion",
+      "seed": 113,
+      "categories": 1,
+      "resets": 0,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.25,
+        "report_accuracy": 0.25,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.5,
+        "report_accuracy": 0.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 0.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "stability_lesion",
+      "seed": 113,
+      "categories": 4,
+      "resets": 6,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 0.5,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "resonance_lesion",
+      "seed": 113,
+      "categories": 0,
+      "resets": 0,
+      "resonances": 0,
+      "familiar_retention": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "full_art",
+      "seed": 210,
+      "categories": 6,
+      "resets": 15,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": {
+        "eligible_trials": 160,
+        "action_switch_rate": 1.0,
+        "report_switch_rate": 1.0,
+        "joint_report_control_switch_rate": 1.0,
+        "forced_category_mean_sensory_match": 0.4848997117710585
+      }
+    },
+    {
+      "condition": "reset_lesion",
+      "seed": 210,
+      "categories": 1,
+      "resets": 0,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.25,
+        "report_accuracy": 0.25,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.5,
+        "report_accuracy": 0.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 0.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "stability_lesion",
+      "seed": 210,
+      "categories": 4,
+      "resets": 6,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 0.5,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "resonance_lesion",
+      "seed": 210,
+      "categories": 0,
+      "resets": 0,
+      "resonances": 0,
+      "familiar_retention": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "full_art",
+      "seed": 307,
+      "categories": 6,
+      "resets": 15,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": {
+        "eligible_trials": 160,
+        "action_switch_rate": 1.0,
+        "report_switch_rate": 1.0,
+        "joint_report_control_switch_rate": 1.0,
+        "forced_category_mean_sensory_match": 0.47467100043765686
+      }
+    },
+    {
+      "condition": "reset_lesion",
+      "seed": 307,
+      "categories": 1,
+      "resets": 0,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.25,
+        "report_accuracy": 0.25,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.5,
+        "report_accuracy": 0.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 0.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "stability_lesion",
+      "seed": 307,
+      "categories": 4,
+      "resets": 6,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.99375,
+        "report_accuracy": 0.5,
+        "promotion_rate": 0.99375,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "resonance_lesion",
+      "seed": 307,
+      "categories": 0,
+      "resets": 0,
+      "resonances": 0,
+      "familiar_retention": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "full_art",
+      "seed": 404,
+      "categories": 6,
+      "resets": 15,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": {
+        "eligible_trials": 160,
+        "action_switch_rate": 1.0,
+        "report_switch_rate": 1.0,
+        "joint_report_control_switch_rate": 1.0,
+        "forced_category_mean_sensory_match": 0.4836189571221505
+      }
+    },
+    {
+      "condition": "reset_lesion",
+      "seed": 404,
+      "categories": 1,
+      "resets": 0,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.25,
+        "report_accuracy": 0.25,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.5,
+        "report_accuracy": 0.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 0.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "stability_lesion",
+      "seed": 404,
+      "categories": 4,
+      "resets": 6,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.984375,
+        "report_accuracy": 0.5,
+        "promotion_rate": 0.984375,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "resonance_lesion",
+      "seed": 404,
+      "categories": 0,
+      "resets": 0,
+      "resonances": 0,
+      "familiar_retention": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "full_art",
+      "seed": 501,
+      "categories": 6,
+      "resets": 15,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 0.99375,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": {
+        "eligible_trials": 160,
+        "action_switch_rate": 1.0,
+        "report_switch_rate": 1.0,
+        "joint_report_control_switch_rate": 1.0,
+        "forced_category_mean_sensory_match": 0.4859946962204811
+      }
+    },
+    {
+      "condition": "reset_lesion",
+      "seed": 501,
+      "categories": 1,
+      "resets": 0,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.25,
+        "report_accuracy": 0.25,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.5,
+        "report_accuracy": 0.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 0.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "stability_lesion",
+      "seed": 501,
+      "categories": 4,
+      "resets": 6,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.99375,
+        "report_accuracy": 0.5,
+        "promotion_rate": 0.99375,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "resonance_lesion",
+      "seed": 501,
+      "categories": 0,
+      "resets": 0,
+      "resonances": 0,
+      "familiar_retention": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "full_art",
+      "seed": 598,
+      "categories": 6,
+      "resets": 15,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": {
+        "eligible_trials": 160,
+        "action_switch_rate": 1.0,
+        "report_switch_rate": 1.0,
+        "joint_report_control_switch_rate": 1.0,
+        "forced_category_mean_sensory_match": 0.483879101976187
+      }
+    },
+    {
+      "condition": "reset_lesion",
+      "seed": 598,
+      "categories": 1,
+      "resets": 0,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.25,
+        "report_accuracy": 0.25,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.5,
+        "report_accuracy": 0.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 0.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "stability_lesion",
+      "seed": 598,
+      "categories": 4,
+      "resets": 6,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.996875,
+        "report_accuracy": 0.5,
+        "promotion_rate": 0.996875,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "resonance_lesion",
+      "seed": 598,
+      "categories": 0,
+      "resets": 0,
+      "resonances": 0,
+      "familiar_retention": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "full_art",
+      "seed": 695,
+      "categories": 6,
+      "resets": 15,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 0.99375,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": {
+        "eligible_trials": 160,
+        "action_switch_rate": 1.0,
+        "report_switch_rate": 1.0,
+        "joint_report_control_switch_rate": 1.0,
+        "forced_category_mean_sensory_match": 0.48373069476342756
+      }
+    },
+    {
+      "condition": "reset_lesion",
+      "seed": 695,
+      "categories": 1,
+      "resets": 0,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.25,
+        "report_accuracy": 0.25,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.5,
+        "report_accuracy": 0.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 0.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "stability_lesion",
+      "seed": 695,
+      "categories": 4,
+      "resets": 6,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 0.5,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "resonance_lesion",
+      "seed": 695,
+      "categories": 0,
+      "resets": 0,
+      "resonances": 0,
+      "familiar_retention": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "full_art",
+      "seed": 792,
+      "categories": 6,
+      "resets": 16,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": {
+        "eligible_trials": 160,
+        "action_switch_rate": 1.0,
+        "report_switch_rate": 1.0,
+        "joint_report_control_switch_rate": 1.0,
+        "forced_category_mean_sensory_match": 0.48627292669954086
+      }
+    },
+    {
+      "condition": "reset_lesion",
+      "seed": 792,
+      "categories": 1,
+      "resets": 0,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.25,
+        "report_accuracy": 0.25,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.5,
+        "report_accuracy": 0.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 0.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "stability_lesion",
+      "seed": 792,
+      "categories": 4,
+      "resets": 6,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.996875,
+        "report_accuracy": 0.5,
+        "promotion_rate": 0.996875,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "resonance_lesion",
+      "seed": 792,
+      "categories": 0,
+      "resets": 0,
+      "resonances": 0,
+      "familiar_retention": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "full_art",
+      "seed": 889,
+      "categories": 6,
+      "resets": 15,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": {
+        "eligible_trials": 160,
+        "action_switch_rate": 1.0,
+        "report_switch_rate": 1.0,
+        "joint_report_control_switch_rate": 1.0,
+        "forced_category_mean_sensory_match": 0.48833097459068
+      }
+    },
+    {
+      "condition": "reset_lesion",
+      "seed": 889,
+      "categories": 1,
+      "resets": 0,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.25,
+        "report_accuracy": 0.25,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.5,
+        "report_accuracy": 0.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 0.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "stability_lesion",
+      "seed": 889,
+      "categories": 4,
+      "resets": 6,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 0.5,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "resonance_lesion",
+      "seed": 889,
+      "categories": 0,
+      "resets": 0,
+      "resonances": 0,
+      "familiar_retention": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "full_art",
+      "seed": 986,
+      "categories": 6,
+      "resets": 15,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": {
+        "eligible_trials": 160,
+        "action_switch_rate": 1.0,
+        "report_switch_rate": 1.0,
+        "joint_report_control_switch_rate": 1.0,
+        "forced_category_mean_sensory_match": 0.4846121854498442
+      }
+    },
+    {
+      "condition": "reset_lesion",
+      "seed": 986,
+      "categories": 1,
+      "resets": 0,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.25,
+        "report_accuracy": 0.25,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.5,
+        "report_accuracy": 0.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 0.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "stability_lesion",
+      "seed": 986,
+      "categories": 4,
+      "resets": 6,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.996875,
+        "report_accuracy": 0.5,
+        "promotion_rate": 0.996875,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "resonance_lesion",
+      "seed": 986,
+      "categories": 0,
+      "resets": 0,
+      "resonances": 0,
+      "familiar_retention": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "full_art",
+      "seed": 1083,
+      "categories": 6,
+      "resets": 15,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": {
+        "eligible_trials": 160,
+        "action_switch_rate": 1.0,
+        "report_switch_rate": 1.0,
+        "joint_report_control_switch_rate": 1.0,
+        "forced_category_mean_sensory_match": 0.48517770013061784
+      }
+    },
+    {
+      "condition": "reset_lesion",
+      "seed": 1083,
+      "categories": 1,
+      "resets": 0,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.25,
+        "report_accuracy": 0.25,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.5,
+        "report_accuracy": 0.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 0.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "stability_lesion",
+      "seed": 1083,
+      "categories": 4,
+      "resets": 6,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.996875,
+        "report_accuracy": 0.5,
+        "promotion_rate": 0.996875,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "resonance_lesion",
+      "seed": 1083,
+      "categories": 0,
+      "resets": 0,
+      "resonances": 0,
+      "familiar_retention": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "full_art",
+      "seed": 1180,
+      "categories": 6,
+      "resets": 15,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": {
+        "eligible_trials": 160,
+        "action_switch_rate": 1.0,
+        "report_switch_rate": 1.0,
+        "joint_report_control_switch_rate": 1.0,
+        "forced_category_mean_sensory_match": 0.4809806071248399
+      }
+    },
+    {
+      "condition": "reset_lesion",
+      "seed": 1180,
+      "categories": 1,
+      "resets": 0,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.25,
+        "report_accuracy": 0.25,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.5,
+        "report_accuracy": 0.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 0.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "stability_lesion",
+      "seed": 1180,
+      "categories": 4,
+      "resets": 6,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.978125,
+        "report_accuracy": 0.5,
+        "promotion_rate": 0.978125,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "resonance_lesion",
+      "seed": 1180,
+      "categories": 0,
+      "resets": 0,
+      "resonances": 0,
+      "familiar_retention": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "full_art",
+      "seed": 1277,
+      "categories": 6,
+      "resets": 15,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": {
+        "eligible_trials": 160,
+        "action_switch_rate": 1.0,
+        "report_switch_rate": 1.0,
+        "joint_report_control_switch_rate": 1.0,
+        "forced_category_mean_sensory_match": 0.48140554056562135
+      }
+    },
+    {
+      "condition": "reset_lesion",
+      "seed": 1277,
+      "categories": 1,
+      "resets": 0,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.25,
+        "report_accuracy": 0.25,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.5,
+        "report_accuracy": 0.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 0.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "stability_lesion",
+      "seed": 1277,
+      "categories": 4,
+      "resets": 6,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.9875,
+        "report_accuracy": 0.5,
+        "promotion_rate": 0.9875,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "resonance_lesion",
+      "seed": 1277,
+      "categories": 0,
+      "resets": 0,
+      "resonances": 0,
+      "familiar_retention": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "full_art",
+      "seed": 1374,
+      "categories": 6,
+      "resets": 17,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 0.996875,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 0.95625,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": {
+        "eligible_trials": 160,
+        "action_switch_rate": 1.0,
+        "report_switch_rate": 1.0,
+        "joint_report_control_switch_rate": 1.0,
+        "forced_category_mean_sensory_match": 0.48452493469727376
+      }
+    },
+    {
+      "condition": "reset_lesion",
+      "seed": 1374,
+      "categories": 1,
+      "resets": 0,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.25,
+        "report_accuracy": 0.25,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.5,
+        "report_accuracy": 0.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 0.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "stability_lesion",
+      "seed": 1374,
+      "categories": 4,
+      "resets": 6,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.928125,
+        "report_accuracy": 0.5,
+        "promotion_rate": 0.928125,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "resonance_lesion",
+      "seed": 1374,
+      "categories": 0,
+      "resets": 0,
+      "resonances": 0,
+      "familiar_retention": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "full_art",
+      "seed": 1471,
+      "categories": 6,
+      "resets": 15,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": {
+        "eligible_trials": 160,
+        "action_switch_rate": 1.0,
+        "report_switch_rate": 1.0,
+        "joint_report_control_switch_rate": 1.0,
+        "forced_category_mean_sensory_match": 0.4836652726536828
+      }
+    },
+    {
+      "condition": "reset_lesion",
+      "seed": 1471,
+      "categories": 1,
+      "resets": 0,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.25,
+        "report_accuracy": 0.25,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.5,
+        "report_accuracy": 0.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 0.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "stability_lesion",
+      "seed": 1471,
+      "categories": 4,
+      "resets": 6,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.99375,
+        "report_accuracy": 0.5,
+        "promotion_rate": 0.99375,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "resonance_lesion",
+      "seed": 1471,
+      "categories": 0,
+      "resets": 0,
+      "resonances": 0,
+      "familiar_retention": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "full_art",
+      "seed": 1568,
+      "categories": 6,
+      "resets": 16,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": {
+        "eligible_trials": 160,
+        "action_switch_rate": 1.0,
+        "report_switch_rate": 1.0,
+        "joint_report_control_switch_rate": 1.0,
+        "forced_category_mean_sensory_match": 0.4794192636296585
+      }
+    },
+    {
+      "condition": "reset_lesion",
+      "seed": 1568,
+      "categories": 1,
+      "resets": 0,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.25,
+        "report_accuracy": 0.25,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.5,
+        "report_accuracy": 0.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 0.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "stability_lesion",
+      "seed": 1568,
+      "categories": 4,
+      "resets": 6,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.95,
+        "report_accuracy": 0.5,
+        "promotion_rate": 0.95,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "resonance_lesion",
+      "seed": 1568,
+      "categories": 0,
+      "resets": 0,
+      "resonances": 0,
+      "familiar_retention": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "full_art",
+      "seed": 1665,
+      "categories": 6,
+      "resets": 15,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": {
+        "eligible_trials": 160,
+        "action_switch_rate": 1.0,
+        "report_switch_rate": 1.0,
+        "joint_report_control_switch_rate": 1.0,
+        "forced_category_mean_sensory_match": 0.4746782056097175
+      }
+    },
+    {
+      "condition": "reset_lesion",
+      "seed": 1665,
+      "categories": 1,
+      "resets": 0,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.25,
+        "report_accuracy": 0.25,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.5,
+        "report_accuracy": 0.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 0.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "stability_lesion",
+      "seed": 1665,
+      "categories": 4,
+      "resets": 6,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.990625,
+        "report_accuracy": 0.5,
+        "promotion_rate": 0.990625,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "resonance_lesion",
+      "seed": 1665,
+      "categories": 0,
+      "resets": 0,
+      "resonances": 0,
+      "familiar_retention": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "full_art",
+      "seed": 1762,
+      "categories": 6,
+      "resets": 15,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": {
+        "eligible_trials": 160,
+        "action_switch_rate": 1.0,
+        "report_switch_rate": 1.0,
+        "joint_report_control_switch_rate": 1.0,
+        "forced_category_mean_sensory_match": 0.48706506294199076
+      }
+    },
+    {
+      "condition": "reset_lesion",
+      "seed": 1762,
+      "categories": 1,
+      "resets": 0,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.25,
+        "report_accuracy": 0.25,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.5,
+        "report_accuracy": 0.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 0.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "stability_lesion",
+      "seed": 1762,
+      "categories": 5,
+      "resets": 10,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 0.75,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "resonance_lesion",
+      "seed": 1762,
+      "categories": 0,
+      "resets": 0,
+      "resonances": 0,
+      "familiar_retention": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "full_art",
+      "seed": 1859,
+      "categories": 6,
+      "resets": 15,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": {
+        "eligible_trials": 160,
+        "action_switch_rate": 1.0,
+        "report_switch_rate": 1.0,
+        "joint_report_control_switch_rate": 1.0,
+        "forced_category_mean_sensory_match": 0.48287700879118517
+      }
+    },
+    {
+      "condition": "reset_lesion",
+      "seed": 1859,
+      "categories": 1,
+      "resets": 0,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.25,
+        "report_accuracy": 0.25,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.5,
+        "report_accuracy": 0.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 0.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "stability_lesion",
+      "seed": 1859,
+      "categories": 4,
+      "resets": 6,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 0.5,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "resonance_lesion",
+      "seed": 1859,
+      "categories": 0,
+      "resets": 0,
+      "resonances": 0,
+      "familiar_retention": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "full_art",
+      "seed": 1956,
+      "categories": 6,
+      "resets": 15,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": {
+        "eligible_trials": 160,
+        "action_switch_rate": 1.0,
+        "report_switch_rate": 1.0,
+        "joint_report_control_switch_rate": 1.0,
+        "forced_category_mean_sensory_match": 0.48511190607350835
+      }
+    },
+    {
+      "condition": "reset_lesion",
+      "seed": 1956,
+      "categories": 1,
+      "resets": 0,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.25,
+        "report_accuracy": 0.25,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.5,
+        "report_accuracy": 0.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 0.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "stability_lesion",
+      "seed": 1956,
+      "categories": 4,
+      "resets": 6,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.978125,
+        "report_accuracy": 0.5,
+        "promotion_rate": 0.978125,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "resonance_lesion",
+      "seed": 1956,
+      "categories": 0,
+      "resets": 0,
+      "resonances": 0,
+      "familiar_retention": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "full_art",
+      "seed": 2053,
+      "categories": 6,
+      "resets": 15,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": {
+        "eligible_trials": 160,
+        "action_switch_rate": 1.0,
+        "report_switch_rate": 1.0,
+        "joint_report_control_switch_rate": 1.0,
+        "forced_category_mean_sensory_match": 0.49205376466286255
+      }
+    },
+    {
+      "condition": "reset_lesion",
+      "seed": 2053,
+      "categories": 1,
+      "resets": 0,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.25,
+        "report_accuracy": 0.25,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.5,
+        "report_accuracy": 0.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 0.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "stability_lesion",
+      "seed": 2053,
+      "categories": 4,
+      "resets": 6,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.978125,
+        "report_accuracy": 0.5,
+        "promotion_rate": 0.978125,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "resonance_lesion",
+      "seed": 2053,
+      "categories": 0,
+      "resets": 0,
+      "resonances": 0,
+      "familiar_retention": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "full_art",
+      "seed": 2150,
+      "categories": 6,
+      "resets": 15,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 0.99375,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": {
+        "eligible_trials": 160,
+        "action_switch_rate": 1.0,
+        "report_switch_rate": 1.0,
+        "joint_report_control_switch_rate": 1.0,
+        "forced_category_mean_sensory_match": 0.4799777684808051
+      }
+    },
+    {
+      "condition": "reset_lesion",
+      "seed": 2150,
+      "categories": 1,
+      "resets": 0,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.25,
+        "report_accuracy": 0.25,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.5,
+        "report_accuracy": 0.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 0.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "stability_lesion",
+      "seed": 2150,
+      "categories": 4,
+      "resets": 6,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 0.5,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 0.985,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "resonance_lesion",
+      "seed": 2150,
+      "categories": 0,
+      "resets": 0,
+      "resonances": 0,
+      "familiar_retention": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "full_art",
+      "seed": 2247,
+      "categories": 6,
+      "resets": 15,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": {
+        "eligible_trials": 160,
+        "action_switch_rate": 1.0,
+        "report_switch_rate": 1.0,
+        "joint_report_control_switch_rate": 1.0,
+        "forced_category_mean_sensory_match": 0.4888040660329972
+      }
+    },
+    {
+      "condition": "reset_lesion",
+      "seed": 2247,
+      "categories": 1,
+      "resets": 0,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.25,
+        "report_accuracy": 0.25,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.5,
+        "report_accuracy": 0.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 0.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "stability_lesion",
+      "seed": 2247,
+      "categories": 4,
+      "resets": 6,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.996875,
+        "report_accuracy": 0.5,
+        "promotion_rate": 0.996875,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "resonance_lesion",
+      "seed": 2247,
+      "categories": 0,
+      "resets": 0,
+      "resonances": 0,
+      "familiar_retention": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "full_art",
+      "seed": 2344,
+      "categories": 6,
+      "resets": 15,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": {
+        "eligible_trials": 160,
+        "action_switch_rate": 1.0,
+        "report_switch_rate": 1.0,
+        "joint_report_control_switch_rate": 1.0,
+        "forced_category_mean_sensory_match": 0.4799117014945441
+      }
+    },
+    {
+      "condition": "reset_lesion",
+      "seed": 2344,
+      "categories": 1,
+      "resets": 0,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.25,
+        "report_accuracy": 0.25,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.5,
+        "report_accuracy": 0.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 0.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "stability_lesion",
+      "seed": 2344,
+      "categories": 4,
+      "resets": 6,
+      "resonances": 168,
+      "familiar_retention": {
+        "action_accuracy": 0.996875,
+        "report_accuracy": 0.5,
+        "promotion_rate": 0.996875,
+        "report_control_alignment": 1.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 1.0,
+        "report_accuracy": 1.0,
+        "promotion_rate": 1.0,
+        "report_control_alignment": 1.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    },
+    {
+      "condition": "resonance_lesion",
+      "seed": 2344,
+      "categories": 0,
+      "resets": 0,
+      "resonances": 0,
+      "familiar_retention": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "novel_adaptation": {
+        "action_accuracy": 0.0,
+        "report_accuracy": 0.0,
+        "promotion_rate": 0.0,
+        "report_control_alignment": 0.0
+      },
+      "unknown_rejection": 1.0,
+      "forced_false_resonance": null
+    }
+  ]
+}

@@ -92,6 +92,220 @@ direction did not create retreat behavior in clear or sensory-neutral
 corridors. Trap-conditioned control therefore appears distributed and
 context-dependent rather than a single portable `retreat now` vector.
 
+### Oscillatory Workspace Binding
+
+`oscillatory_workspace_lab.py` translates the Llinas thalamocortical synchrony
+hypothesis into a deliberately non-biological software test. Color, shape,
+motion, and valence modules emit identical distributed content under seven
+timing conditions. The workspace has no object identifiers; temporal
+coincidence is its only binding cue.
+
+Across 1,600 matched trials per condition, coherent 40 Hz-labelled timing
+reached 1.000 binding and action accuracy. Giving every module the same 40 Hz
+label but independent phases reduced binding to 0.312; mixed frequencies
+reached 0.302; asynchronous timing reached 0.244. Shifting only the valence
+stream by half a cycle reduced binding and action accuracy to 0.000 while
+producing 1.000 systematic false bindings. Coherent 20 Hz-labelled timing also
+reached 1.000.
+
+The result supports a bounded engineering claim: shared phase can be a causal
+binding and routing coordinate in an explicit distributed workspace. It does
+not reproduce biological gamma, show that exactly 40 Hz is privileged, or
+provide evidence of phenomenal consciousness. See the
+[consciousness theory research map](paper/CONSCIOUSNESS_RESEARCH_MAP.md) for the
+primary sources and planned theory-to-lab queue.
+
+![Oscillatory workspace timing controls](outputs/oscillatory_workspace_summary.png)
+
+`learned_synchronization_lab.py` removes the assigned phase relationships. Only
+12 context-conditioned phase offsets are trainable while payloads, amplitudes,
+carrier label, and bus dynamics remain fixed. One context rewards six-way
+feature binding; another rewards two internally bound packets while a channel
+bottleneck penalizes temporal overlap.
+
+Across 24 matched seeds, random initialization produced 0.029 mean routing
+utility and gradient optimization reached 1.000. Binding modules converged to a
+circular order parameter of 1.000. Both multiplexed assemblies also reached
+1.000 internal order while separating by 0.814 pi. Instantaneous phase
+scrambling reduced utility to 0.049; restoring the exact learned offsets
+returned it to 1.000. Applying one common rotation to every module preserved
+1.000 performance, while frequency mismatch reduced utility to 0.143.
+
+The no-bottleneck control retained random inter-packet timing: mean separation
+was 0.553 pi, compared with 0.814 pi under channel pressure. The learned result
+therefore supports context-specific synchronization and phase-division as
+adaptive routing protocols in this explicit bus. It does not establish that a
+biological system uses the same optimization rule or that synchronization is
+sufficient for consciousness.
+
+![Learned synchronization and causal phase lesions](outputs/learned_synchronization_summary.png)
+
+### Adaptive Resonance Workspace
+
+`adaptive_resonance_workspace_lab.py` translates the computational core of
+Grossberg's Adaptive Resonance Theory into an explicit workspace test. A
+bottom-up sensory pattern proposes a learned category, its top-down template
+must pass a vigilance match, mismatch resets the candidate and continues the
+search, and a successful resonance writes one packet that supplies both action
+and symbolic report.
+
+Across 24 seeds, the complete ART-like condition formed six stable categories,
+retained familiar category reports at 1.000, adapted novel actions at 1.000,
+and rejected unknown feature conjunctions at 1.000. Removing mismatch reset
+collapsed the system to one conflated category: familiar action accuracy fell
+to 0.250, novel action accuracy to 0.500, and unknown rejection to 0.000.
+Replacing stable category learning with latest-sample overwrite preserved most
+coarse actions but reduced familiar category-report retention to 0.510.
+
+A forced false-resonance intervention selected a poorly matching category
+while leaving sensory input fixed. It changed both action and report on 1.000
+of eligible trials. The supported claim is functional: match-gated resonant
+content can be stably learned, selectively admitted, reportable, and causally
+available to control through one shared packet. This strengthens the project's
+engineered operational access-consciousness profile. It does not establish
+phenomenal consciousness or implement the full biological ART architecture.
+
+![Adaptive resonance, mismatch reset, and causal report-control intervention](outputs/adaptive_resonance_workspace_summary.png)
+
+### Continuous Generation and Reality Correction
+
+`continuous_reality_engine_lab.py` holds one learned forward-model ensemble and
+one prospective planner fixed while changing when prediction runs and how often
+its persistent imagined sensor packet is corrected by observation. Across 42
+matched episodes spanning circles, rectangles, withheld diagonal barriers, and
+U-detours, reactive control reached 71.4% success, triggered MPC 73.8%, and
+continuously grounded generation 76.2%. All three remained collision-free.
+
+Continuous generation with only one reality tap every eight steps fell to
+14.3% success and averaged 55.8 collisions. Removing correction after
+initialization reduced success to 2.4%, raised collisions to 77.6, and increased
+mean final latent error from 0.115 under continuous grounding to 0.333. No
+condition solved the U-detour, and the small grounded advantage has not received
+statistical support over reactive control (3 paired wins, 1 loss; exact McNemar
+`p=0.625`). The strong result is the lesion: grounded control beat sparse
+correction on 26 discordant episodes with no losses (`p=2.98e-8`) and beat
+ungrounded generation on 31 with no losses (`p=9.31e-10`). A continuously
+generated sensorimotor state becomes harmful when prediction is permitted to
+replace observation rather than be corrected by it.
+
+![Continuous generation and grounding comparison](outputs/continuous_reality_engine_summary.png)
+
+### Spatial Field and Temporal Phase Coupling
+
+`spatiotemporal_field_workspace_lab.py` couples the Llinas-inspired relative
+phase coordinate to a Pockett-inspired 2D spatial superposition field. The
+eight-way binding task combines four spatial payload identities with two
+relative-phase contexts. Across 24 seeds, compact discrete messages, a random
+distributed code, and the coupled field each reached 1.000 clean accuracy.
+Spatial-only decoding reached 0.501 because it lacked temporal context;
+temporal-only decoding reached 0.250 because it lacked spatial identity.
+
+The coupled field remained at 1.000 under a 50% readout mask, but so did an
+equally high-dimensional random distributed code. Both reached approximately
+0.76 under matched 50% source-module loss. The apparent damage tolerance is
+therefore attributable to distributed redundancy, not uniquely to field
+geometry. Spatial scrambling reduced the coupled field to 0.291, phase
+scrambling to 0.442, and combined scrambling to 0.201 while representation
+energy was normalized. Space and relative phase are both causally used coding
+coordinates in this constructed representation.
+
+This is a software field analogue, not a physical electromagnetic field. It
+tests compositional spatial-temporal coding and coordinate lesions, not
+Pockett's claim that qualia are identical with particular physical 3D EM
+patterns.
+
+![Spatiotemporal field workspace comparison](outputs/spatiotemporal_field_workspace_summary.png)
+
+### Experience Recording and Valenced Playback
+
+`episodic_playback_lab.py` implements a transparent Doyle-inspired ERR
+analogue. A frozen memory stores bound `(observation, action, external outcome
+valence)` packets from the same transition curriculum used to train the
+forward-model control. During evaluation, a k-nearest-neighbor reproducer
+retrieves similar packets and ranks their recorded actions by bound outcome.
+
+Across 42 matched episodes, bound-valence playback reached 40.5% success. The
+action-only and shuffled-valence lesions both reached 0.0%; bound playback won
+all 17 discordant pairs against each lesion (exact McNemar `p=1.53e-5`). The
+result demonstrates that the designed reproducer uses the original
+experience-outcome binding rather than merely replaying frequent actions.
+
+ERR did not outperform the controls. Reactive control reached 61.9% and
+triggered MPC 64.3%; bound playback lost 0-9 and 1-11 paired outcomes against
+them. Mean measured decision time was 0.188 ms per step for ERR, 2.180 ms for
+triggered MPC, and 0.010 ms for reactive control. Associative playback was a
+useful middle-cost shortcut, not a near-zero-cost or generally superior mind
+model. The k-NN implementation is a case-based software analogue, not evidence
+of felt emotional replay or phenomenal consciousness.
+
+![Experience playback and valence-binding lesions](outputs/episodic_playback_summary.png)
+
+`three_level_memory_lab.py` then integrates reflex, ERR, and MPC behind a
+confidence gate. On ordinary observations it uses reflex control; under local
+risk it accepts a positive, well-separated episodic precedent or escalates to
+MPC. The bound hierarchy allocated 35.8% of actions to reflex, 40.0% to
+playback, and 24.2% to MPC. This reduced mean forward-model calls from 1,881 to
+1,022 per episode, but success fell from 73.8% to 61.9%. The paired comparison
+was 0 wins and 5 losses against triggered MPC (`p=0.0625`).
+
+The hierarchy is therefore implemented, but its hand-set confidence gate is
+not yet a performance improvement. Shuffling valence reduced hierarchical
+success to 23.8%, and the bound hierarchy beat it on 16 discordant episodes
+with no losses (`p=3.05e-5`). The result supports conditional arbitration and a
+compute-performance tradeoff; it does not yet justify replacing the active
+Unity controller.
+
+![Three-level memory arbitration](outputs/three_level_memory_summary.png)
+
+### Critical Recurrent Dynamics
+
+`network_criticality_lab.py` freezes one recurrent reservoir per seed and sweeps
+only global recurrent gain from `0.50` to `1.70`. The dynamical edge is defined
+independently as the driven largest-Lyapunov exponent nearest zero, rather than
+as whichever gain performs best. Supporting diagnostics include activity
+propagation, avalanche persistence, dynamic range, saturation, and effective
+state dimension.
+
+Across eight seeds, the aggregate empirical edge occurred near `g=1.25`.
+Linear memory capacity peaked below it at `g=0.95` (`11.17`), while delayed
+noisy-cue accuracy peaked above it at `g=1.55` (`0.757`). At the edge those
+metrics were `9.03` and `0.749`. Effective state dimension and dynamic range
+continued increasing into the supercritical regime, while memory declined and
+saturation rose. On a per-seed basis, only 25% of memory peaks and 25% of
+delayed-task peaks coincided exactly with the independently measured edge.
+
+A feedback tuner starting from gains `0.55` and `1.55` converged on average to
+`1.194 +/- 0.190`, close to but not identical with the aggregate edge. The
+result supports critical gain as a useful adaptive tradeoff coordinate. It
+rejects the stronger claim that one critical point universally maximizes
+storage, sensitivity, routing, and task performance. Critical dynamics are
+also common in non-conscious systems and are not evidence of phenomenal
+consciousness.
+
+![Frozen recurrent-network criticality sweep](outputs/network_criticality_summary.png)
+
+`adaptive_criticality_meta_controller_lab.py` extends that frozen-reservoir
+assay into a non-stationary regulation test. Quiet and high-noise delayed-memory
+blocks alternate without announcing their task label. The controller observes
+only an estimated noise floor and recent normalized task reward, then learns
+which recurrent gain to use in each context. Fixed memory-optimal, empirical-
+edge, noisy-specialist, hindsight-selected global-best, random, and phase-aware
+oracle policies are matched controls.
+
+Across ten independently frozen reservoirs, the adaptive controller reached
+mean reward `0.765`, compared with `0.553` for the fixed memory peak, `0.566`
+for the empirical edge, `0.598` for the noisy specialist, `0.502` for random
+gain, `0.743` for the hindsight-selected global-best fixed gain, and `0.827`
+for the oracle. Adaptive versus global-best was a nonsignificant 6-4 paired
+split (`p=0.754`), so the experiment does not establish universal adaptive
+superiority. It did learn context-specific mean gains near the oracle (`1.16`
+quiet and `1.33` noisy), and repeated-block regret fell from `0.085` to `0.034`
+for quiet conditions and from `0.087` to `0.037` for noisy conditions. This
+supports learned, reusable dynamical regulation; it does not identify a
+universal critical point or a consciousness criterion.
+
+![Adaptive recurrent-gain regulation](outputs/adaptive_criticality_meta_controller_summary.png)
+
 The working thesis emerging from these toy runs:
 
 > Integration is not a scoreboard by itself. A useful inner world must be

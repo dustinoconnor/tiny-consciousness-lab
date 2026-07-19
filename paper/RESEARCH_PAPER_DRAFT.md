@@ -3,11 +3,11 @@
 ## A thesis-driven synthesis of recurrence, grounded valence, attention, world models, hierarchical access, maintenance, and embodied predictive control
 
 **Tiny Consciousness Lab**  
-Research paper draft · 16 July 2026
+Research paper draft · 18 July 2026
 
 ### Abstract
 
-This paper audits and synthesizes a local repository of small control experiments into a broader Functional Ego thesis. The thesis is that useful access-like control does not arise from recurrence, integration, reward, imagination, or broadcasting alone; it arises from regulated routing among recurrent memory, externally grounded valence, attention, predictive world models, hierarchical workspaces, causal credit assignment, and maintenance. We distinguish demonstrations supported by code and stored outputs from architectural interpretations and planned work. The evidence spans exact tiny integration proxies, wireheading and valence shaping, imagination and attention assays, social and hierarchical workspaces, fatigue and repair cycles, delayed-preference learning, zero-shot detour foraging, Python-to-Unity deployment, uncertainty-bounded model-predictive control (MPC), and architecture-level transfer to symbolic MIDI generation. The strongest repeated-seed results show long-delay use of signed outcome feedback, 98.25% mean success on withheld navigation families, family-specific causal dependence on recurrent memory, and a 41.7% reduction in held-out Unity transition error after predictive calibration. A separately trained music policy improves delayed motif return over a feedforward baseline and degrades under hidden-state reset. Workspace interventions make the same compressed state available to report and action, including false broadcasts that steer behavior incorrectly. We therefore claim an engineered operational access-consciousness profile: selected internal content is reportable, shared across downstream functions, and causally active under intervention. We do not claim phenomenal consciousness, sentience, AGI, or biological equivalence.
+This paper audits and synthesizes a local repository of small control experiments into a broader Functional Ego thesis. The thesis is that useful access-like control does not arise from recurrence, integration, reward, imagination, or broadcasting alone; it arises from regulated routing among recurrent memory, externally grounded valence, attention, predictive world models, hierarchical workspaces, causal credit assignment, and maintenance. We distinguish demonstrations supported by code and stored outputs from architectural interpretations and planned work. The evidence spans exact tiny integration proxies, wireheading and valence shaping, imagination and attention assays, social and hierarchical workspaces, fatigue and repair cycles, delayed-preference learning, zero-shot detour foraging, Python-to-Unity deployment, uncertainty-bounded model-predictive control (MPC), and architecture-level transfer to symbolic MIDI generation. The strongest repeated-seed results show long-delay use of signed outcome feedback, 98.25% mean success on withheld navigation families, family-specific causal dependence on recurrent memory, and a 41.7% reduction in held-out Unity transition error after predictive calibration. A separately trained music policy improves delayed motif return over a feedforward baseline and degrades under hidden-state reset. Workspace interventions promote a compressed packet containing intent, problem, strategy, feeling, and confidence to movement, memory, valence, and report. The grounded packet reaches report accuracy 1.0, reuses one obstruction representation across tree, rock, and mushroom labels, and changes report and action together under intervention; false broadcasts steer both incorrectly. We therefore claim an engineered operational access-consciousness profile: selected internal content is reportable, shared across downstream functions, reusable, and causally active under intervention. We do not claim phenomenal consciousness, sentience, AGI, or biological equivalence.
 
 **Keywords:** functional ego; access consciousness; recurrent control; grounded valence; partial observability; model-predictive control; hierarchical workspace; zero-shot navigation; maintenance; Unity
 
@@ -35,7 +35,7 @@ The paper makes four contributions. First, it provides an evidence ledger that s
 
 ### 2.1 Audited snapshot
 
-The audit used the repository working tree on 16 July 2026. The Git baseline was `main` at commit `183ce36`, but multiple relevant files were modified or untracked. Accordingly, the unit of evidence is the local snapshot, not the Git commit or GitHub repository. We inspected the README, experiment scripts, stored JSON outputs, checkpoints, plots, and Unity telemetry. Full training runs were not repeated.
+The audit used the repository working tree on 18 July 2026. The Git baseline was `main` at commit `5515608`, but multiple relevant files were modified or untracked. Accordingly, the unit of evidence is the local snapshot, not the Git commit or GitHub repository. We inspected the README, experiment scripts, stored JSON outputs, checkpoints, plots, and Unity telemetry. Full training runs were not repeated.
 
 Each claim was assigned one of five labels: demonstrated; demonstrated with material qualification; hypothesis; planned; or unsupported. A result counted as demonstrated only when code and a direct stored metric or telemetry artifact were both present. README language alone did not qualify. The complete ledger appears in the companion `EVIDENCE_LEDGER.md`.
 
@@ -68,7 +68,7 @@ The experiments form a staged ladder:
 - workspace tasks test selective coupling and packet intervention;
 - predictive heads are calibrated on Unity telemetry;
 - fixed and adaptive MPC are evaluated in Python continuous courses;
-- a visibility-gated controller is deployed in Unity; and
+- a visibility-gated controller is deployed in Unity;
 - synthetic perturbation sweeps test failure and recovery modes; and
 - recurrent pitch and rhythm policies test architecture-level portability to symbolic music.
 
@@ -97,6 +97,24 @@ The delayed-preference experiment later gives this claim a cleaner learned-netwo
 `imagination_lab.py`, `maze_imagination_lab.py`, `imagination_phi_lab.py`, and `delusional_integration_lab.py` separate internal simulation from grounded prediction. Ungrounded imagined states can become confident while losing contact with the task. Rewarding prediction accuracy and gating imagined influence against real outcomes restores part of the lost performance. In the maze and unified-mind assays, a pretrained world model supports lookahead that accepts temporary negative progress to move around an obstacle, while a myopic controller remains at a local minimum.
 
 This is the basis for the thesis sentence *imagination without reality-checking is delusional*. The term is computational shorthand: the model generates internally coherent state that is poorly constrained by observation. It is not a psychiatric claim. The positive result is equally specific. A world model becomes useful when predictions are repeatedly compared with new sensory evidence, uncertainty limits rollout depth, and only the first action of a plan is executed before replanning. The Unity MPC system operationalizes that rule through short horizons, ensemble disagreement, body-clearance constraints, and immediate re-anchoring.
+
+`continuous_reality_engine_lab.py` tests a stronger version of this proposition by holding one frozen learned forward-model ensemble and one prospective planner fixed while varying only prediction schedule and correction. Across 42 matched episodes, reactive control reached 0.714 success, triggered MPC 0.738, and continuously grounded generation 0.762; all three remained collision-free. A persistent generative state corrected only every eight steps fell to 0.143 success with 55.8 collisions. Removing sensory correction after initialization reduced success to 0.024, increased collisions to 77.6, and increased mean final latent error from 0.115 to 0.333. The small grounded advantage over reactive control was not significant (3 paired wins, 1 loss; exact McNemar p=0.625). In contrast, grounded control beat sparse correction on 26 discordant episodes with no losses (p=2.98e-8) and ungrounded generation on 31 with no losses (p=9.31e-10). None of the five conditions solved the U-detour. The defensible result is therefore not that continuous generation creates consciousness or general planning. It is that a persistent sensorimotor prediction becomes causally dangerous when it is decoupled from recurrent observational correction.
+
+### 4.3.1 Experience recording and valenced reproduction
+
+`episodic_playback_lab.py` translates Doyle's Experience Recorder and Reproducer proposal [13] into frozen case-based control. Each training transition records an observation, action, and externally derived outcome valence. At evaluation, k-nearest-neighbor retrieval finds similar packets and selects among recorded actions using their bound outcomes. The action-only lesion retains observations and actions while deleting outcome use. The shuffled-valence lesion preserves every observation, action, and valence value while breaking only their original pairing.
+
+Across 42 matched navigation episodes, bound playback reached 0.405 success. Action-only and shuffled-valence playback both reached 0.000; bound playback won all 17 discordant episode pairs against each lesion (exact McNemar p=1.53e-5). Thus, the implementation depends on experience-outcome binding rather than simple action-frequency reproduction. It did not establish controller superiority: reactive control reached 0.619 and triggered MPC 0.643, beating bound playback 9-0 and 11-1 in discordant outcomes. Mean measured decision time was 0.188 ms per step for ERR, compared with 2.180 ms for triggered MPC and 0.010 ms for reactive control.
+
+The result supports a computationally inexpensive middle layer between reflex and prospective simulation, but naive k-NN is neither compute-free nor biologically Hebbian. Because valence is explicitly used by the retrieval score, its lesion establishes causal use within the designed mechanism, not a general necessity for episodic memory. “Playback” means retrieved control information; it does not demonstrate re-experienced sensation, felt emotion, or phenomenal consciousness.
+
+![Experience playback and valence-binding lesions.](../outputs/episodic_playback_summary.png)
+
+The follow-up `three_level_memory_lab.py` places reflex, ERR, and MPC behind a designed confidence gate. Clear observations use reflex control. Risk states query episodic memory; a positive precedent with a sufficient action-value margin controls behavior, while weak or conflicting retrieval escalates to MPC. Across 42 matched episodes, the hierarchy allocated 0.358 of actions to reflex, 0.400 to playback, and 0.242 to MPC. Mean forward-model calls fell from 1,881 under triggered MPC to 1,022, while success fell from 0.738 to 0.619. The paired outcome comparison was 0 wins and 5 losses (p=0.0625). Shuffling valence reduced hierarchical success to 0.238, and the bound hierarchy beat it 16-0 (p=3.05e-5).
+
+This establishes functioning three-level arbitration and exposes its initial compute-performance frontier. It does not establish that the selected thresholds are optimal or that adding episodic memory necessarily improves control. The gate should be calibrated on separate validation environments or learned before embodied deployment.
+
+![Three-level reflex, playback, and MPC arbitration.](../outputs/three_level_memory_summary.png)
 
 ### 4.4 Attention regulates when integration controls action
 
@@ -142,7 +160,7 @@ The strongest defensible synthesis is:
 
 > A compact partially observable agent can exhibit an engineered operational access-consciousness profile when recurrent temporal state, externally grounded valence, selective hierarchical broadcasting, report-control coupling, predictive re-anchoring, and maintenance are composed into a regulated routing architecture.
 
-This is a functional and substrate-independent software claim. The experiments show that these operations can be implemented outside biology and that ablating or corrupting them changes behavior in predicted ways. They do not show that the system has subjective experience, a phenomenal point of view, human-level generality, or biological equivalence. The thesis concerns access, regulation, and causal organization: which state is available, what it controls, how it is corrected, and how it remains functional over time.
+This is a functional software claim with evidence of implementation portability across several computational forms. The experiments show that related control operations can be expressed outside biology and that ablating or corrupting them changes behavior in predicted ways. They do not establish universal substrate independence, subjective experience, a phenomenal point of view, human-level generality, or biological equivalence. The thesis concerns access, regulation, and causal organization: which state is available, what it controls, how it is corrected, and how it remains functional over time.
 
 ## 5. Recurrent memory and grounded outcome feedback
 
@@ -210,6 +228,103 @@ A hierarchical master experiment compares monolithic, flat multi-workspace, fast
 
 The workspace experiments align with functional descriptions of global availability and routing [4,5], but they do not test the neural or phenomenal claims of global neuronal workspace theory. Their contribution is a set of falsifiable software criteria: shared representations should be accessible to multiple downstream functions, causally active under intervention, selectively gated, and vulnerable to false broadcast.
 
+### 7.4 Oscillatory timing as a binding coordinate
+
+`oscillatory_workspace_lab.py` tests a software analogue of the temporal-binding proposal associated with Llinas and colleagues [7-9] and the broader communication-through-coherence hypothesis [10]. Four modules emit color, shape, motion, and valence features for two simultaneous objects. The workspace receives no object identifiers and must form one reportable control packet using temporal coincidence. Every condition preserves feature content and event count while changing only relative phase or frequency.
+
+Across 1,600 matched trials per condition, coherent 40 Hz-labelled timing achieved 1.000 binding and action accuracy. Modules with the same labelled 40 Hz frequency but stable private phases achieved 0.312 binding accuracy; mixed frequencies achieved 0.302; asynchronous timing achieved 0.244. Increasing phase jitter reduced coherent binding to 0.761. A targeted half-cycle shift applied only to the valence stream reduced binding and action accuracy to 0.000 and produced 1.000 systematic false bindings. This intervention is causally informative because packet content and event count remain unchanged while phase is altered.
+
+Coherent 20 Hz-labelled timing also achieved 1.000 accuracy. The experiment therefore does not identify a privileged 40 Hz software frequency. It demonstrates only that shared phase can serve as an explicit binding and routing coordinate in this constructed architecture. The model does not simulate neuronal membrane dynamics, thalamocortical anatomy, electromagnetic fields, biological gamma, or phenomenal consciousness. Its strongest use is as a discriminating architecture test: frequency equality without phase alignment is insufficient, phase disruption is damaging, and coherent routing can be confidently wrong when the wrong streams are synchronized.
+
+![Figure 3. Identical distributed content under coherent, jittered, unlocked, mixed-frequency, phase-shifted, and asynchronous timing.](../outputs/oscillatory_workspace_summary.png)
+
+### 7.5 Learned synchronization under a channel bottleneck
+
+The assigned-phase assay leaves open whether synchronization can arise through adaptation rather than construction. `learned_synchronization_lab.py` therefore fixes module payloads, amplitudes, a normalized carrier, and bus dynamics while training only 12 context-conditioned phase offsets. In the binding context, six complementary streams must coincide. In the multiplexing context, two three-stream packets must each bind internally while avoiding destructive overlap on a shared capacity-limited channel.
+
+Across 24 matched seeds, initial mean routing utility was 0.029 and optimized utility was 1.000. The binding context converged to a circular order parameter of 1.000. Both multiplexed assemblies also reached internal order 1.000 while their mean phases separated by 0.814 pi. A matched no-bottleneck control retained variable inter-packet timing, with mean separation 0.553 pi; channel pressure increased paired separation by 0.261 pi and reduced packet collision by 0.144 on average.
+
+The phase lesion isolates the learned protocol. Randomizing every phase while preserving payloads, amplitudes, frequencies, and structural parameters reduced utility to 0.049. Restoring the exact offsets recovered 1.000. Adding one common random rotation to all offsets also preserved 1.000, showing that relative phase rather than absolute clock position carries the routing function. Frequency mismatch caused accumulated drift and reduced utility to 0.143.
+
+This demonstrates gradient-learned, context-specific temporal coordination in the defined differentiable bus: synchrony for complementary binding and phase division under contention. It does not show that the protocol emerged without a routing objective, that biological neurons learn phases by this rule, or that temporal coordination is sufficient for consciousness.
+
+![Figure 4. Learned synchronization, phase-division multiplexing, phase scrambling, restoration, and frequency-mismatch controls.](../outputs/learned_synchronization_summary.png)
+
+### 7.6 Spatial superposition coupled to relative phase
+
+`spatiotemporal_field_workspace_lab.py` combines the temporal coordinate from the oscillatory assays with a Pockett-inspired spatial field representation. Four spatial payload identities and two relative-phase contexts define eight conjunctions. A compact discrete packet, an equal-dimensional random distributed code, spatial-only field, temporal-only pulse representation, and coupled 2D+time field receive matched noisy module events.
+
+Across 24 seeds, discrete messages, random distributed codes, and coupled fields each reached 1.000 clean binding accuracy. Spatial-only decoding reached 0.501 because temporal context was absent; temporal-only decoding reached 0.250 because spatial identity was absent. Scrambling spatial coordinates reduced the coupled field to 0.291, randomizing module phases reduced it to 0.442, and applying both lesions reduced it to 0.201. The representation is therefore jointly dependent on both constructed coordinates.
+
+The damage comparison rejects the stronger holographic interpretation. Under a 50% readout mask, both the coupled field and equal-dimensional random code retained 1.000 accuracy. Under matched 50% source-module loss they reached 0.765 and 0.762. Distributed redundancy explains the robustness without requiring spatial field geometry. This is an informative negative control: geometry carries task information, but it did not confer unique fault tolerance over an ordinary distributed code.
+
+The array is not an electromagnetic field in the physical sense relevant to Pockett's theory [11,12]. Consequently, this experiment cannot test whether qualia are identical with physical 3D EM patterns. It establishes only that spatial superposition and relative temporal phase can be coupled into an inspectable software binding code.
+
+![Figure 5. Spatial-only, temporal-only, coupled-field, discrete-message, and distributed-code controls under matched lesions.](../outputs/spatiotemporal_field_workspace_summary.png)
+
+### 7.7 Critical gain is a tradeoff coordinate, not a universal optimum
+
+`network_criticality_lab.py` evaluates one frozen random recurrent reservoir per seed while changing only global recurrent gain. The dynamical transition is located independently using the driven largest Lyapunov exponent nearest zero, with continuous activity propagation, avalanche persistence, effective dimension, dynamic range, and saturation as supporting diagnostics [14-16]. Functional measurements are inspected only after this dynamical edge is defined.
+
+Across eight seeds, the aggregate edge occurred near `g=1.25`. Linear memory capacity peaked in the subcritical regime at `g=0.95`, reaching 11.17 compared with 9.03 at the edge. Delayed noisy-cue classification peaked in the supercritical regime at `g=1.55`, reaching 0.757 compared with 0.749 at the edge. Effective state dimension and dynamic range continued increasing above the edge, while memory declined and saturation increased. Per-seed analysis placed only 25% of memory optima and 25% of delayed-task optima exactly at each seed's independently measured edge.
+
+A feedback controller that repeatedly estimated short-window Lyapunov growth and adjusted gain toward zero growth converged from starting gains 0.55 and 1.55 to a mean final gain of 1.194+/-0.190. This demonstrates controllable approach to a dynamical boundary, but it is not a biologically plausible self-organized-criticality rule.
+
+The result rejects the strong claim that criticality simultaneously maximizes every computational function. It supports a more useful architectural interpretation: recurrent gain is a regulatory coordinate along a memory-sensitivity-stability frontier. Human and animal evidence associates conscious states with near-critical slow cortical dynamics [17], but criticality also occurs in many systems for which consciousness is not plausible, and apparent avalanche scaling can be produced by noncritical drive [16]. Neither a Lyapunov crossing nor power-law-like activity is sufficient evidence of experience.
+
+`adaptive_criticality_meta_controller_lab.py` tests whether that coordinate can
+be regulated rather than fixed. Ten independently frozen reservoirs alternate
+between quiet and high-noise delayed-memory blocks. A contextual bandit sees an
+estimated noise floor and recent normalized task reward, but not the phase
+label or optimal gain. It is compared with fixed memory-optimal, empirical-edge,
+noisy-specialist, hindsight-selected global-best, random-gain, and phase-aware
+oracle controls. Mean adaptive reward was 0.765, versus 0.553, 0.566, 0.598,
+0.743, 0.502, and 0.827 respectively. Adaptive versus global-best was a
+nonsignificant 6-4 paired split (mean difference +0.021, exact sign p=0.754),
+so the assay does not establish adaptive superiority. The selected mean gain
+nonetheless moved from 1.16 under quiet input to 1.33 under high noise, close
+to oracle means of 1.13 and 1.31. Regret fell from 0.085 to 0.034 on repeated
+quiet exposure and from 0.087 to 0.037 on repeated noisy exposure. This is
+evidence for learned, reusable regulatory integration across changing
+dynamical demands, not evidence that the controller recognizes its own state
+or that criticality is a consciousness criterion.
+
+![Figure 6. Frozen recurrent gain sweep with independently measured dynamical edge and functional optima.](../outputs/network_criticality_summary.png)
+
+![Adaptive gain regulation under alternating noise regimes.](../outputs/adaptive_criticality_meta_controller_summary.png)
+
+### 7.8 Adaptive resonance, stable category learning, and access
+
+`adaptive_resonance_workspace_lab.py` translates the computational core of
+Adaptive Resonance Theory (ART) into a bounded workspace assay [18,19]. A
+bottom-up complement-coded sensory pattern proposes a category. Its learned
+top-down template must exceed a vigilance threshold before resonance stabilizes
+learning and supplies one packet to action and symbolic report. Mismatch resets
+the candidate and continues category search.
+
+The non-stationary curriculum first teaches four familiar food and obstacle
+categories, introduces two overlapping novel categories, and then retests the
+originals. Across 24 seeds, full ART formed six categories, retained familiar
+action and report accuracy at 1.000, adapted novel actions at 1.000, and rejected
+unknown feature conjunctions at 1.000. Removing mismatch reset collapsed the
+system to one category: familiar action/report accuracy fell to 0.250, novel
+action accuracy to 0.500, and unknown rejection to 0.000. Replacing stable
+category learning with latest-sample overwrite retained 0.989 familiar action
+accuracy but reduced familiar category-report retention to 0.510. The latter
+distinction matters because novel and familiar categories can share a coarse
+motor action while retaining different reportable identities.
+
+A forced false-resonance intervention held sensory input fixed while selecting
+a poorly matching category. Both action and report changed on 1.000 of eligible
+trials. This strengthens the operational access claim: one selectively
+stabilized internal content is available to learning, explicit report, and
+behavioral control, and intervention on that content jointly redirects report
+and action. Because the packet format, labels, and intervention are engineered,
+the assay does not establish phenomenal consciousness or reproduce the full
+biological ART architecture.
+
+![Figure 7. Adaptive resonance, mismatch reset, stable category learning, and forced report-control intervention.](../outputs/adaptive_resonance_workspace_summary.png)
+
 ## 8. Python-to-Unity deployment and calibrated MPC
 
 ### 8.1 Transfer definition and bridge
@@ -262,7 +377,7 @@ The stabilizer experiment fixes noise and calcium at 1.0 and compares nine engin
 
 No single scalar captures the trade-off. Sensory focus maximized survival and food intake but retained a false-promotion ratio of 0.585 and spent 82.1 steps in the internal loop. The next-generation stack reduced false promotions to zero and reached 74% survival, but retained fewer legitimate trap escapes than sensory focus (17.3 vs 30.3) and only partially restored performance. These results show that different governors optimize different robustness objectives. They do not support psychological diagnosis, claims about altered human states, or biological calcium mechanisms.
 
-![Figure 3. Engineered stabilizers under maximum synthetic noise and promotion pressure.](../outputs/altered_state_stabilizer_summary.png)
+![Figure 5. Engineered stabilizers under maximum synthetic noise and promotion pressure.](../outputs/altered_state_stabilizer_summary.png)
 
 ### 10.3 Cross-domain portability to symbolic MIDI
 
@@ -276,7 +391,7 @@ A separate rhythm policy was trained by policy gradient from a scalar structural
 
 ### 11.1 What the repository demonstrates
 
-The strongest result is compositional. Early assays distinguish structural recurrence from functional orientation, show why directly writable valence wireheads, and demonstrate that imagined state becomes useful only when constrained by prediction and observation. Attention, social-gating, hierarchy, and maintenance experiments then test when information should be integrated, whose information should be trusted, how conflict can be compressed, and how recurrent dynamics can be repaired. The delayed-preference assay shows that recurrent state can carry a grounded signed outcome beyond a fixed context window, and targeted corruptions abolish or reverse behavior. Navigation shows that reward-trained control can transfer to withheld detour families, with recurrent memory becoming causally important in particular topologies. Workspace assays show that designed shared packets can simultaneously change report and action, reduce routing cost, transfer across labels, and propagate false states. Predictive calibration and receding-horizon control improve measured navigation in the Python course suite, while recorded telemetry shows that the composed controller can operate in Unity. The MIDI assays extend the program beyond spatial control: recurrent memory improves selected delayed musical dependencies after retraining, while immediate next-note prediction remains a counterexample to blanket recurrent superiority.
+The strongest result is compositional. Early assays distinguish structural recurrence from functional orientation, show why directly writable valence wireheads, and demonstrate that imagined state becomes useful only when constrained by prediction and observation. Attention, social-gating, hierarchy, and maintenance experiments then test when information should be integrated, whose information should be trusted, how conflict can be compressed, and how recurrent dynamics can be repaired. The delayed-preference assay shows that recurrent state can carry a grounded signed outcome beyond a fixed context window, and targeted corruptions abolish or reverse behavior. Navigation shows that reward-trained control can transfer to withheld detour families, with recurrent memory becoming causally important in particular topologies. Workspace assays show that designed compressed packets can simultaneously change report and action, reduce routing cost, transfer across labels, and propagate false states. Because movement, memory, valence, and report consume the same promoted packet, self-report is functionally coupled to control rather than appended as narration. Predictive calibration and receding-horizon control improve measured navigation in the Python course suite, while recorded telemetry shows that the composed controller can operate in Unity. The MIDI assays extend the program beyond spatial control: recurrent memory improves selected delayed musical dependencies after retraining, while immediate next-note prediction remains a counterexample to blanket recurrent superiority.
 
 These findings support a bounded control thesis:
 
@@ -286,7 +401,7 @@ Every clause is functional and testable. None requires a claim about subjective 
 
 ### 11.2 What remains hypothetical
 
-The repository does not establish that these modules are necessary or sufficient for phenomenal consciousness. It does not show open-ended transfer, language-level reasoning, autonomous goal formation, or broad adaptation. The MIDI result shows reuse of architectural principles after retraining, not transfer of learned navigation competence into music. It does show operational access criteria in designed systems, but it does not show that signed reward is felt valence, that report implies experience, or that recurrence creates phenomenology. “Substrate independence” is defensible for the implemented control computations: the same functional relationships can be expressed in binary circuits, neural policies, symbolic routing, and a Unity runtime. It is not evidence that phenomenology is substrate-independent.
+The repository does not establish that these modules are necessary or sufficient for phenomenal consciousness. It does not show open-ended transfer, language-level reasoning, autonomous goal formation, or broad adaptation. The MIDI result shows reuse of architectural principles after retraining, not transfer of learned navigation competence into music. It does show operational access criteria in designed systems, but it does not show that signed reward is felt valence, that report implies experience, or that recurrence creates phenomenology. The implemented roles appear portable across binary circuits, neural policies, symbolic routing, and a Unity runtime, but that bounded engineering result is not proof of universal substrate independence and says nothing about whether phenomenology is substrate-independent.
 
 The broader architectural claim—that useful intelligence is concentrated in regulated routing—remains plausible but under-tested. Most workspace rules are designed, not learned, and the components were validated across separate toy assays rather than trained as one end-to-end architecture. Robustness tasks encode their own failure and recovery mechanisms. The asset-free Unity course is reproducible, while the larger terrain and third-party art remain external. The stack is therefore a unified research architecture and experimental program, not yet a jointly learned general cognitive system.
 
@@ -333,6 +448,32 @@ The evidence supports an engineered operational access-consciousness claim: sele
 [5] G. A. Mashour, P. Roelfsema, J.-P. Changeux, and S. Dehaene, “Conscious Processing and the Global Neuronal Workspace Hypothesis,” *Neuron*, vol. 105, no. 5, pp. 776–798, 2020. [doi:10.1016/j.neuron.2020.01.026](https://pubmed.ncbi.nlm.nih.gov/32135090/).
 
 [6] K. Chua, R. Calandra, R. McAllister, and S. Levine, “Deep Reinforcement Learning in a Handful of Trials using Probabilistic Dynamics Models,” *Advances in Neural Information Processing Systems 31*, 2018. [Paper](https://proceedings.neurips.cc/paper/2018/hash/3de568f8597b94bda53149c7d7f5958c-Abstract.html).
+
+[7] R. Llinas and U. Ribary, “Coherent 40-Hz oscillation characterizes dream state in humans,” *Proceedings of the National Academy of Sciences*, vol. 90, no. 5, pp. 2078–2081, 1993. [doi:10.1073/pnas.90.5.2078](https://doi.org/10.1073/pnas.90.5.2078).
+
+[8] R. Llinas, U. Ribary, D. Contreras, and C. Pedroarena, “The neuronal basis for consciousness,” *Philosophical Transactions of the Royal Society B*, vol. 353, no. 1377, pp. 1841–1849, 1998. [doi:10.1098/rstb.1998.0336](https://doi.org/10.1098/rstb.1998.0336).
+
+[9] R. R. Llinas, E. Leznik, and F. J. Urbano, “Temporal binding via cortical coincidence detection of specific and nonspecific thalamocortical inputs,” *Proceedings of the National Academy of Sciences*, vol. 99, no. 1, pp. 449–454, 2002. [doi:10.1073/pnas.012604899](https://doi.org/10.1073/pnas.012604899).
+
+[10] P. Fries, “A mechanism for cognitive dynamics: neuronal communication through neuronal coherence,” *Trends in Cognitive Sciences*, vol. 9, no. 10, pp. 474–480, 2005. [doi:10.1016/j.tics.2005.08.011](https://doi.org/10.1016/j.tics.2005.08.011).
+
+[11] S. Pockett, “The electromagnetic field theory of consciousness: A testable hypothesis about the characteristics of conscious as opposed to non-conscious fields,” *Journal of Consciousness Studies*, vol. 19, no. 11–12, pp. 191–223, 2012. [Author manuscript](https://cdn.auckland.ac.nz/assets/psych/about/our-people/documents/sue-pockett/Pockett_2012.pdf).
+
+[12] S. Pockett, “Consciousness Is a Thing, Not a Process,” *Applied Sciences*, vol. 7, no. 12, 1248, 2017. [doi:10.3390/app7121248](https://doi.org/10.3390/app7121248).
+
+[13] B. Doyle, “Experience Recorder and Reproducer,” in *Great Problems of Philosophy and Physics - Solved?* [ERR chapter](https://www.informationphilosopher.com/books/problems/ERR.pdf).
+
+[14] J. M. Beggs and D. Plenz, “Neuronal avalanches in neocortical circuits,” *Journal of Neuroscience*, vol. 23, no. 35, pp. 11167–11177, 2003. [doi:10.1523/JNEUROSCI.23-35-11167.2003](https://doi.org/10.1523/JNEUROSCI.23-35-11167.2003).
+
+[15] L. J. Fosque et al., “Evidence for quasicritical brain dynamics,” *Physical Review Letters*, vol. 126, 098101, 2021. [doi:10.1103/PhysRevLett.126.098101](https://doi.org/10.1103/PhysRevLett.126.098101).
+
+[16] V. Priesemann and O. Shriki, “Can a time varying external drive give rise to apparent criticality in neural systems?” *PLoS Computational Biology*, vol. 14, e1006081, 2018. [doi:10.1371/journal.pcbi.1006081](https://doi.org/10.1371/journal.pcbi.1006081).
+
+[17] D. Toker et al., “Consciousness is supported by near-critical slow cortical electrodynamics,” *Proceedings of the National Academy of Sciences*, vol. 119, no. 7, e2024455119, 2022. [doi:10.1073/pnas.2024455119](https://doi.org/10.1073/pnas.2024455119).
+
+[18] S. Grossberg, “The Link between Brain Learning, Attention, and Consciousness,” *Consciousness and Cognition*, vol. 8, pp. 1–44, 1999. [Author manuscript](https://sites.bu.edu/steveg/files/2016/06/Gro1999ConCog.pdf).
+
+[19] S. Grossberg, “Towards solving the hard problem of consciousness: The varieties of brain resonances and the conscious experiences that they support,” *Neural Networks*, vol. 87, pp. 38–95, 2017. [doi:10.1016/j.neunet.2016.11.003](https://doi.org/10.1016/j.neunet.2016.11.003).
 
 ## Data and code availability
 

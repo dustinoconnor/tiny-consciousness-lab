@@ -291,7 +291,7 @@ def add_cover(doc):
     set_run(meta.add_run("Tiny Consciousness Lab"), size=12, bold=True, color=INK)
     date = doc.add_paragraph()
     date.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    set_run(date.add_run("16 July 2026  ·  Local repository audit"), size=10.5, color=MUTED)
+    set_run(date.add_run("18 July 2026  ·  Local repository audit"), size=10.5, color=MUTED)
 
     note = doc.add_paragraph()
     note.paragraph_format.space_before = Pt(42)

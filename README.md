@@ -24,6 +24,14 @@ for making questions about recurrent systems visible:
 This is a compact functional research architecture, not evidence of phenomenal
 consciousness, open-ended general intelligence, or biological equivalence.
 
+> **Defensible synthesis:** The repository is a reproducible, multi-theory
+> experimental suite for engineered access-consciousness mechanisms. It
+> demonstrates causally active temporal binding, distributed spatial-temporal
+> coding, valence-bound episodic retrieval, adaptive recurrent-gain regulation,
+> and an implementation-consistent relational geometry of reportable experience
+> proxies. These results support a functional access-consciousness architecture
+> while remaining neutral about phenomenal experience.
+
 Research artifacts: [published research site](https://tiny-consciousness-lab.pix3ldust418476.chatgpt.site/),
 [paper draft](paper/RESEARCH_PAPER_DRAFT.md),
 [evidence ledger](paper/EVIDENCE_LEDGER.md), and
@@ -166,6 +174,70 @@ engineered operational access-consciousness profile. It does not establish
 phenomenal consciousness or implement the full biological ART architecture.
 
 ![Adaptive resonance, mismatch reset, and causal report-control intervention](outputs/adaptive_resonance_workspace_summary.png)
+
+### Computational Organizational Invariance
+
+`computational_invariance_lab.py` tests a bounded implication of computational
+functionalism: whether preserving the Functional Ego's causal transition
+structure preserves its measured behavior across different software
+representations. The same memory, grounded-valence, workspace, confidence,
+action, and report organization is independently encoded as symbolic rules, a
+dense numerical register, and event-ordered message-passing modules.
+
+Across 24 seeds, the three realizations agreed at 1.000 on ordinary
+trajectories, internal interventions, and novel counterfactual inputs. A replay
+control memorized every ordinary action and report and therefore also reached
+1.000 observational agreement. It failed every causally effective hidden-state
+intervention and every changed-output counterfactual trial. Of 408 novel-input
+trials, 318 changed the required output; replay agreement on those trials was
+0.000.
+
+Interventions differed in immediate potency rather than being treated as
+uniform: forced workspace content changed action/report on 1.000 of trials,
+workspace hold on 0.585, memory erasure on 0.089, and valence reversal on
+0.021. Whenever an intervention changed behavior, action and report changed
+together and all three causal realizations agreed.
+
+This supports software-level representational and intervention-profile
+invariance. It also shows why matching observed outputs is weaker than
+preserving causal organization. All realizations still execute in one Python
+process on one physical computer, so the experiment does not establish
+physical-substrate invariance, computational sufficiency for experience, or
+phenomenal consciousness.
+
+![Computational organizational invariance and replay control](outputs/computational_invariance_summary.png)
+
+### Mathematical Structure of Reportable Experience Proxies
+
+`experience_structure_correspondence_lab.py` asks whether the relations among
+the agent's explicit reports form a reproducible mathematical structure linked
+to its causal state and behavior. It constructs separate spaces for full causal
+state, upstream memory/grounded valence, report category/confidence/valence,
+and action/confidence. These are reportable experience proxies, not verified
+phenomenal experiences.
+
+Across 24 seeds, full-state/report distance correlation was 0.912, upstream
+hidden-state/report correlation was 0.786, and behavior/report correlation was
+0.905. Top-eight local-neighborhood overlap was 0.689 for full state and report.
+A marginal-preserving report shuffle reduced distance correlation to -0.009
+and neighborhood overlap to 0.065. Permuting report-coordinate labels while
+preserving their geometry retained correlation 1.000, distinguishing structure
+from the arbitrary names assigned to its axes.
+
+Memory-erasure and valence-flip interventions provide a nontrivial upstream
+test because their variables exclude workspace and report labels. Upstream
+state displacement predicted report change with AUC 0.813; shuffled labels
+reached 0.509 and observational replay 0.500. Whenever a report changed, the
+corresponding action changed, and intervention responses matched across the
+symbolic, vector, and message-passing realizations at 1.000.
+
+This supports a mathematical relational structure for causally active,
+reportable agent-state proxies. The full-state comparison partly includes the
+workspace coordinate that generates the report and is therefore not treated as
+independent evidence. No measurement identifies these proxies with qualia or
+establishes the ontological claim that consciousness is mathematical structure.
+
+![Mathematical report-structure correspondence and causal controls](outputs/experience_structure_correspondence_summary.png)
 
 ### Continuous Generation and Reality Correction
 

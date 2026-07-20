@@ -3,11 +3,11 @@
 ## A thesis-driven synthesis of recurrence, grounded valence, attention, world models, hierarchical access, maintenance, and embodied predictive control
 
 **Tiny Consciousness Lab**  
-Research paper draft · 18 July 2026
+Research paper draft · 20 July 2026
 
 ### Abstract
 
-This paper audits and synthesizes a local repository of small control experiments into a broader Functional Ego thesis. The thesis is that useful access-like control does not arise from recurrence, integration, reward, imagination, or broadcasting alone; it arises from regulated routing among recurrent memory, externally grounded valence, attention, predictive world models, hierarchical workspaces, causal credit assignment, and maintenance. We distinguish demonstrations supported by code and stored outputs from architectural interpretations and planned work. The evidence spans exact tiny integration proxies, wireheading and valence shaping, imagination and attention assays, social and hierarchical workspaces, fatigue and repair cycles, delayed-preference learning, zero-shot detour foraging, Python-to-Unity deployment, uncertainty-bounded model-predictive control (MPC), and architecture-level transfer to symbolic MIDI generation. The strongest repeated-seed results show long-delay use of signed outcome feedback, 98.25% mean success on withheld navigation families, family-specific causal dependence on recurrent memory, and a 41.7% reduction in held-out Unity transition error after predictive calibration. A separately trained music policy improves delayed motif return over a feedforward baseline and degrades under hidden-state reset. Workspace interventions promote a compressed packet containing intent, problem, strategy, feeling, and confidence to movement, memory, valence, and report. The grounded packet reaches report accuracy 1.0, reuses one obstruction representation across tree, rock, and mushroom labels, and changes report and action together under intervention; false broadcasts steer both incorrectly. We therefore claim an engineered operational access-consciousness profile: selected internal content is reportable, shared across downstream functions, reusable, and causally active under intervention. We do not claim phenomenal consciousness, sentience, AGI, or biological equivalence.
+This paper audits and synthesizes a local repository of small control experiments into a broader Functional Ego thesis. The thesis is that useful access-like control does not arise from recurrence, integration, reward, imagination, or broadcasting alone; it arises from regulated routing among recurrent memory, externally grounded valence, attention, predictive world models, hierarchical workspaces, causal credit assignment, and maintenance. We distinguish demonstrations supported by code and stored outputs from architectural interpretations and planned work. The evidence spans exact tiny integration proxies, wireheading and valence shaping, imagination and attention assays, social and hierarchical workspaces, fatigue and repair cycles, delayed-preference learning, zero-shot detour foraging, Python-to-Unity deployment, uncertainty-bounded model-predictive control (MPC), and architecture-level transfer to symbolic MIDI generation. The strongest repeated-seed results show long-delay use of signed outcome feedback, 98.25% mean success on withheld navigation families, family-specific causal dependence on recurrent memory, and a 41.7% reduction in held-out Unity transition error after predictive calibration. A separately trained music policy improves delayed motif return over a feedforward baseline and degrades under hidden-state reset. Workspace interventions promote a compressed packet containing intent, problem, strategy, feeling, and confidence to movement, memory, valence, and report. The grounded packet reaches report accuracy 1.0, reuses one obstruction representation across tree, rock, and mushroom labels, and changes report and action together under intervention; false broadcasts steer both incorrectly. Software organizational-invariance and relational-geometry assays further distinguish causal organization from observational replay and connect upstream state, behavior, and explicit report under controlled interventions. We therefore claim an engineered operational access-consciousness profile: selected internal content is reportable, shared across downstream functions, reusable, causally active, and organized into reproducible relations under intervention. We do not claim phenomenal consciousness, sentience, AGI, or biological equivalence.
 
 **Keywords:** functional ego; access consciousness; recurrent control; grounded valence; partial observability; model-predictive control; hierarchical workspace; zero-shot navigation; maintenance; Unity
 
@@ -325,6 +325,64 @@ biological ART architecture.
 
 ![Figure 7. Adaptive resonance, mismatch reset, stable category learning, and forced report-control intervention.](../outputs/adaptive_resonance_workspace_summary.png)
 
+### 7.9 Computational organization across software realizations
+
+`computational_invariance_lab.py` tests a bounded implication of computational
+functionalism [20]: if the measured cognitive property depends on causal
+organization rather than coding format, independently encoded realizations
+should preserve both ordinary trajectories and intervention profiles. The same
+Functional Ego transition structure was implemented as symbolic dictionary
+rules, a dense numerical register, and event-ordered message-passing modules.
+An observational replay control memorized ordinary outputs without implementing
+the transition structure.
+
+Across 24 seeds, the three causal realizations agreed at 1.000 on ordinary
+trajectories, internal interventions, and novel counterfactual inputs. Replay
+also reached 1.000 ordinary agreement, but reached 0.000 agreement on every
+causally effective intervention and on 318 novel trials where changed inputs
+required changed outputs. Forced workspace content, workspace hold, memory
+erasure, and valence reversal changed immediate action/report on 1.000, 0.585,
+0.089, and 0.021 of sampled states. Whenever an intervention changed behavior,
+action and report changed together across all three realizations.
+
+This establishes software-representation invariance for one explicitly defined
+transition system and shows that observational equivalence is weaker than
+counterfactual causal equivalence. All implementations still run in one Python
+process on one physical computer. The result therefore does not establish
+physical-substrate invariance, computational sufficiency for experience, or
+phenomenal consciousness.
+
+![Figure 8. Three causal software realizations and an observational replay control under ordinary, intervention, and novel-input trials.](../outputs/computational_invariance_summary.png)
+
+### 7.10 Relational geometry of reportable experience proxies
+
+`experience_structure_correspondence_lab.py` translates a structural question
+from mathematical work on conscious experience [21] into an operational assay:
+do relations among explicit agent reports form a reproducible geometry linked
+to causal state and behavioral discrimination? Separate spaces encode full
+causal state, upstream memory and grounded valence, report category, report
+confidence, report valence, action, and action confidence. The reports are
+engineered experience proxies, not independently observed experiences.
+
+Across 24 seeds, full-state/report, upstream-state/report, and behavior/report
+distance correlations were 0.912, 0.786, and 0.905. Full-state/report top-eight
+neighborhood overlap was 0.689. A marginal-preserving report shuffle reduced
+correlation to -0.009 and neighborhood overlap to 0.065, while coordinate-label
+permutation preserved the relational geometry at 1.000. Upstream memory and
+valence displacement predicted report change at AUC 0.813, versus 0.509 under
+shuffled change labels and 0.500 for observational replay. Report-changing
+interventions changed action jointly and matched across the three software
+realizations at 1.000.
+
+The strongest evidence comes from the upstream intervention analysis because
+its predictors exclude workspace and report labels. By contrast, full causal
+state contains the workspace coordinate that generates report, so its high
+correspondence is partly definitional. The supported claim is a mathematical
+relational structure of causally active reportable proxies, not a measured
+qualia space or proof that consciousness is itself a mathematical object.
+
+![Figure 9. Relational correspondence, report-shuffle controls, coordinate isometry, and upstream causal prediction of report change.](../outputs/experience_structure_correspondence_summary.png)
+
 ## 8. Python-to-Unity deployment and calibrated MPC
 
 ### 8.1 Transfer definition and bridge
@@ -377,7 +435,7 @@ The stabilizer experiment fixes noise and calcium at 1.0 and compares nine engin
 
 No single scalar captures the trade-off. Sensory focus maximized survival and food intake but retained a false-promotion ratio of 0.585 and spent 82.1 steps in the internal loop. The next-generation stack reduced false promotions to zero and reached 74% survival, but retained fewer legitimate trap escapes than sensory focus (17.3 vs 30.3) and only partially restored performance. These results show that different governors optimize different robustness objectives. They do not support psychological diagnosis, claims about altered human states, or biological calcium mechanisms.
 
-![Figure 5. Engineered stabilizers under maximum synthetic noise and promotion pressure.](../outputs/altered_state_stabilizer_summary.png)
+![Figure 10. Engineered stabilizers under maximum synthetic noise and promotion pressure.](../outputs/altered_state_stabilizer_summary.png)
 
 ### 10.3 Cross-domain portability to symbolic MIDI
 
@@ -391,11 +449,15 @@ A separate rhythm policy was trained by policy gradient from a scalar structural
 
 ### 11.1 What the repository demonstrates
 
-The strongest result is compositional. Early assays distinguish structural recurrence from functional orientation, show why directly writable valence wireheads, and demonstrate that imagined state becomes useful only when constrained by prediction and observation. Attention, social-gating, hierarchy, and maintenance experiments then test when information should be integrated, whose information should be trusted, how conflict can be compressed, and how recurrent dynamics can be repaired. The delayed-preference assay shows that recurrent state can carry a grounded signed outcome beyond a fixed context window, and targeted corruptions abolish or reverse behavior. Navigation shows that reward-trained control can transfer to withheld detour families, with recurrent memory becoming causally important in particular topologies. Workspace assays show that designed compressed packets can simultaneously change report and action, reduce routing cost, transfer across labels, and propagate false states. Because movement, memory, valence, and report consume the same promoted packet, self-report is functionally coupled to control rather than appended as narration. Predictive calibration and receding-horizon control improve measured navigation in the Python course suite, while recorded telemetry shows that the composed controller can operate in Unity. The MIDI assays extend the program beyond spatial control: recurrent memory improves selected delayed musical dependencies after retraining, while immediate next-note prediction remains a counterexample to blanket recurrent superiority.
+The strongest result is compositional. Early assays distinguish structural recurrence from functional orientation, show why directly writable valence wireheads, and demonstrate that imagined state becomes useful only when constrained by prediction and observation. Attention, social-gating, hierarchy, and maintenance experiments then test when information should be integrated, whose information should be trusted, how conflict can be compressed, and how recurrent dynamics can be repaired. The delayed-preference assay shows that recurrent state can carry a grounded signed outcome beyond a fixed context window, and targeted corruptions abolish or reverse behavior. Navigation shows that reward-trained control can transfer to withheld detour families, with recurrent memory becoming causally important in particular topologies. Workspace assays show that designed compressed packets can simultaneously change report and action, reduce routing cost, transfer across labels, and propagate false states. Because movement, memory, valence, and report consume the same promoted packet, self-report is functionally coupled to control rather than appended as narration. Computational-invariance controls show that three independently encoded causal realizations preserve intervention profiles while a perfect observational replay clone does not. Relational analysis links upstream memory and grounded valence to the geometry of explicit reports and behavior under controlled lesions. Predictive calibration and receding-horizon control improve measured navigation in the Python course suite, while recorded telemetry shows that the composed controller can operate in Unity. The MIDI assays extend the program beyond spatial control: recurrent memory improves selected delayed musical dependencies after retraining, while immediate next-note prediction remains a counterexample to blanket recurrent superiority.
 
 These findings support a bounded control thesis:
 
 > Compact partially observable agents can exhibit an engineered operational access-consciousness profile through a regulated division of labor: recurrent state preserves task-relevant history; externally grounded valence orients learning; attention and hierarchical workspaces control shared access; world models remain bounded by uncertainty and sensory re-anchoring; causal routing assigns contextual trust; and maintenance protects recurrent dynamics over time.
+
+Across the consciousness-theory translation assays, the defensible synthesis is:
+
+> The repository is a reproducible, multi-theory experimental suite for engineered access-consciousness mechanisms. It demonstrates causally active temporal binding, distributed spatial-temporal coding, valence-bound episodic retrieval, adaptive recurrent-gain regulation, and an implementation-consistent relational geometry of reportable experience proxies. These results support a functional access-consciousness architecture while remaining neutral about phenomenal experience.
 
 Every clause is functional and testable. None requires a claim about subjective experience.
 
@@ -474,6 +536,10 @@ The evidence supports an engineered operational access-consciousness claim: sele
 [18] S. Grossberg, “The Link between Brain Learning, Attention, and Consciousness,” *Consciousness and Cognition*, vol. 8, pp. 1–44, 1999. [Author manuscript](https://sites.bu.edu/steveg/files/2016/06/Gro1999ConCog.pdf).
 
 [19] S. Grossberg, “Towards solving the hard problem of consciousness: The varieties of brain resonances and the conscious experiences that they support,” *Neural Networks*, vol. 87, pp. 38–95, 2017. [doi:10.1016/j.neunet.2016.11.003](https://doi.org/10.1016/j.neunet.2016.11.003).
+
+[20] D. J. Chalmers, “A Computational Foundation for the Study of Cognition,” *Journal of Cognitive Science*, vol. 12, pp. 323–357, 2011. [Author manuscript](https://consc.net/papers/computation.html).
+
+[21] J. Kleiner and T. Ludwig, “What is a mathematical structure of conscious experience?” *Synthese*, vol. 203, 89, 2024. [doi:10.1007/s11229-024-04503-4](https://doi.org/10.1007/s11229-024-04503-4).
 
 ## Data and code availability
 

@@ -1,0 +1,818 @@
+{
+  "experiment": "four-context adaptive conductor benchmark",
+  "contexts": [
+    "clear_terrain",
+    "familiar_hidden_goal",
+    "visible_target",
+    "genuine_wedge"
+  ],
+  "specialists": [
+    "recurrent",
+    "episodic",
+    "predictive",
+    "fallback"
+  ],
+  "feature_names": [
+    "food_visibility",
+    "art_resonance",
+    "obstacle_pressure",
+    "body_contact",
+    "immobility",
+    "spatial_novelty",
+    "free_space"
+  ],
+  "optimal_specialist_by_context": {
+    "clear_terrain": "recurrent",
+    "familiar_hidden_goal": "episodic",
+    "visible_target": "predictive",
+    "genuine_wedge": "fallback"
+  },
+  "protocol": {
+    "seed_count": 20,
+    "train_steps_per_seed": 24000,
+    "evaluation_blocks_per_seed": 240,
+    "steps_per_block": 10,
+    "true_context_label_visible_to_conductor": false,
+    "training_and_evaluation_random_streams_separate": true
+  },
+  "summary": {
+    "always_recurrent": {
+      "success_rate": 0.68525,
+      "utility_per_step": 0.017015063669620942,
+      "time_cost_per_step": 0.5920409735412563,
+      "collision_exposure_per_step": 0.3924855961190517,
+      "optimal_routing_rate": 0.24833333333333332,
+      "gate_entropy_bits": 0.0,
+      "boundary_entropy_bits": 0.0,
+      "steady_entropy_bits": 0.0,
+      "handoffs_per_100_steps": 0.0,
+      "unnecessary_handoffs_per_100_steps": 0.0
+    },
+    "always_episodic": {
+      "success_rate": 0.6991458333333334,
+      "utility_per_step": 0.06661453234774903,
+      "time_cost_per_step": 0.5013647967181152,
+      "collision_exposure_per_step": 0.2828786758036373,
+      "optimal_routing_rate": 0.25375,
+      "gate_entropy_bits": 0.0,
+      "boundary_entropy_bits": 0.0,
+      "steady_entropy_bits": 0.0,
+      "handoffs_per_100_steps": 0.0,
+      "unnecessary_handoffs_per_100_steps": 0.0
+    },
+    "always_predictive": {
+      "success_rate": 0.7677708333333333,
+      "utility_per_step": 0.16099525217691826,
+      "time_cost_per_step": 0.46441085031338497,
+      "collision_exposure_per_step": 0.26953522670941965,
+      "optimal_routing_rate": 0.2475,
+      "gate_entropy_bits": 0.0,
+      "boundary_entropy_bits": 0.0,
+      "steady_entropy_bits": 0.0,
+      "handoffs_per_100_steps": 0.0,
+      "unnecessary_handoffs_per_100_steps": 0.0
+    },
+    "always_fallback": {
+      "success_rate": 0.6765,
+      "utility_per_step": 0.007652460535391831,
+      "time_cost_per_step": 0.5066251028151095,
+      "collision_exposure_per_step": 0.21781621996759393,
+      "optimal_routing_rate": 0.2504166666666667,
+      "gate_entropy_bits": 0.0,
+      "boundary_entropy_bits": 0.0,
+      "steady_entropy_bits": 0.0,
+      "handoffs_per_100_steps": 0.0,
+      "unnecessary_handoffs_per_100_steps": 0.0
+    },
+    "scrambled_gate": {
+      "success_rate": 0.6665,
+      "utility_per_step": -0.05286588012659195,
+      "time_cost_per_step": 0.5572969999357422,
+      "collision_exposure_per_step": 0.31656928963337394,
+      "optimal_routing_rate": 0.0765,
+      "gate_entropy_bits": 1.1605492343859651,
+      "boundary_entropy_bits": 1.3148071584865932,
+      "steady_entropy_bits": 1.121984753360808,
+      "handoffs_per_100_steps": 16.679166666666667,
+      "unnecessary_handoffs_per_100_steps": 8.489583333333334
+    },
+    "learned_conductor": {
+      "success_rate": 0.963875,
+      "utility_per_step": 0.7791254670975686,
+      "time_cost_per_step": 0.1754699496925906,
+      "collision_exposure_per_step": 0.08411420091042071,
+      "optimal_routing_rate": 0.9752291666666667,
+      "gate_entropy_bits": 0.5825160310553006,
+      "boundary_entropy_bits": 0.9472929701771318,
+      "steady_entropy_bits": 0.4913217962748428,
+      "handoffs_per_100_steps": 10.65625,
+      "unnecessary_handoffs_per_100_steps": 0.39583333333333337
+    },
+    "oracle": {
+      "success_rate": 0.9704791666666667,
+      "utility_per_step": 0.7972577115397417,
+      "time_cost_per_step": 0.16776133422163278,
+      "collision_exposure_per_step": 0.08126343602078358,
+      "optimal_routing_rate": 1.0,
+      "gate_entropy_bits": 0.0,
+      "boundary_entropy_bits": 0.0,
+      "steady_entropy_bits": 0.0,
+      "handoffs_per_100_steps": 9.958333333333332,
+      "unnecessary_handoffs_per_100_steps": 0.0
+    }
+  },
+  "context_summary": {
+    "always_recurrent": {
+      "clear_terrain": {
+        "success_rate": 0.9588087248322148,
+        "utility_per_step": 0.8577836967068017,
+        "time_cost_per_step": 0.1205230295533036,
+        "collision_exposure_per_step": 0.02255873773905259,
+        "optimal_routing_rate": 1.0,
+        "gate_entropy_bits": 0.0,
+        "boundary_entropy_bits": 0.0,
+        "steady_entropy_bits": 0.0,
+        "handoffs_per_100_steps": 0.0,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      },
+      "familiar_hidden_goal": {
+        "success_rate": 0.5821018062397373,
+        "utility_per_step": -0.3080932533642313,
+        "time_cost_per_step": 0.8201294830137994,
+        "collision_exposure_per_step": 0.5202533857892397,
+        "optimal_routing_rate": 0.0,
+        "gate_entropy_bits": 0.0,
+        "boundary_entropy_bits": 0.0,
+        "steady_entropy_bits": 0.0,
+        "handoffs_per_100_steps": 0.0,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      },
+      "visible_target": {
+        "success_rate": 0.7853535353535354,
+        "utility_per_step": 0.33842418485811326,
+        "time_cost_per_step": 0.5000241702883269,
+        "collision_exposure_per_step": 0.1598464472072533,
+        "optimal_routing_rate": 0.0,
+        "gate_entropy_bits": 0.0,
+        "boundary_entropy_bits": 0.0,
+        "steady_entropy_bits": 0.0,
+        "handoffs_per_100_steps": 0.0,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      },
+      "genuine_wedge": {
+        "success_rate": 0.41955074875207987,
+        "utility_per_step": -0.8049885273495273,
+        "time_cost_per_step": 0.9194565700142697,
+        "collision_exposure_per_step": 0.8597958758843482,
+        "optimal_routing_rate": 0.0,
+        "gate_entropy_bits": 0.0,
+        "boundary_entropy_bits": 0.0,
+        "steady_entropy_bits": 0.0,
+        "handoffs_per_100_steps": 0.0,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      }
+    },
+    "always_episodic": {
+      "clear_terrain": {
+        "success_rate": 0.7230704697986577,
+        "utility_per_step": 0.24025178914633208,
+        "time_cost_per_step": 0.3398829310806465,
+        "collision_exposure_per_step": 0.04097453220988156,
+        "optimal_routing_rate": 0.0,
+        "gate_entropy_bits": 0.0,
+        "boundary_entropy_bits": 0.0,
+        "steady_entropy_bits": 0.0,
+        "handoffs_per_100_steps": 0.0,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      },
+      "familiar_hidden_goal": {
+        "success_rate": 0.9706075533661741,
+        "utility_per_step": 0.7983089996498679,
+        "time_cost_per_step": 0.1997276518714091,
+        "collision_exposure_per_step": 0.1002734744311078,
+        "optimal_routing_rate": 1.0,
+        "gate_entropy_bits": 0.0,
+        "boundary_entropy_bits": 0.0,
+        "steady_entropy_bits": 0.0,
+        "handoffs_per_100_steps": 0.0,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      },
+      "visible_target": {
+        "success_rate": 0.6388047138047138,
+        "utility_per_step": -0.06832080910075083,
+        "time_cost_per_step": 0.5994966395058442,
+        "collision_exposure_per_step": 0.22003525291093703,
+        "optimal_routing_rate": 0.0,
+        "gate_entropy_bits": 0.0,
+        "boundary_entropy_bits": 0.0,
+        "steady_entropy_bits": 0.0,
+        "handoffs_per_100_steps": 0.0,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      },
+      "genuine_wedge": {
+        "success_rate": 0.45998336106489185,
+        "utility_per_step": -0.7136486004617968,
+        "time_cost_per_step": 0.8701666245312004,
+        "collision_exposure_per_step": 0.7699176615207968,
+        "optimal_routing_rate": 0.0,
+        "gate_entropy_bits": 0.0,
+        "boundary_entropy_bits": 0.0,
+        "steady_entropy_bits": 0.0,
+        "handoffs_per_100_steps": 0.0,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      }
+    },
+    "always_predictive": {
+      "clear_terrain": {
+        "success_rate": 0.8383389261744967,
+        "utility_per_step": 0.43920406195326384,
+        "time_cost_per_step": 0.2896103472384723,
+        "collision_exposure_per_step": 0.03127968321586919,
+        "optimal_routing_rate": 0.0,
+        "gate_entropy_bits": 0.0,
+        "boundary_entropy_bits": 0.0,
+        "steady_entropy_bits": 0.0,
+        "handoffs_per_100_steps": 0.0,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      },
+      "familiar_hidden_goal": {
+        "success_rate": 0.6700328407224959,
+        "utility_per_step": -0.13858918832069786,
+        "time_cost_per_step": 0.6603167863873365,
+        "collision_exposure_per_step": 0.3799570858153767,
+        "optimal_routing_rate": 0.0,
+        "gate_entropy_bits": 0.0,
+        "boundary_entropy_bits": 0.0,
+        "steady_entropy_bits": 0.0,
+        "handoffs_per_100_steps": 0.0,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      },
+      "visible_target": {
+        "success_rate": 0.9787878787878788,
+        "utility_per_step": 0.7759837179253314,
+        "time_cost_per_step": 0.16015436053550805,
+        "collision_exposure_per_step": 0.040919320233764746,
+        "optimal_routing_rate": 1.0,
+        "gate_entropy_bits": 0.0,
+        "boundary_entropy_bits": 0.0,
+        "steady_entropy_bits": 0.0,
+        "handoffs_per_100_steps": 0.0,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      },
+      "genuine_wedge": {
+        "success_rate": 0.5882695507487521,
+        "utility_per_step": -0.4191522936104545,
+        "time_cost_per_step": 0.7399561742595917,
+        "collision_exposure_per_step": 0.6198700689276679,
+        "optimal_routing_rate": 0.0,
+        "gate_entropy_bits": 0.0,
+        "boundary_entropy_bits": 0.0,
+        "steady_entropy_bits": 0.0,
+        "handoffs_per_100_steps": 0.0,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      }
+    },
+    "always_fallback": {
+      "clear_terrain": {
+        "success_rate": 0.6228187919463087,
+        "utility_per_step": -0.07003425587419079,
+        "time_cost_per_step": 0.5195990253396978,
+        "collision_exposure_per_step": 0.08979950610159579,
+        "optimal_routing_rate": 0.0,
+        "gate_entropy_bits": 0.0,
+        "boundary_entropy_bits": 0.0,
+        "steady_entropy_bits": 0.0,
+        "handoffs_per_100_steps": 0.0,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      },
+      "familiar_hidden_goal": {
+        "success_rate": 0.5430213464696223,
+        "utility_per_step": -0.3267540440002938,
+        "time_cost_per_step": 0.5593689247253782,
+        "collision_exposure_per_step": 0.30044842440991826,
+        "optimal_routing_rate": 0.0,
+        "gate_entropy_bits": 0.0,
+        "boundary_entropy_bits": 0.0,
+        "steady_entropy_bits": 0.0,
+        "handoffs_per_100_steps": 0.0,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      },
+      "visible_target": {
+        "success_rate": 0.5664983164983165,
+        "utility_per_step": -0.329924883234971,
+        "time_cost_per_step": 0.7601580911206696,
+        "collision_exposure_per_step": 0.3199506990067843,
+        "optimal_routing_rate": 0.0,
+        "gate_entropy_bits": 0.0,
+        "boundary_entropy_bits": 0.0,
+        "steady_entropy_bits": 0.0,
+        "handoffs_per_100_steps": 0.0,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      },
+      "genuine_wedge": {
+        "success_rate": 0.9737104825291182,
+        "utility_per_step": 0.7571961983755571,
+        "time_cost_per_step": 0.18973318863622254,
+        "collision_exposure_per_step": 0.1600908762229689,
+        "optimal_routing_rate": 1.0,
+        "gate_entropy_bits": 0.0,
+        "boundary_entropy_bits": 0.0,
+        "steady_entropy_bits": 0.0,
+        "handoffs_per_100_steps": 0.0,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      }
+    },
+    "scrambled_gate": {
+      "clear_terrain": {
+        "success_rate": 0.8209731543624161,
+        "utility_per_step": 0.41053218066537095,
+        "time_cost_per_step": 0.29787489453675,
+        "collision_exposure_per_step": 0.03289970099142426,
+        "optimal_routing_rate": 0.0018456375838926174,
+        "gate_entropy_bits": 1.1825272967380416,
+        "boundary_entropy_bits": 1.295383577753211,
+        "steady_entropy_bits": 1.1543132264842493,
+        "handoffs_per_100_steps": 11.761744966442953,
+        "unnecessary_handoffs_per_100_steps": 4.010067114093959
+      },
+      "familiar_hidden_goal": {
+        "success_rate": 0.6412972085385878,
+        "utility_per_step": -0.1379991657763024,
+        "time_cost_per_step": 0.5913712549669331,
+        "collision_exposure_per_step": 0.3347588589384779,
+        "optimal_routing_rate": 0.09630541871921182,
+        "gate_entropy_bits": 1.6062023459057264,
+        "boundary_entropy_bits": 1.5825356709859169,
+        "steady_entropy_bits": 1.6121190146356792,
+        "handoffs_per_100_steps": 26.165845648604268,
+        "unnecessary_handoffs_per_100_steps": 19.244663382594418
+      },
+      "visible_target": {
+        "success_rate": 0.6425084175084175,
+        "utility_per_step": -0.059301409655494096,
+        "time_cost_per_step": 0.5958800476979106,
+        "collision_exposure_per_step": 0.21853276755570092,
+        "optimal_routing_rate": 0.007996632996632997,
+        "gate_entropy_bits": 0.5157201876899026,
+        "boundary_entropy_bits": 0.8747156354908497,
+        "steady_entropy_bits": 0.4259713257396659,
+        "handoffs_per_100_steps": 9.587542087542088,
+        "unnecessary_handoffs_per_100_steps": 0.20202020202020202
+      },
+      "genuine_wedge": {
+        "success_rate": 0.5625623960066556,
+        "utility_per_step": -0.41978163508693855,
+        "time_cost_per_step": 0.7418993678776328,
+        "collision_exposure_per_step": 0.6763418707281019,
+        "optimal_routing_rate": 0.19816971713810316,
+        "gate_entropy_bits": 1.32448731035949,
+        "boundary_entropy_bits": 1.4977425239848956,
+        "steady_entropy_bits": 1.2811735069531387,
+        "handoffs_per_100_steps": 18.951747088186355,
+        "unnecessary_handoffs_per_100_steps": 10.224625623960067
+      }
+    },
+    "learned_conductor": {
+      "clear_terrain": {
+        "success_rate": 0.9456375838926174,
+        "utility_per_step": 0.8209632176944544,
+        "time_cost_per_step": 0.1342316812474053,
+        "collision_exposure_per_step": 0.0237634354938627,
+        "optimal_routing_rate": 0.9375838926174497,
+        "gate_entropy_bits": 1.0135178136224283,
+        "boundary_entropy_bits": 1.2931765394276828,
+        "steady_entropy_bits": 0.9436031321711145,
+        "handoffs_per_100_steps": 12.038590604026846,
+        "unnecessary_handoffs_per_100_steps": 1.4261744966442953
+      },
+      "familiar_hidden_goal": {
+        "success_rate": 0.964696223316913,
+        "utility_per_step": 0.7818901094426373,
+        "time_cost_per_step": 0.20649534899053587,
+        "collision_exposure_per_step": 0.10447485338055214,
+        "optimal_routing_rate": 0.9852216748768473,
+        "gate_entropy_bits": 0.4340723337775311,
+        "boundary_entropy_bits": 0.7964158445782571,
+        "steady_entropy_bits": 0.34348645607734957,
+        "handoffs_per_100_steps": 10.28735632183908,
+        "unnecessary_handoffs_per_100_steps": 0.15599343185550082
+      },
+      "visible_target": {
+        "success_rate": 0.9741582491582491,
+        "utility_per_step": 0.764598343383711,
+        "time_cost_per_step": 0.166920814635961,
+        "collision_exposure_per_step": 0.043616818655045575,
+        "optimal_routing_rate": 0.9835858585858586,
+        "gate_entropy_bits": 0.7050480188830435,
+        "boundary_entropy_bits": 1.0528012267541393,
+        "steady_entropy_bits": 0.6181097169152693,
+        "handoffs_per_100_steps": 10.244107744107744,
+        "unnecessary_handoffs_per_100_steps": 0.008417508417508417
+      },
+      "genuine_wedge": {
+        "success_rate": 0.9709650582362729,
+        "utility_per_step": 0.7491922640062882,
+        "time_cost_per_step": 0.19337631582323905,
+        "collision_exposure_per_step": 0.16335690289652946,
+        "optimal_routing_rate": 0.9941763727121464,
+        "gate_entropy_bits": 0.18441478057688845,
+        "boundary_entropy_bits": 0.6528930663662227,
+        "steady_entropy_bits": 0.0672952091295549,
+        "handoffs_per_100_steps": 10.066555740432612,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      }
+    },
+    "oracle": {
+      "clear_terrain": {
+        "success_rate": 0.9588087248322148,
+        "utility_per_step": 0.8577836967068017,
+        "time_cost_per_step": 0.1205230295533036,
+        "collision_exposure_per_step": 0.02255873773905259,
+        "optimal_routing_rate": 1.0,
+        "gate_entropy_bits": 0.0,
+        "boundary_entropy_bits": 0.0,
+        "steady_entropy_bits": 0.0,
+        "handoffs_per_100_steps": 9.941275167785236,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      },
+      "familiar_hidden_goal": {
+        "success_rate": 0.9706075533661741,
+        "utility_per_step": 0.7983089996498679,
+        "time_cost_per_step": 0.1997276518714091,
+        "collision_exposure_per_step": 0.1002734744311078,
+        "optimal_routing_rate": 1.0,
+        "gate_entropy_bits": 0.0,
+        "boundary_entropy_bits": 0.0,
+        "steady_entropy_bits": 0.0,
+        "handoffs_per_100_steps": 9.975369458128078,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      },
+      "visible_target": {
+        "success_rate": 0.9787878787878788,
+        "utility_per_step": 0.7759837179253314,
+        "time_cost_per_step": 0.16015436053550805,
+        "collision_exposure_per_step": 0.040919320233764746,
+        "optimal_routing_rate": 1.0,
+        "gate_entropy_bits": 0.0,
+        "boundary_entropy_bits": 0.0,
+        "steady_entropy_bits": 0.0,
+        "handoffs_per_100_steps": 9.957912457912457,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      },
+      "genuine_wedge": {
+        "success_rate": 0.9737104825291182,
+        "utility_per_step": 0.7571961983755571,
+        "time_cost_per_step": 0.18973318863622254,
+        "collision_exposure_per_step": 0.1600908762229689,
+        "optimal_routing_rate": 1.0,
+        "gate_entropy_bits": 0.0,
+        "boundary_entropy_bits": 0.0,
+        "steady_entropy_bits": 0.0,
+        "handoffs_per_100_steps": 9.958402662229618,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      }
+    }
+  },
+  "routing_confusion": [
+    [
+      0.9375838926174497,
+      0.03557046979865772,
+      0.02105704697986577,
+      0.005788590604026846
+    ],
+    [
+      0.003940886699507389,
+      0.9852216748768473,
+      0.004844006568144499,
+      0.005993431855500821
+    ],
+    [
+      0.005303030303030303,
+      0.010437710437710438,
+      0.9835858585858586,
+      0.0006734006734006734
+    ],
+    [
+      8.319467554076539e-05,
+      0.0034941763727121466,
+      0.0022462562396006656,
+      0.9941763727121464
+    ]
+  ],
+  "targeted_lesion_summary": {
+    "recurrent": {
+      "clear_terrain": {
+        "success_rate": 0.7925335570469799,
+        "utility_per_step": 0.35334777658842126,
+        "time_cost_per_step": 0.31498495934851845,
+        "collision_exposure_per_step": 0.03645764196648674,
+        "optimal_routing_rate": 0.0,
+        "gate_entropy_bits": 0.996351354436654,
+        "boundary_entropy_bits": 1.0040811637148206,
+        "steady_entropy_bits": 0.9944189021171124,
+        "handoffs_per_100_steps": 15.906040268456376,
+        "unnecessary_handoffs_per_100_steps": 10.251677852348994
+      },
+      "familiar_hidden_goal": {
+        "success_rate": 0.9657635467980296,
+        "utility_per_step": 0.7849427131023523,
+        "time_cost_per_step": 0.2045278495147583,
+        "collision_exposure_per_step": 0.10312999727417337,
+        "optimal_routing_rate": 0.9880131362889983,
+        "gate_entropy_bits": 0.3158510910387629,
+        "boundary_entropy_bits": 0.5970159616132128,
+        "steady_entropy_bits": 0.24555987339515037,
+        "handoffs_per_100_steps": 9.113300492610838,
+        "unnecessary_handoffs_per_100_steps": 0.03284072249589491
+      },
+      "visible_target": {
+        "success_rate": 0.9747474747474747,
+        "utility_per_step": 0.7659457272599783,
+        "time_cost_per_step": 0.16518148739761657,
+        "collision_exposure_per_step": 0.043005868311391394,
+        "optimal_routing_rate": 0.9887205387205387,
+        "gate_entropy_bits": 0.3477221518876133,
+        "boundary_entropy_bits": 0.6481537375751998,
+        "steady_entropy_bits": 0.27261425546571666,
+        "handoffs_per_100_steps": 7.777777777777778,
+        "unnecessary_handoffs_per_100_steps": 0.008417508417508417
+      },
+      "genuine_wedge": {
+        "success_rate": 0.9709650582362729,
+        "utility_per_step": 0.749220909034311,
+        "time_cost_per_step": 0.1933185297628386,
+        "collision_exposure_per_step": 0.16329631465883945,
+        "optimal_routing_rate": 0.9942595673876872,
+        "gate_entropy_bits": 0.1531500506780372,
+        "boundary_entropy_bits": 0.5378299240582507,
+        "steady_entropy_bits": 0.05698008233298379,
+        "handoffs_per_100_steps": 9.900166389351082,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      }
+    },
+    "episodic": {
+      "clear_terrain": {
+        "success_rate": 0.9537751677852349,
+        "utility_per_step": 0.8414232000305495,
+        "time_cost_per_step": 0.1280843666342904,
+        "collision_exposure_per_step": 0.023349708736792357,
+        "optimal_routing_rate": 0.9676174496644295,
+        "gate_entropy_bits": 0.7023363293425238,
+        "boundary_entropy_bits": 0.9253939770488895,
+        "steady_entropy_bits": 0.6465719174159323,
+        "handoffs_per_100_steps": 9.890939597315436,
+        "unnecessary_handoffs_per_100_steps": 0.4697986577181208
+      },
+      "familiar_hidden_goal": {
+        "success_rate": 0.6137931034482759,
+        "utility_per_step": -0.22970085765933573,
+        "time_cost_per_step": 0.6741551422824329,
+        "collision_exposure_per_step": 0.3949087545568197,
+        "optimal_routing_rate": 0.0,
+        "gate_entropy_bits": 1.243801736746378,
+        "boundary_entropy_bits": 1.106998894625871,
+        "steady_entropy_bits": 1.2780024472765048,
+        "handoffs_per_100_steps": 17.372742200328407,
+        "unnecessary_handoffs_per_100_steps": 12.46305418719212
+      },
+      "visible_target": {
+        "success_rate": 0.9778619528619529,
+        "utility_per_step": 0.7737305003973256,
+        "time_cost_per_step": 0.1625846027971325,
+        "collision_exposure_per_step": 0.0418252217727735,
+        "optimal_routing_rate": 0.9934343434343434,
+        "gate_entropy_bits": 0.48371720449920563,
+        "boundary_entropy_bits": 0.7123998085216139,
+        "steady_entropy_bits": 0.42654655349360365,
+        "handoffs_per_100_steps": 8.476430976430976,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      },
+      "genuine_wedge": {
+        "success_rate": 0.9727953410981697,
+        "utility_per_step": 0.7544134330620422,
+        "time_cost_per_step": 0.1910120763984063,
+        "collision_exposure_per_step": 0.1612040952824045,
+        "optimal_routing_rate": 0.9976705490848585,
+        "gate_entropy_bits": 0.11141696296228698,
+        "boundary_entropy_bits": 0.40326606642789964,
+        "steady_entropy_bits": 0.038454687095883816,
+        "handoffs_per_100_steps": 9.084858569051582,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      }
+    },
+    "predictive": {
+      "clear_terrain": {
+        "success_rate": 0.9473154362416107,
+        "utility_per_step": 0.8276957585641119,
+        "time_cost_per_step": 0.1310879912549098,
+        "collision_exposure_per_step": 0.023620714699402964,
+        "optimal_routing_rate": 0.9568791946308725,
+        "gate_entropy_bits": 0.5649875152754706,
+        "boundary_entropy_bits": 0.8330335003940625,
+        "steady_entropy_bits": 0.4979760189958227,
+        "handoffs_per_100_steps": 8.557046979865772,
+        "unnecessary_handoffs_per_100_steps": 0.9899328859060403
+      },
+      "familiar_hidden_goal": {
+        "success_rate": 0.9664203612479475,
+        "utility_per_step": 0.7869353442218491,
+        "time_cost_per_step": 0.20445540305048823,
+        "collision_exposure_per_step": 0.10325834858994726,
+        "optimal_routing_rate": 0.9898193760262726,
+        "gate_entropy_bits": 0.2792379732335953,
+        "boundary_entropy_bits": 0.5302119268255538,
+        "steady_entropy_bits": 0.2164944848356056,
+        "handoffs_per_100_steps": 9.417077175697864,
+        "unnecessary_handoffs_per_100_steps": 0.12315270935960591
+      },
+      "visible_target": {
+        "success_rate": 0.744023569023569,
+        "utility_per_step": 0.22076814070436696,
+        "time_cost_per_step": 0.5332724390973884,
+        "collision_exposure_per_step": 0.17976532731175654,
+        "optimal_routing_rate": 0.0,
+        "gate_entropy_bits": 0.9377910306269753,
+        "boundary_entropy_bits": 1.0134687644414226,
+        "steady_entropy_bits": 0.9188715971733634,
+        "handoffs_per_100_steps": 14.191919191919192,
+        "unnecessary_handoffs_per_100_steps": 7.895622895622896
+      },
+      "genuine_wedge": {
+        "success_rate": 0.9717138103161398,
+        "utility_per_step": 0.7515246243348795,
+        "time_cost_per_step": 0.19226786600946266,
+        "collision_exposure_per_step": 0.16240326799223112,
+        "optimal_routing_rate": 0.9962562396006656,
+        "gate_entropy_bits": 0.12320179931767686,
+        "boundary_entropy_bits": 0.4578522256599034,
+        "steady_entropy_bits": 0.039539192732120206,
+        "handoffs_per_100_steps": 9.991680532445923,
+        "unnecessary_handoffs_per_100_steps": 0.0
+      }
+    },
+    "fallback": {
+      "clear_terrain": {
+        "success_rate": 0.9467281879194631,
+        "utility_per_step": 0.8240151598905623,
+        "time_cost_per_step": 0.13267638285734779,
+        "collision_exposure_per_step": 0.023455067614044138,
+        "optimal_routing_rate": 0.9395134228187919,
+        "gate_entropy_bits": 0.9227938117216347,
+        "boundary_entropy_bits": 1.1510849421624512,
+        "steady_entropy_bits": 0.8657210291114305,
+        "handoffs_per_100_steps": 11.031879194630873,
+        "unnecessary_handoffs_per_100_steps": 1.417785234899329
+      },
+      "familiar_hidden_goal": {
+        "success_rate": 0.9669129720853858,
+        "utility_per_step": 0.787668577046487,
+        "time_cost_per_step": 0.20488285541182652,
+        "collision_exposure_per_step": 0.10358668227420464,
+        "optimal_routing_rate": 0.9903940886699507,
+        "gate_entropy_bits": 0.31047810219252786,
+        "boundary_entropy_bits": 0.5807609814036319,
+        "steady_entropy_bits": 0.24290738238975193,
+        "handoffs_per_100_steps": 8.96551724137931,
+        "unnecessary_handoffs_per_100_steps": 0.15599343185550082
+      },
+      "visible_target": {
+        "success_rate": 0.9744107744107744,
+        "utility_per_step": 0.7652847917381141,
+        "time_cost_per_step": 0.1665234228798414,
+        "collision_exposure_per_step": 0.043433128054119204,
+        "optimal_routing_rate": 0.9842592592592593,
+        "gate_entropy_bits": 0.6448605584165676,
+        "boundary_entropy_bits": 0.9172492630148509,
+        "steady_entropy_bits": 0.5767633822669969,
+        "handoffs_per_100_steps": 8.451178451178452,
+        "unnecessary_handoffs_per_100_steps": 0.008417508417508417
+      },
+      "genuine_wedge": {
+        "success_rate": 0.5087354409317804,
+        "utility_per_step": -0.6015006210440383,
+        "time_cost_per_step": 0.8210529920007245,
+        "collision_exposure_per_step": 0.7175256419755435,
+        "optimal_routing_rate": 0.0,
+        "gate_entropy_bits": 1.0292769806020523,
+        "boundary_entropy_bits": 1.0551094058060344,
+        "steady_entropy_bits": 1.0228188743010567,
+        "handoffs_per_100_steps": 15.782029950083196,
+        "unnecessary_handoffs_per_100_steps": 9.467554076539102
+      }
+    }
+  },
+  "targeted_lesion_utility_drops": {
+    "recurrent": {
+      "clear_terrain": 0.4676154411060331,
+      "familiar_hidden_goal": -0.0030526036597150474,
+      "visible_target": -0.0013473838762673163,
+      "genuine_wedge": -2.8645028022800112e-05
+    },
+    "episodic": {
+      "clear_terrain": -0.02045998233609514,
+      "familiar_hidden_goal": 1.011590967101973,
+      "visible_target": -0.009132157013614584,
+      "genuine_wedge": -0.0052211690557539825
+    },
+    "predictive": {
+      "clear_terrain": -0.006732540869657577,
+      "familiar_hidden_goal": -0.005045234779211816,
+      "visible_target": 0.543830202679344,
+      "genuine_wedge": -0.0023323603285912986
+    },
+    "fallback": {
+      "clear_terrain": -0.0030519421961079374,
+      "familiar_hidden_goal": -0.005778467603849702,
+      "visible_target": -0.0006864483544031241,
+      "genuine_wedge": 1.3506928850503266
+    }
+  },
+  "paired_seed_contrasts": {
+    "best_static": "always_predictive",
+    "learned_minus_best_static_utility": 0.6181302149206502,
+    "learned_beats_best_static_seeds": 20,
+    "seed_count": 20,
+    "one_sided_sign_test_p": 9.5367431640625e-07,
+    "oracle_minus_learned_utility": 0.018132244442173095
+  },
+  "criteria": {
+    "learned_beats_every_static_utility": true,
+    "all_context_routing_at_least_90_percent": true,
+    "each_targeted_lesion_largest_in_its_matching_context": true,
+    "boundary_entropy_exceeds_steady_entropy": true,
+    "unnecessary_handoffs_below_2_per_100_steps": true
+  },
+  "best_checkpoint": {
+    "seed": 24362,
+    "weights": [
+      [
+        -0.2880357451045244,
+        -0.20200199635973218,
+        -0.07498873953889584,
+        -0.16175935476504685,
+        -0.15886516606258075,
+        0.1542396956371841,
+        0.5095957729034171,
+        -0.15047936693762964,
+        -0.1254861554748416,
+        -0.13409810332278083,
+        -0.4662070174360381,
+        0.028955328297532015,
+        0.4293475118903278
+      ],
+      [
+        -0.26644156573952454,
+        0.4919310266753838,
+        0.18645848265788378,
+        -0.23178872404597348,
+        -0.17498223869103838,
+        0.1478522269805188,
+        -0.054863603474498715,
+        -0.33755878218991914,
+        0.29171394364325337,
+        -1.21556574706605,
+        -0.38098746753114904,
+        -0.34754725442673834,
+        0.37499900636352607
+      ],
+      [
+        0.43124087980966286,
+        -0.01716754547682353,
+        -0.0031984274234583485,
+        -0.1770603847460833,
+        -0.17702810665526358,
+        -0.10821787415346798,
+        0.0676820215246758,
+        -0.18465871688001514,
+        -0.29827864447204805,
+        -0.2864151011426861,
+        -0.19663508894720896,
+        -0.06359951827946084,
+        0.37202640700397566
+      ],
+      [
+        -0.08553163503712057,
+        -0.18726114485063958,
+        -0.005878423029261396,
+        0.38315256206313697,
+        0.4253909474675321,
+        -0.14127431636072274,
+        -0.05258524035749657,
+        -0.20586418622968955,
+        -0.24815570239347834,
+        0.15822591859457655,
+        0.1286874018553256,
+        0.024098551659113707,
+        -0.050601071200714845
+      ]
+    ],
+    "visits": [
+      6012,
+      6029,
+      6002,
+      5957
+    ],
+    "held_out_utility": 0.7995659951426964
+  },
+  "claim_boundary": "A reward-trained contextual gate learned to allocate four frozen specialists from noisy embodied-style signals and was evaluated against fixed policies, an oracle, and targeted branch lesions. This synthetic result tests adaptive executive routing; it does not establish Unity transfer, open-ended intelligence, or phenomenal consciousness."
+}

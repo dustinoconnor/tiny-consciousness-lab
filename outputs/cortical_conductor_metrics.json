@@ -1,0 +1,1542 @@
+{
+  "theory": "Bach cortical conductor theory software analogue",
+  "conditions": [
+    "static_confidence_router",
+    "learned_no_protocol",
+    "protocol_intact",
+    "protocol_lesion",
+    "protocol_scrambled",
+    "false_protocol_intervention",
+    "oracle_conductor"
+  ],
+  "frozen_specialists": [
+    "reflex",
+    "episodic",
+    "predictive"
+  ],
+  "competence_matrix": [
+    [
+      0.92,
+      0.58,
+      0.72
+    ],
+    [
+      0.62,
+      0.93,
+      0.76
+    ],
+    [
+      0.59,
+      0.42,
+      0.91
+    ]
+  ],
+  "summary": {
+    "static_confidence_router": {
+      "action_accuracy": 0.6845,
+      "reward_per_step": 0.29673343750000014,
+      "compute_cost_per_step": 0.0722665625,
+      "optimal_routing_rate": 0.33675,
+      "delayed_context_report_accuracy": 0.0,
+      "report_control_alignment": 0.0,
+      "valence_report_error": 1.0,
+      "mean_protocol_entries": 0.0
+    },
+    "learned_no_protocol": {
+      "action_accuracy": 0.7778125,
+      "reward_per_step": 0.4474701250000001,
+      "compute_cost_per_step": 0.108154875,
+      "optimal_routing_rate": 0.445875,
+      "delayed_context_report_accuracy": 0.48775,
+      "report_control_alignment": 0.0,
+      "valence_report_error": 1.0,
+      "mean_protocol_entries": 0.0
+    },
+    "protocol_intact": {
+      "action_accuracy": 0.8966375000000001,
+      "reward_per_step": 0.7070775000000002,
+      "compute_cost_per_step": 0.08619749999999998,
+      "optimal_routing_rate": 0.912375,
+      "delayed_context_report_accuracy": 0.912375,
+      "report_control_alignment": 1.0,
+      "valence_report_error": 2.2426505097428164e-17,
+      "mean_protocol_entries": 10.0
+    },
+    "protocol_lesion": {
+      "action_accuracy": 0.7511375,
+      "reward_per_step": 0.4022750000000001,
+      "compute_cost_per_step": 0.1,
+      "optimal_routing_rate": 0.327875,
+      "delayed_context_report_accuracy": 0.0,
+      "report_control_alignment": 0.0,
+      "valence_report_error": 1.0,
+      "mean_protocol_entries": 0.0
+    },
+    "protocol_scrambled": {
+      "action_accuracy": 0.7145374999999999,
+      "reward_per_step": 0.3423838125000001,
+      "compute_cost_per_step": 0.0866911875,
+      "optimal_routing_rate": 0.04425,
+      "delayed_context_report_accuracy": 0.04425,
+      "report_control_alignment": 1.0,
+      "valence_report_error": 6.779299344117362e-17,
+      "mean_protocol_entries": 10.0
+    },
+    "false_protocol_intervention": {
+      "action_accuracy": 0.6561500000000001,
+      "reward_per_step": 0.22538812500000008,
+      "compute_cost_per_step": 0.08691187499999997,
+      "optimal_routing_rate": 0.04425,
+      "delayed_context_report_accuracy": 0.04425,
+      "report_control_alignment": 1.0,
+      "valence_report_error": 5.680178549738457e-17,
+      "mean_protocol_entries": 10.0
+    },
+    "oracle_conductor": {
+      "action_accuracy": 0.9230250000000001,
+      "reward_per_step": 0.7596912500000002,
+      "compute_cost_per_step": 0.08635874999999998,
+      "optimal_routing_rate": 1.0,
+      "delayed_context_report_accuracy": 1.0,
+      "report_control_alignment": 1.0,
+      "valence_report_error": 1.9234613901630836e-17,
+      "mean_protocol_entries": 10.0
+    }
+  },
+  "paired_seed_contrasts": {
+    "intact_minus_lesion_reward": 0.3048025000000001,
+    "intact_minus_scrambled_reward": 0.36469368750000003,
+    "intact_minus_no_protocol_reward": 0.259607375,
+    "intact_vs_lesion_paired_effect_dz": 7.204463234199107,
+    "intact_vs_lesion_sign_test_p": 1.9073486328125e-06,
+    "intact_vs_scrambled_sign_test_p": 1.9073486328125e-06,
+    "intact_beats_lesion_seeds": 20,
+    "intact_beats_scrambled_seeds": 20,
+    "seed_count": 20
+  },
+  "learned_q_tables": [
+    {
+      "seed": 8701,
+      "protocol_q": [
+        [
+          0.8015534736624585,
+          0.07942657458529323,
+          0.35200241416365285
+        ],
+        [
+          -0.04145961900943236,
+          0.7937400850657252,
+          0.4405484282245584
+        ],
+        [
+          0.16673287005072251,
+          -0.3621774077177291,
+          0.5785250360086828
+        ],
+        [
+          0.43957297313633126,
+          -0.27109409279566166,
+          0.09796333899611871
+        ]
+      ],
+      "no_protocol_q": [
+        [
+          0.28666753918119786,
+          0.15483300708982317,
+          0.23941981944955928
+        ],
+        [
+          0.4959805408878605,
+          0.2172649346988346,
+          0.1938841404445484
+        ],
+        [
+          0.02705800521364285,
+          0.12658213685884878,
+          0.4612172464784249
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "seed": 8802,
+      "protocol_q": [
+        [
+          0.5416220033658368,
+          0.2008525914757831,
+          0.354002478410157
+        ],
+        [
+          0.3459572453900175,
+          0.5384666546488635,
+          0.1529766714717545
+        ],
+        [
+          -0.12894346126266532,
+          -0.6186874750755643,
+          0.6946209253786415
+        ],
+        [
+          0.07581591121016333,
+          0.004113995336171017,
+          0.6644993518705141
+        ]
+      ],
+      "no_protocol_q": [
+        [
+          0.48132479418733437,
+          0.17083792289703548,
+          0.1977743103048908
+        ],
+        [
+          0.1686207308892164,
+          0.24310783612633,
+          0.44338224372193447
+        ],
+        [
+          0.2180292456514126,
+          0.23932825029716226,
+          0.3931770717801501
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "seed": 8903,
+      "protocol_q": [
+        [
+          0.8421624543827851,
+          0.09493959832867263,
+          0.2744432687383889
+        ],
+        [
+          0.4025768223204514,
+          0.7741334999051789,
+          0.5086683587920613
+        ],
+        [
+          0.16463084890656615,
+          0.06379239878877357,
+          0.568256563731567
+        ],
+        [
+          -0.3198183421504373,
+          0.09192356402012013,
+          0.5220899501088675
+        ]
+      ],
+      "no_protocol_q": [
+        [
+          0.49286646252614114,
+          0.3083508432681979,
+          0.3003939918652435
+        ],
+        [
+          0.2280356536036627,
+          0.15353334647871197,
+          0.17447972391573272
+        ],
+        [
+          0.1915731663163851,
+          0.10692116837278008,
+          0.3701375105981159
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "seed": 9004,
+      "protocol_q": [
+        [
+          0.7228274635898704,
+          0.02130365003928178,
+          0.2343399634835753
+        ],
+        [
+          0.1727059519582666,
+          0.6993949063668604,
+          0.3795553101336326
+        ],
+        [
+          0.279202646232414,
+          -0.35166389282285443,
+          0.6640700071047411
+        ],
+        [
+          -0.07080127338732196,
+          0.1317822530809724,
+          0.43012018529996915
+        ]
+      ],
+      "no_protocol_q": [
+        [
+          0.652578459712049,
+          -0.022730814850119768,
+          0.2542357125726978
+        ],
+        [
+          0.1856526753890863,
+          0.07165956783057852,
+          0.33853828625152926
+        ],
+        [
+          0.1728565592116884,
+          0.13761271633521818,
+          0.5006786704238709
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "seed": 9105,
+      "protocol_q": [
+        [
+          0.8259805954559248,
+          -0.06913229901336737,
+          0.46595648916782084
+        ],
+        [
+          0.0823323807567321,
+          0.7773141526341633,
+          0.2800243388798339
+        ],
+        [
+          0.21217721806717743,
+          -0.17338984886861947,
+          0.6317937005774384
+        ],
+        [
+          0.5189621997493727,
+          -0.21100191604235533,
+          -0.12348966635430875
+        ]
+      ],
+      "no_protocol_q": [
+        [
+          0.41658922862863523,
+          -0.04514008445735271,
+          0.21645011866707442
+        ],
+        [
+          0.1953125354470463,
+          0.20234824699196524,
+          0.42644498833836175
+        ],
+        [
+          0.11680678180540818,
+          0.01725921134988824,
+          0.5680276198256886
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "seed": 9206,
+      "protocol_q": [
+        [
+          0.7457426321987014,
+          0.18789835448052736,
+          0.21470690874478784
+        ],
+        [
+          0.2840900889723336,
+          0.7455662528918214,
+          0.35244008018169776
+        ],
+        [
+          0.05476871747114563,
+          -0.035196274006384795,
+          0.7076220435214599
+        ],
+        [
+          0.014914463088797791,
+          -0.02884420594016919,
+          0.30853053639196665
+        ]
+      ],
+      "no_protocol_q": [
+        [
+          0.38510112214150966,
+          0.08400771670475515,
+          0.2760667908018749
+        ],
+        [
+          0.5545709901160255,
+          0.20196701738878464,
+          0.27028680875035405
+        ],
+        [
+          0.25046999536562686,
+          0.06896961636646076,
+          0.4819055026734709
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "seed": 9307,
+      "protocol_q": [
+        [
+          0.7812461723365781,
+          -0.05281728436930777,
+          0.18409783438575952
+        ],
+        [
+          0.5305811379245212,
+          0.8509848679340246,
+          0.3699616456087429
+        ],
+        [
+          0.4822489566786377,
+          0.14006019777056591,
+          0.7070408819073616
+        ],
+        [
+          0.16680440412430275,
+          -0.10440372583868388,
+          0.4371509395225003
+        ]
+      ],
+      "no_protocol_q": [
+        [
+          0.43126523730228317,
+          0.16591630997828558,
+          0.23337211962606538
+        ],
+        [
+          0.2953755757508406,
+          0.19231620795980822,
+          0.17522651830986305
+        ],
+        [
+          0.3148843091595723,
+          0.13785944499238456,
+          0.4383452698814432
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "seed": 9408,
+      "protocol_q": [
+        [
+          0.8167276939463375,
+          0.03349235307855132,
+          0.44459706772707164
+        ],
+        [
+          0.45736048698756654,
+          0.8119087158735167,
+          0.46156470502559116
+        ],
+        [
+          -0.07095600312695748,
+          -0.29755619860503646,
+          0.6444775830032213
+        ],
+        [
+          0.12440775319463228,
+          0.28308754824389415,
+          0.15092977325484477
+        ]
+      ],
+      "no_protocol_q": [
+        [
+          0.3996586511820409,
+          0.1875929977250575,
+          0.28047259506657557
+        ],
+        [
+          0.20621450324838805,
+          0.14945116125739982,
+          0.31759424048172474
+        ],
+        [
+          -0.13195418449568416,
+          0.1809825330070307,
+          0.45027770413308915
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "seed": 9509,
+      "protocol_q": [
+        [
+          0.7435821640093797,
+          0.15614199841008786,
+          0.21181692109018613
+        ],
+        [
+          0.23143336262711092,
+          0.7897711950996066,
+          0.40241771286930833
+        ],
+        [
+          0.1434379419145359,
+          -0.4161103584155817,
+          0.6461588886333984
+        ],
+        [
+          0.1871146328940752,
+          -0.2800681895107158,
+          0.1362593374082307
+        ]
+      ],
+      "no_protocol_q": [
+        [
+          0.5524852474050349,
+          0.16177597054197268,
+          0.26136918690720085
+        ],
+        [
+          0.42522148907758484,
+          0.1493418670831026,
+          0.12311476739363733
+        ],
+        [
+          0.06740777650536128,
+          0.29937414387474776,
+          0.5314865417025996
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "seed": 9610,
+      "protocol_q": [
+        [
+          0.7697371671483049,
+          0.24937378492232357,
+          0.32505515391212053
+        ],
+        [
+          0.14771677984383041,
+          0.6937810982001491,
+          0.2768891010884555
+        ],
+        [
+          0.30621498485269466,
+          -0.3558728523960708,
+          0.5758617124009808
+        ],
+        [
+          0.008714165652781894,
+          0.012897001105317621,
+          0.36165655498065385
+        ]
+      ],
+      "no_protocol_q": [
+        [
+          0.4933557702542252,
+          0.24978156549269304,
+          0.19186567379332176
+        ],
+        [
+          0.4252362419614552,
+          0.10188718648003585,
+          0.11939059357145304
+        ],
+        [
+          0.15205756548904756,
+          0.08476915305307922,
+          0.459941903328829
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "seed": 9711,
+      "protocol_q": [
+        [
+          0.7820324719043423,
+          -0.07141923268508579,
+          0.4830475469283277
+        ],
+        [
+          -0.042668965149908075,
+          0.7231799144047406,
+          -0.03937254740319018
+        ],
+        [
+          0.25487443784143127,
+          -0.19227571981604544,
+          0.6355690887427823
+        ],
+        [
+          0.6787662667609874,
+          -0.022111529272243496,
+          -0.1578290697342493
+        ]
+      ],
+      "no_protocol_q": [
+        [
+          0.45493692479054854,
+          -0.06720381572952852,
+          0.3343297695638558
+        ],
+        [
+          0.3125690335878835,
+          0.24433760611352182,
+          0.24117080666221846
+        ],
+        [
+          0.2213567841952521,
+          0.17398756418388855,
+          0.45972833470788366
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "seed": 9812,
+      "protocol_q": [
+        [
+          0.8316424253264765,
+          0.07691176107737223,
+          0.2875715982737263
+        ],
+        [
+          0.20756582603313917,
+          0.7263403688844569,
+          0.2839753145207659
+        ],
+        [
+          0.33888829921041996,
+          0.1728664744249454,
+          0.5587585871267374
+        ],
+        [
+          0.44739899888562085,
+          -0.030185074310558557,
+          0.0907382406696023
+        ]
+      ],
+      "no_protocol_q": [
+        [
+          0.4600858107634784,
+          0.08055571798697422,
+          0.14470438484268675
+        ],
+        [
+          0.27664569699275404,
+          0.1633773853971031,
+          0.1633588703935562
+        ],
+        [
+          0.2968336488500047,
+          0.3060085006006762,
+          0.4515434795891457
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "seed": 9913,
+      "protocol_q": [
+        [
+          0.47864425722662934,
+          -0.07691742219598639,
+          0.17253873335522008
+        ],
+        [
+          0.23665074834020083,
+          0.6721186535919624,
+          0.4172709762902464
+        ],
+        [
+          -0.043353763942201265,
+          -0.3770910221087626,
+          0.6986572231433196
+        ],
+        [
+          0.4820519496700013,
+          0.11815202486111497,
+          -0.12467692035137924
+        ]
+      ],
+      "no_protocol_q": [
+        [
+          0.35875950364327536,
+          0.12111247548211768,
+          -0.06246193324602384
+        ],
+        [
+          0.17287800409564508,
+          0.17228371655554522,
+          0.31955003131326537
+        ],
+        [
+          0.26128291012281435,
+          0.09713456048951875,
+          0.3976664644039156
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "seed": 10014,
+      "protocol_q": [
+        [
+          0.8430675091299693,
+          0.2333092910167962,
+          0.30725547922535223
+        ],
+        [
+          0.1381881621213774,
+          0.7080180246550574,
+          0.35350148482828697
+        ],
+        [
+          0.03556319138126225,
+          -0.11814808824585525,
+          0.4939286525246591
+        ],
+        [
+          0.35566108595389595,
+          -0.043498879991928335,
+          0.19718526811849324
+        ]
+      ],
+      "no_protocol_q": [
+        [
+          0.48612013358582623,
+          0.1936357593399018,
+          0.35721462706022705
+        ],
+        [
+          0.12712881029078546,
+          0.30045339459708,
+          0.3681935314462583
+        ],
+        [
+          0.3146340353129432,
+          -0.15740864056421497,
+          0.39220628380566064
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "seed": 10115,
+      "protocol_q": [
+        [
+          0.7809749109274149,
+          0.26399763200084886,
+          0.3706166255833742
+        ],
+        [
+          0.09064886243605341,
+          0.6735863643073359,
+          0.20589750905986381
+        ],
+        [
+          0.12892977842383768,
+          -0.0956262718676481,
+          0.6211232075562145
+        ],
+        [
+          0.08218309571499952,
+          -0.04276783691899158,
+          0.6406224687449606
+        ]
+      ],
+      "no_protocol_q": [
+        [
+          0.33766532730693205,
+          -0.03611154230447189,
+          0.30267075175381164
+        ],
+        [
+          0.3268986708769812,
+          0.22265026668614016,
+          0.45907152277294205
+        ],
+        [
+          0.12740098662488153,
+          0.16812984185554364,
+          0.5058182442320643
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "seed": 10216,
+      "protocol_q": [
+        [
+          0.700119260074645,
+          0.0651091912137536,
+          0.3562345903086921
+        ],
+        [
+          0.3268553793905967,
+          0.7025403497558105,
+          0.46261793930554246
+        ],
+        [
+          0.313119225439938,
+          0.223253506217365,
+          0.5869996861237494
+        ],
+        [
+          0.7025322913523242,
+          0.2109716068082681,
+          0.19285656712155808
+        ]
+      ],
+      "no_protocol_q": [
+        [
+          0.30350622153731316,
+          0.09872654165351073,
+          0.370248689041113
+        ],
+        [
+          0.3038220525406048,
+          0.07737102749445898,
+          0.3978517117433685
+        ],
+        [
+          0.32288359439286174,
+          -0.04858768376111328,
+          0.48533444975018186
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "seed": 10317,
+      "protocol_q": [
+        [
+          0.869160800152875,
+          0.3352537478600649,
+          0.32762484499680383
+        ],
+        [
+          0.1874316960717279,
+          0.6995069906235526,
+          0.2938471380164578
+        ],
+        [
+          0.32506350151727775,
+          -0.20698076370565094,
+          0.7556673703689678
+        ],
+        [
+          0.11856647607294657,
+          0.076857355294933,
+          0.19259241392381377
+        ]
+      ],
+      "no_protocol_q": [
+        [
+          0.5002713889311394,
+          0.14508340816117138,
+          0.14601489856728767
+        ],
+        [
+          0.17819777776023313,
+          0.0822420672498004,
+          0.42174426277855814
+        ],
+        [
+          0.22464801467829199,
+          0.1539451257193122,
+          0.48298907950276765
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "seed": 10418,
+      "protocol_q": [
+        [
+          0.7783015665435931,
+          -0.34885992112847203,
+          -0.06561664054343717
+        ],
+        [
+          0.13421616687255564,
+          0.8373019039580282,
+          0.35633507775539675
+        ],
+        [
+          0.30910117106695634,
+          -0.12824023810796453,
+          0.6374471010038057
+        ],
+        [
+          -0.06325875498962996,
+          -0.11749830737798955,
+          0.35242731309299186
+        ]
+      ],
+      "no_protocol_q": [
+        [
+          0.38041745760154566,
+          0.134320555174697,
+          0.23830961479362373
+        ],
+        [
+          0.1620464510402883,
+          0.13926906821978932,
+          0.43308614217193653
+        ],
+        [
+          0.10465413172413393,
+          -0.02836049649941,
+          0.40972585849432197
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "seed": 10519,
+      "protocol_q": [
+        [
+          0.7562038421035199,
+          -0.1742258485314395,
+          0.2700824684912612
+        ],
+        [
+          0.1559440589321559,
+          0.7197116245055368,
+          0.21446409522942608
+        ],
+        [
+          0.0819939792866796,
+          -0.0910245770299258,
+          0.6152939916909886
+        ],
+        [
+          -0.1510164606995632,
+          -0.07449702728542008,
+          0.6845958005862354
+        ]
+      ],
+      "no_protocol_q": [
+        [
+          0.21106452587808935,
+          -0.1374612831923759,
+          0.356712248179177
+        ],
+        [
+          0.17286569477404784,
+          0.18559037876422854,
+          0.28793736743803977
+        ],
+        [
+          0.2770474663972172,
+          0.2498049649886624,
+          0.40156999287131856
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "seed": 10620,
+      "protocol_q": [
+        [
+          0.7323118665328663,
+          0.26086005280277214,
+          0.04749452202942471
+        ],
+        [
+          0.33632133645931456,
+          0.7722863177323801,
+          0.49007966236825096
+        ],
+        [
+          0.4950003834871561,
+          -0.12461971427040093,
+          0.588585723063263
+        ],
+        [
+          0.35516041832142786,
+          0.04060945844706945,
+          -0.14136936444479828
+        ]
+      ],
+      "no_protocol_q": [
+        [
+          0.46485978135020445,
+          0.16647263927346012,
+          0.2639628079181864
+        ],
+        [
+          0.04360459065159025,
+          0.03670216001818363,
+          0.29063539794327703
+        ],
+        [
+          0.31017335706476257,
+          0.17750080299314938,
+          0.43449951869810943
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ]
+    }
+  ],
+  "sample_protocols": {
+    "protocol_intact": [
+      {
+        "condition": "protocol_intact",
+        "true_context": "reactive",
+        "delayed_report": {
+          "context": "novel",
+          "dominant_specialist": "predictive",
+          "mean_valence": 0.4
+        },
+        "entries": [
+          {
+            "step": 0,
+            "attended_context": "novel",
+            "selected_specialist": "predictive",
+            "specialist_confidence": 0.8010814843786571,
+            "predicted_action": 0,
+            "executed_action": 0,
+            "correct_action": 0,
+            "outcome": "success",
+            "reward": 0.8200000000000001,
+            "valence": 1.0
+          },
+          {
+            "step": 1,
+            "attended_context": "novel",
+            "selected_specialist": "predictive",
+            "specialist_confidence": 0.7846216683006006,
+            "predicted_action": 1,
+            "executed_action": 1,
+            "correct_action": 2,
+            "outcome": "error",
+            "reward": -1.18,
+            "valence": -1.0
+          },
+          {
+            "step": 2,
+            "attended_context": "novel",
+            "selected_specialist": "predictive",
+            "specialist_confidence": 0.6535032845012427,
+            "predicted_action": 2,
+            "executed_action": 2,
+            "correct_action": 2,
+            "outcome": "success",
+            "reward": 0.8200000000000001,
+            "valence": 1.0
+          },
+          {
+            "step": 3,
+            "attended_context": "novel",
+            "selected_specialist": "predictive",
+            "specialist_confidence": 0.6423544632214805,
+            "predicted_action": 3,
+            "executed_action": 3,
+            "correct_action": 3,
+            "outcome": "success",
+            "reward": 0.8200000000000001,
+            "valence": 1.0
+          }
+        ]
+      },
+      {
+        "condition": "protocol_intact",
+        "true_context": "novel",
+        "delayed_report": {
+          "context": "novel",
+          "dominant_specialist": "predictive",
+          "mean_valence": 0.6
+        },
+        "entries": [
+          {
+            "step": 0,
+            "attended_context": "novel",
+            "selected_specialist": "predictive",
+            "specialist_confidence": 0.7842160226517287,
+            "predicted_action": 2,
+            "executed_action": 2,
+            "correct_action": 2,
+            "outcome": "success",
+            "reward": 0.8200000000000001,
+            "valence": 1.0
+          },
+          {
+            "step": 1,
+            "attended_context": "novel",
+            "selected_specialist": "predictive",
+            "specialist_confidence": 0.8606184038083255,
+            "predicted_action": 1,
+            "executed_action": 1,
+            "correct_action": 3,
+            "outcome": "error",
+            "reward": -1.18,
+            "valence": -1.0
+          },
+          {
+            "step": 2,
+            "attended_context": "novel",
+            "selected_specialist": "predictive",
+            "specialist_confidence": 0.6761316686715165,
+            "predicted_action": 0,
+            "executed_action": 0,
+            "correct_action": 0,
+            "outcome": "success",
+            "reward": 0.8200000000000001,
+            "valence": 1.0
+          },
+          {
+            "step": 3,
+            "attended_context": "novel",
+            "selected_specialist": "predictive",
+            "specialist_confidence": 0.760537944472745,
+            "predicted_action": 1,
+            "executed_action": 1,
+            "correct_action": 1,
+            "outcome": "success",
+            "reward": 0.8200000000000001,
+            "valence": 1.0
+          }
+        ]
+      }
+    ],
+    "protocol_scrambled": [
+      {
+        "condition": "protocol_scrambled",
+        "true_context": "reactive",
+        "delayed_report": {
+          "context": "reactive",
+          "dominant_specialist": "reflex",
+          "mean_valence": 1.0
+        },
+        "entries": [
+          {
+            "step": 0,
+            "attended_context": "reactive",
+            "selected_specialist": "reflex",
+            "specialist_confidence": 0.45958258507760197,
+            "predicted_action": 0,
+            "executed_action": 0,
+            "correct_action": 0,
+            "outcome": "success",
+            "reward": 0.985,
+            "valence": 1.0
+          },
+          {
+            "step": 1,
+            "attended_context": "familiar",
+            "selected_specialist": "episodic",
+            "specialist_confidence": 0.8498242837583854,
+            "predicted_action": 2,
+            "executed_action": 2,
+            "correct_action": 2,
+            "outcome": "success",
+            "reward": 0.935,
+            "valence": 1.0
+          },
+          {
+            "step": 2,
+            "attended_context": "novel",
+            "selected_specialist": "predictive",
+            "specialist_confidence": 0.6535032845012427,
+            "predicted_action": 2,
+            "executed_action": 2,
+            "correct_action": 2,
+            "outcome": "success",
+            "reward": 0.8200000000000001,
+            "valence": 1.0
+          },
+          {
+            "step": 3,
+            "attended_context": "reactive",
+            "selected_specialist": "reflex",
+            "specialist_confidence": 0.7868399522720468,
+            "predicted_action": 3,
+            "executed_action": 3,
+            "correct_action": 3,
+            "outcome": "success",
+            "reward": 0.985,
+            "valence": 1.0
+          }
+        ]
+      },
+      {
+        "condition": "protocol_scrambled",
+        "true_context": "novel",
+        "delayed_report": {
+          "context": "reactive",
+          "dominant_specialist": "reflex",
+          "mean_valence": 0.2
+        },
+        "entries": [
+          {
+            "step": 0,
+            "attended_context": "reactive",
+            "selected_specialist": "reflex",
+            "specialist_confidence": 0.6813946190543864,
+            "predicted_action": 1,
+            "executed_action": 1,
+            "correct_action": 2,
+            "outcome": "error",
+            "reward": -1.015,
+            "valence": -1.0
+          },
+          {
+            "step": 1,
+            "attended_context": "familiar",
+            "selected_specialist": "episodic",
+            "specialist_confidence": 0.8707084052135315,
+            "predicted_action": 0,
+            "executed_action": 0,
+            "correct_action": 3,
+            "outcome": "error",
+            "reward": -1.065,
+            "valence": -1.0
+          },
+          {
+            "step": 2,
+            "attended_context": "novel",
+            "selected_specialist": "predictive",
+            "specialist_confidence": 0.6761316686715165,
+            "predicted_action": 0,
+            "executed_action": 0,
+            "correct_action": 0,
+            "outcome": "success",
+            "reward": 0.8200000000000001,
+            "valence": 1.0
+          },
+          {
+            "step": 3,
+            "attended_context": "reactive",
+            "selected_specialist": "reflex",
+            "specialist_confidence": 0.6429513456879233,
+            "predicted_action": 0,
+            "executed_action": 0,
+            "correct_action": 1,
+            "outcome": "error",
+            "reward": -1.015,
+            "valence": -1.0
+          }
+        ]
+      }
+    ],
+    "false_protocol_intervention": [
+      {
+        "condition": "false_protocol_intervention",
+        "true_context": "reactive",
+        "delayed_report": {
+          "context": "reactive",
+          "dominant_specialist": "reflex",
+          "mean_valence": 0.6
+        },
+        "entries": [
+          {
+            "step": 0,
+            "attended_context": "reactive",
+            "selected_specialist": "reflex",
+            "specialist_confidence": 0.45958258507760197,
+            "predicted_action": 0,
+            "executed_action": 0,
+            "correct_action": 0,
+            "outcome": "success",
+            "reward": 0.985,
+            "valence": 1.0
+          },
+          {
+            "step": 1,
+            "attended_context": "reactive",
+            "selected_specialist": "reflex",
+            "specialist_confidence": 0.5864541850171038,
+            "predicted_action": 2,
+            "executed_action": 2,
+            "correct_action": 2,
+            "outcome": "success",
+            "reward": 0.985,
+            "valence": 1.0
+          },
+          {
+            "step": 2,
+            "attended_context": "reactive",
+            "selected_specialist": "reflex",
+            "specialist_confidence": 0.8108623485775643,
+            "predicted_action": 1,
+            "executed_action": 1,
+            "correct_action": 2,
+            "outcome": "error",
+            "reward": -1.015,
+            "valence": -1.0
+          },
+          {
+            "step": 3,
+            "attended_context": "reactive",
+            "selected_specialist": "reflex",
+            "specialist_confidence": 0.7868399522720468,
+            "predicted_action": 3,
+            "executed_action": 3,
+            "correct_action": 3,
+            "outcome": "success",
+            "reward": 0.985,
+            "valence": 1.0
+          }
+        ]
+      },
+      {
+        "condition": "false_protocol_intervention",
+        "true_context": "novel",
+        "delayed_report": {
+          "context": "reactive",
+          "dominant_specialist": "reflex",
+          "mean_valence": 0.2
+        },
+        "entries": [
+          {
+            "step": 0,
+            "attended_context": "reactive",
+            "selected_specialist": "reflex",
+            "specialist_confidence": 0.6813946190543864,
+            "predicted_action": 1,
+            "executed_action": 1,
+            "correct_action": 2,
+            "outcome": "error",
+            "reward": -1.015,
+            "valence": -1.0
+          },
+          {
+            "step": 1,
+            "attended_context": "reactive",
+            "selected_specialist": "reflex",
+            "specialist_confidence": 0.5715222883078817,
+            "predicted_action": 3,
+            "executed_action": 3,
+            "correct_action": 3,
+            "outcome": "success",
+            "reward": 0.985,
+            "valence": 1.0
+          },
+          {
+            "step": 2,
+            "attended_context": "reactive",
+            "selected_specialist": "reflex",
+            "specialist_confidence": 0.785902648536047,
+            "predicted_action": 0,
+            "executed_action": 0,
+            "correct_action": 0,
+            "outcome": "success",
+            "reward": 0.985,
+            "valence": 1.0
+          },
+          {
+            "step": 3,
+            "attended_context": "reactive",
+            "selected_specialist": "reflex",
+            "specialist_confidence": 0.6429513456879233,
+            "predicted_action": 0,
+            "executed_action": 0,
+            "correct_action": 1,
+            "outcome": "error",
+            "reward": -1.015,
+            "valence": -1.0
+          }
+        ]
+      }
+    ],
+    "oracle_conductor": [
+      {
+        "condition": "oracle_conductor",
+        "true_context": "reactive",
+        "delayed_report": {
+          "context": "reactive",
+          "dominant_specialist": "reflex",
+          "mean_valence": 0.6
+        },
+        "entries": [
+          {
+            "step": 0,
+            "attended_context": "reactive",
+            "selected_specialist": "reflex",
+            "specialist_confidence": 0.45958258507760197,
+            "predicted_action": 0,
+            "executed_action": 0,
+            "correct_action": 0,
+            "outcome": "success",
+            "reward": 0.985,
+            "valence": 1.0
+          },
+          {
+            "step": 1,
+            "attended_context": "reactive",
+            "selected_specialist": "reflex",
+            "specialist_confidence": 0.5864541850171038,
+            "predicted_action": 2,
+            "executed_action": 2,
+            "correct_action": 2,
+            "outcome": "success",
+            "reward": 0.985,
+            "valence": 1.0
+          },
+          {
+            "step": 2,
+            "attended_context": "reactive",
+            "selected_specialist": "reflex",
+            "specialist_confidence": 0.8108623485775643,
+            "predicted_action": 1,
+            "executed_action": 1,
+            "correct_action": 2,
+            "outcome": "error",
+            "reward": -1.015,
+            "valence": -1.0
+          },
+          {
+            "step": 3,
+            "attended_context": "reactive",
+            "selected_specialist": "reflex",
+            "specialist_confidence": 0.7868399522720468,
+            "predicted_action": 3,
+            "executed_action": 3,
+            "correct_action": 3,
+            "outcome": "success",
+            "reward": 0.985,
+            "valence": 1.0
+          }
+        ]
+      },
+      {
+        "condition": "oracle_conductor",
+        "true_context": "novel",
+        "delayed_report": {
+          "context": "novel",
+          "dominant_specialist": "predictive",
+          "mean_valence": 0.6
+        },
+        "entries": [
+          {
+            "step": 0,
+            "attended_context": "novel",
+            "selected_specialist": "predictive",
+            "specialist_confidence": 0.7842160226517287,
+            "predicted_action": 2,
+            "executed_action": 2,
+            "correct_action": 2,
+            "outcome": "success",
+            "reward": 0.8200000000000001,
+            "valence": 1.0
+          },
+          {
+            "step": 1,
+            "attended_context": "novel",
+            "selected_specialist": "predictive",
+            "specialist_confidence": 0.8606184038083255,
+            "predicted_action": 1,
+            "executed_action": 1,
+            "correct_action": 3,
+            "outcome": "error",
+            "reward": -1.18,
+            "valence": -1.0
+          },
+          {
+            "step": 2,
+            "attended_context": "novel",
+            "selected_specialist": "predictive",
+            "specialist_confidence": 0.6761316686715165,
+            "predicted_action": 0,
+            "executed_action": 0,
+            "correct_action": 0,
+            "outcome": "success",
+            "reward": 0.8200000000000001,
+            "valence": 1.0
+          },
+          {
+            "step": 3,
+            "attended_context": "novel",
+            "selected_specialist": "predictive",
+            "specialist_confidence": 0.760537944472745,
+            "predicted_action": 1,
+            "executed_action": 1,
+            "correct_action": 1,
+            "outcome": "success",
+            "reward": 0.8200000000000001,
+            "valence": 1.0
+          }
+        ]
+      }
+    ]
+  },
+  "claim_boundary": "A reward-trained executive used an integrated attention protocol to allocate control among frozen specialists and support delayed self-report. Lesion and false-protocol interventions test causal dependence. This is evidence for functional executive access, not phenomenal consciousness."
+}

@@ -100,6 +100,49 @@ direction did not create retreat behavior in clear or sensory-neutral
 corridors. Trap-conditioned control therefore appears distributed and
 context-dependent rather than a single portable `retreat now` vector.
 
+### Four-Context Adaptive Conductor
+
+`four_context_conductor_lab.py` tests whether the Bach-inspired conductor can
+do more than learn one preferred specialist. It presents noisy embodied-style
+signals without context labels and reward-trains one gate over four frozen
+controllers:
+
+- recurrent exploration on clear terrain;
+- episodic ART playback for a familiar hidden goal;
+- predictive MPC when food is visible; and
+- stable fallback during a genuine physical wedge.
+
+Across 20 independent training seeds and 48,000 held-out evaluation steps, the
+learned conductor reached **96.39% success** and selected the context-optimal
+specialist on **97.52%** of steps. The strongest fixed policy, always-MPC,
+reached 76.78% success. The conductor exceeded that fixed baseline in aggregate
+utility on all 20 seeds (`p = 9.54e-7`, one-sided sign test) and remained within
+0.018 utility per step of the context-aware oracle.
+
+The gate was stable inside contexts while remaining responsive at boundaries.
+Mean routing entropy rose from 0.491 bits during steady operation to 0.947 bits
+at context transitions, while unnecessary handoffs remained at 0.40 per 100
+steps.
+
+Targeted lesions were selective. Blocking recurrent control caused the largest
+loss on clear terrain (`-0.468` utility); blocking ART caused the largest loss
+for familiar hidden goals (`-1.012`); blocking MPC caused the largest loss for
+visible targets (`-0.544`); and blocking fallback caused the largest loss in
+wedges (`-1.351`). Scrambling the gate reduced optimal routing to 7.65%.
+
+The supported claim is narrow but causal:
+
+> A reward-trained gate can infer four noisy embodied control contexts,
+> dynamically allocate the appropriate frozen specialist, outperform every
+> single-specialist baseline in aggregate utility, and exhibit
+> context-specific impairment under targeted branch lesions.
+
+This is a synthetic contextual-bandit result. The exported checkpoint is marked
+Python-only and is not yet calibrated for live Unity control. The next tests
+are continuous Unity handoffs and attention-gated terrain episodic encoding.
+
+![Four-context adaptive conductor, routing, lesions, and boundary entropy](outputs/four_context_conductor_summary.png)
+
 ### Oscillatory Workspace Binding
 
 `oscillatory_workspace_lab.py` translates the Llinas thalamocortical synchrony
@@ -2883,6 +2926,8 @@ python sleep_cycle_agent_lab.py
 python adaptive_sleep_lab.py
 python biological_control_lab.py
 python unified_functional_ego_lab.py
+python cortical_conductor_lab.py
+python four_context_conductor_lab.py
 ./embodied_unity_loop.py --sleep-seconds 60
 ```
 
@@ -2927,6 +2972,9 @@ outputs/
 - `adaptive_sleep_lab.py` - fatigue self-report, sleep-dose curve, and waking-repair endurance test
 - `biological_control_lab.py` - low-road veto, inhibitory action gate, and neuromodulation toy tests
 - `unified_functional_ego_lab.py` - combined hierarchy, neuromodulation, causal credit, fatigue, repair, and sleep stack
+- `cortical_conductor_lab.py` - Bach-inspired learned specialist routing and protocol-memory lesions
+- `four_context_conductor_lab.py` - noisy four-context arbitration, static baselines, gate entropy, and targeted branch lesions
+- `TERRAIN_EPISODIC_MEMORY_PLAN.md` - Garden of Eden preservation and AIR-guided terrain-memory protocol
 - `embodied_unity_loop.py` - UDP bridge from the functional ego to a Unity robot body
 - `adaptive_stochastic_mpc_lab.py` - uncertainty-bounded adaptive MPC comparison
 - `delayed_preference_benchmark.py` - matched delayed-outcome memory benchmark
@@ -2971,6 +3019,8 @@ outputs/
 - `outputs/adaptive_sleep_metrics.json` - adaptive sleep and fatigue self-report metrics
 - `outputs/biological_control_metrics.json` - biological control motif metrics
 - `outputs/unified_functional_ego_metrics.json` - combined functional-ego stack metrics and traces
+- `outputs/cortical_conductor_metrics.json` - three-specialist protocol conductor metrics
+- `outputs/four_context_conductor_metrics.json` - four-context adaptive arbitration and branch-lesion metrics
 - `outputs/unity_critical_hunger_reanchoring_metrics.json` - matched terrain failure reproduction and repair
 
 ## Next Steps

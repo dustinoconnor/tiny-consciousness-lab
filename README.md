@@ -143,6 +143,152 @@ are continuous Unity handoffs and attention-gated terrain episodic encoding.
 
 ![Four-context adaptive conductor, routing, lesions, and boundary entropy](outputs/four_context_conductor_summary.png)
 
+### Attention-Gated Episodic Encoding
+
+`attended_episodic_encoding_lab.py` tests an AIR-inspired claim at the software
+level: attention determines which intermediate representations become
+available to episodic memory. Every condition stores exactly 4 of 32 packets.
+The learned gate sees geometry stability, prediction error, signed valence,
+novelty, target evidence, and motion change, but never the terrain class or
+correct action.
+
+Across 20 seeds and 8,000 held-out episodes, learned attention produced
+**90.28% correct retrieval** at a 12.5% storage ratio, compared with 21.11% for
+equal-capacity random encoding and 42.99% for a hand-written salience rule.
+Scrambling the learned scores reduced retrieval to 21.55%, and removing
+valence reduced it to 42.99%. The learned advantage held on every seed
+(`p = 9.54e-7`, one-sided sign test). Unknown-scene false recall was 4.25%.
+
+Prediction error did not help distinguish useful from misleading salient
+events in this task; removing it increased retrieval. This negative result
+supports a useful architectural distinction: surprise can nominate an event
+for attention, while grounded valence helps determine whether that event is a
+good precedent.
+
+`terrain_air_memory_lab.py` is the passive Unity bridge. It derives packet
+features only from current telemetry, uses later pickups, progress, and wedge
+resolution as offline utility labels, and exports a fixed-capacity memory for
+passive replay. It never sends motor commands.
+
+A 40.62-minute natural-terrain recording supplied 11,622 telemetry frames,
+204 mushroom pickups, zero survival failures, and both ordinary and fallback
+navigation states. Training on the first 60% and evaluating on the later 40%,
+the 256-packet attention-selected memory reached **79.11% held-out directional
+retrieval agreement**, versus **68.89%** for an equal-capacity random memory.
+The learned advantage persisted at 64, 128, 256, and 512 packet capacities.
+
+A separate 20.58-minute Unity session then tested the frozen memory on 1,932
+new terrain packets while retaining zero action influence. On the 643 packets
+followed by delayed useful outcomes, AIR retrieval agreed with the active
+direction on **73.72%**, compared with **64.39%** for an equal-capacity random
+library. AIR alone was correct on 141 paired queries versus 81 for random
+memory (`p = 3.41e-5`, one-sided exact McNemar test). Live agreement was
+context-dependent: 77.5% while food was visible and 47.6% while it was hidden.
+
+This supports transfer of selective episodic encoding and passive retrieval to
+fresh Unity telemetry. It does not yet show that recall improves live control,
+and the hidden-goal result argues against broad AIR steering. The intended next
+role is narrower: AIR nominates useful terrain episodes for storage, ART tests
+whether a current scene resonates with them, and the conductor decides whether
+episodic playback should influence action.
+
+`terrain_air_counterfactual_gate_lab.py` evaluates that narrow boundary without
+changing Unity actions. An action-conditioned nearest-neighbor outcome model
+was fitted on the first terrain session and evaluated on the separate second
+session. Of 1,289 AIR/controller disagreements, 696 also had grounded ART
+resonance and only 43 passed the conservative support, confidence, and value
+margin gates. Estimated policy value rose from 0.2588 for the active controller
+to 0.2671 for the bounded gate; a 2,000-sample bootstrap placed the estimated
+gain in `[0.0057, 0.0111]`.
+
+An equal-capacity random memory was harmful when used indiscriminately and its
+conservative gate produced only 0.0033 estimated gain, versus 0.0083 for AIR.
+This separates two contributions: learned attention supplies better
+precedents, while the counterfactual gate rejects most weak recalls. These are
+observational model estimates rather than randomized action outcomes, so the
+result supports a live passive recommendation test, not motor authorization.
+
+That prospective test was run on a third, untouched 39.15-minute terrain
+session with 203 pickups and zero failures. The frozen gate again estimated a
+positive gain (`[0.0025, 0.0052]` bootstrap interval) while recommending only
+34 of 2,546 disagreements. However, MPC subsequently produced useful outcomes
+after 31 of those 34 recommendations, with mean realized utility of 0.733.
+The gate therefore failed the intervention-necessity criterion: it identified
+plausibly better alternatives where the existing controller was usually
+already succeeding. AIR remains passive until evaluation includes genuine
+controller failures or sustained low-progress states.
+
+The corrected dense `ChallengeTerrain` run supplied that harder observational
+distribution without the earlier mushroom/rock overlap confound. Across 39.35
+minutes the active recurrent/MPC controller collected 230 mushrooms with zero
+survival failures, zero fallback frames, and zero sustained physical wedges.
+Twenty-seven successful pickup episodes nevertheless crossed the grounded
+low-efficiency orbit gate, providing difficult-but-successful detour
+precedents.
+
+`terrain_air_art_route_library_lab.py` split those episodes chronologically
+into 14 training routes and 13 untouched query routes. An eight-route
+AIR-selected ART library was compared with 500 equal-capacity random
+libraries. Initial direction was uninformative because both AIR and random
+libraries were essentially perfect. Full-route geometry separated them:
+AIR's mean normalized route-shape distance was **0.0154**, versus **0.0390**
+for random libraries, placing AIR at the **96.8th percentile** of the random
+control distribution (empirical tail probability 0.0479). This supports AIR
+as a selective encoder for passive terrain-route recommendation. It does not
+show that replaying those routes improves live control; bounded intervention
+remains the next causal test.
+
+That causal test was subsequently run for 32.71 minutes on the same corrected
+ChallengeTerrain distribution. The grounded necessity gate authorized 37
+four-second AIR route interventions. Both conditions retained zero survival
+failures and zero fallback frames, but literal coordinate replay degraded
+navigation: normalized pickups fell from **350.7/hour** under the recurrent/MPC
+baseline to **310.0/hour**, low-efficiency necessity frames rose from 5.58% to
+10.80%, and eight-second gate-event recovery fell from 93.2% to 67.6%.
+Twenty-seven interventions reached their timeout, eight completed the recalled
+route, and two handed back after newly grounding a target.
+
+This negative intervention result supersedes the offline route-shape proxy for
+motor authorization. AIR remains useful as a selective encoder, but a route
+that resembles a successful precedent is not necessarily geometrically valid
+at a new terrain location. Future integration should translate recalled
+experience into a soft MPC prior or locally grounded subgoal while retaining
+fresh sensor re-anchoring, rather than replaying literal waypoint coordinates.
+
+A follow-up replaced motor replay with a soft AIR heading prior inside the
+eight-root MPC scorer. This improved on direct replay: eight-second recovery
+rose from 67.6% to 73.7%, timeout releases fell from 27 to 12, and 16 of 38
+guidance episodes ended when progress returned. It still did not beat ordinary
+MPC, which retained 93.2% event recovery and about 11% higher normalized
+foraging. The observed AIR weight averaged 0.184 on a 0.20 cap, showing that
+the first "soft" prior was usually too strong. AIR-guided MPC therefore remains
+experimental. The next calibration logs whether advice changes MPC's winning
+action and restricts influence to low-margin, genuinely ambiguous decisions.
+
+That calibration capped the raw prior at 0.05 and multiplied it by a bounded
+top-two MPC score-margin gate. Across a 25.00-minute prospective run, normalized
+foraging matched ordinary MPC (**350.35 versus 350.70 pickups/hour**), while
+collision-frame exposure fell from 5.67% to 3.17% and low-efficiency necessity
+time fell from 5.58% to 4.25%. AIR was applied on 69 ambiguous planning frames
+and changed MPC's winner only 13 times. On those changes, the original MPC
+top-two margin averaged 0.0088, confirming that recall acted mainly as a
+tie-breaker. Eight-second event recovery remained lower (85.0% versus 93.2%),
+and only 20 guided episodes occurred. This is a promising single-session result,
+not yet replicated authorization for default terrain control.
+
+To observe the frozen memory without permitting action influence:
+
+```bash
+python3 embodied_unity_loop.py \
+  --shadow-policy checkpoints/unity_mpc/best.pt \
+  --shadow-control terrain \
+  --shadow-control-confidence 0.0 \
+  --shadow-mpc \
+  --terrain-air-memory checkpoints/terrain_air/passive_memory_20260725.json
+```
+
+![Attention-gated fixed-capacity episodic encoding](outputs/attended_episodic_encoding_summary.png)
+
 ### Oscillatory Workspace Binding
 
 `oscillatory_workspace_lab.py` translates the Llinas thalamocortical synchrony
@@ -2928,6 +3074,7 @@ python biological_control_lab.py
 python unified_functional_ego_lab.py
 python cortical_conductor_lab.py
 python four_context_conductor_lab.py
+python attended_episodic_encoding_lab.py
 ./embodied_unity_loop.py --sleep-seconds 60
 ```
 
@@ -2974,6 +3121,8 @@ outputs/
 - `unified_functional_ego_lab.py` - combined hierarchy, neuromodulation, causal credit, fatigue, repair, and sleep stack
 - `cortical_conductor_lab.py` - Bach-inspired learned specialist routing and protocol-memory lesions
 - `four_context_conductor_lab.py` - noisy four-context arbitration, static baselines, gate entropy, and targeted branch lesions
+- `attended_episodic_encoding_lab.py` - AIR-inspired equal-capacity attention, scrambling, and feature-lesion benchmark
+- `terrain_air_memory_lab.py` - offline passive Unity terrain packet encoding and retrieval evaluation
 - `TERRAIN_EPISODIC_MEMORY_PLAN.md` - Garden of Eden preservation and AIR-guided terrain-memory protocol
 - `embodied_unity_loop.py` - UDP bridge from the functional ego to a Unity robot body
 - `adaptive_stochastic_mpc_lab.py` - uncertainty-bounded adaptive MPC comparison

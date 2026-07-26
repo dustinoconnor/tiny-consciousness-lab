@@ -1,0 +1,70 @@
+{
+  "experiment": "guided AIR route intervention versus MPC terrain baseline",
+  "baseline": {
+    "recording": "/Users/dustinoconnor/tiny_consciousness_lab/outputs/unity_shadow/challenge_terrain_corrected_20260726.jsonl",
+    "rows": 10987,
+    "duration_minutes": 39.34982290267944,
+    "pickups": 230,
+    "pickups_per_hour": 350.7004347676573,
+    "collision_frames": 623,
+    "collision_frame_fraction": 0.05670337671793938,
+    "necessity_frames": 613,
+    "necessity_frame_fraction": 0.05579321015745881,
+    "fallback_frames": 0,
+    "survival_failures": 0,
+    "maximum_pickup_gap_seconds": 90.72310495376587,
+    "pickup_gaps_over_60_seconds": 3,
+    "mean_pickup_gap_seconds": 10.309997267077584,
+    "gate_event_outcomes": {
+      "events": 44,
+      "recovery_rate_within_8_seconds": 0.9318181818181818,
+      "mean_recovery_seconds_when_recovered": 4.167298444887487,
+      "pickup_rate_within_20_seconds": 0.3409090909090909,
+      "mean_collision_frames_within_20_seconds": 7.636363636363637,
+      "mean_orbit_efficiency_after_8_seconds": 0.6423390810409325
+    }
+  },
+  "bounded_air": {
+    "recording": "/Users/dustinoconnor/tiny_consciousness_lab/outputs/unity_shadow/challenge_terrain_air_guided_20260726.jsonl",
+    "rows": 9269,
+    "duration_minutes": 33.124955995877585,
+    "pickups": 172,
+    "pickups_per_hour": 311.5475836793361,
+    "collision_frames": 539,
+    "collision_frame_fraction": 0.058150825331751,
+    "necessity_frames": 886,
+    "necessity_frame_fraction": 0.09558744201100443,
+    "fallback_frames": 0,
+    "survival_failures": 0,
+    "maximum_pickup_gap_seconds": 101.08857607841492,
+    "pickup_gaps_over_60_seconds": 9,
+    "mean_pickup_gap_seconds": 11.488424044813035,
+    "gate_event_outcomes": {
+      "events": 38,
+      "recovery_rate_within_8_seconds": 0.7368421052631579,
+      "mean_recovery_seconds_when_recovered": 3.486655993121011,
+      "pickup_rate_within_20_seconds": 0.2894736842105263,
+      "mean_collision_frames_within_20_seconds": 8.921052631578947,
+      "mean_orbit_efficiency_after_8_seconds": 0.5500630604408286
+    },
+    "route_recommendations": 38,
+    "route_interventions": 38,
+    "route_action_influence_frames": 511,
+    "control_mode": "guided",
+    "guidance_decisions": 0,
+    "guidance_action_changes": 0,
+    "release_reasons": {
+      "new_target_grounding": 3,
+      "route_complete": 7,
+      "guidance_timeout": 12,
+      "progress_restored": 16
+    }
+  },
+  "comparison": {
+    "pickup_rate_ratio_air_over_baseline": 0.8883581335898247,
+    "pickup_rate_change_percent": -11.164186641017531,
+    "necessity_fraction_change_percentage_points": 3.9794231853545616,
+    "gate_recovery_rate_change_percentage_points": -19.497607655502392
+  },
+  "verdict": "The AIR heading prior improved on direct coordinate replay but did not beat ordinary MPC. It should remain experimental while its weight is calibrated against MPC uncertainty and score margins."
+}

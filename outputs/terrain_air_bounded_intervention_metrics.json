@@ -1,0 +1,66 @@
+{
+  "experiment": "bounded AIR route intervention versus MPC terrain baseline",
+  "baseline": {
+    "recording": "/Users/dustinoconnor/tiny_consciousness_lab/outputs/unity_shadow/challenge_terrain_corrected_20260726.jsonl",
+    "rows": 10987,
+    "duration_minutes": 39.34982290267944,
+    "pickups": 230,
+    "pickups_per_hour": 350.7004347676573,
+    "collision_frames": 623,
+    "collision_frame_fraction": 0.05670337671793938,
+    "necessity_frames": 613,
+    "necessity_frame_fraction": 0.05579321015745881,
+    "fallback_frames": 0,
+    "survival_failures": 0,
+    "maximum_pickup_gap_seconds": 90.72310495376587,
+    "pickup_gaps_over_60_seconds": 3,
+    "mean_pickup_gap_seconds": 10.309997267077584,
+    "gate_event_outcomes": {
+      "events": 44,
+      "recovery_rate_within_8_seconds": 0.9318181818181818,
+      "mean_recovery_seconds_when_recovered": 4.167298444887487,
+      "pickup_rate_within_20_seconds": 0.3409090909090909,
+      "mean_collision_frames_within_20_seconds": 7.636363636363637,
+      "mean_orbit_efficiency_after_8_seconds": 0.6423390810409325
+    }
+  },
+  "bounded_air": {
+    "recording": "/Users/dustinoconnor/tiny_consciousness_lab/outputs/unity_shadow/challenge_terrain_air_bounded_20260726.jsonl",
+    "rows": 9112,
+    "duration_minutes": 32.711042896906534,
+    "pickups": 169,
+    "pickups_per_hour": 309.98705947583636,
+    "collision_frames": 551,
+    "collision_frame_fraction": 0.06046971027216857,
+    "necessity_frames": 984,
+    "necessity_frame_fraction": 0.10798946444249341,
+    "fallback_frames": 0,
+    "survival_failures": 0,
+    "maximum_pickup_gap_seconds": 125.35532712936401,
+    "pickup_gaps_over_60_seconds": 8,
+    "mean_pickup_gap_seconds": 11.682515320323763,
+    "gate_event_outcomes": {
+      "events": 37,
+      "recovery_rate_within_8_seconds": 0.6756756756756757,
+      "mean_recovery_seconds_when_recovered": 4.0727313613891605,
+      "pickup_rate_within_20_seconds": 0.24324324324324326,
+      "mean_collision_frames_within_20_seconds": 8.324324324324325,
+      "mean_orbit_efficiency_after_8_seconds": 0.4793558101797542
+    },
+    "route_recommendations": 37,
+    "route_interventions": 37,
+    "route_action_influence_frames": 629,
+    "release_reasons": {
+      "bounded_timeout": 27,
+      "route_complete": 8,
+      "new_target_grounding": 2
+    }
+  },
+  "comparison": {
+    "pickup_rate_ratio_air_over_baseline": 0.8839083980069942,
+    "pickup_rate_change_percent": -11.609160199300579,
+    "necessity_fraction_change_percentage_points": 5.21962542850346,
+    "gate_recovery_rate_change_percentage_points": -25.61425061425061
+  },
+  "verdict": "Bounded coordinate-route replay is not authorized for terrain control: it reduced normalized foraging and gate-event recovery while increasing low-efficiency navigation. AIR should remain a selector, with retrieved experience converted to a soft MPC prior or grounded subgoal rather than replayed as literal waypoints."
+}

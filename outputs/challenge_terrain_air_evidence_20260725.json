@@ -1,0 +1,47 @@
+{
+  "recording": "outputs/unity_shadow/challenge_terrain_air_collection_20260725.jsonl",
+  "duration_minutes": 57.63,
+  "telemetry_rows": 16131,
+  "mushroom_pickups": 123,
+  "survival_failures": 1,
+  "fallback_frames": 531,
+  "sustained_wedge_frames": 530,
+  "starvation_episode": {
+    "failure_time_minutes": 16.86,
+    "failure_reason": "sustained_starvation",
+    "robot_region": [57.0, -286.0],
+    "estimated_target_region": [57.0, -291.0],
+    "last_pickup_total": 20,
+    "seconds_without_food_before_failure": 479.8,
+    "food_remained_visible": true,
+    "minimum_observed_orbit_efficiency": 0.03,
+    "interpretation": "Persistent pursuit of a visible but physically unreachable target; moving orbit prevented the ordinary physical-wedge detector from representing the failure."
+  },
+  "reachable_target_control": {
+    "longest_continuous_same_target_approach_seconds": 34.2,
+    "interpretation": "A provisional 45-60 second persistence boundary separates this run's ordinary approaches from the starvation fixation, but requires replication before motor use."
+  },
+  "reward_supported_local_entrapment": {
+    "top_pickup_region": [120.0, -192.0],
+    "pickups_in_top_region": 25,
+    "other_repeated_regions": [
+      {"region": [56.0, -232.0], "pickups": 17},
+      {"region": [144.0, -232.0], "pickups": 15},
+      {"region": [152.0, -216.0], "pickups": 10}
+    ],
+    "interpretation": "Repeated local rewards can suppress deprivation-driven relocation even when spatial coverage stagnates."
+  },
+  "next_test": {
+    "mode": "passive_negative_precedent",
+    "target_fixation_candidate_seconds": [45.0, 60.0],
+    "required_signals": [
+      "same estimated target region",
+      "food visible",
+      "no pickup",
+      "low target-distance progress",
+      "low orbit efficiency or low net displacement"
+    ],
+    "motor_control_enabled": false
+  },
+  "claim_boundary": "One starvation fixation and several repeated-reward regions establish useful counterexamples, not a validated target-abandonment controller."
+}

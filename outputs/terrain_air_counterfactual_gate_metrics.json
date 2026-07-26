@@ -1,0 +1,38 @@
+{
+  "experiment": "terrain AIR conservative counterfactual gate",
+  "protocol": {
+    "training_recording": "/Users/dustinoconnor/tiny_consciousness_lab/outputs/unity_shadow/terrain_air_collection_20260725.jsonl",
+    "evaluation_recording": "/Users/dustinoconnor/tiny_consciousness_lab/outputs/unity_shadow/terrain_air_passive_retrieval_20260725.jsonl",
+    "memory_checkpoint": "/Users/dustinoconnor/tiny_consciousness_lab/checkpoints/terrain_air/passive_memory_20260725.json",
+    "training_packets": 3875,
+    "evaluation_packets": 1932,
+    "neighbors_per_action": 24,
+    "gate_margin": 0.03,
+    "motor_control_enabled": false,
+    "chronologically_separate_sessions": true
+  },
+  "coverage": {
+    "retrieval_decisions": 1782,
+    "air_active_disagreements": 1289,
+    "art_grounded_disagreements": 696,
+    "necessity_grounded_disagreements": 19,
+    "air_gate_selections": 0,
+    "gate_selection_rate": 0.0,
+    "gate_selection_rate_on_disagreement": 0.0
+  },
+  "outcome_model": {
+    "active_action_mean_absolute_error": 0.06986334362986918
+  },
+  "estimated_policy_value": {
+    "always_active": 0.2588354561744915,
+    "always_air_when_retrieved": 0.2768690438046289,
+    "conservative_gate": 0.2588354561744915,
+    "gate_gain_over_active": 0.0,
+    "bootstrap_gain_95_percent_interval": [
+      0.0,
+      0.0
+    ]
+  },
+  "selected_examples": [],
+  "claim_boundary": "Values are estimated from action-conditioned nearest-neighbor precedents, not observed interventions. A positive result justifies a bounded shadow recommendation test, not live motor control."
+}

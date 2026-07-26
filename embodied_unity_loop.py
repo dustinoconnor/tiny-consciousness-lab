@@ -23,6 +23,13 @@ import time
 from collections import deque
 from pathlib import Path
 
+from embodied_conductor import PassiveEmbodiedConductor
+from terrain_air_observer import PassiveTerrainAirObserver
+from terrain_air_route_controller import (
+    TerrainAirRouteController,
+    score_margin_ambiguity,
+)
+
 
 ACTIONS = [
     "up",
@@ -96,8 +103,161 @@ def clamp(x, lo=0.0, hi=1.0):
     return float(max(lo, min(hi, x)))
 
 
+def route_memory_adapter(adapter_type):
+    return adapter_type in {"episodic_route", "art_route_library"}
+
+
+def smooth_target_intercept(previous_move, target_delta, target_distance, max_turn_degrees=55.0):
+    target_length = math.hypot(*target_delta)
+    if target_length <= 1e-6:
+        return (0.0, 0.0)
+    target_angle = math.atan2(target_delta[1], target_delta[0])
+    previous_length = math.hypot(*previous_move)
+    if previous_length <= 1e-6:
+        output_angle = target_angle
+        remaining_error = 0.0
+    else:
+        previous_angle = math.atan2(previous_move[1], previous_move[0])
+        angle_delta = (target_angle - previous_angle + math.pi) % (2.0 * math.pi) - math.pi
+        max_turn = math.radians(max(0.0, float(max_turn_degrees)))
+        applied_turn = max(-max_turn, min(max_turn, angle_delta))
+        output_angle = previous_angle + applied_turn
+        remaining_error = abs(angle_delta - applied_turn)
+    alignment_speed = clamp(1.0 - remaining_error / math.pi, 0.20, 1.0)
+    speed = clamp(float(target_distance) / 1.5, 0.25, 1.0) * alignment_speed
+    return (math.cos(output_angle) * speed, math.sin(output_angle) * speed)
+
+
+def route_waypoint_radius(
+    index,
+    route_count,
+    standard_radius,
+    terminal_radius,
+    terminal_count,
+):
+    terminal_start = max(0, int(route_count) - max(1, int(terminal_count)))
+    if index < terminal_start:
+        return float(standard_radius)
+    if index >= int(route_count) - 1:
+        return float(terminal_radius)
+    progress = (int(index) - terminal_start + 1) / max(
+        1, int(route_count) - terminal_start
+    )
+    interpolated = float(standard_radius) + (
+        float(terminal_radius) - float(standard_radius)
+    ) * progress
+    return max(float(terminal_radius) + 0.25, interpolated)
+
+
+def route_reversal_count(waypoints, threshold_degrees=90.0):
+    reversals = 0
+    for first, second, third in zip(waypoints, waypoints[1:], waypoints[2:]):
+        incoming = (second[0] - first[0], second[1] - first[1])
+        outgoing = (third[0] - second[0], third[1] - second[1])
+        incoming_length = math.hypot(*incoming)
+        outgoing_length = math.hypot(*outgoing)
+        if incoming_length <= 1e-6 or outgoing_length <= 1e-6:
+            continue
+        cosine = clamp(
+            (incoming[0] * outgoing[0] + incoming[1] * outgoing[1])
+            / (incoming_length * outgoing_length),
+            -1.0,
+            1.0,
+        )
+        if math.degrees(math.acos(cosine)) > float(threshold_degrees):
+            reversals += 1
+    return reversals
+
+
+def art_route_selection_score(match, quality, route):
+    alignment = clamp((float(route.get("terminal_alignment", 1.0)) + 1.0) * 0.5)
+    terminal_factor = 0.35 + 0.65 * alignment
+    return float(match) * clamp(float(quality)) * terminal_factor
+
+
+def conductor_gate_allows(
+    control_mode,
+    context,
+    recommendation,
+    confidence,
+    confidence_threshold=0.50,
+):
+    if control_mode == "passive":
+        return True
+    if control_mode != context:
+        return True
+    return (
+        recommendation == "episodic"
+        and float(confidence) >= float(confidence_threshold)
+    )
+
+
+def art_route_context(body_state):
+    """Return the normalized egocentric geometry used for route resonance."""
+    raw = body_state.get("directional_rays", []) if isinstance(body_state, dict) else []
+    if not isinstance(raw, list) or len(raw) != 8:
+        return None
+    try:
+        return [clamp(float(value)) for value in raw]
+    except (TypeError, ValueError):
+        return None
+
+
+def fuzzy_art_similarity(features, prototype):
+    """Complement-coded Fuzzy ART match; equivalent to one minus mean L1 error."""
+    if features is None or len(features) != len(prototype) or not features:
+        return 0.0
+    encoded = features + [1.0 - value for value in features]
+    template = list(prototype) + [1.0 - clamp(float(value)) for value in prototype]
+    return clamp(sum(min(value, weight) for value, weight in zip(encoded, template)) / len(features))
+
+
 def sigmoid(x):
     return 1.0 / (1.0 + math.exp(-x))
+
+
+def stable_recovery_due(physics_wedge_ticks, trap_accumulation_ticks, threshold_ticks):
+    """Return true when either independent recovery detector reaches threshold."""
+    return physics_wedge_ticks >= threshold_ticks or trap_accumulation_ticks >= threshold_ticks
+
+
+def trajectory_orbit_metrics(samples, min_path=14.0, max_efficiency=0.22, min_evidence=0.06):
+    """Measure sustained motion that repeatedly returns to the same local region."""
+    samples = list(samples)
+    if len(samples) < 2:
+        return {"detected": False, "path": 0.0, "net": 0.0, "efficiency": 1.0, "evidence": 0.0}
+    path = sum(
+        math.hypot(current[0] - previous[0], current[1] - previous[1])
+        for previous, current in zip(samples, samples[1:])
+    )
+    net = math.hypot(samples[-1][0] - samples[0][0], samples[-1][1] - samples[0][1])
+    efficiency = net / max(path, 1e-6)
+    evidence = sum(bool(sample[2]) or bool(sample[3]) for sample in samples) / len(samples)
+    return {
+        "detected": path >= min_path and efficiency <= max_efficiency and evidence >= min_evidence,
+        "path": path,
+        "net": net,
+        "efficiency": efficiency,
+        "evidence": evidence,
+    }
+
+
+def orbit_recovery_should_finish(
+    elapsed_ticks,
+    displacement,
+    path_clear,
+    min_ticks,
+    max_ticks,
+    exit_displacement=4.0,
+):
+    """End a latched recovery after grounded escape progress or its time bound."""
+    if elapsed_ticks >= max_ticks:
+        return True
+    return (
+        elapsed_ticks >= min_ticks
+        and displacement >= exit_displacement
+        and path_clear
+    )
 
 
 def metrics_from_state(crosstalk, complexity, memory, prediction_error, trap_pressure=0.0, collision_pressure=0.0, progress=0.0):
@@ -170,6 +330,168 @@ class UnityBodyLink:
                 continue
 
 
+class EmbodiedDynamicsObserver:
+    """Passive temporal-coordination and criticality proxies for live telemetry."""
+
+    def __init__(self, hz, modules=6, bus_capacity=3, window_seconds=2.0):
+        self.hz = max(float(hz), 0.1)
+        self.modules = int(modules)
+        self.bus_capacity = max(1, int(bus_capacity))
+        self.window_ticks = max(4, int(round(self.hz * window_seconds)))
+        self.tick = 0
+        self.previous = None
+        self.last_event_ticks = [0] * self.modules
+        self.previous_event_count = 0
+        self.propagation_ratio = 1.0
+        self.coherence = 0.0
+        self.active_modules = 0
+        self.bus_pressure = 0.0
+        self.criticality_score = 1.0
+        self.criticality_regime = "near_critical_proxy"
+        self.recommended_gain = 1.16
+        self.binding_ready = False
+
+    def update(self, values, observed_noise):
+        values = [clamp(float(value)) for value in values]
+        if len(values) != self.modules:
+            raise ValueError("observer_module_count_mismatch")
+        if self.previous is None:
+            changed = [True] * self.modules
+        else:
+            changed = [abs(value - old) >= 0.06 for value, old in zip(values, self.previous)]
+        for index, event in enumerate(changed):
+            if event:
+                self.last_event_ticks[index] = self.tick
+
+        vectors_x = 0.0
+        vectors_y = 0.0
+        total_weight = 0.0
+        active = 0
+        for index, event_tick in enumerate(self.last_event_ticks):
+            age = self.tick - event_tick
+            recency = math.exp(-age / self.window_ticks)
+            weight = recency * (0.25 + 0.75 * values[index])
+            if recency >= 0.25:
+                active += 1
+            phase = 2.0 * math.pi * ((event_tick % self.window_ticks) / self.window_ticks)
+            vectors_x += weight * math.cos(phase)
+            vectors_y += weight * math.sin(phase)
+            total_weight += weight
+        self.coherence = clamp(math.hypot(vectors_x, vectors_y) / max(total_weight, 1e-8))
+        self.active_modules = active
+        self.bus_pressure = clamp(max(0, active - self.bus_capacity) / self.bus_capacity)
+
+        event_count = sum(changed)
+        instantaneous_ratio = (event_count + 0.5) / (self.previous_event_count + 0.5)
+        instantaneous_ratio = clamp(instantaneous_ratio, 0.20, 2.0)
+        self.propagation_ratio = 0.86 * self.propagation_ratio + 0.14 * instantaneous_ratio
+        self.criticality_score = clamp(math.exp(-abs(math.log(max(self.propagation_ratio, 1e-6)))))
+        if self.propagation_ratio < 0.80:
+            self.criticality_regime = "subcritical_proxy"
+        elif self.propagation_ratio > 1.20:
+            self.criticality_regime = "supercritical_proxy"
+        else:
+            self.criticality_regime = "near_critical_proxy"
+        self.recommended_gain = 1.16 + 0.17 * clamp(float(observed_noise))
+        self.binding_ready = self.coherence >= 0.70 and active >= 2 and self.bus_pressure <= 0.67
+        self.previous = values
+        self.previous_event_count = event_count
+        self.tick += 1
+
+
+class EmbodiedAdaptiveResonanceObserver:
+    """Passive Fuzzy-ART category learning over embodied telemetry."""
+
+    def __init__(self, vigilance=0.82, choice=0.01, learning_rate=0.18, max_categories=24):
+        self.vigilance = clamp(vigilance)
+        self.choice = max(float(choice), 1e-6)
+        self.learning_rate = clamp(learning_rate)
+        self.max_categories = max(1, int(max_categories))
+        self.templates = []
+        self.label_counts = []
+        self.category = "unassigned"
+        self.category_label = "unlearned"
+        self.evidence_label = "unobserved"
+        self.match = 0.0
+        self.resonance = False
+        self.novel = False
+        self.unknown = False
+        self.mismatch_resets = 0
+        self.mismatch_resets_total = 0
+        self.novel_events = 0
+        self.unknown_events = 0
+        self.category_switches = 0
+        self.previous_category = None
+
+    @staticmethod
+    def complement_code(features):
+        values = [clamp(float(value)) for value in features]
+        return values + [1.0 - value for value in values]
+
+    def update(self, features, evidence_label):
+        encoded = self.complement_code(features)
+        input_mass = max(sum(encoded), 1e-8)
+        candidates = []
+        for index, template in enumerate(self.templates):
+            intersection = sum(min(value, weight) for value, weight in zip(encoded, template))
+            choice_score = intersection / (self.choice + sum(template))
+            match = intersection / input_mass
+            candidates.append((choice_score, match, index))
+        candidates.sort(reverse=True)
+
+        selected = None
+        selected_match = 0.0
+        resets = 0
+        for _choice_score, match, index in candidates:
+            if match >= self.vigilance:
+                selected = index
+                selected_match = match
+                break
+            resets += 1
+
+        self.evidence_label = str(evidence_label or "unobserved")
+        self.mismatch_resets = resets
+        self.mismatch_resets_total += resets
+        self.novel = False
+        self.unknown = False
+        self.resonance = selected is not None
+
+        if selected is None and len(self.templates) < self.max_categories:
+            selected = len(self.templates)
+            self.templates.append(list(encoded))
+            self.label_counts.append({})
+            selected_match = 1.0
+            self.novel = True
+            self.novel_events += 1
+        elif selected is None:
+            self.category = "unknown"
+            self.category_label = self.evidence_label
+            self.match = max((match for _score, match, _index in candidates), default=0.0)
+            self.unknown = True
+            self.unknown_events += 1
+            if self.previous_category != self.category:
+                self.category_switches += 1
+            self.previous_category = self.category
+            return
+
+        if self.resonance:
+            beta = self.learning_rate
+            old = self.templates[selected]
+            self.templates[selected] = [
+                beta * min(value, weight) + (1.0 - beta) * weight
+                for value, weight in zip(encoded, old)
+            ]
+
+        counts = self.label_counts[selected]
+        counts[self.evidence_label] = counts.get(self.evidence_label, 0) + 1
+        self.category = f"art_{selected + 1:02d}"
+        self.category_label = max(counts, key=lambda label: (counts[label], label))
+        self.match = selected_match
+        if self.previous_category is not None and self.previous_category != self.category:
+            self.category_switches += 1
+        self.previous_category = self.category
+
+
 class ShadowRecorder:
     def __init__(self, path):
         self.path = Path(path).expanduser().resolve()
@@ -183,7 +505,9 @@ class ShadowRecorder:
         row = {
             "time": time.time(),
             "step": ego.steps,
+            "controller_seed": getattr(ego, "controller_seed", 0),
             "position": [body_state.get("x"), body_state.get("y"), body_state.get("z")],
+            "yaw": body_state.get("yaw"),
             "rays": body_state.get("directional_rays"),
             "body_clearance": body_state.get("directional_body_clearance"),
             "food_visible": bool(body_state.get("food_visible", False)),
@@ -203,6 +527,9 @@ class ShadowRecorder:
             "shadow_agreement": ego.shadow_agreement,
             "shadow_takeover": ego.shadow_takeover,
             "shadow_takeover_steps": ego.shadow_takeover_steps,
+            "shadow_world_move": list(ego.shadow_world_move),
+            "shadow_continuous_intercept": ego.shadow_continuous_intercept,
+            "shadow_episode_resets": ego.shadow_episode_resets,
             "shadow_mpc": ego.shadow_mpc,
             "shadow_mpc_engaged": ego.shadow_mpc_engaged,
             "shadow_mpc_score": ego.shadow_mpc_score,
@@ -210,12 +537,41 @@ class ShadowRecorder:
             "shadow_mpc_horizon": ego.shadow_mpc_horizon,
             "shadow_mpc_depth": ego.shadow_mpc_depth,
             "shadow_mpc_uncertainty_stops": ego.shadow_mpc_uncertainty_stops,
+            "orbit_adapter_enabled": ego.orbit_adapter_enabled,
+            "orbit_adapter_active": ego.orbit_adapter_active,
+            "orbit_adapter_action": ego.orbit_adapter_action,
+            "orbit_adapter_confidence": ego.orbit_adapter_confidence,
+            "orbit_adapter_confidence_gate": ego.orbit_adapter_confidence_gate,
+            "orbit_adapter_events": ego.orbit_adapter_events,
+            "orbit_adapter_remaining_seconds": ego.orbit_adapter_hold_ticks / ego.hz,
+            "orbit_adapter_displacement": ego.orbit_adapter_displacement,
+            "orbit_path": ego.orbit_path,
+            "orbit_net": ego.orbit_net,
+            "orbit_efficiency": ego.orbit_efficiency,
+            "hidden_goal_adapter_enabled": ego.hidden_goal_adapter_enabled,
+            "hidden_goal_adapter_active": ego.hidden_goal_adapter_active,
+            "hidden_goal_adapter_action": ego.hidden_goal_adapter_action,
+            "hidden_goal_adapter_confidence": ego.hidden_goal_adapter_confidence,
+            "hidden_goal_adapter_events": ego.hidden_goal_adapter_events,
+            "hidden_goal_route_index": ego.hidden_goal_route_index,
+            "hidden_goal_route_count": len(ego.hidden_goal_route),
+            "hidden_goal_route_distance": ego.hidden_goal_route_distance,
+            "hidden_goal_route_vetoes": ego.hidden_goal_route_vetoes,
+            "hidden_goal_route_terminal_holds": ego.hidden_goal_route_terminal_holds,
+            "hidden_goal_route_terminal_active": ego.hidden_goal_route_terminal_active,
+            "hidden_goal_route_selected_id": ego.hidden_goal_route_selected_id,
+            "hidden_goal_route_art_match": ego.hidden_goal_route_art_match,
+            "hidden_goal_food_latched": ego.hidden_goal_food_latch_ticks > 0,
+            "hidden_goal_food_latch_seconds": ego.hidden_goal_food_latch_ticks / ego.hz,
+            "hidden_goal_adapter_lateral_sign": ego.hidden_goal_adapter_lateral_sign,
+            "hidden_goal_adapter_lateral_resets": ego.hidden_goal_adapter_lateral_resets,
             "food_sensor_radius": ego.shadow_food_sensor_radius,
             "blocked": bool(body_state.get("blocked", False)),
             "body_collision": bool(body_state.get("horizontal_collision", False)),
             "stuck": ego.current_stuck,
             "stuck_events": ego.stuck_events,
             "physics_wedge_seconds": ego.physics_wedge_ticks / ego.hz,
+            "trap_accumulation_seconds": ego.trap_accumulation_ticks / ego.hz,
             "fallback_active": ego.shadow_fallback_hold_ticks > 0,
             "fallback_seconds_remaining": ego.shadow_fallback_hold_ticks / ego.hz,
             "unstuck_respawns": ego.unstuck_respawns,
@@ -231,6 +587,7 @@ class ShadowRecorder:
             "workspace_problem": ego.workspace_packet["problem"],
             "workspace_strategy": ego.workspace_packet["strategy"],
             "trap_course": body_state.get("trap_course", "natural_terrain"),
+            "trap_course_variant": body_state.get("trap_course_variant", "standard"),
             "trap_episode": body_state.get("trap_episode", 0),
             "trap_successes": body_state.get("trap_successes", 0),
             "trap_failures": body_state.get("trap_failures", 0),
@@ -238,6 +595,115 @@ class ShadowRecorder:
             "mushroom_pickups_total": body_state.get("mushroom_pickups_total", 0),
             "mushroom_reward_total": body_state.get("mushroom_reward_total", 0.0),
             "mushrooms_eaten": ego.mushrooms_eaten,
+            "conductor_observer_mode": (
+                (
+                    "live_bounded_familiar_hidden_goal"
+                    if ego.conductor_control == "familiar_hidden_goal"
+                    else "passive_reward_learning"
+                    if ego.conductor_observer.learning_enabled
+                    else "passive_frozen_checkpoint"
+                )
+                if ego.conductor_observer.enabled
+                else "disabled"
+            ),
+            "conductor_context": ego.conductor_observer.context,
+            "conductor_recommendation": ego.conductor_observer.recommendation,
+            "conductor_active_specialist": ego.conductor_observer.active_specialist,
+            "conductor_confidence": ego.conductor_observer.confidence,
+            "conductor_agreement": ego.conductor_observer.agreement,
+            "conductor_agreement_rate": ego.conductor_observer.agreement_rate,
+            "conductor_grounded_reward": ego.conductor_observer.last_reward,
+            "conductor_updates": ego.conductor_observer.updates,
+            "conductor_context_visits": ego.conductor_observer.context_visits,
+            "conductor_protocol_entries": len(ego.conductor_observer.protocol),
+            "conductor_episode_resets": ego.conductor_observer.episode_resets,
+            "conductor_action_influence": ego.conductor_observer.action_influence,
+            "conductor_control_mode": ego.conductor_control,
+            "conductor_gate_active": ego.conductor_gate_active,
+            "conductor_gate_recommendation": ego.conductor_gate_recommendation,
+            "conductor_gate_confidence": ego.conductor_gate_confidence,
+            "conductor_gate_frames": ego.conductor_gate_frames,
+            "conductor_gate_decisions": ego.conductor_gate_decisions,
+            "conductor_gate_denials": ego.conductor_gate_denials,
+            "conductor_q_values": ego.conductor_observer.q_values,
+            "sync_observer_mode": "passive",
+            "sync_coherence": ego.dynamics_observer.coherence,
+            "sync_active_modules": ego.dynamics_observer.active_modules,
+            "sync_bus_pressure": ego.dynamics_observer.bus_pressure,
+            "sync_binding_ready": ego.dynamics_observer.binding_ready,
+            "criticality_observer_mode": "passive_proxy",
+            "criticality_propagation_ratio": ego.dynamics_observer.propagation_ratio,
+            "criticality_score": ego.dynamics_observer.criticality_score,
+            "criticality_regime": ego.dynamics_observer.criticality_regime,
+            "criticality_recommended_gain": ego.dynamics_observer.recommended_gain,
+            "art_observer_mode": "passive_fuzzy_art",
+            "art_category": ego.art_observer.category,
+            "art_category_label": ego.art_observer.category_label,
+            "art_evidence_label": ego.art_observer.evidence_label,
+            "art_match": ego.art_observer.match,
+            "art_resonance": ego.art_observer.resonance,
+            "art_novel": ego.art_observer.novel,
+            "art_unknown": ego.art_observer.unknown,
+            "art_mismatch_resets": ego.art_observer.mismatch_resets,
+            "art_mismatch_resets_total": ego.art_observer.mismatch_resets_total,
+            "art_category_count": len(ego.art_observer.templates),
+            "art_category_switches": ego.art_observer.category_switches,
+            "terrain_air_mode": (
+                "passive_retrieval"
+                if ego.terrain_air_observer.enabled
+                else "disabled"
+            ),
+            "terrain_air_recalled_action": ego.terrain_air_observer.recalled_action,
+            "terrain_air_distance": ego.terrain_air_observer.distance,
+            "terrain_air_confidence": ego.terrain_air_observer.confidence,
+            "terrain_air_resonance": ego.terrain_air_observer.resonance,
+            "terrain_air_agreement": ego.terrain_air_observer.agreement,
+            "terrain_air_agreement_rate": ego.terrain_air_observer.agreement_rate,
+            "terrain_air_queries": ego.terrain_air_observer.queries,
+            "terrain_air_resonances": ego.terrain_air_observer.resonances,
+            "terrain_air_action_influence": ego.terrain_air_observer.action_influence,
+            "terrain_air_route_mode": ego.terrain_air_route_controller.control_mode,
+            "terrain_air_route_active": ego.terrain_air_route_controller.active,
+            "terrain_air_route_recommendation": ego.terrain_air_route_controller.recommendation,
+            "terrain_air_route_reason": ego.terrain_air_route_controller.reason,
+            "terrain_air_route_match": ego.terrain_air_route_controller.match,
+            "terrain_air_route_index": ego.terrain_air_route_controller.route_index,
+            "terrain_air_route_count": ego.terrain_air_route_controller.route_count,
+            "terrain_air_route_distance": ego.terrain_air_route_controller.route_distance,
+            "terrain_air_route_remaining_seconds": (
+                ego.terrain_air_route_controller.remaining_ticks / ego.hz
+            ),
+            "terrain_air_route_recommendations": ego.terrain_air_route_controller.recommendations,
+            "terrain_air_route_interventions": ego.terrain_air_route_controller.interventions,
+            "terrain_air_route_releases": ego.terrain_air_route_controller.releases,
+            "terrain_air_route_release_reason": ego.terrain_air_route_controller.release_reason,
+            "terrain_air_route_sensor_vetoes": ego.terrain_air_route_controller.sensor_vetoes,
+            "terrain_air_route_action_influence": ego.terrain_air_route_controller.action_influence,
+            "terrain_air_route_guidance_vector": list(
+                ego.terrain_air_route_controller.guidance_vector
+            ),
+            "terrain_air_route_guidance_weight": ego.terrain_air_route_controller.guidance_weight,
+            "terrain_air_route_guidance_decisions": (
+                ego.terrain_air_route_controller.guidance_decisions
+            ),
+            "terrain_air_route_guidance_action_changes": (
+                ego.terrain_air_route_controller.guidance_action_changes
+            ),
+            "terrain_air_route_unguided_action": (
+                ego.terrain_air_route_controller.last_unguided_action
+            ),
+            "terrain_air_route_guided_action": (
+                ego.terrain_air_route_controller.last_guided_action
+            ),
+            "terrain_air_route_unguided_margin": (
+                ego.terrain_air_route_controller.last_unguided_margin
+            ),
+            "terrain_air_route_margin_ambiguity": (
+                ego.terrain_air_route_controller.last_margin_ambiguity
+            ),
+            "terrain_air_route_effective_guidance_weight": (
+                ego.terrain_air_route_controller.last_effective_guidance_weight
+            ),
         }
         self.handle.write(json.dumps(row, separators=(",", ":")) + "\n")
         self.rows += 1
@@ -274,6 +740,15 @@ class EmbodiedFunctionalEgo:
         shadow_control="passive",
         shadow_control_confidence=0.55,
         shadow_mpc=False,
+        orbit_exit_adapter=None,
+        orbit_adapter_confidence=0.70,
+        hidden_goal_adapter=None,
+        hidden_goal_adapter_confidence=0.30,
+        hidden_goal_adapter_commit_seconds=0.4,
+        hidden_goal_adapter_lateral_bias=0.0,
+        passive_conductor=False,
+        conductor_checkpoint=None,
+        conductor_control="passive",
     ):
         self.crosstalk = 0.07
         self.complexity = 0.12
@@ -315,6 +790,7 @@ class EmbodiedFunctionalEgo:
         self.stuck_events = 0
         self.current_stuck = False
         self.physics_wedge_ticks = 0
+        self.trap_accumulation_ticks = 0
         self.unstuck_respawn_ticks = 0 if unstuck_respawn_seconds <= 0 else max(1, int(round(unstuck_respawn_seconds * self.hz)))
         self.unstuck_respawns = 0
         self.contact_probe_ticks = 0
@@ -383,16 +859,24 @@ class EmbodiedFunctionalEgo:
         self.shadow_entropy = 0.0
         self.shadow_agreement = 0.0
         self.shadow_probabilities = [0.0] * 8
+        self.shadow_world_move = (0.0, 1.0)
+        self.shadow_continuous_intercept = False
         self.shadow_last_reward = 0.0
         self.shadow_previous_action = 0
         self.shadow_previous_position = None
         self.shadow_previous_proposal = "none"
+        self.shadow_world_move = (0.0, 1.0)
+        self.shadow_continuous_intercept = False
         self.shadow_ray_range = 6.0
         self.shadow_error = "disabled"
         self.shadow_control = shadow_control
         self.shadow_control_confidence = clamp(shadow_control_confidence)
         self.shadow_takeover = False
         self.shadow_takeover_steps = 0
+        self.shadow_episode_key = None
+        self.shadow_episode_resets = 0
+        self.shadow_episode_idle_active = False
+        self.shadow_episode_idle_ticks = 0
         self.shadow_body_safe_actions = 0
         self.shadow_mpc = bool(shadow_mpc)
         self.shadow_mpc_engaged = False
@@ -405,14 +889,94 @@ class EmbodiedFunctionalEgo:
         self.shadow_mpc_uncertainty_stops = 0
         self.shadow_mpc_planning_frames = 0
         self.shadow_mpc_critical_frames = 0
+        self.orbit_adapter = None
+        self.orbit_adapter_enabled = False
+        self.orbit_adapter_error = "disabled"
+        self.orbit_adapter_active = False
+        self.orbit_adapter_action = "none"
+        self.orbit_adapter_confidence = 0.0
+        self.orbit_adapter_confidence_gate = clamp(orbit_adapter_confidence)
+        self.orbit_adapter_events = 0
+        self.orbit_adapter_hold_ticks = 0
+        self.orbit_adapter_action_ticks = 0
+        self.orbit_adapter_elapsed_ticks = 0
+        self.orbit_adapter_selected = None
+        self.orbit_adapter_start_position = None
+        self.orbit_adapter_displacement = 0.0
+        self.orbit_history = deque(maxlen=max(10, int(round(self.hz * 10.0))))
+        self.orbit_path = 0.0
+        self.orbit_net = 0.0
+        self.orbit_efficiency = 1.0
+        self.hidden_goal_adapter = None
+        self.hidden_goal_adapter_type = "none"
+        self.hidden_goal_adapter_temporal_steps = 1
+        self.hidden_goal_adapter_history = deque()
+        self.hidden_goal_route = []
+        self.hidden_goal_route_library = []
+        self.hidden_goal_route_library_vigilance = 0.86
+        self.hidden_goal_route_library_exploration = 0.0
+        self.hidden_goal_route_selected_id = "none"
+        self.hidden_goal_route_art_match = 0.0
+        self.hidden_goal_route_index = 0
+        self.hidden_goal_route_origin = None
+        self.hidden_goal_route_radius = 0.85
+        self.hidden_goal_route_terminal_radius = 0.30
+        self.hidden_goal_route_terminal_count = 5
+        self.hidden_goal_route_terminal_extension = 2.0
+        self.hidden_goal_route_distance = 0.0
+        self.hidden_goal_route_vetoes = 0
+        self.hidden_goal_route_terminal_holds = 0
+        self.hidden_goal_route_terminal_active = False
+        self.hidden_goal_food_latch_total_ticks = max(1, int(round(self.hz * 2.0)))
+        self.hidden_goal_food_latch_ticks = 0
+        self.hidden_goal_food_target = None
+        self.hidden_goal_adapter_enabled = False
+        self.hidden_goal_adapter_error = "disabled"
+        self.hidden_goal_adapter_active = False
+        self.hidden_goal_adapter_action = "none"
+        self.hidden_goal_adapter_confidence = 0.0
+        self.hidden_goal_adapter_confidence_gate = clamp(hidden_goal_adapter_confidence)
+        self.hidden_goal_adapter_commit_ticks = max(
+            1, int(round(self.hz * hidden_goal_adapter_commit_seconds))
+        )
+        self.hidden_goal_adapter_lateral_bias = max(0.0, float(hidden_goal_adapter_lateral_bias))
+        self.hidden_goal_adapter_events = 0
+        self.hidden_goal_adapter_selected = None
+        self.hidden_goal_adapter_hold_ticks = 0
+        self.hidden_goal_adapter_lateral_sign = 0
+        self.hidden_goal_adapter_lateral_start_position = None
+        self.hidden_goal_adapter_lateral_elapsed_ticks = 0
+        self.hidden_goal_adapter_lateral_resets = 0
         self.shadow_food_sensor_radius = 16.0
         self.trap_course_label = "natural_terrain"
+        self.trap_course_variant = "standard"
         self.trap_course_episode = 0
         self.trap_course_successes = 0
         self.trap_course_failures = 0
         self.trap_course_outcome = "inactive"
+        self.dynamics_observer = EmbodiedDynamicsObserver(self.hz)
+        self.art_observer = EmbodiedAdaptiveResonanceObserver()
+        self.terrain_air_observer = PassiveTerrainAirObserver()
+        self.terrain_air_route_controller = TerrainAirRouteController()
+        self.conductor_control = str(conductor_control)
+        if self.conductor_control != "passive" and not conductor_checkpoint:
+            raise ValueError("live_conductor_requires_checkpoint")
+        self.conductor_gate_active = False
+        self.conductor_gate_recommendation = "insufficient_evidence"
+        self.conductor_gate_confidence = 0.0
+        self.conductor_gate_frames = 0
+        self.conductor_gate_decisions = 0
+        self.conductor_gate_denials = 0
+        self.conductor_observer = PassiveEmbodiedConductor(
+            enabled=passive_conductor or self.conductor_control != "passive",
+            checkpoint=conductor_checkpoint,
+        )
         if shadow_checkpoint:
             self.enable_shadow_policy(shadow_checkpoint)
+        if orbit_exit_adapter:
+            self.enable_orbit_adapter(orbit_exit_adapter)
+        if hidden_goal_adapter:
+            self.enable_hidden_goal_adapter(hidden_goal_adapter)
 
     def enable_shadow_policy(self, checkpoint_path):
         try:
@@ -431,11 +995,286 @@ class EmbodiedFunctionalEgo:
             self.shadow_enabled = False
             self.shadow_error = f"load_failed:{type(exc).__name__}"
 
+    def enable_orbit_adapter(self, checkpoint_path):
+        try:
+            if self.shadow_torch is None or self.shadow_policy is None:
+                raise RuntimeError("shadow_policy_required")
+            payload = self.shadow_torch.load(
+                Path(checkpoint_path).expanduser().resolve(),
+                map_location="cpu",
+                weights_only=False,
+            )
+            hidden_dim = int(payload["hidden_dim"])
+            if hidden_dim != self.shadow_policy.hidden_dim:
+                raise ValueError("hidden_dim_mismatch")
+            adapter = self.shadow_torch.nn.Sequential(
+                self.shadow_torch.nn.LayerNorm(hidden_dim),
+                self.shadow_torch.nn.Linear(hidden_dim, len(SHADOW_ACTIONS)),
+            )
+            adapter.load_state_dict(payload["state_dict"])
+            self.orbit_adapter = adapter.eval()
+            self.orbit_adapter_enabled = True
+            self.orbit_adapter_error = "none"
+        except Exception as exc:
+            self.orbit_adapter = None
+            self.orbit_adapter_enabled = False
+            self.orbit_adapter_error = f"load_failed:{type(exc).__name__}"
+
+    def enable_hidden_goal_adapter(self, checkpoint_path):
+        try:
+            if self.shadow_torch is None or self.shadow_policy is None:
+                raise RuntimeError("shadow_policy_required")
+            payload = self.shadow_torch.load(
+                Path(checkpoint_path).expanduser().resolve(),
+                map_location="cpu",
+                weights_only=False,
+            )
+            adapter_type = str(payload.get("adapter_type", "linear"))
+            hidden_dim = int(payload.get("hidden_dim", payload.get("input_dim", 0)))
+            if adapter_type in {"episodic_route", "art_route_library"}:
+                if adapter_type == "art_route_library":
+                    library = list(payload.get("routes", []))
+                    if not library:
+                        raise ValueError("empty_art_route_library")
+                    for item in library:
+                        if not item.get("waypoints") or len(item.get("prototype", [])) != 8:
+                            raise ValueError("invalid_art_route_entry")
+                    self.hidden_goal_route_library = library
+                    self.hidden_goal_route_library_vigilance = clamp(
+                        float(payload.get("art_vigilance", 0.86))
+                    )
+                    self.hidden_goal_route_library_exploration = clamp(
+                        float(payload.get("selection_exploration_rate", 0.0))
+                    )
+                    route = []
+                else:
+                    self.hidden_goal_route_library = []
+                    route = [tuple(map(float, point)) for point in payload["waypoints"]]
+                if adapter_type == "episodic_route" and not route:
+                    raise ValueError("empty_episodic_route")
+                adapter = None
+                temporal_steps = 1
+                self.hidden_goal_route = route
+                self.hidden_goal_route_radius = float(payload.get("waypoint_radius", 0.85))
+                self.hidden_goal_route_terminal_radius = float(
+                    payload.get("terminal_waypoint_radius", 0.30)
+                )
+                self.hidden_goal_route_terminal_count = max(
+                    1, int(payload.get("terminal_waypoint_count", 5))
+                )
+                self.hidden_goal_route_terminal_extension = max(
+                    0.25, float(payload.get("terminal_extension", 2.0))
+                )
+                self.hidden_goal_food_latch_total_ticks = max(
+                    1, int(round(self.hz * float(payload.get("target_latch_seconds", 2.0))))
+                )
+            elif hidden_dim != self.shadow_policy.hidden_dim:
+                raise ValueError("hidden_dim_mismatch")
+            elif adapter_type == "temporal_gru":
+                temporal_dim = int(payload["temporal_dim"])
+
+                class TemporalAdapter(self.shadow_torch.nn.Module):
+                    def __init__(module_self):
+                        super().__init__()
+                        module_self.input_norm = self.shadow_torch.nn.LayerNorm(hidden_dim)
+                        module_self.memory = self.shadow_torch.nn.GRU(
+                            hidden_dim, temporal_dim, batch_first=True
+                        )
+                        module_self.output_norm = self.shadow_torch.nn.LayerNorm(temporal_dim)
+                        module_self.actor = self.shadow_torch.nn.Linear(
+                            temporal_dim, len(SHADOW_ACTIONS)
+                        )
+
+                    def forward(module_self, sequence):
+                        values, _hidden = module_self.memory(module_self.input_norm(sequence))
+                        return module_self.actor(module_self.output_norm(values[:, -1]))
+
+                adapter = TemporalAdapter()
+                temporal_steps = max(2, int(payload["temporal_steps"]))
+            elif adapter_type == "linear":
+                adapter = self.shadow_torch.nn.Sequential(
+                    self.shadow_torch.nn.LayerNorm(hidden_dim),
+                    self.shadow_torch.nn.Linear(hidden_dim, len(SHADOW_ACTIONS)),
+                )
+                temporal_steps = 1
+            else:
+                raise ValueError("unsupported_adapter_type")
+            if adapter is not None:
+                adapter.load_state_dict(payload["state_dict"])
+                adapter = adapter.eval()
+            self.hidden_goal_adapter = adapter
+            self.hidden_goal_adapter_type = adapter_type
+            self.hidden_goal_adapter_temporal_steps = temporal_steps
+            self.hidden_goal_adapter_history = deque(maxlen=temporal_steps)
+            self.hidden_goal_route_index = 0
+            self.hidden_goal_route_origin = None
+            self.hidden_goal_route_selected_id = "none"
+            self.hidden_goal_route_art_match = 0.0
+            self.hidden_goal_route_distance = 0.0
+            self.hidden_goal_route_vetoes = 0
+            self.hidden_goal_route_terminal_holds = 0
+            self.hidden_goal_route_terminal_active = False
+            self.hidden_goal_food_latch_ticks = 0
+            self.hidden_goal_food_target = None
+            self.hidden_goal_adapter_enabled = True
+            self.hidden_goal_adapter_error = "none"
+        except Exception as exc:
+            self.hidden_goal_adapter = None
+            self.hidden_goal_adapter_type = "none"
+            self.hidden_goal_adapter_temporal_steps = 1
+            self.hidden_goal_adapter_history = deque()
+            self.hidden_goal_route = []
+            self.hidden_goal_route_library = []
+            self.hidden_goal_route_selected_id = "none"
+            self.hidden_goal_route_art_match = 0.0
+            self.hidden_goal_route_index = 0
+            self.hidden_goal_route_origin = None
+            self.hidden_goal_route_distance = 0.0
+            self.hidden_goal_route_vetoes = 0
+            self.hidden_goal_route_terminal_holds = 0
+            self.hidden_goal_route_terminal_active = False
+            self.hidden_goal_food_latch_ticks = 0
+            self.hidden_goal_food_target = None
+            self.hidden_goal_adapter_enabled = False
+            self.hidden_goal_adapter_error = f"load_failed:{type(exc).__name__}"
+
+    def select_art_route(self, body_state):
+        features = art_route_context(body_state)
+        if features is None or not self.hidden_goal_route_library:
+            return False
+        scored = []
+        for route in self.hidden_goal_route_library:
+            match = fuzzy_art_similarity(features, route["prototype"])
+            quality = clamp(float(route.get("quality", 0.5)))
+            scored.append((match, quality, route))
+        self.hidden_goal_route_art_match = max(match for match, _quality, _route in scored)
+        resonant = [
+            item for item in scored
+            if item[0] >= self.hidden_goal_route_library_vigilance
+        ]
+        if not resonant:
+            return False
+        if random.random() < self.hidden_goal_route_library_exploration:
+            weights = [
+                max(
+                    1e-6,
+                    art_route_selection_score(
+                        match,
+                        quality,
+                        route,
+                    ),
+                )
+                for match, quality, route in resonant
+            ]
+            _match, _quality, selected = random.choices(resonant, weights=weights, k=1)[0]
+        else:
+            _match, _quality, selected = max(
+                resonant,
+                key=lambda item: (
+                    art_route_selection_score(
+                        item[0],
+                        item[1],
+                        item[2],
+                    ),
+                    item[0],
+                    item[2].get("route_id", ""),
+                ),
+            )
+        self.hidden_goal_route = [
+            tuple(map(float, point)) for point in selected["waypoints"]
+        ]
+        self.hidden_goal_route_selected_id = str(selected.get("route_id", "unnamed"))
+        self.hidden_goal_route_art_match = float(_match)
+        self.hidden_goal_route_index = 0
+        self.hidden_goal_route_origin = None
+        return bool(self.hidden_goal_route)
+
+    def reset_shadow_episode_state(self):
+        """Clear short-lived learned navigation state after a Unity episode reset."""
+        if self.shadow_policy is not None:
+            self.shadow_hidden = self.shadow_policy.initial_state(1)
+        self.shadow_previous_action = 0
+        self.shadow_previous_position = None
+        self.shadow_previous_proposal = "none"
+        self.shadow_last_reward = 0.0
+        self.shadow_mpc_engaged = False
+        self.shadow_mpc_hold_ticks = 0
+        self.shadow_fallback_hold_ticks = 0
+        self.shadow_action = "none"
+        self.shadow_world_move = (0.0, 0.0)
+        self.shadow_continuous_intercept = False
+        self.shadow_takeover = False
+        self.shadow_episode_idle_ticks = 1
+        self.orbit_history.clear()
+        self.orbit_path = 0.0
+        self.orbit_net = 0.0
+        self.orbit_efficiency = 1.0
+        self.orbit_adapter_active = False
+        self.orbit_adapter_action = "none"
+        self.orbit_adapter_confidence = 0.0
+        self.orbit_adapter_hold_ticks = 0
+        self.orbit_adapter_action_ticks = 0
+        self.orbit_adapter_elapsed_ticks = 0
+        self.orbit_adapter_selected = None
+        self.orbit_adapter_start_position = None
+        self.orbit_adapter_displacement = 0.0
+        self.hidden_goal_adapter_active = False
+        self.hidden_goal_adapter_action = "none"
+        self.hidden_goal_adapter_confidence = 0.0
+        self.hidden_goal_adapter_selected = None
+        self.hidden_goal_adapter_hold_ticks = 0
+        self.hidden_goal_adapter_lateral_sign = 0
+        self.hidden_goal_adapter_lateral_start_position = None
+        self.hidden_goal_adapter_lateral_elapsed_ticks = 0
+        self.hidden_goal_adapter_history.clear()
+        self.hidden_goal_route_index = 0
+        self.hidden_goal_route_origin = None
+        if getattr(self, "hidden_goal_adapter_type", "none") == "art_route_library":
+            self.hidden_goal_route = []
+        self.hidden_goal_route_selected_id = "none"
+        self.hidden_goal_route_art_match = 0.0
+        self.hidden_goal_route_distance = 0.0
+        self.hidden_goal_route_vetoes = 0
+        self.hidden_goal_route_terminal_holds = 0
+        self.hidden_goal_route_terminal_active = False
+        self.hidden_goal_food_latch_ticks = 0
+        self.hidden_goal_food_target = None
+        terrain_air_route_controller = getattr(
+            self, "terrain_air_route_controller", None
+        )
+        if terrain_air_route_controller is not None:
+            terrain_air_route_controller.reset("episode_reset")
+        self.shadow_episode_resets += 1
+
+    def synchronize_shadow_episode(self, body_state):
+        label = str(body_state.get("trap_course", "natural_terrain") or "natural_terrain")
+        try:
+            episode = int(body_state.get("trap_episode", 0) or 0)
+        except (TypeError, ValueError):
+            episode = 0
+        variant = str(body_state.get("trap_course_variant", "standard") or "standard")
+        key = (label, variant, episode)
+        if self.shadow_episode_key is None:
+            self.shadow_episode_key = key
+            return False
+        if key == self.shadow_episode_key:
+            return False
+        self.shadow_episode_key = key
+        self.reset_shadow_episode_state()
+        return True
+
     def update_shadow_policy(self, body_state, active_action):
         was_shadow_takeover = self.shadow_takeover
+        previous_world_move = self.shadow_world_move
+        self.shadow_episode_idle_active = False
         self.shadow_ready = False
         self.shadow_takeover = False
         if not self.shadow_enabled or not isinstance(body_state, dict):
+            return
+        episode_changed = self.synchronize_shadow_episode(body_state)
+        if episode_changed or self.shadow_episode_idle_ticks > 0:
+            self.shadow_episode_idle_active = True
+            self.shadow_episode_idle_ticks = max(0, self.shadow_episode_idle_ticks - 1)
             return
         rays = body_state.get("directional_rays")
         if not isinstance(rays, list) or len(rays) != 8:
@@ -448,15 +1287,82 @@ class EmbodiedFunctionalEgo:
         try:
             rays = [clamp(float(value)) for value in rays]
             body_clearance = [clamp(float(value)) for value in body_clearance]
-            food_visible = 1.0 if body_state.get("food_visible", False) else 0.0
-            food_distance = max(0.0, float(body_state.get("food_distance", 0.0)))
-            food_scale = min(1.0, food_distance / 14.0) if food_visible else 0.0
-            food_x = float(body_state.get("food_world_x", 0.0)) * food_scale
-            food_z = float(body_state.get("food_world_z", 0.0)) * food_scale
             position = (float(body_state.get("x", 0.0)), float(body_state.get("z", 0.0)))
+            raw_food_visible = bool(body_state.get("food_visible", False))
+            food_distance = max(0.0, float(body_state.get("food_distance", 0.0)))
+            direction_x = float(body_state.get("food_world_x", 0.0))
+            direction_z = float(body_state.get("food_world_z", 0.0))
         except (TypeError, ValueError):
             self.shadow_error = "invalid_telemetry"
             return
+
+        food_visible = 1.0 if raw_food_visible else 0.0
+        course_finished = str(body_state.get("trap_outcome", "running")) in {
+            "success",
+            "timeout",
+        }
+        if course_finished:
+            food_visible = 0.0
+            self.hidden_goal_food_latch_ticks = 0
+            self.hidden_goal_food_target = None
+        elif raw_food_visible and route_memory_adapter(self.hidden_goal_adapter_type):
+            direction_length = max(1e-6, math.hypot(direction_x, direction_z))
+            self.hidden_goal_food_target = (
+                position[0] + direction_x / direction_length * food_distance,
+                position[1] + direction_z / direction_length * food_distance,
+            )
+            self.hidden_goal_food_latch_ticks = self.hidden_goal_food_latch_total_ticks
+        elif (
+            route_memory_adapter(self.hidden_goal_adapter_type)
+            and self.hidden_goal_food_latch_ticks > 0
+            and self.hidden_goal_food_target is not None
+        ):
+            direction_x = self.hidden_goal_food_target[0] - position[0]
+            direction_z = self.hidden_goal_food_target[1] - position[1]
+            food_distance = math.hypot(direction_x, direction_z)
+            direction_length = max(1e-6, food_distance)
+            direction_x /= direction_length
+            direction_z /= direction_length
+            food_visible = 1.0
+            self.hidden_goal_food_latch_ticks -= 1
+        elif not raw_food_visible:
+            self.hidden_goal_food_latch_ticks = 0
+            self.hidden_goal_food_target = None
+        food_scale = min(1.0, food_distance / 14.0) if food_visible else 0.0
+        food_x = direction_x * food_scale
+        food_z = direction_z * food_scale
+
+        orbit_evidence = (
+            bool(body_state.get("blocked", False))
+            or bool(body_state.get("horizontal_collision", False))
+            or food_visible > 0.0
+        )
+        self.orbit_history.append((position[0], position[1], orbit_evidence, food_visible > 0.0))
+        orbit = trajectory_orbit_metrics(self.orbit_history)
+        self.orbit_path = float(orbit["path"])
+        self.orbit_net = float(orbit["net"])
+        self.orbit_efficiency = float(orbit["efficiency"])
+        orbit_detected = bool(orbit["detected"]) and len(self.orbit_history) == self.orbit_history.maxlen
+        self.orbit_adapter_active = False
+        air_route_selected = None
+        course_label = body_state.get("trap_course", "natural_terrain")
+        if (
+            self.terrain_air_route_controller.enabled
+            and self.shadow_control == "terrain"
+            and course_label in {None, "", "natural_terrain"}
+        ):
+            air_route_selected = self.terrain_air_route_controller.update(
+                body_state,
+                self.hunger,
+                self.orbit_path,
+                self.orbit_efficiency,
+                self.physics_wedge_ticks / self.hz,
+                self.trap_accumulation_ticks / self.hz,
+                SHADOW_ACTIONS,
+                SHADOW_VECTORS,
+                body_clearance,
+                fallback_active=self.shadow_fallback_hold_ticks > 0,
+            )
 
         previous = [0.0] * 8
         previous[self.shadow_previous_action] = 1.0
@@ -465,6 +1371,8 @@ class EmbodiedFunctionalEgo:
         with torch.no_grad():
             obs = torch.tensor([observation], dtype=torch.float32)
             logits, _value, self.shadow_hidden = self.shadow_policy.step(obs, self.shadow_hidden)
+            if self.hidden_goal_adapter_enabled:
+                self.hidden_goal_adapter_history.append(self.shadow_hidden.detach().clone())
             logits = self.shadow_safety_mask(logits, obs)
             body_blocked = torch.tensor([[value < 0.5 for value in body_clearance]], dtype=torch.bool)
             if bool(torch.all(body_blocked).item()):
@@ -479,7 +1387,14 @@ class EmbodiedFunctionalEgo:
                 or bool(body_state.get("horizontal_collision", False))
             )
             if self.shadow_control == "terrain":
-                mpc_needed = food_visible > 0.0 or tactical_obstacle
+                mpc_needed = (
+                    food_visible > 0.0
+                    or tactical_obstacle
+                    or (
+                        self.terrain_air_route_controller.control_mode == "guided"
+                        and self.terrain_air_route_controller.active
+                    )
+                )
             else:
                 mpc_needed = food_visible > 0.0
             if mpc_needed:
@@ -506,6 +1421,292 @@ class EmbodiedFunctionalEgo:
                 self.shadow_mpc_horizon = 0
                 self.shadow_mpc_depth = 0.0
                 self.shadow_mpc_uncertainty_stops = 0
+            self.hidden_goal_adapter_active = False
+            self.conductor_gate_active = False
+            self.conductor_gate_recommendation = "insufficient_evidence"
+            self.conductor_gate_confidence = 0.0
+            conductor_allows_episodic = True
+            if (
+                self.conductor_control == "familiar_hidden_goal"
+                and self.trap_course_label == "lwall"
+                and food_visible <= 0.0
+            ):
+                (
+                    self.conductor_gate_recommendation,
+                    self.conductor_gate_confidence,
+                ) = self.conductor_observer.recommend("familiar_hidden_goal")
+                self.conductor_gate_active = True
+                self.conductor_gate_decisions += 1
+                conductor_allows_episodic = conductor_gate_allows(
+                    self.conductor_control,
+                    "familiar_hidden_goal",
+                    self.conductor_gate_recommendation,
+                    self.conductor_gate_confidence,
+                )
+                if not conductor_allows_episodic:
+                    self.conductor_gate_denials += 1
+            if (
+                self.hidden_goal_adapter_enabled
+                and self.hidden_goal_adapter_type == "art_route_library"
+                and self.trap_course_label == "lwall"
+                and food_visible <= 0.0
+                and conductor_allows_episodic
+                and not self.hidden_goal_route
+            ):
+                self.select_art_route(body_state)
+            hidden_goal_scope = (
+                self.hidden_goal_adapter_enabled
+                and self.trap_course_label == "lwall"
+                and food_visible <= 0.0
+                and conductor_allows_episodic
+                and len(self.hidden_goal_adapter_history)
+                >= self.hidden_goal_adapter_temporal_steps
+                and (
+                    self.hidden_goal_adapter_type != "art_route_library"
+                    or bool(self.hidden_goal_route)
+                )
+            )
+            if hidden_goal_scope:
+                if self.hidden_goal_adapter_type in {"episodic_route", "art_route_library"}:
+                    if self.hidden_goal_route_origin is None:
+                        self.hidden_goal_route_origin = position
+                    route_last = len(self.hidden_goal_route) - 1
+                    while self.hidden_goal_route_index < route_last:
+                        waypoint = self.hidden_goal_route[self.hidden_goal_route_index]
+                        target = (
+                            self.hidden_goal_route_origin[0] + waypoint[0],
+                            self.hidden_goal_route_origin[1] + waypoint[1],
+                        )
+                        delta = (target[0] - position[0], target[1] - position[1])
+                        waypoint_radius = route_waypoint_radius(
+                            self.hidden_goal_route_index,
+                            len(self.hidden_goal_route),
+                            self.hidden_goal_route_radius,
+                            self.hidden_goal_route_terminal_radius,
+                            self.hidden_goal_route_terminal_count,
+                        )
+                        if math.hypot(*delta) > waypoint_radius:
+                            break
+                        self.hidden_goal_route_index += 1
+                    waypoint = self.hidden_goal_route[self.hidden_goal_route_index]
+                    target = (
+                        self.hidden_goal_route_origin[0] + waypoint[0],
+                        self.hidden_goal_route_origin[1] + waypoint[1],
+                    )
+                    delta = (target[0] - position[0], target[1] - position[1])
+                    self.hidden_goal_route_distance = math.hypot(*delta)
+                    if (
+                        self.hidden_goal_route_index == route_last
+                        and self.hidden_goal_route_distance <= self.hidden_goal_route_terminal_radius
+                    ):
+                        self.hidden_goal_route_terminal_active = True
+                    if self.hidden_goal_route_terminal_active:
+                        previous = self.hidden_goal_route[max(0, route_last - 1)]
+                        terminal_vector = (waypoint[0] - previous[0], waypoint[1] - previous[1])
+                        terminal_length = max(1e-6, math.hypot(*terminal_vector))
+                        terminal_direction = (
+                            terminal_vector[0] / terminal_length,
+                            terminal_vector[1] / terminal_length,
+                        )
+                        delta = (
+                            target[0] + terminal_direction[0] * self.hidden_goal_route_terminal_extension
+                            - position[0],
+                            target[1] + terminal_direction[1] * self.hidden_goal_route_terminal_extension
+                            - position[1],
+                        )
+                        self.hidden_goal_route_terminal_holds += 1
+                    length = max(1e-6, math.hypot(*delta))
+                    desired = (delta[0] / length, delta[1] / length)
+                    ideal = max(
+                        range(len(SHADOW_ACTIONS)),
+                        key=lambda index: (
+                            SHADOW_VECTORS[SHADOW_ACTIONS[index]][0] * desired[0]
+                            + SHADOW_VECTORS[SHADOW_ACTIONS[index]][1] * desired[1]
+                        ),
+                    )
+                    safe = [index for index, clear in enumerate(body_clearance) if clear >= 0.5]
+                    candidate = max(
+                        safe,
+                        key=lambda index: (
+                            SHADOW_VECTORS[SHADOW_ACTIONS[index]][0] * desired[0]
+                            + SHADOW_VECTORS[SHADOW_ACTIONS[index]][1] * desired[1]
+                        ),
+                        default=selected,
+                    )
+                    if candidate != ideal:
+                        self.hidden_goal_route_vetoes += 1
+                    candidate_confidence = 1.0
+                    adapter_logits = None
+                elif self.hidden_goal_adapter_type == "temporal_gru":
+                    adapter_input = self.shadow_torch.stack(
+                        list(self.hidden_goal_adapter_history), dim=1
+                    )
+                    adapter_logits = self.hidden_goal_adapter(adapter_input)
+                else:
+                    adapter_input = self.shadow_hidden
+                    adapter_logits = self.hidden_goal_adapter(adapter_input)
+                if adapter_logits is not None:
+                    adapter_logits = self.shadow_safety_mask(adapter_logits, obs)
+                    adapter_logits = adapter_logits.masked_fill(body_blocked, -1e9)
+                if adapter_logits is not None and self.hidden_goal_adapter_lateral_sign:
+                    lateral_penalty = self.shadow_torch.tensor(
+                        [
+                            self.hidden_goal_adapter_lateral_bias
+                            if SHADOW_VECTORS[action][0] * self.hidden_goal_adapter_lateral_sign < 0.0
+                            else 0.0
+                            for action in SHADOW_ACTIONS
+                        ],
+                        dtype=adapter_logits.dtype,
+                        device=adapter_logits.device,
+                    )
+                    adapter_logits = adapter_logits - lateral_penalty.unsqueeze(0)
+                if adapter_logits is not None:
+                    adapter_probabilities = self.shadow_torch.softmax(adapter_logits, dim=-1)[0]
+                    candidate = int(self.shadow_torch.argmax(adapter_probabilities).item())
+                    candidate_confidence = float(adapter_probabilities[candidate].item())
+                candidate_lateral = SHADOW_VECTORS[SHADOW_ACTIONS[candidate]][0]
+                if (
+                    self.hidden_goal_adapter_lateral_bias > 0.0
+                    and not self.hidden_goal_adapter_lateral_sign
+                    and candidate_confidence >= self.hidden_goal_adapter_confidence_gate
+                    and abs(candidate_lateral) > 0.0
+                ):
+                    self.hidden_goal_adapter_lateral_sign = 1 if candidate_lateral > 0.0 else -1
+                    self.hidden_goal_adapter_lateral_start_position = position
+                    self.hidden_goal_adapter_lateral_elapsed_ticks = 0
+                held_action_safe = (
+                    self.hidden_goal_adapter_selected is not None
+                    and body_clearance[self.hidden_goal_adapter_selected] >= 0.5
+                )
+                if self.hidden_goal_adapter_hold_ticks <= 0 or not held_action_safe:
+                    self.hidden_goal_adapter_selected = candidate
+                    self.hidden_goal_adapter_hold_ticks = self.hidden_goal_adapter_commit_ticks
+                if candidate_confidence >= self.hidden_goal_adapter_confidence_gate:
+                    selected = self.hidden_goal_adapter_selected
+                    self.hidden_goal_adapter_hold_ticks -= 1
+                    self.hidden_goal_adapter_active = True
+                    if self.conductor_gate_active:
+                        self.conductor_gate_frames += 1
+                        self.conductor_observer.action_influence += 1
+                    self.hidden_goal_adapter_action = SHADOW_ACTIONS[selected]
+                    self.hidden_goal_adapter_confidence = candidate_confidence
+                    self.hidden_goal_adapter_events += 1
+                    self.shadow_mpc_mode = (
+                        "lwall_art_route"
+                        if self.hidden_goal_adapter_type == "art_route_library"
+                        else "lwall_episodic_route"
+                        if self.hidden_goal_adapter_type == "episodic_route"
+                        else "lwall_hidden_goal_adapter"
+                    )
+                    self.hidden_goal_adapter_lateral_elapsed_ticks += 1
+                    if self.hidden_goal_adapter_lateral_start_position is not None:
+                        lateral_displacement = math.hypot(
+                            position[0] - self.hidden_goal_adapter_lateral_start_position[0],
+                            position[1] - self.hidden_goal_adapter_lateral_start_position[1],
+                        )
+                        if (
+                            self.hidden_goal_adapter_lateral_elapsed_ticks
+                            >= max(2, int(round(self.hz * 2.0)))
+                            and lateral_displacement < 1.0
+                        ):
+                            self.hidden_goal_adapter_lateral_sign = 0
+                            self.hidden_goal_adapter_lateral_start_position = None
+                            self.hidden_goal_adapter_lateral_elapsed_ticks = 0
+                            self.hidden_goal_adapter_lateral_resets += 1
+                else:
+                    self.hidden_goal_adapter_action = "none"
+                    self.hidden_goal_adapter_confidence = candidate_confidence
+            else:
+                self.hidden_goal_adapter_action = "none"
+                self.hidden_goal_adapter_confidence = 0.0
+                self.hidden_goal_adapter_selected = None
+                self.hidden_goal_adapter_hold_ticks = 0
+                self.hidden_goal_adapter_lateral_sign = 0
+                self.hidden_goal_adapter_lateral_start_position = None
+                self.hidden_goal_adapter_lateral_elapsed_ticks = 0
+            recovery_running = (
+                self.orbit_adapter_enabled
+                and self.orbit_adapter_selected is not None
+                and self.orbit_adapter_hold_ticks > 0
+            )
+            if (orbit_detected or recovery_running) and self.orbit_adapter_enabled:
+                adapter_logits = self.orbit_adapter(self.shadow_hidden)
+                adapter_logits = self.shadow_safety_mask(adapter_logits, obs)
+                adapter_logits = adapter_logits.masked_fill(body_blocked, -1e9)
+                adapter_probabilities = self.shadow_torch.softmax(adapter_logits, dim=-1)[0]
+                candidate = int(self.shadow_torch.argmax(adapter_probabilities).item())
+                candidate_confidence = float(adapter_probabilities[candidate].item())
+                if not recovery_running and candidate_confidence >= self.orbit_adapter_confidence_gate:
+                    self.orbit_adapter_selected = candidate
+                    self.orbit_adapter_hold_ticks = max(2, int(round(self.hz * 6.0)))
+                    self.orbit_adapter_action_ticks = max(2, int(round(self.hz * 0.8)))
+                    self.orbit_adapter_elapsed_ticks = 0
+                    self.orbit_adapter_start_position = position
+                    self.orbit_adapter_displacement = 0.0
+                    self.orbit_adapter_events += 1
+                    recovery_running = True
+                if recovery_running:
+                    if (
+                        body_clearance[self.orbit_adapter_selected] < 0.5
+                        or self.orbit_adapter_action_ticks <= 0
+                    ):
+                        # Commit to recovery, not one direction: refresh the safe
+                        # sub-action as local geometry changes along the exit path.
+                        self.orbit_adapter_selected = candidate
+                        self.orbit_adapter_action_ticks = max(
+                            2, int(round(self.hz * 0.8))
+                        )
+                    selected = self.orbit_adapter_selected
+                    self.orbit_adapter_elapsed_ticks += 1
+                    self.orbit_adapter_hold_ticks -= 1
+                    self.orbit_adapter_action_ticks -= 1
+                    if self.orbit_adapter_start_position is not None:
+                        self.orbit_adapter_displacement = math.hypot(
+                            position[0] - self.orbit_adapter_start_position[0],
+                            position[1] - self.orbit_adapter_start_position[1],
+                        )
+                    self.orbit_adapter_confidence = float(adapter_probabilities[selected].item())
+                    self.orbit_adapter_action = SHADOW_ACTIONS[selected]
+                    self.orbit_adapter_active = True
+                    self.shadow_mpc_mode = "orbit_exit_adapter"
+                    path_clear = (
+                        body_clearance[selected] >= 0.5
+                        and not bool(body_state.get("blocked", False))
+                        and not bool(body_state.get("horizontal_collision", False))
+                    )
+                    if orbit_recovery_should_finish(
+                        self.orbit_adapter_elapsed_ticks,
+                        self.orbit_adapter_displacement,
+                        path_clear,
+                        max(2, int(round(self.hz * 2.5))),
+                        max(2, int(round(self.hz * 6.0))),
+                    ):
+                        self.orbit_adapter_hold_ticks = 0
+                        self.orbit_adapter_action_ticks = 0
+                        self.orbit_adapter_elapsed_ticks = 0
+                        self.orbit_adapter_selected = None
+                        self.orbit_adapter_start_position = None
+                else:
+                    self.orbit_adapter_hold_ticks = 0
+                    self.orbit_adapter_action_ticks = 0
+                    self.orbit_adapter_elapsed_ticks = 0
+                    self.orbit_adapter_selected = None
+                    self.orbit_adapter_start_position = None
+                    self.orbit_adapter_displacement = 0.0
+                    self.orbit_adapter_action = "none"
+                    self.orbit_adapter_confidence = candidate_confidence
+            else:
+                self.orbit_adapter_hold_ticks = 0
+                self.orbit_adapter_action_ticks = 0
+                self.orbit_adapter_elapsed_ticks = 0
+                self.orbit_adapter_selected = None
+                self.orbit_adapter_start_position = None
+                self.orbit_adapter_displacement = 0.0
+                self.orbit_adapter_action = "none"
+                self.orbit_adapter_confidence = 0.0
+            if air_route_selected is not None:
+                selected = air_route_selected
+                self.shadow_mpc_mode = "terrain_air_bounded_route"
         if self.shadow_previous_position is not None and self.shadow_previous_proposal in SHADOW_VECTORS:
             dx = position[0] - self.shadow_previous_position[0]
             dz = position[1] - self.shadow_previous_position[1]
@@ -516,6 +1717,42 @@ class EmbodiedFunctionalEgo:
                 cosine = (dx * proposed[0] + dz * proposed[1]) / (distance * proposed_norm)
                 self.shadow_agreement = clamp(0.5 * (cosine + 1.0))
         self.shadow_action = SHADOW_ACTIONS[selected]
+        selected_vector = SHADOW_VECTORS[self.shadow_action]
+        selected_length = max(1e-6, math.hypot(*selected_vector))
+        self.shadow_world_move = (
+            selected_vector[0] / selected_length,
+            selected_vector[1] / selected_length,
+        )
+        self.shadow_continuous_intercept = False
+        if (
+            route_memory_adapter(self.hidden_goal_adapter_type)
+            and food_visible > 0.0
+            and self.hidden_goal_food_target is not None
+        ):
+            target_delta = (
+                self.hidden_goal_food_target[0] - position[0],
+                self.hidden_goal_food_target[1] - position[1],
+            )
+            target_distance = math.hypot(*target_delta)
+            if target_distance > 1e-4:
+                target_direction = (
+                    target_delta[0] / target_distance,
+                    target_delta[1] / target_distance,
+                )
+                nearest_target_action = max(
+                    range(len(SHADOW_ACTIONS)),
+                    key=lambda index: (
+                        SHADOW_VECTORS[SHADOW_ACTIONS[index]][0] * target_direction[0]
+                        + SHADOW_VECTORS[SHADOW_ACTIONS[index]][1] * target_direction[1]
+                    ),
+                )
+                if body_clearance[nearest_target_action] >= 0.5:
+                    self.shadow_world_move = smooth_target_intercept(
+                        previous_world_move,
+                        target_delta,
+                        target_distance,
+                    )
+                    self.shadow_continuous_intercept = True
         self.shadow_confidence = float(torch.max(probabilities).item()) if self.shadow_mpc else float(probabilities[selected].item())
         self.shadow_probabilities = [float(value) for value in probabilities.tolist()]
         self.shadow_body_safe_actions = sum(value >= 0.5 for value in body_clearance)
@@ -556,7 +1793,11 @@ class EmbodiedFunctionalEgo:
             and course_label in {None, "", "natural_terrain"}
         )
         fallback_threshold = int(round(self.hz * 8.0))
-        if self.physics_wedge_ticks >= fallback_threshold and self.shadow_fallback_hold_ticks <= 0:
+        if stable_recovery_due(
+            self.physics_wedge_ticks,
+            self.trap_accumulation_ticks,
+            fallback_threshold,
+        ) and self.shadow_fallback_hold_ticks <= 0:
             self.shadow_fallback_hold_ticks = max(1, int(round(self.hz * 12.0)))
             self.breakout_plan.clear()
             self.escape_ticks = 0
@@ -715,7 +1956,53 @@ class EmbodiedFunctionalEgo:
         for root, clearance in enumerate(body_clearance):
             if clearance < 0.5:
                 risk_adjusted[root] = -math.inf
+        air_controller = self.terrain_air_route_controller
+        guidance_applied = False
+        unguided_selected = int(torch.argmax(risk_adjusted).item())
+        if (
+            air_controller.control_mode == "guided"
+            and air_controller.active
+            and air_controller.guidance_weight > 0.0
+        ):
+            guidance = torch.tensor(
+                air_controller.guidance_vector,
+                dtype=move_tensor.dtype,
+            )
+            guidance_length = torch.linalg.vector_norm(guidance)
+            if float(guidance_length.item()) > 1e-6:
+                finite_scores = risk_adjusted[torch.isfinite(risk_adjusted)]
+                if len(finite_scores) >= 2:
+                    top_scores = torch.topk(finite_scores, 2).values
+                    air_controller.last_unguided_margin = float(
+                        (top_scores[0] - top_scores[1]).item()
+                    )
+                else:
+                    air_controller.last_unguided_margin = math.inf
+                ambiguity = score_margin_ambiguity(
+                    air_controller.last_unguided_margin,
+                    air_controller.guidance_margin_threshold,
+                )
+                effective_weight = air_controller.guidance_weight * ambiguity
+                air_controller.last_margin_ambiguity = ambiguity
+                air_controller.last_effective_guidance_weight = effective_weight
+                if effective_weight > 0.0:
+                    guidance /= guidance_length
+                    alignment = move_tensor @ guidance
+                    risk_adjusted += effective_weight * alignment
+                    air_controller.action_influence += 1
+                    air_controller.guidance_decisions += 1
+                    guidance_applied = True
+                    self.shadow_mpc_mode = "terrain_air_guided_mpc"
         selected = int(torch.argmax(risk_adjusted).item())
+        if guidance_applied:
+            air_controller.last_unguided_action = SHADOW_ACTIONS[unguided_selected]
+            air_controller.last_guided_action = SHADOW_ACTIONS[selected]
+            air_controller.guidance_action_changes += int(
+                selected != unguided_selected
+            )
+        elif air_controller.control_mode == "guided":
+            air_controller.last_unguided_action = SHADOW_ACTIONS[unguided_selected]
+            air_controller.last_guided_action = SHADOW_ACTIONS[selected]
         self.shadow_mpc_depth = float(depths.reshape(roots, samples)[selected].mean().item())
         self.shadow_mpc_uncertainty_stops = uncertainty_stops
         return selected, float(risk_adjusted[selected].item())
@@ -753,6 +2040,9 @@ class EmbodiedFunctionalEgo:
     def update_from_body(self, body_state):
         if isinstance(body_state, dict):
             self.trap_course_label = body_state.get("trap_course", self.trap_course_label)
+            self.trap_course_variant = body_state.get(
+                "trap_course_variant", self.trap_course_variant
+            )
             self.trap_course_episode = int(body_state.get("trap_episode", self.trap_course_episode) or 0)
             self.trap_course_successes = int(body_state.get("trap_successes", self.trap_course_successes) or 0)
             self.trap_course_failures = int(body_state.get("trap_failures", self.trap_course_failures) or 0)
@@ -797,6 +2087,15 @@ class EmbodiedFunctionalEgo:
             self.physics_wedge_ticks = 0
         else:
             self.physics_wedge_ticks = max(0, self.physics_wedge_ticks - 2)
+        critical_orbit = self.hunger >= 0.92 and not self.sleeping and not self.waking
+        if critical_orbit and moving and self.current_stuck:
+            self.trap_accumulation_ticks += 2
+        elif critical_orbit and moving and horizontal_collision:
+            self.trap_accumulation_ticks += 1
+        elif critical_orbit and clear_progress:
+            self.trap_accumulation_ticks = max(0, self.trap_accumulation_ticks - 1)
+        else:
+            self.trap_accumulation_ticks = max(0, self.trap_accumulation_ticks - 4)
         if not self.sleeping:
             self.hunger = clamp(self.hunger + 0.0010 + 0.0008 * self.noise_injection)
         if clear_progress and self.trap_pressure < 0.18:
@@ -857,6 +2156,115 @@ class EmbodiedFunctionalEgo:
         self.update_affect(metrics, body_state)
         self.update_workspace(body_state)
         self.update_survival_monitor(body_state)
+        self.update_dynamics_observer(body_state)
+        self.update_art_observer(body_state)
+
+    def update_dynamics_observer(self, body_state):
+        rays = body_state.get("directional_rays", []) if isinstance(body_state, dict) else []
+        obstacle_signal = 0.0
+        if isinstance(rays, list) and rays:
+            try:
+                obstacle_signal = 1.0 - min(clamp(float(value)) for value in rays)
+            except (TypeError, ValueError):
+                obstacle_signal = 0.0
+        values = [
+            obstacle_signal,
+            1.0 if self.food_visible(body_state) else 0.0,
+            clamp(0.5 * (self.valence + 1.0)),
+            self.arousal,
+            self.local_trap_pressure(body_state),
+            self.workspace_packet["confidence"],
+        ]
+        observed_noise = clamp(
+            0.42 * self.noise_injection
+            + 0.24 * self.delusion_index
+            + 0.22 * self.prediction_error
+            + 0.12 * self.calcium_gate
+        )
+        self.dynamics_observer.update(values, observed_noise)
+
+    def update_art_observer(self, body_state):
+        if not isinstance(body_state, dict):
+            return
+
+        def normalized_values(key, count, default=1.0):
+            values = body_state.get(key, [])
+            if not isinstance(values, list) or len(values) != count:
+                return [default] * count
+            try:
+                return [clamp(float(value)) for value in values]
+            except (TypeError, ValueError):
+                return [default] * count
+
+        rays = normalized_values("directional_rays", 8)
+        clearance = normalized_values("directional_body_clearance", 8)
+        food_visible = 1.0 if self.food_visible(body_state) else 0.0
+        try:
+            food_distance = clamp(float(body_state.get("food_distance", 28.0)) / 28.0)
+        except (TypeError, ValueError):
+            food_distance = 1.0
+        blocked = 1.0 if body_state.get("blocked", False) else 0.0
+        collision = 1.0 if body_state.get("horizontal_collision", False) else 0.0
+        stuck = 1.0 if self.current_stuck else 0.0
+        trap_pressure = self.local_trap_pressure(body_state)
+        features = rays + clearance + [
+            food_visible,
+            food_distance,
+            blocked,
+            collision,
+            stuck,
+            self.hunger,
+            trap_pressure,
+            clamp(0.5 * (self.valence + 1.0)),
+            self.arousal,
+            self.workspace_packet["confidence"],
+        ]
+
+        if self.sleeping or self.waking:
+            evidence_label = "maintenance"
+        elif food_visible > 0.0:
+            evidence_label = "food_visible"
+        elif self.current_stuck or self.physics_wedge_ticks >= max(2, int(round(self.hz * 1.0))):
+            evidence_label = "wedge_orbit"
+        elif blocked > 0.0 or collision > 0.0:
+            evidence_label = "contact_obstacle"
+        elif trap_pressure >= 0.45:
+            evidence_label = "local_obstruction"
+        elif self.hunger >= 0.92:
+            evidence_label = "critical_foraging"
+        else:
+            evidence_label = "clear_traversal"
+        self.art_observer.update(features, evidence_label)
+
+    def update_conductor_observer(self, body_state):
+        if not self.conductor_observer.enabled or not self.shadow_ready:
+            return
+        fallback_active = self.shadow_fallback_hold_ticks > 0
+        self.conductor_observer.observe(
+            {
+                "trap_course": self.trap_course_label,
+                "trap_course_variant": self.trap_course_variant,
+                "trap_episode": self.trap_course_episode,
+                "trap_outcome": self.trap_course_outcome,
+                "x": body_state.get("x", 0.0),
+                "z": body_state.get("z", 0.0),
+                "yaw": body_state.get("yaw", 0.0),
+                "food_visible": bool(body_state.get("food_visible", False)),
+                "food_distance": body_state.get("food_distance", 0.0),
+                "blocked": bool(body_state.get("blocked", False)),
+                "body_collision": bool(body_state.get("horizontal_collision", False)),
+                "stuck": self.current_stuck,
+                "body_safe_actions": self.shadow_body_safe_actions,
+                "physics_wedge_seconds": self.physics_wedge_ticks / self.hz,
+                "trap_accumulation_seconds": self.trap_accumulation_ticks / self.hz,
+                "fallback_active": fallback_active,
+                "hidden_goal_active": self.hidden_goal_adapter_active,
+                "hidden_goal_route_selected_id": self.hidden_goal_route_selected_id,
+                "route_index": self.hidden_goal_route_index,
+                "route_distance": self.hidden_goal_route_distance,
+                "mpc_engaged": self.shadow_mpc_engaged,
+            }
+        )
 
     def apply_food_feedback(self, body_state):
         self.shadow_last_reward = 0.0
@@ -1506,11 +2914,13 @@ class EmbodiedFunctionalEgo:
             self.last_action = "idle"
             return "idle"
 
-        if self.unstuck_respawn_ticks > 0 and self.physics_wedge_ticks >= self.unstuck_respawn_ticks:
+        persistent_wedge = max(self.physics_wedge_ticks, self.trap_accumulation_ticks)
+        if self.unstuck_respawn_ticks > 0 and persistent_wedge >= self.unstuck_respawn_ticks:
             self.survival_failure_events += 1
             self.survival_failure_reason = "persistent_physics_wedge"
             self.unstuck_respawns += 1
             self.physics_wedge_ticks = 0
+            self.trap_accumulation_ticks = 0
             self.contact_probe_ticks = 0
             self.stuck_cooldown = max(self.stuck_cooldown, int(round(self.hz * 8.0)))
             self.breakout_plan.clear()
@@ -1524,6 +2934,7 @@ class EmbodiedFunctionalEgo:
         if self.survival_failed:
             self.unstuck_respawns += 1
             self.physics_wedge_ticks = 0
+            self.trap_accumulation_ticks = 0
             self.contact_probe_ticks = 0
             self.stuck_cooldown = max(self.stuck_cooldown, int(round(self.hz * 8.0)))
             self.breakout_plan.clear()
@@ -1864,6 +3275,8 @@ class EmbodiedFunctionalEgo:
         return "up"
 
     def command_payload(self, action):
+        if self.shadow_episode_idle_active:
+            action = "idle"
         mode = "sleep" if action == "sleep" else "wake"
         if action == "seek_food":
             move_x, move_z = self.food_seek_move
@@ -1896,6 +3309,7 @@ class EmbodiedFunctionalEgo:
             "escape_ticks": self.escape_ticks,
             "stuck_events": self.stuck_events,
             "physics_wedge_seconds": round(self.physics_wedge_ticks / self.hz, 1),
+            "trap_accumulation_seconds": round(self.trap_accumulation_ticks / self.hz, 1),
             "unstuck_respawns": self.unstuck_respawns,
             "trap_cells": len(self.trap_memory),
             "trap_pressure": round(self.trap_pressure, 4),
@@ -1941,9 +3355,11 @@ class EmbodiedFunctionalEgo:
             "shadow_agreement": round(self.shadow_agreement, 4),
             "shadow_error": self.shadow_error,
             "shadow_takeover": self.shadow_takeover,
-            "shadow_world_x": SHADOW_VECTORS.get(self.shadow_action, (0.0, 0.0))[0],
-            "shadow_world_z": SHADOW_VECTORS.get(self.shadow_action, (0.0, 0.0))[1],
+            "shadow_world_x": round(self.shadow_world_move[0], 4),
+            "shadow_world_z": round(self.shadow_world_move[1], 4),
+            "shadow_continuous": self.shadow_continuous_intercept,
             "shadow_takeover_steps": self.shadow_takeover_steps,
+            "shadow_episode_resets": self.shadow_episode_resets,
             "shadow_body_safe_actions": self.shadow_body_safe_actions,
             "shadow_mpc": self.shadow_mpc,
             "shadow_mpc_engaged": self.shadow_mpc_engaged,
@@ -1954,14 +3370,104 @@ class EmbodiedFunctionalEgo:
             "shadow_mpc_uncertainty_stops": self.shadow_mpc_uncertainty_stops,
             "shadow_mpc_planning_frames": self.shadow_mpc_planning_frames,
             "shadow_mpc_critical_frames": self.shadow_mpc_critical_frames,
+            "orbit_adapter_enabled": self.orbit_adapter_enabled,
+            "orbit_adapter_active": self.orbit_adapter_active,
+            "orbit_adapter_action": self.orbit_adapter_action,
+            "orbit_adapter_confidence": round(self.orbit_adapter_confidence, 4),
+            "orbit_adapter_confidence_gate": round(self.orbit_adapter_confidence_gate, 4),
+            "orbit_adapter_events": self.orbit_adapter_events,
+            "orbit_adapter_remaining_seconds": round(self.orbit_adapter_hold_ticks / self.hz, 2),
+            "orbit_adapter_displacement": round(self.orbit_adapter_displacement, 3),
+            "orbit_path": round(self.orbit_path, 3),
+            "orbit_net": round(self.orbit_net, 3),
+            "orbit_efficiency": round(self.orbit_efficiency, 4),
+            "hidden_goal_adapter_enabled": self.hidden_goal_adapter_enabled,
+            "hidden_goal_adapter_type": self.hidden_goal_adapter_type,
+            "hidden_goal_adapter_active": self.hidden_goal_adapter_active,
+            "hidden_goal_adapter_action": self.hidden_goal_adapter_action,
+            "hidden_goal_adapter_confidence": round(self.hidden_goal_adapter_confidence, 4),
+            "hidden_goal_adapter_events": self.hidden_goal_adapter_events,
+            "hidden_goal_route_index": self.hidden_goal_route_index,
+            "hidden_goal_route_count": len(self.hidden_goal_route),
+            "hidden_goal_route_distance": round(self.hidden_goal_route_distance, 3),
+            "hidden_goal_route_vetoes": self.hidden_goal_route_vetoes,
+            "hidden_goal_route_terminal_holds": self.hidden_goal_route_terminal_holds,
+            "hidden_goal_route_terminal_active": self.hidden_goal_route_terminal_active,
+            "hidden_goal_route_selected_id": self.hidden_goal_route_selected_id,
+            "hidden_goal_route_art_match": round(self.hidden_goal_route_art_match, 4),
+            "hidden_goal_food_latched": self.hidden_goal_food_latch_ticks > 0,
+            "hidden_goal_food_latch_seconds": round(
+                self.hidden_goal_food_latch_ticks / self.hz, 2
+            ),
+            "hidden_goal_adapter_lateral_sign": self.hidden_goal_adapter_lateral_sign,
+            "hidden_goal_adapter_lateral_resets": self.hidden_goal_adapter_lateral_resets,
             "food_sensor_radius": round(self.shadow_food_sensor_radius, 2),
             "trap_course": self.trap_course_label,
+            "trap_course_variant": self.trap_course_variant,
             "trap_episode": self.trap_course_episode,
             "trap_successes": self.trap_course_successes,
             "trap_failures": self.trap_course_failures,
             "trap_outcome": self.trap_course_outcome,
+            "conductor_observer_mode": (
+                (
+                    "live_bounded_familiar_hidden_goal"
+                    if self.conductor_control == "familiar_hidden_goal"
+                    else "passive_reward_learning"
+                    if self.conductor_observer.learning_enabled
+                    else "passive_frozen_checkpoint"
+                )
+                if self.conductor_observer.enabled
+                else "disabled"
+            ),
+            "conductor_context": self.conductor_observer.context,
+            "conductor_recommendation": self.conductor_observer.recommendation,
+            "conductor_active_specialist": self.conductor_observer.active_specialist,
+            "conductor_confidence": round(self.conductor_observer.confidence, 4),
+            "conductor_agreement": self.conductor_observer.agreement,
+            "conductor_agreement_rate": round(
+                self.conductor_observer.agreement_rate, 4
+            ),
+            "conductor_grounded_reward": round(
+                self.conductor_observer.last_reward, 4
+            ),
+            "conductor_updates": self.conductor_observer.updates,
+            "conductor_context_visits": self.conductor_observer.context_visits,
+            "conductor_protocol_entries": len(self.conductor_observer.protocol),
+            "conductor_episode_resets": self.conductor_observer.episode_resets,
+            "conductor_action_influence": self.conductor_observer.action_influence,
+            "conductor_control_mode": self.conductor_control,
+            "conductor_gate_active": self.conductor_gate_active,
+            "conductor_gate_recommendation": self.conductor_gate_recommendation,
+            "conductor_gate_confidence": round(self.conductor_gate_confidence, 4),
+            "conductor_gate_frames": self.conductor_gate_frames,
+            "conductor_gate_decisions": self.conductor_gate_decisions,
+            "conductor_gate_denials": self.conductor_gate_denials,
+            "sync_observer_mode": "passive",
+            "sync_coherence": round(self.dynamics_observer.coherence, 4),
+            "sync_active_modules": self.dynamics_observer.active_modules,
+            "sync_bus_pressure": round(self.dynamics_observer.bus_pressure, 4),
+            "sync_binding_ready": self.dynamics_observer.binding_ready,
+            "criticality_observer_mode": "passive_proxy",
+            "criticality_propagation_ratio": round(self.dynamics_observer.propagation_ratio, 4),
+            "criticality_score": round(self.dynamics_observer.criticality_score, 4),
+            "criticality_regime": self.dynamics_observer.criticality_regime,
+            "criticality_recommended_gain": round(self.dynamics_observer.recommended_gain, 4),
+            "art_observer_mode": "passive_fuzzy_art",
+            "art_category": self.art_observer.category,
+            "art_category_label": self.art_observer.category_label,
+            "art_evidence_label": self.art_observer.evidence_label,
+            "art_match": round(self.art_observer.match, 4),
+            "art_resonance": self.art_observer.resonance,
+            "art_novel": self.art_observer.novel,
+            "art_unknown": self.art_observer.unknown,
+            "art_mismatch_resets": self.art_observer.mismatch_resets,
+            "art_mismatch_resets_total": self.art_observer.mismatch_resets_total,
+            "art_category_count": len(self.art_observer.templates),
+            "art_category_switches": self.art_observer.category_switches,
         }
-        if self.shadow_takeover:
+        # Recovery commands must reach Unity even when learned control was active
+        # on the sensor frame that triggered them.
+        if self.shadow_takeover and action != "unstuck_respawn":
             if self.shadow_control == "course":
                 payload["action"] = "gru_course"
                 payload["intent"] = "learned_course_control"
@@ -2016,12 +3522,19 @@ class EmbodiedFunctionalEgo:
             f"ws={self.workspace_packet['problem']}:{self.workspace_packet['strategy']}:{self.workspace_packet['confidence']:.2f} "
             f"heading={self.heading_action}:{self.heading_ticks:02d} "
             f"escape={self.escape_ticks:02d} stucks={self.stuck_events:02d} "
-            f"wedge={self.physics_wedge_ticks / self.hz:.1f}s respawns={self.unstuck_respawns:02d} "
+            f"wedge={self.physics_wedge_ticks / self.hz:.1f}s "
+            f"trap_accum={self.trap_accumulation_ticks / self.hz:.1f}s respawns={self.unstuck_respawns:02d} "
             f"obstacles={len(self.obstacle_memory):02d}/{self.obstacle_events:02d} "
             f"routes={len(self.escape_attempts):02d} traps={len(self.trap_memory):02d}:{trap_pressure:.2f} "
             f"breakouts={self.breakout_events:02d} "
             f"shadow={self.shadow_action}:{self.shadow_confidence:.2f}/{self.shadow_agreement:.2f} "
             f"takeover={int(self.shadow_takeover)} "
+            f"conductor={self.conductor_observer.recommendation}:{self.conductor_observer.confidence:.2f}/"
+            f"{self.conductor_observer.active_specialist} "
+            f"art={self.art_observer.category}:{self.art_observer.category_label}:{self.art_observer.match:.2f} "
+            f"air={self.terrain_air_observer.recalled_action}:"
+            f"{self.terrain_air_observer.confidence:.2f}/"
+            f"{self.terrain_air_observer.agreement_rate:.2f} "
             f"recent={len(self.recent_failures):02d} {body}"
         )
 
@@ -2033,6 +3546,13 @@ def main():
     parser.add_argument("--listen-port", type=int, default=5056)
     parser.add_argument("--hz", type=float, default=5.0)
     parser.add_argument("--duration", type=float, default=0.0, help="Seconds to run. 0 means run until Ctrl-C.")
+    parser.add_argument("--seed", type=int, default=0, help="Seed Python and Torch randomness for repeatable controller trials.")
+    parser.add_argument(
+        "--course-episodes",
+        type=int,
+        default=0,
+        help="Stop after this many course episodes finish. 0 disables automatic stopping.",
+    )
     parser.add_argument("--sleep-seconds", type=float, default=60.0, help="How long Unity should keep the body asleep.")
     parser.add_argument("--wake-seconds", type=float, default=3.0, help="How long to send explicit wake commands before walking again.")
     parser.add_argument("--min-awake-seconds", type=float, default=300.0, help="Minimum awake time before autonomous sleep can start.")
@@ -2059,6 +3579,14 @@ def main():
         type=float,
         default=None,
         help="Diagnostic initial hunger override in the normalized 0..1 range.",
+    )
+    parser.add_argument(
+        "--diagnostic-teleport",
+        nargs=2,
+        type=float,
+        metavar=("X", "Z"),
+        default=None,
+        help="Teleport once to a terrain X/Z coordinate before normal control begins.",
     )
     parser.add_argument("--unstuck-respawn-seconds", type=float, default=45.0, help="Respawn after this many seconds in a persistent physics wedge; use 0 to disable.")
     parser.add_argument("--delusion-drive", type=float, default=None, help="Deprecated alias for --noise-injection.")
@@ -2092,7 +3620,125 @@ def main():
         action="store_true",
         help="Use four-step policy-weighted MPC for learned-policy action selection.",
     )
+    parser.add_argument(
+        "--orbit-exit-adapter",
+        nargs="?",
+        const="checkpoints/orbit_exit_adapter/best.pt",
+        default=None,
+        help=(
+            "Trigger the learned exit readout on sustained trajectory orbits and "
+            "latch its safe recovery plan until grounded escape progress or timeout."
+        ),
+    )
+    parser.add_argument(
+        "--orbit-adapter-confidence",
+        type=float,
+        default=0.70,
+        help="Minimum learned exit confidence required to override the base controller.",
+    )
+    parser.add_argument(
+        "--hidden-goal-adapter",
+        nargs="?",
+        const="checkpoints/lwall_hidden_goal_adapter/best.pt",
+        default=None,
+        help="Use the frozen-GRU L-wall hidden-goal readout while course food is unseen.",
+    )
+    parser.add_argument(
+        "--hidden-goal-adapter-confidence",
+        type=float,
+        default=0.30,
+        help="Minimum L-wall hidden-goal readout confidence required for bounded takeover.",
+    )
+    parser.add_argument(
+        "--hidden-goal-adapter-commit-seconds",
+        type=float,
+        default=0.4,
+        help="Hold a safe L-wall hidden-goal action before reconsidering it.",
+    )
+    parser.add_argument(
+        "--hidden-goal-adapter-lateral-bias",
+        type=float,
+        default=0.0,
+        help="Soft logit penalty for reversing the latched L-wall bypass side.",
+    )
+    parser.add_argument(
+        "--passive-conductor",
+        action="store_true",
+        help=(
+            "Learn and report controller-routing utility without changing actions. "
+            "The observer is causally disconnected from motor selection."
+        ),
+    )
+    parser.add_argument(
+        "--conductor-checkpoint",
+        default=None,
+        help="Optional offline passive-conductor JSON checkpoint.",
+    )
+    parser.add_argument(
+        "--conductor-control",
+        choices=["passive", "familiar_hidden_goal"],
+        default="passive",
+        help=(
+            "Allow a frozen conductor checkpoint to gate only its validated context. "
+            "Other controller contexts remain unchanged."
+        ),
+    )
+    parser.add_argument(
+        "--terrain-air-memory",
+        default=None,
+        help=(
+            "Load a frozen AIR-selected terrain memory for passive retrieval "
+            "telemetry. It cannot influence motor control."
+        ),
+    )
+    parser.add_argument(
+        "--terrain-air-route-library",
+        default=None,
+        help=(
+            "Load an AIR-selected ART terrain-route library for gated passive "
+            "recommendation or bounded intervention."
+        ),
+    )
+    parser.add_argument(
+        "--terrain-air-route-control",
+        choices=["passive", "bounded", "guided"],
+        default="passive",
+        help=(
+            "Keep AIR terrain routes observational, permit historical direct "
+            "replay, or use a soft AIR heading prior inside grounded MPC."
+        ),
+    )
+    parser.add_argument(
+        "--terrain-air-route-seconds",
+        type=float,
+        default=4.0,
+        help="Maximum duration of each bounded AIR route intervention.",
+    )
+    parser.add_argument(
+        "--terrain-air-max-guidance-weight",
+        type=float,
+        default=0.05,
+        help="Maximum AIR heading bonus added to otherwise grounded MPC scores.",
+    )
+    parser.add_argument(
+        "--terrain-air-guidance-margin",
+        type=float,
+        default=0.05,
+        help=(
+            "MPC top-two score margin where AIR influence reaches zero; "
+            "smaller margins receive a bounded tie-breaking prior."
+        ),
+    )
     args = parser.parse_args()
+
+    random.seed(args.seed)
+    if args.shadow_policy:
+        try:
+            import torch
+
+            torch.manual_seed(args.seed)
+        except ImportError:
+            pass
 
     link = UnityBodyLink(args.unity_host, args.unity_port, args.listen_port)
     ego = EmbodiedFunctionalEgo(
@@ -2118,6 +3764,25 @@ def main():
         shadow_control=args.shadow_control,
         shadow_control_confidence=args.shadow_control_confidence,
         shadow_mpc=args.shadow_mpc,
+        orbit_exit_adapter=args.orbit_exit_adapter,
+        orbit_adapter_confidence=args.orbit_adapter_confidence,
+        hidden_goal_adapter=args.hidden_goal_adapter,
+        hidden_goal_adapter_confidence=args.hidden_goal_adapter_confidence,
+        hidden_goal_adapter_commit_seconds=args.hidden_goal_adapter_commit_seconds,
+        hidden_goal_adapter_lateral_bias=args.hidden_goal_adapter_lateral_bias,
+        passive_conductor=args.passive_conductor,
+        conductor_checkpoint=args.conductor_checkpoint,
+        conductor_control=args.conductor_control,
+    )
+    ego.controller_seed = args.seed
+    ego.terrain_air_observer = PassiveTerrainAirObserver(args.terrain_air_memory)
+    ego.terrain_air_route_controller = TerrainAirRouteController(
+        args.terrain_air_route_library,
+        control_mode=args.terrain_air_route_control,
+        hz=args.hz,
+        max_control_seconds=args.terrain_air_route_seconds,
+        max_guidance_weight=args.terrain_air_max_guidance_weight,
+        guidance_margin_threshold=args.terrain_air_guidance_margin,
     )
     if args.initial_hunger is not None:
         ego.hunger = clamp(args.initial_hunger)
@@ -2125,7 +3790,11 @@ def main():
     started = time.time()
     latest_body = None
     last_payload = {"action": "idle", "mode": "wake", "fatigue": 0.0, "sleep_remaining": 0}
+    diagnostic_teleport = args.diagnostic_teleport
     recorder = None
+    completed_course_episodes = 0
+    previous_course_episode = None
+    previous_course_outcome = None
     if args.shadow_policy and not args.no_shadow_log:
         log_path = args.shadow_log
         if not log_path:
@@ -2144,15 +3813,46 @@ def main():
             received = link.receive_latest()
             if received is not None:
                 latest_body = received
-                ego.update_from_body(latest_body)
-                action = ego.choose_action(latest_body)
-                ego.update_shadow_policy(latest_body, action)
-                if recorder is not None:
-                    recorder.write(ego, latest_body, action)
-                last_payload = ego.command_payload(action)
-                if ego.steps % int(max(args.hz, 1.0)) == 0:
-                    print(ego.status_line(latest_body))
-                ego.steps += 1
+                if diagnostic_teleport is not None:
+                    teleport_x, teleport_z = diagnostic_teleport
+                    last_payload = {
+                        "action": "diagnostic_teleport",
+                        "mode": "wake",
+                        "teleport_x": teleport_x,
+                        "teleport_z": teleport_z,
+                    }
+                    print(f"Diagnostic teleport sent to ({teleport_x:.2f}, {teleport_z:.2f}).")
+                    diagnostic_teleport = None
+                else:
+                    ego.update_from_body(latest_body)
+                    action = ego.choose_action(latest_body)
+                    ego.update_shadow_policy(latest_body, action)
+                    ego.terrain_air_observer.update(
+                        latest_body, ego.hunger, ego.shadow_action
+                    )
+                    ego.update_conductor_observer(latest_body)
+                    if recorder is not None:
+                        recorder.write(ego, latest_body, action)
+                    last_payload = ego.command_payload(action)
+                    if ego.steps % int(max(args.hz, 1.0)) == 0:
+                        print(ego.status_line(latest_body))
+                    ego.steps += 1
+                    course_episode = int(latest_body.get("trap_episode", 0) or 0)
+                    course_outcome = str(latest_body.get("trap_outcome", "inactive"))
+                    if (
+                        course_episode == previous_course_episode
+                        and previous_course_outcome == "running"
+                        and course_outcome in {"success", "timeout"}
+                    ):
+                        completed_course_episodes += 1
+                        print(
+                            f"Course episode {course_episode} finished: {course_outcome} "
+                            f"({completed_course_episodes}/{args.course_episodes or 'unbounded'})."
+                        )
+                    previous_course_episode = course_episode
+                    previous_course_outcome = course_outcome
+                    if args.course_episodes > 0 and completed_course_episodes >= args.course_episodes:
+                        break
             link.send(last_payload)
             time.sleep(delay)
     except KeyboardInterrupt:

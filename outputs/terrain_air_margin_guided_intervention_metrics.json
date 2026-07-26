@@ -1,0 +1,79 @@
+{
+  "experiment": "guided AIR route intervention versus MPC terrain baseline",
+  "baseline": {
+    "recording": "/Users/dustinoconnor/tiny_consciousness_lab/outputs/unity_shadow/challenge_terrain_corrected_20260726.jsonl",
+    "rows": 10987,
+    "duration_minutes": 39.34982290267944,
+    "pickups": 230,
+    "pickups_per_hour": 350.7004347676573,
+    "collision_frames": 623,
+    "collision_frame_fraction": 0.05670337671793938,
+    "necessity_frames": 613,
+    "necessity_frame_fraction": 0.05579321015745881,
+    "fallback_frames": 0,
+    "survival_failures": 0,
+    "maximum_pickup_gap_seconds": 90.72310495376587,
+    "pickup_gaps_over_60_seconds": 3,
+    "mean_pickup_gap_seconds": 10.309997267077584,
+    "gate_event_outcomes": {
+      "events": 44,
+      "recovery_rate_within_8_seconds": 0.9318181818181818,
+      "mean_recovery_seconds_when_recovered": 4.167298444887487,
+      "pickup_rate_within_20_seconds": 0.3409090909090909,
+      "mean_collision_frames_within_20_seconds": 7.636363636363637,
+      "mean_orbit_efficiency_after_8_seconds": 0.6423390810409325
+    }
+  },
+  "bounded_air": {
+    "recording": "/Users/dustinoconnor/tiny_consciousness_lab/outputs/unity_shadow/challenge_terrain_air_margin_guided_20260726.jsonl",
+    "rows": 7041,
+    "duration_minutes": 25.003478296597798,
+    "pickups": 146,
+    "pickups_per_hour": 350.3512549768712,
+    "collision_frames": 223,
+    "collision_frame_fraction": 0.031671637551484166,
+    "necessity_frames": 299,
+    "necessity_frame_fraction": 0.04246555886947877,
+    "fallback_frames": 0,
+    "survival_failures": 0,
+    "maximum_pickup_gap_seconds": 60.30910062789917,
+    "pickup_gaps_over_60_seconds": 1,
+    "mean_pickup_gap_seconds": 10.346266881350813,
+    "gate_event_outcomes": {
+      "events": 20,
+      "recovery_rate_within_8_seconds": 0.85,
+      "mean_recovery_seconds_when_recovered": 3.9408654605641082,
+      "pickup_rate_within_20_seconds": 0.7,
+      "mean_collision_frames_within_20_seconds": 5.7,
+      "mean_orbit_efficiency_after_8_seconds": 0.629991579198944
+    },
+    "route_recommendations": 20,
+    "route_interventions": 20,
+    "route_action_influence_frames": 69,
+    "control_mode": "guided",
+    "guidance_decisions": 69,
+    "guidance_action_changes": 13,
+    "guidance_diagnostics": {
+      "applications": 69,
+      "action_changes": 13,
+      "action_change_fraction": 0.18840579710144928,
+      "mean_unguided_margin_when_applied": 0.024847071995769722,
+      "mean_effective_weight_when_applied": 0.02337930878353615,
+      "mean_unguided_margin_when_action_changed": 0.008788386789652018,
+      "mean_effective_weight_when_action_changed": 0.036921531092581936
+    },
+    "release_reasons": {
+      "guidance_timeout": 7,
+      "new_target_grounding": 2,
+      "progress_restored": 8,
+      "route_complete": 3
+    }
+  },
+  "comparison": {
+    "pickup_rate_ratio_air_over_baseline": 0.9990043360196645,
+    "pickup_rate_change_percent": -0.09956639803354492,
+    "necessity_fraction_change_percentage_points": -1.3327651287980045,
+    "gate_recovery_rate_change_percentage_points": -8.18181818181818
+  },
+  "verdict": "Margin-gated AIR guidance preserved baseline foraging while reducing collision and low-efficiency exposure in this single session. Gate-event recovery remained lower, so the result is promising but requires matched replication before authorization."
+}

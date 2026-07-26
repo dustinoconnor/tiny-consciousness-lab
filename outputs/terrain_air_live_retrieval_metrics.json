@@ -1,0 +1,30 @@
+{
+  "source_collection_packets": 3875,
+  "fresh_session_packets": 1932,
+  "fresh_useful_packets": 643,
+  "learned": {
+    "useful_queries": 643,
+    "negative_queries": 1289,
+    "retrieval_acceptance": 0.942457231726283,
+    "directional_retrieval_agreement": 0.7371695178849145,
+    "nonutility_query_recall": 0.9123351435221102,
+    "mean_useful_query_distance": 0.023829791717347826
+  },
+  "random_capacity_match": {
+    "useful_queries": 643,
+    "negative_queries": 1289,
+    "retrieval_acceptance": 0.973561430793157,
+    "directional_retrieval_agreement": 0.6438569206842923,
+    "nonutility_query_recall": 0.9573312645461598,
+    "mean_useful_query_distance": 0.01979808029248614
+  },
+  "learned_selected_useful_fraction": 0.90234375,
+  "random_selected_useful_fraction": 0.234375,
+  "paired_comparison": {
+    "learned_only_correct": 141,
+    "random_only_correct": 81,
+    "discordant_queries": 222,
+    "one_sided_exact_mcnemar_p": 3.413751689823535e-05
+  },
+  "claim_boundary": "Fresh-session passive retrieval comparison; neither memory controlled Unity actions."
+}

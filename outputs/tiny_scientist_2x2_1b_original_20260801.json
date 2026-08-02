@@ -1,0 +1,73 @@
+{
+  "experiment": "passive GNW-selected embodied metabolic hypothesis",
+  "evidence_interface": "original",
+  "summary": {
+    "feature_outcomes": {
+      "blue": {
+        "episodes": 14,
+        "isolated_episodes": 11,
+        "mean_pressure_delta": -0.0,
+        "positive_pressure_fraction": 0.0,
+        "mean_positive_delay_seconds": null
+      },
+      "red": {
+        "episodes": 2,
+        "isolated_episodes": 2,
+        "mean_pressure_delta": 0.34,
+        "positive_pressure_fraction": 1.0,
+        "mean_positive_delay_seconds": 10.464
+      }
+    },
+    "episode_count": 16,
+    "gnw_broadcast_count": 2,
+    "gnw_broadcast_features": {
+      "red": 2
+    },
+    "gnw_action_influence": 0
+  },
+  "gnw": {
+    "mode": "passive_scientific_broadcast",
+    "observations": 16,
+    "ignitions": 2,
+    "held": 14,
+    "action_influence": 0,
+    "broadcasts": [
+      {
+        "feature": "red",
+        "salience": 1.0,
+        "prediction_error": 1.0,
+        "novelty": 1.0,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785512964.629469,
+          "pressure_before": 0.0,
+          "peak_pressure": 0.34,
+          "pressure_delta": 0.34,
+          "peak_delay_seconds": 10.418278217315674,
+          "intervening_pickup": false
+        }
+      },
+      {
+        "feature": "red",
+        "salience": 0.9062741699796951,
+        "prediction_error": 0.9999999999999999,
+        "novelty": 0.7071067811865475,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785513483.156574,
+          "pressure_before": 5.1617196904368404e-17,
+          "peak_pressure": 0.34,
+          "pressure_delta": 0.33999999999999997,
+          "peak_delay_seconds": 10.50950002670288,
+          "intervening_pickup": false
+        }
+      }
+    ]
+  },
+  "hypothesis": null,
+  "raw_model_output": null,
+  "status": "rejected",
+  "rejection": "tiny_scientist_hypothesis_rejected:could not convert string to float: 'None'; raw=```json\n{\n  \"condition\": \"Blue episodes exhibit a higher mean internal-pressure change compared to red episodes.\",\n  \"proposed_cause\": \"Blue episodes likely have a more pronounced positive pressure effect on the internal pressure system.\",\n  \"predicted_effect\": \"A higher positive pressure fraction will result in a greater mean delay after pickup.\",\n  \"delay_seconds\": \"None\",\n  \"comparison\": \"Red episodes demonstrate a significantly longer mean delay after pickup compared to blue episodes.\",\n  \"falsifier\": \"Introduce a sudden, intense burst of red light to the blue episode group. Measure the mean internal-pressure change and delay after pickup. The expected result is a *decrease* in the mean delay after pickup for the blue episodes, demonstrating a violation of the prediction that the delay will increase with the number of episodes.\",\n  \"confidence\": 0.9\n}\n```",
+  "model": "google/gemma-3-1b-it",
+  "recording": "outputs/unity_shadow/red_blue_tiny_scientist_20260731.jsonl"
+}

@@ -24,11 +24,19 @@ from collections import deque
 from pathlib import Path
 
 from embodied_conductor import PassiveEmbodiedConductor
+from embodied_systemic_conductor import (
+    BoundedExecutiveRouter,
+    PassiveAdaptiveIgnitionGate,
+    PassiveSystemicConductor,
+)
 from terrain_air_observer import PassiveTerrainAirObserver
 from terrain_air_route_controller import (
     TerrainAirRouteController,
+    context_vector,
     score_margin_ambiguity,
 )
+from terrain_escape_teacher import TerrainEscapeTeacher
+from terrain_resource_memory import PassiveTerrainResourceMemory
 
 
 ACTIONS = [
@@ -216,9 +224,23 @@ def sigmoid(x):
     return 1.0 / (1.0 + math.exp(-x))
 
 
-def stable_recovery_due(physics_wedge_ticks, trap_accumulation_ticks, threshold_ticks):
-    """Return true when either independent recovery detector reaches threshold."""
-    return physics_wedge_ticks >= threshold_ticks or trap_accumulation_ticks >= threshold_ticks
+def stable_recovery_due(
+    physics_wedge_ticks,
+    trap_accumulation_ticks,
+    threshold_ticks,
+    sustained_orbit=False,
+):
+    """Return true when any independent recovery detector identifies perseveration."""
+    return (
+        physics_wedge_ticks >= threshold_ticks
+        or trap_accumulation_ticks >= threshold_ticks
+        or bool(sustained_orbit)
+    )
+
+
+def orbit_teacher_due(sustained_orbit, route_active=False, route_pending=False):
+    """Give episodic guidance one bounded attempt before invoking the teacher."""
+    return bool(sustained_orbit) and not (bool(route_active) or bool(route_pending))
 
 
 def trajectory_orbit_metrics(samples, min_path=14.0, max_efficiency=0.22, min_evidence=0.06):
@@ -511,6 +533,7 @@ class ShadowRecorder:
             "rays": body_state.get("directional_rays"),
             "body_clearance": body_state.get("directional_body_clearance"),
             "food_visible": bool(body_state.get("food_visible", False)),
+            "food_feature": str(body_state.get("food_feature", "none")),
             "food_distance": body_state.get("food_distance"),
             "food_world": [body_state.get("food_world_x"), body_state.get("food_world_z")],
             "food_available_in_radius": int(body_state.get("food_available_in_radius", 0) or 0),
@@ -594,7 +617,14 @@ class ShadowRecorder:
             "trap_outcome": body_state.get("trap_outcome", "inactive"),
             "mushroom_pickups_total": body_state.get("mushroom_pickups_total", 0),
             "mushroom_reward_total": body_state.get("mushroom_reward_total", 0.0),
+            "mushroom_feature": str(body_state.get("mushroom_feature", "none")),
+            "red_mushroom_pickups_total": int(
+                body_state.get("red_mushroom_pickups_total", 0) or 0
+            ),
             "mushrooms_eaten": ego.mushrooms_eaten,
+            "metabolic_pressure": ego.metabolic_pressure,
+            "metabolic_challenge_events": ego.metabolic_challenge_events,
+            "metabolic_pending_challenges": len(ego.metabolic_challenge_due_steps),
             "conductor_observer_mode": (
                 (
                     "live_bounded_familiar_hidden_goal"
@@ -626,6 +656,109 @@ class ShadowRecorder:
             "conductor_gate_decisions": ego.conductor_gate_decisions,
             "conductor_gate_denials": ego.conductor_gate_denials,
             "conductor_q_values": ego.conductor_observer.q_values,
+            "systemic_conductor_mode": (
+                (
+                    "bounded_recurrent_mpc"
+                    if ego.systemic_router.mode != "passive"
+                    else "passive_frozen_checkpoint"
+                )
+                if ego.systemic_conductor.enabled
+                else "disabled"
+            ),
+            "systemic_conductor_features": ego.systemic_conductor.features,
+            "systemic_conductor_scores": ego.systemic_conductor.scores,
+            "systemic_conductor_probabilities": (
+                ego.systemic_conductor.probabilities
+            ),
+            "systemic_conductor_raw_probabilities": (
+                ego.systemic_conductor.raw_probabilities
+            ),
+            "systemic_conductor_raw_recommendation": (
+                ego.systemic_conductor.raw_recommendation
+            ),
+            "systemic_conductor_recommendation": (
+                ego.systemic_conductor.recommendation
+            ),
+            "systemic_conductor_confidence": ego.systemic_conductor.confidence,
+            "systemic_conductor_entropy_bits": ego.systemic_conductor.entropy,
+            "systemic_conductor_proxy_context": (
+                ego.systemic_conductor.proxy_context
+            ),
+            "systemic_conductor_proxy_optimal": (
+                ego.systemic_conductor.proxy_optimal
+            ),
+            "systemic_conductor_agreement": ego.systemic_conductor.agreement,
+            "systemic_conductor_agreement_rate": (
+                ego.systemic_conductor.agreement_rate
+            ),
+            "systemic_conductor_observations": (
+                ego.systemic_conductor.observations
+            ),
+            "systemic_conductor_action_influence": (
+                ego.systemic_conductor.action_influence
+            ),
+            "adaptive_gnw_mode": (
+                ego.adaptive_gnw_control
+            ),
+            "adaptive_gnw_active_specialist": (
+                ego.adaptive_gnw_gate.active_specialist
+            ),
+            "adaptive_gnw_challenger": (
+                ego.adaptive_gnw_gate.challenger_specialist
+            ),
+            "adaptive_gnw_challenger_streak": (
+                ego.adaptive_gnw_gate.challenger_streak
+            ),
+            "adaptive_gnw_broadcast_age": (
+                ego.adaptive_gnw_gate.broadcast_age
+            ),
+            "adaptive_gnw_event": ego.adaptive_gnw_gate.last_event,
+            "adaptive_gnw_ignition": ego.adaptive_gnw_gate.last_ignition,
+            "adaptive_gnw_confidence": ego.adaptive_gnw_gate.confidence,
+            "adaptive_gnw_margin": ego.adaptive_gnw_gate.margin,
+            "adaptive_gnw_agreement": ego.adaptive_gnw_gate.agreement,
+            "adaptive_gnw_agreement_rate": (
+                ego.adaptive_gnw_gate.agreement_rate
+            ),
+            "adaptive_gnw_ignitions": ego.adaptive_gnw_gate.ignitions,
+            "adaptive_gnw_releases": ego.adaptive_gnw_gate.releases,
+            "adaptive_gnw_held_challenges": (
+                ego.adaptive_gnw_gate.held_challenges
+            ),
+            "adaptive_gnw_action_influence": (
+                ego.adaptive_gnw_gate.action_influence
+            ),
+            "adaptive_gnw_recommendation_substitutions": (
+                ego.adaptive_gnw_gate.recommendation_substitutions
+            ),
+            "systemic_router_active_specialist": (
+                ego.systemic_router.active_specialist
+            ),
+            "systemic_router_baseline_specialist": (
+                ego.systemic_router.last_baseline_specialist
+            ),
+            "systemic_router_reason": ego.systemic_router.last_reason,
+            "systemic_router_handoffs": ego.systemic_router.handoffs,
+            "systemic_router_decisions": ego.systemic_router.decisions,
+            "systemic_router_denials": ego.systemic_router.denials,
+            "systemic_router_safety_overrides": (
+                ego.systemic_router.safety_overrides
+            ),
+            "systemic_router_influence_frames": (
+                ego.systemic_router.influence_frames
+            ),
+            "systemic_router_chatter_events": (
+                ego.systemic_router.chatter_events
+            ),
+            "systemic_router_hold_seconds": (
+                ego.systemic_router.hold_ticks / ego.hz
+            ),
+            "systemic_router_mpc_latch_seconds": (
+                ego.systemic_router.mandatory_latch_ticks / ego.hz
+            ),
+            "systemic_router_recurrent_release_streak": (
+                ego.systemic_router.recurrent_release_streak
+            ),
             "sync_observer_mode": "passive",
             "sync_coherence": ego.dynamics_observer.coherence,
             "sync_active_modules": ego.dynamics_observer.active_modules,
@@ -664,9 +797,13 @@ class ShadowRecorder:
             "terrain_air_action_influence": ego.terrain_air_observer.action_influence,
             "terrain_air_route_mode": ego.terrain_air_route_controller.control_mode,
             "terrain_air_route_active": ego.terrain_air_route_controller.active,
+            "terrain_air_route_pending": ego.terrain_air_route_controller.pending,
             "terrain_air_route_recommendation": ego.terrain_air_route_controller.recommendation,
             "terrain_air_route_reason": ego.terrain_air_route_controller.reason,
             "terrain_air_route_match": ego.terrain_air_route_controller.match,
+            "terrain_air_route_vigilance": (
+                ego.terrain_air_route_controller.effective_vigilance
+            ),
             "terrain_air_route_index": ego.terrain_air_route_controller.route_index,
             "terrain_air_route_count": ego.terrain_air_route_controller.route_count,
             "terrain_air_route_distance": ego.terrain_air_route_controller.route_distance,
@@ -675,6 +812,12 @@ class ShadowRecorder:
             ),
             "terrain_air_route_recommendations": ego.terrain_air_route_controller.recommendations,
             "terrain_air_route_interventions": ego.terrain_air_route_controller.interventions,
+            "terrain_air_route_authorized_activations": (
+                ego.terrain_air_route_controller.authorized_activations
+            ),
+            "terrain_air_route_authorization_denials": (
+                ego.terrain_air_route_controller.authorization_denials
+            ),
             "terrain_air_route_releases": ego.terrain_air_route_controller.releases,
             "terrain_air_route_release_reason": ego.terrain_air_route_controller.release_reason,
             "terrain_air_route_sensor_vetoes": ego.terrain_air_route_controller.sensor_vetoes,
@@ -688,6 +831,27 @@ class ShadowRecorder:
             ),
             "terrain_air_route_guidance_action_changes": (
                 ego.terrain_air_route_controller.guidance_action_changes
+            ),
+            "escape_teacher_enabled": (
+                ego.terrain_air_route_controller.teacher_memory_path is not None
+            ),
+            "escape_teacher_active": ego.escape_teacher.active,
+            "escape_teacher_action": ego.escape_teacher.action_name,
+            "escape_teacher_elapsed_seconds": (
+                ego.escape_teacher.elapsed_ticks / ego.hz
+            ),
+            "escape_teacher_displacement": ego.escape_teacher.displacement,
+            "escape_teacher_efficiency": ego.escape_teacher.efficiency,
+            "escape_teacher_events": ego.escape_teacher.events,
+            "escape_teacher_successes": ego.escape_teacher.successes,
+            "escape_teacher_failures": ego.escape_teacher.failures,
+            "escape_teacher_safety_reselections": (
+                ego.escape_teacher.safety_reselections
+            ),
+            "escape_teacher_last_outcome": ego.escape_teacher.last_outcome,
+            "escape_teacher_last_route_id": ego.escape_teacher.last_route_id,
+            "escape_teacher_memory_routes": len(
+                ego.terrain_air_route_controller.teacher_route_payloads
             ),
             "terrain_air_route_unguided_action": (
                 ego.terrain_air_route_controller.last_unguided_action
@@ -703,6 +867,57 @@ class ShadowRecorder:
             ),
             "terrain_air_route_effective_guidance_weight": (
                 ego.terrain_air_route_controller.last_effective_guidance_weight
+            ),
+            "resource_memory_enabled": ego.resource_memory.enabled,
+            "resource_memory_hunger_gate": ego.resource_memory.hunger_gate,
+            "resource_memory_active": ego.resource_memory.active,
+            "resource_memory_recommendation": ego.resource_memory.recommendation,
+            "resource_memory_target": (
+                list(ego.resource_memory.target)
+                if ego.resource_memory.target is not None
+                else None
+            ),
+            "resource_memory_guidance_vector": list(
+                ego.resource_memory.guidance_vector
+            ),
+            "resource_memory_distance": ego.resource_memory.distance,
+            "resource_memory_confidence": ego.resource_memory.confidence,
+            "resource_memory_regions": len(ego.resource_memory.entries),
+            "resource_memory_encodings": ego.resource_memory.encodings,
+            "resource_memory_queries": ego.resource_memory.queries,
+            "resource_memory_recommendations": ego.resource_memory.recommendations,
+            "resource_memory_recommendation_frames": (
+                ego.resource_memory.recommendation_frames
+            ),
+            "resource_memory_pickups_after_recommendation": (
+                ego.resource_memory.pickups_after_recommendation
+            ),
+            "resource_memory_stale_arrivals": (
+                ego.resource_memory.counterfactual_stale_arrivals
+            ),
+            "resource_memory_release_reason": ego.resource_memory.release_reason,
+            "resource_memory_action_influence": ego.resource_memory.action_influence,
+            "resource_memory_control_mode": ego.resource_memory.control_mode,
+            "resource_memory_guidance_decisions": (
+                ego.resource_memory.guidance_decisions
+            ),
+            "resource_memory_guidance_action_changes": (
+                ego.resource_memory.guidance_action_changes
+            ),
+            "resource_memory_unguided_action": (
+                ego.resource_memory.last_unguided_action
+            ),
+            "resource_memory_guided_action": (
+                ego.resource_memory.last_guided_action
+            ),
+            "resource_memory_unguided_margin": (
+                ego.resource_memory.last_unguided_margin
+            ),
+            "resource_memory_margin_ambiguity": (
+                ego.resource_memory.last_margin_ambiguity
+            ),
+            "resource_memory_effective_guidance_weight": (
+                ego.resource_memory.last_effective_guidance_weight
             ),
         }
         self.handle.write(json.dumps(row, separators=(",", ":")) + "\n")
@@ -749,6 +964,11 @@ class EmbodiedFunctionalEgo:
         passive_conductor=False,
         conductor_checkpoint=None,
         conductor_control="passive",
+        systemic_conductor_checkpoint=None,
+        systemic_conductor_control="passive",
+        systemic_conductor_confidence=0.55,
+        adaptive_gnw_passive=False,
+        adaptive_gnw_control="disabled",
     ):
         self.crosstalk = 0.07
         self.complexity = 0.12
@@ -807,6 +1027,12 @@ class EmbodiedFunctionalEgo:
         self.mushrooms_eaten = 0
         self.last_mushroom_pickup_total = 0
         self.last_mushroom_reward_total = 0.0
+        self.last_red_mushroom_pickup_total = 0
+        self.last_consumable_feature = "none"
+        self.metabolic_challenge_delay_ticks = max(1, int(round(self.hz * 10.0)))
+        self.metabolic_challenge_due_steps = deque()
+        self.metabolic_pressure = 0.0
+        self.metabolic_challenge_events = 0
         self.food_feedback_initialized = False
         self.ticks_since_food = 0
         self.food_seek_ticks = 0
@@ -907,6 +1133,7 @@ class EmbodiedFunctionalEgo:
         self.orbit_path = 0.0
         self.orbit_net = 0.0
         self.orbit_efficiency = 1.0
+        self.escape_teacher = TerrainEscapeTeacher(hz=self.hz)
         self.hidden_goal_adapter = None
         self.hidden_goal_adapter_type = "none"
         self.hidden_goal_adapter_temporal_steps = 1
@@ -958,6 +1185,7 @@ class EmbodiedFunctionalEgo:
         self.art_observer = EmbodiedAdaptiveResonanceObserver()
         self.terrain_air_observer = PassiveTerrainAirObserver()
         self.terrain_air_route_controller = TerrainAirRouteController()
+        self.resource_memory = PassiveTerrainResourceMemory()
         self.conductor_control = str(conductor_control)
         if self.conductor_control != "passive" and not conductor_checkpoint:
             raise ValueError("live_conductor_requires_checkpoint")
@@ -971,12 +1199,60 @@ class EmbodiedFunctionalEgo:
             enabled=passive_conductor or self.conductor_control != "passive",
             checkpoint=conductor_checkpoint,
         )
+        self.systemic_conductor = PassiveSystemicConductor(
+            checkpoint=systemic_conductor_checkpoint,
+        )
+        self.adaptive_gnw_control = str(adaptive_gnw_control)
+        if adaptive_gnw_passive and self.adaptive_gnw_control == "disabled":
+            self.adaptive_gnw_control = "passive"
+        if self.adaptive_gnw_control not in {"disabled", "passive", "bounded"}:
+            raise ValueError("unsupported_adaptive_gnw_control")
+        if (
+            self.adaptive_gnw_control != "disabled"
+            and not systemic_conductor_checkpoint
+        ):
+            raise ValueError("adaptive_gnw_passive_requires_systemic_checkpoint")
+        if (
+            self.adaptive_gnw_control == "bounded"
+            and systemic_conductor_control == "passive"
+        ):
+            raise ValueError("bounded_adaptive_gnw_requires_active_router")
+        self.adaptive_gnw_gate = PassiveAdaptiveIgnitionGate(
+            enabled=self.adaptive_gnw_control != "disabled",
+        )
+        if (
+            systemic_conductor_control != "passive"
+            and not systemic_conductor_checkpoint
+        ):
+            raise ValueError("active_systemic_conductor_requires_checkpoint")
+        if systemic_conductor_control != "passive" and not self.shadow_mpc:
+            raise ValueError("active_systemic_conductor_requires_shadow_mpc")
+        self.systemic_router = BoundedExecutiveRouter(
+            mode=systemic_conductor_control,
+            hz=self.hz,
+            confidence_threshold=systemic_conductor_confidence,
+        )
         if shadow_checkpoint:
             self.enable_shadow_policy(shadow_checkpoint)
         if orbit_exit_adapter:
             self.enable_orbit_adapter(orbit_exit_adapter)
         if hidden_goal_adapter:
             self.enable_hidden_goal_adapter(hidden_goal_adapter)
+
+    def systemic_executive_signal(self):
+        if (
+            self.adaptive_gnw_control == "bounded"
+            and self.adaptive_gnw_gate.active_specialist
+            in {"recurrent", "episodic", "predictive", "fallback"}
+        ):
+            return (
+                self.adaptive_gnw_gate.active_specialist,
+                self.adaptive_gnw_gate.confidence,
+            )
+        return (
+            self.systemic_conductor.recommendation,
+            self.systemic_conductor.confidence,
+        )
 
     def enable_shadow_policy(self, checkpoint_path):
         try:
@@ -1218,6 +1494,9 @@ class EmbodiedFunctionalEgo:
         self.orbit_adapter_selected = None
         self.orbit_adapter_start_position = None
         self.orbit_adapter_displacement = 0.0
+        escape_teacher = getattr(self, "escape_teacher", None)
+        if escape_teacher is not None:
+            escape_teacher.reset("episode_reset")
         self.hidden_goal_adapter_active = False
         self.hidden_goal_adapter_action = "none"
         self.hidden_goal_adapter_confidence = 0.0
@@ -1244,6 +1523,12 @@ class EmbodiedFunctionalEgo:
         )
         if terrain_air_route_controller is not None:
             terrain_air_route_controller.reset("episode_reset")
+        systemic_router = getattr(self, "systemic_router", None)
+        if systemic_router is not None:
+            systemic_router.reset()
+        adaptive_gnw_gate = getattr(self, "adaptive_gnw_gate", None)
+        if adaptive_gnw_gate is not None:
+            adaptive_gnw_gate.reset()
         self.shadow_episode_resets += 1
 
     def synchronize_shadow_episode(self, body_state):
@@ -1362,6 +1647,10 @@ class EmbodiedFunctionalEgo:
                 SHADOW_VECTORS,
                 body_clearance,
                 fallback_active=self.shadow_fallback_hold_ticks > 0,
+                episodic_authorized=self.systemic_router.authorizes_episodic(
+                    self.systemic_conductor.recommendation,
+                    self.systemic_conductor.confidence,
+                ),
             )
 
         previous = [0.0] * 8
@@ -1394,6 +1683,10 @@ class EmbodiedFunctionalEgo:
                         self.terrain_air_route_controller.control_mode == "guided"
                         and self.terrain_air_route_controller.active
                     )
+                    or (
+                        self.resource_memory.control_mode == "guided"
+                        and self.resource_memory.active
+                    )
                 )
             else:
                 mpc_needed = food_visible > 0.0
@@ -1404,8 +1697,28 @@ class EmbodiedFunctionalEgo:
                 )
             else:
                 self.shadow_mpc_hold_ticks = max(0, self.shadow_mpc_hold_ticks - 1)
-            self.shadow_mpc_engaged = self.shadow_mpc and (
+            baseline_mpc_engaged = self.shadow_mpc and (
                 mpc_needed or self.shadow_mpc_hold_ticks > 0
+            )
+            executive_recommendation, executive_confidence = (
+                self.systemic_executive_signal()
+            )
+            if (
+                self.adaptive_gnw_control == "bounded"
+                and executive_recommendation
+                != self.systemic_conductor.recommendation
+            ):
+                self.adaptive_gnw_gate.recommendation_substitutions += 1
+            routed_mpc_engaged = self.systemic_router.select_mpc(
+                executive_recommendation,
+                executive_confidence,
+                baseline_mpc_engaged,
+                mandatory_mpc=self.shadow_mpc and mpc_needed,
+                fallback_active=self.shadow_fallback_hold_ticks > 0,
+            )
+            self.shadow_mpc_engaged = self.shadow_mpc and routed_mpc_engaged
+            self.systemic_conductor.action_influence = (
+                self.systemic_router.influence_frames
             )
             if self.shadow_mpc_engaged:
                 selected, self.shadow_mpc_score = self.select_mpc_action(
@@ -1707,6 +2020,57 @@ class EmbodiedFunctionalEgo:
             if air_route_selected is not None:
                 selected = air_route_selected
                 self.shadow_mpc_mode = "terrain_air_bounded_route"
+            teacher_enabled = (
+                self.terrain_air_route_controller.enabled
+                and self.terrain_air_route_controller.teacher_memory_path is not None
+                and self.shadow_control == "terrain"
+                and course_label in {None, "", "natural_terrain"}
+            )
+            if self.escape_teacher.active and self.shadow_fallback_hold_ticks > 0:
+                self.escape_teacher.reset("stable_fallback")
+            if (
+                teacher_enabled
+                and not self.escape_teacher.active
+                and orbit_detected
+                and self.terrain_air_route_controller.recommendation == "no_resonance"
+                and not self.terrain_air_route_controller.active
+                and not self.terrain_air_route_controller.pending
+                and self.shadow_fallback_hold_ticks <= 0
+            ):
+                prototype = context_vector(
+                    body_state,
+                    self.hunger,
+                    self.orbit_path,
+                    self.orbit_efficiency,
+                    self.physics_wedge_ticks / self.hz,
+                    self.trap_accumulation_ticks / self.hz,
+                )
+                if prototype is not None:
+                    self.escape_teacher.start(
+                        body_state,
+                        prototype,
+                        SHADOW_ACTIONS,
+                        rays,
+                        body_clearance,
+                    )
+            if self.escape_teacher.active:
+                previous_successes = self.escape_teacher.successes
+                teacher_selected = self.escape_teacher.update(
+                    body_state,
+                    SHADOW_ACTIONS,
+                    rays,
+                    body_clearance,
+                    self.terrain_air_route_controller,
+                )
+                if self.escape_teacher.successes > previous_successes:
+                    self.orbit_history.clear()
+                    self.orbit_path = 0.0
+                    self.orbit_net = 0.0
+                    self.orbit_efficiency = 1.0
+                    orbit_detected = False
+                if teacher_selected is not None:
+                    selected = teacher_selected
+                    self.shadow_mpc_mode = "escape_teacher"
         if self.shadow_previous_position is not None and self.shadow_previous_proposal in SHADOW_VECTORS:
             dx = position[0] - self.shadow_previous_position[0]
             dz = position[1] - self.shadow_previous_position[1]
@@ -1793,10 +2157,16 @@ class EmbodiedFunctionalEgo:
             and course_label in {None, "", "natural_terrain"}
         )
         fallback_threshold = int(round(self.hz * 8.0))
+        route_controller = self.terrain_air_route_controller
         if stable_recovery_due(
             self.physics_wedge_ticks,
             self.trap_accumulation_ticks,
             fallback_threshold,
+            sustained_orbit=orbit_teacher_due(
+                orbit_detected,
+                route_active=route_controller.active or self.escape_teacher.active,
+                route_pending=route_controller.pending,
+            ),
         ) and self.shadow_fallback_hold_ticks <= 0:
             self.shadow_fallback_hold_ticks = max(1, int(round(self.hz * 12.0)))
             self.breakout_plan.clear()
@@ -1993,7 +2363,60 @@ class EmbodiedFunctionalEgo:
                     air_controller.guidance_decisions += 1
                     guidance_applied = True
                     self.shadow_mpc_mode = "terrain_air_guided_mpc"
+        resource_memory = self.resource_memory
+        resource_memory.last_effective_guidance_weight = 0.0
+        resource_memory.last_margin_ambiguity = 0.0
+        resource_unguided = int(torch.argmax(risk_adjusted).item())
+        if (
+            resource_memory.control_mode == "guided"
+            and resource_memory.active
+            and not air_controller.active
+            and self.shadow_fallback_hold_ticks <= 0
+        ):
+            finite_scores = risk_adjusted[torch.isfinite(risk_adjusted)]
+            if len(finite_scores) >= 2:
+                top_scores = torch.topk(finite_scores, 2).values
+                margin = float((top_scores[0] - top_scores[1]).item())
+            else:
+                margin = math.inf
+            ambiguity = score_margin_ambiguity(
+                margin,
+                resource_memory.guidance_margin_threshold,
+            )
+            pressure = clamp(
+                (self.hunger - resource_memory.hunger_gate)
+                / max(1e-6, 1.0 - resource_memory.hunger_gate)
+            )
+            effective_weight = (
+                resource_memory.max_guidance_weight
+                * resource_memory.confidence
+                * (0.30 + 0.70 * pressure)
+                * ambiguity
+            )
+            resource_memory.last_unguided_margin = margin
+            resource_memory.last_margin_ambiguity = ambiguity
+            resource_memory.last_effective_guidance_weight = effective_weight
+            if effective_weight > 0.0:
+                guidance = torch.tensor(
+                    resource_memory.guidance_vector,
+                    dtype=move_tensor.dtype,
+                )
+                guidance_length = torch.linalg.vector_norm(guidance)
+                if float(guidance_length.item()) > 1e-6:
+                    guidance /= guidance_length
+                    risk_adjusted += effective_weight * (move_tensor @ guidance)
+                    resource_memory.action_influence += 1
+                    resource_memory.guidance_decisions += 1
+                    self.shadow_mpc_mode = "resource_memory_guided_mpc"
         selected = int(torch.argmax(risk_adjusted).item())
+        resource_memory.last_unguided_action = SHADOW_ACTIONS[
+            resource_unguided
+        ]
+        resource_memory.last_guided_action = SHADOW_ACTIONS[selected]
+        if resource_memory.last_effective_guidance_weight > 0.0:
+            resource_memory.guidance_action_changes += int(
+                selected != resource_unguided
+            )
         if guidance_applied:
             air_controller.last_unguided_action = SHADOW_ACTIONS[unguided_selected]
             air_controller.last_guided_action = SHADOW_ACTIONS[selected]
@@ -2065,7 +2488,7 @@ class EmbodiedFunctionalEgo:
         self.decay_obstacle_memory()
         horizontal_collision = bool(body_state and body_state.get("horizontal_collision", False))
 
-        body_error = 0.18
+        body_error = 0.18 + 0.42 * self.metabolic_pressure
         collision_pressure = 0.0
         clear_progress = moving and not blocked and body_state is not None and not self.current_stuck
         self.last_clear_progress = clear_progress
@@ -2125,6 +2548,12 @@ class EmbodiedFunctionalEgo:
         if not self.sleeping:
             self.crosstalk = clamp(self.crosstalk + 0.0025 + 0.010 * self.prediction_error)
             self.complexity = clamp(self.complexity + 0.0015 + 0.006 * self.prediction_error)
+            self.crosstalk = clamp(
+                self.crosstalk + 0.006 * self.metabolic_pressure
+            )
+            self.complexity = clamp(
+                self.complexity + 0.003 * self.metabolic_pressure
+            )
             repair_gain = 0.002 + 0.008 * self.acetylcholine
             self.crosstalk = clamp(self.crosstalk * (0.999 - repair_gain))
             self.complexity = clamp(self.complexity * (0.999 - 0.45 * repair_gain))
@@ -2266,8 +2695,46 @@ class EmbodiedFunctionalEgo:
             }
         )
 
+    def update_systemic_conductor(self, body_state):
+        if not self.systemic_conductor.enabled or not self.shadow_ready:
+            return
+        self.systemic_conductor.observe(
+            {
+                "food_visible": self.food_visible(body_state),
+                "blocked": bool(body_state.get("blocked", False)),
+                "body_collision": bool(
+                    body_state.get("horizontal_collision", False)
+                ),
+                "stuck": self.current_stuck,
+                "physics_wedge_seconds": self.physics_wedge_ticks / self.hz,
+                "trap_accumulation_seconds": self.trap_accumulation_ticks / self.hz,
+                "fallback_active": self.shadow_fallback_hold_ticks > 0,
+                "hidden_goal_active": self.hidden_goal_adapter_active,
+                "terrain_air_route_active": self.terrain_air_route_controller.active,
+                "terrain_air_route_pending": self.terrain_air_route_controller.pending,
+                "terrain_air_route_match": self.terrain_air_route_controller.match,
+                "terrain_air_resonance": self.terrain_air_observer.resonance,
+                "terrain_air_confidence": self.terrain_air_observer.confidence,
+                "orbit_path": self.orbit_path,
+                "orbit_efficiency": self.orbit_efficiency,
+                "trap_pressure": self.local_trap_pressure(body_state),
+                "art_match": self.art_observer.match,
+                "art_resonance": self.art_observer.resonance,
+                "art_novel": self.art_observer.novel,
+                "directional_rays": body_state.get("directional_rays", []),
+                "directional_body_clearance": body_state.get(
+                    "directional_body_clearance", []
+                ),
+            }
+        )
+        self.adaptive_gnw_gate.observe(
+            self.systemic_conductor.raw_probabilities,
+            self.systemic_conductor.proxy_optimal,
+        )
+
     def apply_food_feedback(self, body_state):
         self.shadow_last_reward = 0.0
+        self.metabolic_pressure = clamp(self.metabolic_pressure * 0.985)
         if isinstance(body_state, dict):
             try:
                 pickup_total = int(body_state.get("mushroom_pickups_total", body_state.get("ate_mushroom", 0)))
@@ -2277,10 +2744,21 @@ class EmbodiedFunctionalEgo:
                 reward_total = float(body_state.get("mushroom_reward_total", body_state.get("mushroom_reward", 0.0)))
             except (TypeError, ValueError):
                 reward_total = self.last_mushroom_reward_total
+            try:
+                red_pickup_total = int(
+                    body_state.get(
+                        "red_mushroom_pickups_total",
+                        self.last_red_mushroom_pickup_total,
+                    )
+                    or 0
+                )
+            except (TypeError, ValueError):
+                red_pickup_total = self.last_red_mushroom_pickup_total
 
             if not self.food_feedback_initialized:
                 self.last_mushroom_pickup_total = pickup_total
                 self.last_mushroom_reward_total = reward_total
+                self.last_red_mushroom_pickup_total = red_pickup_total
                 self.food_feedback_initialized = True
                 pickup_total = self.last_mushroom_pickup_total
                 reward_total = self.last_mushroom_reward_total
@@ -2288,11 +2766,20 @@ class EmbodiedFunctionalEgo:
             if pickup_total < self.last_mushroom_pickup_total or reward_total < self.last_mushroom_reward_total:
                 self.last_mushroom_pickup_total = 0
                 self.last_mushroom_reward_total = 0.0
+                self.last_red_mushroom_pickup_total = 0
                 self.mushrooms_eaten = 0
+                self.metabolic_challenge_due_steps.clear()
+                self.metabolic_pressure = 0.0
 
             eaten = max(0, pickup_total - self.last_mushroom_pickup_total)
+            red_eaten = max(
+                0, red_pickup_total - self.last_red_mushroom_pickup_total
+            )
             reward = max(0.0, reward_total - self.last_mushroom_reward_total)
             if eaten > 0:
+                self.last_consumable_feature = str(
+                    body_state.get("mushroom_feature", "unknown") or "unknown"
+                )
                 if reward <= 0.0:
                     reward = 0.35 * eaten
                 self.mushrooms_eaten += eaten
@@ -2303,8 +2790,24 @@ class EmbodiedFunctionalEgo:
                 self.survival_failed = False
                 self.dopamine_food_boost = clamp(self.dopamine_food_boost + reward)
                 self.shadow_last_reward = reward
+            for _ in range(red_eaten):
+                self.metabolic_challenge_due_steps.append(
+                    self.steps + self.metabolic_challenge_delay_ticks
+                )
             self.last_mushroom_pickup_total = pickup_total
             self.last_mushroom_reward_total = reward_total
+            self.last_red_mushroom_pickup_total = red_pickup_total
+
+        due = 0
+        while (
+            self.metabolic_challenge_due_steps
+            and self.metabolic_challenge_due_steps[0] <= self.steps
+        ):
+            self.metabolic_challenge_due_steps.popleft()
+            due += 1
+        if due:
+            self.metabolic_pressure = clamp(self.metabolic_pressure + 0.34 * due)
+            self.metabolic_challenge_events += due
 
         self.dopamine_food_boost *= 0.992
         self.dopamine = clamp(self.dopamine + self.dopamine_food_boost)
@@ -3381,6 +3884,24 @@ class EmbodiedFunctionalEgo:
             "orbit_path": round(self.orbit_path, 3),
             "orbit_net": round(self.orbit_net, 3),
             "orbit_efficiency": round(self.orbit_efficiency, 4),
+            "escape_teacher_active": self.escape_teacher.active,
+            "escape_teacher_action": self.escape_teacher.action_name,
+            "escape_teacher_elapsed_seconds": round(
+                self.escape_teacher.elapsed_ticks / self.hz, 2
+            ),
+            "escape_teacher_displacement": round(
+                self.escape_teacher.displacement, 3
+            ),
+            "escape_teacher_efficiency": round(
+                self.escape_teacher.efficiency, 4
+            ),
+            "escape_teacher_events": self.escape_teacher.events,
+            "escape_teacher_successes": self.escape_teacher.successes,
+            "escape_teacher_failures": self.escape_teacher.failures,
+            "escape_teacher_last_outcome": self.escape_teacher.last_outcome,
+            "escape_teacher_memory_routes": len(
+                self.terrain_air_route_controller.teacher_route_payloads
+            ),
             "hidden_goal_adapter_enabled": self.hidden_goal_adapter_enabled,
             "hidden_goal_adapter_type": self.hidden_goal_adapter_type,
             "hidden_goal_adapter_active": self.hidden_goal_adapter_active,
@@ -3442,6 +3963,75 @@ class EmbodiedFunctionalEgo:
             "conductor_gate_frames": self.conductor_gate_frames,
             "conductor_gate_decisions": self.conductor_gate_decisions,
             "conductor_gate_denials": self.conductor_gate_denials,
+            "systemic_conductor_mode": (
+                (
+                    "bounded_recurrent_mpc"
+                    if self.systemic_router.mode != "passive"
+                    else "passive_frozen_checkpoint"
+                )
+                if self.systemic_conductor.enabled
+                else "disabled"
+            ),
+            "systemic_conductor_recommendation": (
+                self.systemic_conductor.recommendation
+            ),
+            "systemic_conductor_confidence": round(
+                self.systemic_conductor.confidence, 4
+            ),
+            "systemic_conductor_entropy_bits": round(
+                self.systemic_conductor.entropy, 4
+            ),
+            "systemic_conductor_proxy_context": (
+                self.systemic_conductor.proxy_context
+            ),
+            "systemic_conductor_proxy_optimal": (
+                self.systemic_conductor.proxy_optimal
+            ),
+            "systemic_conductor_agreement": self.systemic_conductor.agreement,
+            "systemic_conductor_agreement_rate": round(
+                self.systemic_conductor.agreement_rate, 4
+            ),
+            "systemic_conductor_observations": (
+                self.systemic_conductor.observations
+            ),
+            "systemic_conductor_action_influence": (
+                self.systemic_conductor.action_influence
+            ),
+            "systemic_router_active_specialist": (
+                self.systemic_router.active_specialist
+            ),
+            "systemic_router_reason": self.systemic_router.last_reason,
+            "systemic_router_handoffs": self.systemic_router.handoffs,
+            "systemic_router_safety_overrides": (
+                self.systemic_router.safety_overrides
+            ),
+            "systemic_router_influence_frames": (
+                self.systemic_router.influence_frames
+            ),
+            "systemic_router_chatter_events": (
+                self.systemic_router.chatter_events
+            ),
+            "systemic_router_mpc_latch_seconds": round(
+                self.systemic_router.mandatory_latch_ticks / self.hz, 2
+            ),
+            "systemic_router_recurrent_release_streak": (
+                self.systemic_router.recurrent_release_streak
+            ),
+            "resource_memory_mode": (
+                f"{self.resource_memory.control_mode}_coordinate_recall"
+                if self.resource_memory.enabled
+                else "disabled"
+            ),
+            "resource_memory_active": self.resource_memory.active,
+            "resource_memory_recommendation": self.resource_memory.recommendation,
+            "resource_memory_distance": round(self.resource_memory.distance, 3),
+            "resource_memory_confidence": round(
+                self.resource_memory.confidence, 4
+            ),
+            "resource_memory_regions": len(self.resource_memory.entries),
+            "resource_memory_action_influence": (
+                self.resource_memory.action_influence
+            ),
             "sync_observer_mode": "passive",
             "sync_coherence": round(self.dynamics_observer.coherence, 4),
             "sync_active_modules": self.dynamics_observer.active_modules,
@@ -3531,6 +4121,10 @@ class EmbodiedFunctionalEgo:
             f"takeover={int(self.shadow_takeover)} "
             f"conductor={self.conductor_observer.recommendation}:{self.conductor_observer.confidence:.2f}/"
             f"{self.conductor_observer.active_specialist} "
+            f"systemic={self.systemic_conductor.recommendation}:"
+            f"{self.systemic_conductor.confidence:.2f}/"
+            f"{self.systemic_conductor.proxy_context}->"
+            f"{self.systemic_router.active_specialist} "
             f"art={self.art_observer.category}:{self.art_observer.category_label}:{self.art_observer.match:.2f} "
             f"air={self.terrain_air_observer.recalled_action}:"
             f"{self.terrain_air_observer.confidence:.2f}/"
@@ -3684,6 +4278,46 @@ def main():
         ),
     )
     parser.add_argument(
+        "--systemic-conductor-checkpoint",
+        default=None,
+        help=(
+            "Load the frozen four-context Bunge-style systemic conductor."
+        ),
+    )
+    parser.add_argument(
+        "--systemic-conductor-control",
+        choices=["passive", "recurrent_mpc", "recurrent_mpc_air"],
+        default="passive",
+        help=(
+            "Keep recommendations passive or allow bounded recurrent/MPC "
+            "executive timing. The conductor never emits motor actions."
+        ),
+    )
+    parser.add_argument(
+        "--systemic-conductor-confidence",
+        type=float,
+        default=0.55,
+        help="Minimum recommendation margin for bounded executive routing.",
+    )
+    parser.add_argument(
+        "--adaptive-gnw-passive",
+        action="store_true",
+        help=(
+            "Observe the reward-calibrated adaptive GNW ignition gate without "
+            "allowing it to influence routing or motor control."
+        ),
+    )
+    parser.add_argument(
+        "--adaptive-gnw-control",
+        choices=["disabled", "passive", "bounded"],
+        default="disabled",
+        help=(
+            "Disable adaptive GNW, observe it passively, or let its broadcast "
+            "feed the bounded systemic router. Motor actions remain owned by "
+            "the recurrent/MPC specialists and stable fallback."
+        ),
+    )
+    parser.add_argument(
         "--terrain-air-memory",
         default=None,
         help=(
@@ -3729,6 +4363,43 @@ def main():
             "smaller margins receive a bounded tie-breaking prior."
         ),
     )
+    parser.add_argument(
+        "--terrain-air-teacher-memory",
+        default=None,
+        help=(
+            "Persist quality-gated deterministic escape demonstrations in a "
+            "separate ART route memory. Omit to disable the escape teacher."
+        ),
+    )
+    parser.add_argument(
+        "--terrain-resource-memory",
+        default=None,
+        help=(
+            "Persist rewarded Unity resource regions and emit hunger-gated "
+            "passive recommendations. Recommendations cannot affect actions."
+        ),
+    )
+    parser.add_argument(
+        "--terrain-resource-hunger-gate",
+        type=float,
+        default=0.70,
+        help="Minimum hunger required for passive resource-memory retrieval.",
+    )
+    parser.add_argument(
+        "--terrain-resource-control",
+        choices=["passive", "guided"],
+        default="passive",
+        help=(
+            "Keep resource recall passive or add a small uncertainty-gated "
+            "heading prior inside collision-masked MPC."
+        ),
+    )
+    parser.add_argument(
+        "--terrain-resource-max-guidance-weight",
+        type=float,
+        default=0.03,
+        help="Maximum resource-memory bonus applied to grounded MPC scores.",
+    )
     args = parser.parse_args()
 
     random.seed(args.seed)
@@ -3773,6 +4444,11 @@ def main():
         passive_conductor=args.passive_conductor,
         conductor_checkpoint=args.conductor_checkpoint,
         conductor_control=args.conductor_control,
+        systemic_conductor_checkpoint=args.systemic_conductor_checkpoint,
+        systemic_conductor_control=args.systemic_conductor_control,
+        systemic_conductor_confidence=args.systemic_conductor_confidence,
+        adaptive_gnw_passive=args.adaptive_gnw_passive,
+        adaptive_gnw_control=args.adaptive_gnw_control,
     )
     ego.controller_seed = args.seed
     ego.terrain_air_observer = PassiveTerrainAirObserver(args.terrain_air_memory)
@@ -3783,6 +4459,14 @@ def main():
         max_control_seconds=args.terrain_air_route_seconds,
         max_guidance_weight=args.terrain_air_max_guidance_weight,
         guidance_margin_threshold=args.terrain_air_guidance_margin,
+        teacher_memory=args.terrain_air_teacher_memory,
+    )
+    ego.resource_memory = PassiveTerrainResourceMemory(
+        args.terrain_resource_memory,
+        hunger_gate=args.terrain_resource_hunger_gate,
+        hz=args.hz,
+        control_mode=args.terrain_resource_control,
+        max_guidance_weight=args.terrain_resource_max_guidance_weight,
     )
     if args.initial_hunger is not None:
         ego.hunger = clamp(args.initial_hunger)
@@ -3825,12 +4509,14 @@ def main():
                     diagnostic_teleport = None
                 else:
                     ego.update_from_body(latest_body)
+                    ego.resource_memory.update(latest_body, ego.hunger)
                     action = ego.choose_action(latest_body)
                     ego.update_shadow_policy(latest_body, action)
                     ego.terrain_air_observer.update(
                         latest_body, ego.hunger, ego.shadow_action
                     )
                     ego.update_conductor_observer(latest_body)
+                    ego.update_systemic_conductor(latest_body)
                     if recorder is not None:
                         recorder.write(ego, latest_body, action)
                     last_payload = ego.command_payload(action)

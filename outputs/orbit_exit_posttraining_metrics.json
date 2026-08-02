@@ -1,0 +1,217 @@
+{
+  "protocol": {
+    "recording": "outputs/unity_shadow/overnight_or_gate_20260718.jsonl",
+    "base_checkpoint": "checkpoints/starvation_posttrained/best.pt",
+    "sequence_steps": 32,
+    "orbit_context_steps": 50,
+    "future_hindsight_steps": 15,
+    "event_level_holdout": true,
+    "heldout_event_ids": [
+      6,
+      15,
+      16,
+      18,
+      34,
+      39,
+      43,
+      46,
+      57,
+      58,
+      64,
+      69,
+      77,
+      87,
+      89,
+      111,
+      114,
+      119,
+      121,
+      125,
+      126,
+      131,
+      148,
+      151,
+      153,
+      155,
+      156,
+      171,
+      179,
+      192,
+      198,
+      207,
+      210,
+      214,
+      215,
+      217,
+      238,
+      241,
+      244,
+      251,
+      254,
+      264,
+      266,
+      274,
+      281,
+      282,
+      284,
+      287,
+      295,
+      296,
+      308,
+      316,
+      330,
+      331,
+      339,
+      341,
+      342,
+      346,
+      353,
+      363,
+      365,
+      371,
+      372,
+      375,
+      385,
+      386,
+      387,
+      389,
+      391,
+      395,
+      401,
+      404,
+      407,
+      416,
+      424,
+      425
+    ],
+    "scripted_breakout_labels": false,
+    "trainable_parameters": "actor_readout_only"
+  },
+  "extraction": {
+    "samples": 1132,
+    "orbit_events": 430,
+    "source_counts": {
+      "self_recovered": 1103,
+      "fallback_assisted": 29
+    },
+    "dataset": "outputs/unity_shadow/orbit_exit_20260718.npz"
+  },
+  "split": {
+    "train_samples": 910,
+    "heldout_samples": 222
+  },
+  "baseline_exit_accuracy": 0.6711711711711712,
+  "candidate_exit_accuracy": 0.7162162162162162,
+  "baseline_courses": {
+    "success_rate": 0.9861111111111112,
+    "mean_steps": 86.15277777777777,
+    "mean_collisions": 0.0,
+    "mean_path_length": 37.90722222222219,
+    "mean_revisit_ratio": 0.21378615540631646,
+    "mean_reversals": 2.2083333333333335,
+    "by_family": {
+      "u_trap": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      },
+      "c_shape": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      },
+      "l_wall": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      },
+      "zigzag_gate": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      },
+      "offset_barriers": {
+        "success_rate": 0.9166666666666666,
+        "mean_collisions": 0.0
+      },
+      "narrow_corridor": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      }
+    }
+  },
+  "candidate_courses": {
+    "success_rate": 0.9444444444444444,
+    "mean_steps": 94.91666666666667,
+    "mean_collisions": 0.0,
+    "mean_path_length": 41.76333333333328,
+    "mean_revisit_ratio": 0.21039198371010728,
+    "mean_reversals": 1.7361111111111112,
+    "by_family": {
+      "u_trap": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      },
+      "c_shape": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      },
+      "l_wall": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      },
+      "zigzag_gate": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      },
+      "offset_barriers": {
+        "success_rate": 0.75,
+        "mean_collisions": 0.0
+      },
+      "narrow_corridor": {
+        "success_rate": 0.9166666666666666,
+        "mean_collisions": 0.0
+      }
+    }
+  },
+  "baseline_sparse": {
+    "episodes": 8,
+    "mean_pickups": 19.75,
+    "mean_first_pickup_steps": 98.5,
+    "mean_max_meal_gap_steps": 641.25,
+    "mean_unique_cells": 86.25,
+    "mean_revisit_ratio": 0.9521099389228207,
+    "mean_collisions": 0.0,
+    "mean_reversals": 57.0
+  },
+  "candidate_sparse": {
+    "episodes": 8,
+    "mean_pickups": 14.625,
+    "mean_first_pickup_steps": 132.5,
+    "mean_max_meal_gap_steps": 802.0,
+    "mean_unique_cells": 77.0,
+    "mean_revisit_ratio": 0.9572459744586341,
+    "mean_collisions": 0.0,
+    "mean_reversals": 68.5
+  },
+  "candidate_memory_reset": {
+    "episodes": 8,
+    "mean_pickups": 2.875,
+    "mean_first_pickup_steps": 510.625,
+    "mean_max_meal_gap_steps": 1453.75,
+    "mean_unique_cells": 25.375,
+    "mean_revisit_ratio": 0.9859106052193226,
+    "mean_collisions": 0.0,
+    "mean_reversals": 95.375
+  },
+  "criteria": {
+    "heldout_exit_accuracy_improves_5_points": false,
+    "course_success_regression_at_most_2_points": false,
+    "course_collisions_not_increased": true,
+    "sparse_pickups_retain_90_percent": false,
+    "memory_reset_reduces_sparse_pickups": true,
+    "all_passed": false
+  },
+  "training_loss": [
+    1.1622626344362894,
+    1.1654069503148397,
+    1.140789008140564,
+    1.139519214630127
+  ]
+}

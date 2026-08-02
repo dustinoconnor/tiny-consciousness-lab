@@ -1,0 +1,44 @@
+{
+  "date": "2026-08-01",
+  "recording": "outputs/unity_shadow/red_blue_rule_verification_20260801.jsonl",
+  "hypothesis_under_test": {
+    "cause": "red pickup",
+    "effect": "increased internal pressure",
+    "predicted_delay_seconds": 10.464,
+    "authority_during_test": 0.0
+  },
+  "run": {
+    "seed": 92,
+    "frames": 5720,
+    "duration_seconds": 1199.793,
+    "total_pickups": 12,
+    "counter_resets": 0,
+    "red_visible_frames": 0,
+    "red_pickups": 0,
+    "max_metabolic_pressure": 0.0,
+    "survival_failures": 1,
+    "unstuck_respawns": 1
+  },
+  "evidence": {
+    "blue": {
+      "episodes": 12,
+      "isolated_episodes": 8,
+      "mean_pressure_delta": 0.0,
+      "positive_pressure_fraction": 0.0
+    },
+    "red": {
+      "episodes": 0,
+      "isolated_episodes": 0
+    }
+  },
+  "preregistered_eligibility": {
+    "minimum_isolated_red": 2,
+    "observed_isolated_red": 0,
+    "red_eligible": false,
+    "minimum_isolated_blue": 6,
+    "observed_isolated_blue": 8,
+    "blue_eligible": true
+  },
+  "verdict": "inconclusive_insufficient_red_exposure",
+  "interpretation": "The blue control replicated zero pressure responses, but the trajectory neither saw nor collected a red mushroom. The trial therefore cannot verify or falsify the proposed red-to-delayed-pressure rule, and no Rule Commit is permitted."
+}

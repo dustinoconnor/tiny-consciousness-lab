@@ -1,0 +1,29 @@
+{
+  "experiment": "counterbalanced evidence-line order under symmetric constrained schema",
+  "constant_factors": [
+    "frozen embodied evidence",
+    "homeostatic_filtered interface",
+    "bound_schema_constrained contract",
+    "symmetric candidate set",
+    "deterministic decoding",
+    "final semantic verifier"
+  ],
+  "results": [
+    {
+      "model": "google/gemma-3-270m-it",
+      "blue_first": "blue / no_pressure_change / 10.464",
+      "red_first": "blue / no_pressure_change / 10.464",
+      "order_effect": false,
+      "status": "rejected"
+    },
+    {
+      "model": "google/gemma-3-1b-it",
+      "blue_first": "blue / pressure_decrease / 10.464",
+      "red_first": "red / pressure_decrease / 10.464",
+      "order_effect": true,
+      "status": "rejected"
+    }
+  ],
+  "interpretation": "Evidence order controls the 1B target binding but not its effect-direction error. Order explains part, not all, of the failure. The 270M selection was invariant and wrong.",
+  "larger_model_decision": "defer; first test the original filtered freeform causal core with a formally compiled falsifier"
+}

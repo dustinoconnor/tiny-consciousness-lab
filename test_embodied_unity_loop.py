@@ -8,6 +8,7 @@ from embodied_unity_loop import (
     art_route_context,
     conductor_gate_allows,
     fuzzy_art_similarity,
+    orbit_teacher_due,
     orbit_recovery_should_finish,
     route_memory_adapter,
     route_reversal_count,
@@ -32,6 +33,72 @@ class StableRecoveryGateTests(unittest.TestCase):
 
     def test_subthreshold_signals_do_not_combine(self):
         self.assertFalse(stable_recovery_due(20, 20, 40))
+
+    def test_sustained_orbit_independently_triggers_recovery(self):
+        self.assertTrue(stable_recovery_due(0, 0, 40, sustained_orbit=True))
+
+    def test_orbit_teacher_waits_for_bounded_episodic_attempt(self):
+        self.assertFalse(orbit_teacher_due(True, route_active=True))
+        self.assertFalse(orbit_teacher_due(True, route_pending=True))
+        self.assertTrue(orbit_teacher_due(True))
+
+
+class MetabolicObservationTests(unittest.TestCase):
+    @staticmethod
+    def body(**updates):
+        body = {
+            "mushroom_pickups_total": 0,
+            "mushroom_reward_total": 0.0,
+            "red_mushroom_pickups_total": 0,
+            "mushroom_feature": "none",
+            "grounded": True,
+            "forward_clear": True,
+            "left_clear": True,
+            "right_clear": True,
+            "directional_rays": [1.0] * 8,
+            "directional_body_clearance": [1.0] * 8,
+        }
+        body.update(updates)
+        return body
+
+    def test_red_pickup_has_delayed_not_immediate_internal_effect(self):
+        ego = EmbodiedFunctionalEgo(hz=5.0)
+        ego.update_from_body(self.body())
+        ego.steps += 1
+        ego.update_from_body(
+            self.body(
+                mushroom_pickups_total=1,
+                mushroom_reward_total=0.35,
+                red_mushroom_pickups_total=1,
+                mushroom_feature="red",
+            )
+        )
+        self.assertEqual(ego.metabolic_challenge_events, 0)
+        self.assertEqual(len(ego.metabolic_challenge_due_steps), 1)
+        for _ in range(ego.metabolic_challenge_delay_ticks):
+            ego.steps += 1
+            ego.update_from_body(
+                self.body(
+                    mushroom_pickups_total=1,
+                    mushroom_reward_total=0.35,
+                    red_mushroom_pickups_total=1,
+                )
+            )
+        self.assertEqual(ego.metabolic_challenge_events, 1)
+        self.assertGreater(ego.metabolic_pressure, 0.30)
+
+    def test_blue_pickup_never_schedules_red_challenge(self):
+        ego = EmbodiedFunctionalEgo(hz=5.0)
+        ego.update_from_body(self.body())
+        ego.steps += 1
+        ego.update_from_body(
+            self.body(
+                mushroom_pickups_total=1,
+                mushroom_reward_total=0.35,
+                mushroom_feature="blue",
+            )
+        )
+        self.assertFalse(ego.metabolic_challenge_due_steps)
 
 
 class ArtRouteRetrievalTests(unittest.TestCase):

@@ -16,6 +16,7 @@ public class TrapCourseSpawner : MonoBehaviour
     }
 
     public static string CurrentCourseLabel { get; private set; } = "natural_terrain";
+    public static string CurrentCourseVariant { get; private set; } = "standard";
     public static int CurrentEpisode { get; private set; }
     public static int CourseSuccesses { get; private set; }
     public static int CourseFailures { get; private set; }
@@ -31,6 +32,8 @@ public class TrapCourseSpawner : MonoBehaviour
     [SerializeField] private bool buildOnStart = true;
     [SerializeField] private bool snapDeckToTerrain = true;
     [SerializeField] private bool advanceAfterGoal = true;
+    [SerializeField] private bool repeatCurrentCourse = false;
+    [SerializeField] private bool alternateLWallMirror = true;
     [SerializeField] private float advanceDelaySeconds = 2f;
     [SerializeField] private float episodeTimeoutSeconds = 90f;
     [SerializeField] private Vector2 deckSize = new Vector2(34f, 38f);
@@ -84,7 +87,14 @@ public class TrapCourseSpawner : MonoBehaviour
         if (advanceAt > 0f && Time.time >= advanceAt)
         {
             advanceAt = -1f;
-            NextCourse();
+            if (repeatCurrentCourse)
+            {
+                BuildCourse();
+            }
+            else
+            {
+                NextCourse();
+            }
             return;
         }
         if (generatedRoot != null && CurrentOutcome == "running" && Time.time - episodeStartedAt >= episodeTimeoutSeconds)
@@ -129,6 +139,7 @@ public class TrapCourseSpawner : MonoBehaviour
         CreateBlock("Test Deck", new Vector3(0f, -deckThickness * 0.5f, 0f), new Vector3(deckSize.x, deckThickness, deckSize.y), deckMaterial, true);
         BuildPerimeter();
 
+        CurrentCourseVariant = "standard";
         switch (course)
         {
             case CourseType.UTrap: BuildUTrap(); break;
@@ -226,6 +237,7 @@ public class TrapCourseSpawner : MonoBehaviour
             activeSpawner = null;
         }
         CurrentCourseLabel = "natural_terrain";
+        CurrentCourseVariant = "standard";
         CurrentOutcome = "inactive";
     }
 
@@ -259,10 +271,13 @@ public class TrapCourseSpawner : MonoBehaviour
 
     private void BuildLWall()
     {
+        bool mirrored = alternateLWallMirror && CurrentEpisode % 2 == 1;
+        float side = mirrored ? -1f : 1f;
         Wall(0f, 3f, 10f, wallThickness);
-        Wall(4.6f, -1.5f, wallThickness, 9f);
-        robotStart = new Vector3(1.8f, 0.25f, 0f);
-        foodPosition = new Vector3(1.8f, 0.4f, 7.5f);
+        Wall(side * 4.6f, -1.5f, wallThickness, 9f);
+        robotStart = new Vector3(side * 1.8f, 0.25f, 0f);
+        foodPosition = new Vector3(side * 1.8f, 0.4f, 7.5f);
+        CurrentCourseVariant = mirrored ? "lwall_mirrored" : "lwall_original";
     }
 
     private void BuildZigzag()

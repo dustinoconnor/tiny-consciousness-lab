@@ -2946,6 +2946,46 @@ functional ego state -> Unity body action -> body/world feedback -> fatigue upda
 The next embodied step is to add real survival pressure: water, energy, novelty,
 or safe-place seeking.
 
+## Neuro-Symbolic Tiny Scientist Verification
+
+The Tiny Scientist is a bounded causal-hypothesis component layered over the
+Unity telemetry path. It is not a free-running language agent and it does not
+receive motor authority. A passive analyzer converts food-pickup episodes into
+grounded red/blue outcome summaries; Gemma 3 1B selects a causal candidate;
+the formal layer binds the retest action to that one selected cause and derives
+the contradictory outcome. The candidate remains at authority 0.0 until a new
+embodied recording tests it.
+
+The pre-registered full-stack verification recording produced 10 isolated red
+pickups and 15 isolated blue controls. Every red pickup preceded a positive
+internal-pressure response (mean delta +0.3373) with mean latency 10.890
+seconds; no blue control had a positive response and no red counterexample
+occurred. The rule therefore passed the registered synthetic-Unity verification
+gate and is eligible only for future passive shadow production memory.
+
+This is a system-level result: Gemma selected the candidate from grounded
+episode summaries, code performed exact falsifier binding, and Unity supplied
+the prospective verification. It does not show unaided LLM abduction,
+autonomous experiment selection, natural-world causal discovery, sentience, or
+permission to change MPC/GNW weights.
+
+Compact artifacts are committed under:
+
+- `outputs/tiny_scientist_2x2_summary_20260801.json` — model-size and evidence-interface audit
+- `outputs/tiny_scientist_neurosymbolic_summary_20260801.json` — formal-falsifier result
+- `outputs/tiny_scientist_rule_verification_fullstack_summary_20260801.json` — preregistered prospective verification pass
+
+Raw Unity JSONL recordings remain ignored because of their size. Recreate the
+analysis with:
+
+```zsh
+python3 tiny_scientist.py \
+  outputs/unity_shadow/red_blue_rule_verification_fullstack_20260801.jsonl \
+  --backend none \
+  --evidence-interface homeostatic_filtered \
+  --output outputs/tiny_scientist_rule_verification_fullstack_evidence_20260801.json
+```
+
 ## Explainer Video Angle
 
 This project could be turned into a short narrated explainer:

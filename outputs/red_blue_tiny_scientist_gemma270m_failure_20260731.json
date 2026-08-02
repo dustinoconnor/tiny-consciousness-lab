@@ -1,0 +1,9 @@
+{
+  "recording": "outputs/unity_shadow/red_blue_tiny_scientist_20260731.jsonl",
+  "model": "google/gemma-3-270m-it",
+  "status": "rejected",
+  "reason": "tiny_scientist_comparison_has_no_distinct_feature",
+  "attempts": 2,
+  "authority": 0.0,
+  "final_raw_output": "```json\n{\n  \"condition\": \"tiny_scientist_comparison_has_no_distinct_feature\",\n  \"proposed_cause\": \"red:2\",\n  \"predicted_effect\": \"passive GNW surprise broadcasts by feature\",\n  \"delay_seconds\": 2,\n  \"comparison\": \"red:2\",\n  \"falsifier\": \"tiny_scientist_comparison_has_no_distinct_feature\",\n  \"confidence\": 0.9\n}\n```"
+}

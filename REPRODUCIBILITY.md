@@ -73,3 +73,29 @@ compact analyzer output into `outputs/` with a descriptive filename.
   clearance mask.
 - The project does not establish consciousness, sentience, AGI, or biological
   equivalence.
+
+## Tiny Scientist synthetic-Unity verification
+
+`tiny_scientist.py` analyzes a JSONL Unity recording into color-conditioned
+metabolic episodes. In the verified condition, Gemma 3 1B selected a candidate
+from a grounded summary while code compiled the falsifier by binding the same
+cause; the language model did not gain motor authority.
+
+The compact full-stack result is
+`outputs/tiny_scientist_rule_verification_fullstack_summary_20260801.json`.
+It reports 10 isolated red pickups, 15 isolated blue controls, a +0.3373 mean
+red pressure change, a 10.890-second mean red delay, no blue positive response,
+and no red counterexample. The raw recording is intentionally ignored; rerun
+the analyzer on a locally collected recording with:
+
+```bash
+python3 tiny_scientist.py <recording.jsonl> \
+  --backend none \
+  --evidence-interface homeostatic_filtered \
+  --output outputs/tiny_scientist_evidence.json
+```
+
+This verifies a programmed causal contingency within the synthetic Unity
+metabolism. It does not establish unaided LLM abduction, autonomous
+intervention selection, natural-world causal discovery, consciousness, or live
+control authority for the rule.

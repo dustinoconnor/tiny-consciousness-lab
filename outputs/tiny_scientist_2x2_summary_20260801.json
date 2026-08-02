@@ -1,0 +1,41 @@
+{
+  "experiment": "Gemma model size x evidence interface on frozen embodied evidence",
+  "recording": "outputs/unity_shadow/red_blue_tiny_scientist_20260731.jsonl",
+  "generation": {
+    "deterministic": true,
+    "attempts_per_cell": 2,
+    "authority": 0.0
+  },
+  "cells": [
+    {
+      "model": "google/gemma-3-270m-it",
+      "interface": "original",
+      "status": "rejected",
+      "reason": "tiny_scientist_comparison_has_no_distinct_feature",
+      "semantic_audit": "mistook GNW broadcast count for cause and comparison"
+    },
+    {
+      "model": "google/gemma-3-270m-it",
+      "interface": "homeostatic_filtered",
+      "status": "rejected",
+      "reason": "delay_seconds_not_numeric",
+      "semantic_audit": "copied prompt instructions into fields instead of grounding a hypothesis"
+    },
+    {
+      "model": "google/gemma-3-1b-it",
+      "interface": "original",
+      "status": "rejected",
+      "reason": "delay_seconds_none_and_causal_direction_reversed",
+      "semantic_audit": "claimed blue had the larger pressure effect despite the supplied evidence"
+    },
+    {
+      "model": "google/gemma-3-1b-it",
+      "interface": "homeostatic_filtered",
+      "status": "rejected",
+      "reason": "tiny_scientist_falsifier_targets_wrong_feature",
+      "semantic_audit": "correctly identified red, blue, pressure direction, and 10.464-second delay, but proposed a blue decrease that would not falsify the red-cause claim"
+    }
+  ],
+  "result": "zero_of_four_passed_final_semantic_verifier",
+  "interpretation": "Filtering materially improved the 1B causal formulation but did not produce a valid falsifier. Model size and filtering were jointly helpful but insufficient for the complete hypothesis contract."
+}

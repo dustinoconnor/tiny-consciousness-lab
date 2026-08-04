@@ -1334,3 +1334,23 @@ is treated as external and is not inferred from these measurements.
   outcome. Added `CAUSAL_DSL_PARETO_RESULT_20260804.md` and a website subsection
   reporting JSON 128/128, L1 121/128, the 34.684% token reduction, 5.469-point
   reliability tax, H1 replication, and the exposure-ineligible Unity boundary.
+- GitHub publication completed on `codex/tiny-scientist-neurosymbolic` at commit
+  `4ad3484` and pushed to draft PR #16. Published only the causal-language code,
+  tests, frozen evaluation artifacts, qualified report, and development log;
+  excluded approximately 105 MB of duplicate adapter/tokenizer directories and
+  unrelated dirty-worktree experiments. The repository, focused, site-render,
+  build, and whitespace validations pass.
+- Website source was built, validated, pushed to its existing Sites source
+  repository, and saved as version 16. The existing site is public, so the
+  final production deployment is paused for the explicit public-deployment
+  confirmation required by the hosting workflow.
+- User explicitly approved public deployment. Sites version 16 deployed
+  successfully to the existing Tiny Consciousness Lab production URL. No MPS
+  inference or training was run during publication because the user reserved
+  the GPU for a Comfy render.
+- Final usage checkpoint: user reported 5% remaining and reserved it for Comfy
+  prompts/dream-loop work. Codex timing records for 4 August contain 102 min
+  21 s across completed work turns plus approximately 1 min 36 s for the final
+  deployment/counting turn: 103 min 57 s total, rounded to **104 minutes**.
+  Per user instruction, divide this two-day-equivalent budget by two: **52
+  minutes of effective coding/research work per day**.

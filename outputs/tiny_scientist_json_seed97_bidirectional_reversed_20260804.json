@@ -1,0 +1,61 @@
+{
+  "experiment": "passive GNW-selected embodied metabolic hypothesis",
+  "evidence_interface": "homeostatic_filtered",
+  "hypothesis_contract": "bound_schema",
+  "evidence_order": "reversed",
+  "adapter": "checkpoints/causal_dsl_json_lora_v2_20260804",
+  "summary": {
+    "feature_outcomes": {
+      "blue": {
+        "episodes": 29,
+        "isolated_episodes": 10,
+        "mean_pressure_delta": -0.0046,
+        "positive_pressure_fraction": 0.0,
+        "mean_positive_delay_seconds": null
+      },
+      "red": {
+        "episodes": 4,
+        "isolated_episodes": 1,
+        "mean_pressure_delta": 0.34,
+        "positive_pressure_fraction": 1.0,
+        "mean_positive_delay_seconds": 10.724
+      }
+    },
+    "episode_count": 33,
+    "gnw_broadcast_count": 1,
+    "gnw_broadcast_features": {
+      "red": 1
+    },
+    "gnw_action_influence": 0
+  },
+  "gnw": {
+    "mode": "passive_scientific_broadcast",
+    "observations": 33,
+    "ignitions": 1,
+    "held": 32,
+    "action_influence": 0,
+    "broadcasts": [
+      {
+        "feature": "red",
+        "salience": 0.8647520861406751,
+        "prediction_error": 0.9999999999999923,
+        "novelty": 0.5773502691896258,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785858048.097594,
+          "pressure_before": 4.880778813961619e-15,
+          "peak_pressure": 0.3400000000000023,
+          "pressure_delta": 0.3399999999999974,
+          "peak_delay_seconds": 10.723609924316406,
+          "intervening_pickup": false
+        }
+      }
+    ]
+  },
+  "hypothesis": null,
+  "raw_model_output": null,
+  "status": "rejected",
+  "rejection": "tiny_scientist_hypothesis_rejected:tiny_scientist_bound_cause_reverses_evidence; raw={\"target_cause\":\"blue\",\"comparison_feature\":\"red\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":10.724,\"confidence\":0.9}",
+  "model": "google/gemma-3-270m-it",
+  "recording": "outputs/unity_shadow/causal_dsl_l1_unity_transfer_seed97_20260804.jsonl"
+}

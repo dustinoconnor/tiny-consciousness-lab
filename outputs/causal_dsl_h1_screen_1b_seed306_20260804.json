@@ -1,0 +1,2820 @@
+{
+  "experiment": "frozen_labeled_causal_dsl_comparison_v1",
+  "evaluation_seed": 306,
+  "heldout_examples": 64,
+  "training_changed_after_evaluation_started": false,
+  "json_adapter": "checkpoints/causal_dsl_json_lora_1b_20260804",
+  "l1_adapter": "checkpoints/causal_dsl_h1_lora_1b_20260804",
+  "compact_representation": "h1",
+  "heldout": {
+    "json": {
+      "examples": 64,
+      "syntax_valid": 64,
+      "semantic_matches": 64,
+      "syntax_rate": 1.0,
+      "semantic_accuracy": 1.0,
+      "mean_total_tokens": 282.328125,
+      "elapsed_seconds": 202.447,
+      "records": [
+        {
+          "expected": "{\"target_cause\":\"indigo\",\"comparison_feature\":\"copper\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"indigo\",\"comparison_feature\":\"copper\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "indigo",
+            "comparison": "copper",
+            "effect": "pressure_decrease",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "indigo",
+            "copper"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"blue\",\"comparison_feature\":\"red\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"blue\",\"comparison_feature\":\"red\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "blue",
+            "comparison": "red",
+            "effect": "pressure_increase",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "blue",
+            "red"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"copper\",\"comparison_feature\":\"indigo\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":7.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"copper\",\"comparison_feature\":\"indigo\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":7.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "copper",
+            "comparison": "indigo",
+            "effect": "pressure_decrease",
+            "delay": 7.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "copper",
+            "indigo"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"red\",\"comparison_feature\":\"blue\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":3.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"red\",\"comparison_feature\":\"blue\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":3.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "red",
+            "comparison": "blue",
+            "effect": "pressure_decrease",
+            "delay": 3.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "red",
+            "blue"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"pink\",\"comparison_feature\":\"teal\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":7.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"pink\",\"comparison_feature\":\"teal\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":7.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "pink",
+            "comparison": "teal",
+            "effect": "pressure_decrease",
+            "delay": 7.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "pink",
+            "teal"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"silver\",\"comparison_feature\":\"gold\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":7.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"silver\",\"comparison_feature\":\"gold\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":7.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "silver",
+            "comparison": "gold",
+            "effect": "pressure_decrease",
+            "delay": 7.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "silver",
+            "gold"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"teal\",\"comparison_feature\":\"pink\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":7.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"teal\",\"comparison_feature\":\"pink\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":7.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "teal",
+            "comparison": "pink",
+            "effect": "pressure_increase",
+            "delay": 7.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 244,
+          "output_tokens": 36,
+          "total_tokens": 280,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "teal",
+            "pink"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"red\",\"comparison_feature\":\"blue\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"red\",\"comparison_feature\":\"blue\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "red",
+            "comparison": "blue",
+            "effect": "pressure_increase",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "red",
+            "blue"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"indigo\",\"comparison_feature\":\"copper\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":3.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"indigo\",\"comparison_feature\":\"copper\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":3.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "indigo",
+            "comparison": "copper",
+            "effect": "pressure_increase",
+            "delay": 3.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "indigo",
+            "copper"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"teal\",\"comparison_feature\":\"pink\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":3.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"teal\",\"comparison_feature\":\"pink\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":3.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "teal",
+            "comparison": "pink",
+            "effect": "pressure_increase",
+            "delay": 3.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 244,
+          "output_tokens": 36,
+          "total_tokens": 280,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "teal",
+            "pink"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"copper\",\"comparison_feature\":\"indigo\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"copper\",\"comparison_feature\":\"indigo\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "prediction": {
+            "target": "copper",
+            "comparison": "indigo",
+            "effect": "pressure_increase",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 37,
+          "total_tokens": 282,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "copper",
+            "indigo"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"red\",\"comparison_feature\":\"blue\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"red\",\"comparison_feature\":\"blue\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "prediction": {
+            "target": "red",
+            "comparison": "blue",
+            "effect": "pressure_increase",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 246,
+          "output_tokens": 37,
+          "total_tokens": 283,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "red",
+            "blue"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"gold\",\"comparison_feature\":\"silver\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":10.464,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"gold\",\"comparison_feature\":\"silver\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":10.464,\"confidence\":0.8}",
+          "prediction": {
+            "target": "gold",
+            "comparison": "silver",
+            "effect": "pressure_increase",
+            "delay": 10.464
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 248,
+          "output_tokens": 39,
+          "total_tokens": 287,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "gold",
+            "silver"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"pink\",\"comparison_feature\":\"teal\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":3.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"pink\",\"comparison_feature\":\"teal\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":3.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "pink",
+            "comparison": "teal",
+            "effect": "pressure_increase",
+            "delay": 3.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "pink",
+            "teal"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"copper\",\"comparison_feature\":\"indigo\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":7.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"copper\",\"comparison_feature\":\"indigo\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":7.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "copper",
+            "comparison": "indigo",
+            "effect": "pressure_decrease",
+            "delay": 7.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "copper",
+            "indigo"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"copper\",\"comparison_feature\":\"indigo\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":3.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"copper\",\"comparison_feature\":\"indigo\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":3.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "copper",
+            "comparison": "indigo",
+            "effect": "pressure_decrease",
+            "delay": 3.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "copper",
+            "indigo"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"pink\",\"comparison_feature\":\"teal\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"pink\",\"comparison_feature\":\"teal\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "prediction": {
+            "target": "pink",
+            "comparison": "teal",
+            "effect": "pressure_increase",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 37,
+          "total_tokens": 282,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "pink",
+            "teal"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"gold\",\"comparison_feature\":\"silver\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":3.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"gold\",\"comparison_feature\":\"silver\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":3.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "gold",
+            "comparison": "silver",
+            "effect": "pressure_increase",
+            "delay": 3.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "gold",
+            "silver"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"gold\",\"comparison_feature\":\"silver\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"gold\",\"comparison_feature\":\"silver\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "prediction": {
+            "target": "gold",
+            "comparison": "silver",
+            "effect": "pressure_decrease",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 246,
+          "output_tokens": 37,
+          "total_tokens": 283,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "gold",
+            "silver"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"indigo\",\"comparison_feature\":\"copper\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"indigo\",\"comparison_feature\":\"copper\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "prediction": {
+            "target": "indigo",
+            "comparison": "copper",
+            "effect": "pressure_increase",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 246,
+          "output_tokens": 37,
+          "total_tokens": 283,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "indigo",
+            "copper"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"teal\",\"comparison_feature\":\"pink\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":10.464,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"teal\",\"comparison_feature\":\"pink\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":10.464,\"confidence\":0.8}",
+          "prediction": {
+            "target": "teal",
+            "comparison": "pink",
+            "effect": "pressure_decrease",
+            "delay": 10.464
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 248,
+          "output_tokens": 39,
+          "total_tokens": 287,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "teal",
+            "pink"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"teal\",\"comparison_feature\":\"pink\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"teal\",\"comparison_feature\":\"pink\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "teal",
+            "comparison": "pink",
+            "effect": "pressure_decrease",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 244,
+          "output_tokens": 36,
+          "total_tokens": 280,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "teal",
+            "pink"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"teal\",\"comparison_feature\":\"pink\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":3.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"teal\",\"comparison_feature\":\"pink\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":3.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "teal",
+            "comparison": "pink",
+            "effect": "pressure_decrease",
+            "delay": 3.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "teal",
+            "pink"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"red\",\"comparison_feature\":\"blue\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"red\",\"comparison_feature\":\"blue\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "prediction": {
+            "target": "red",
+            "comparison": "blue",
+            "effect": "pressure_decrease",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 246,
+          "output_tokens": 37,
+          "total_tokens": 283,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "red",
+            "blue"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"pink\",\"comparison_feature\":\"teal\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":10.464,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"pink\",\"comparison_feature\":\"teal\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":10.464,\"confidence\":0.8}",
+          "prediction": {
+            "target": "pink",
+            "comparison": "teal",
+            "effect": "pressure_decrease",
+            "delay": 10.464
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 248,
+          "output_tokens": 39,
+          "total_tokens": 287,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "pink",
+            "teal"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"copper\",\"comparison_feature\":\"indigo\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":10.464,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"copper\",\"comparison_feature\":\"indigo\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":10.464,\"confidence\":0.8}",
+          "prediction": {
+            "target": "copper",
+            "comparison": "indigo",
+            "effect": "pressure_decrease",
+            "delay": 10.464
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 247,
+          "output_tokens": 39,
+          "total_tokens": 286,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "copper",
+            "indigo"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"blue\",\"comparison_feature\":\"red\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":7.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"blue\",\"comparison_feature\":\"red\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":7.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "blue",
+            "comparison": "red",
+            "effect": "pressure_decrease",
+            "delay": 7.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 244,
+          "output_tokens": 36,
+          "total_tokens": 280,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "blue",
+            "red"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"blue\",\"comparison_feature\":\"red\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"blue\",\"comparison_feature\":\"red\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "prediction": {
+            "target": "blue",
+            "comparison": "red",
+            "effect": "pressure_decrease",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 246,
+          "output_tokens": 37,
+          "total_tokens": 283,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "blue",
+            "red"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"gold\",\"comparison_feature\":\"silver\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"gold\",\"comparison_feature\":\"silver\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "gold",
+            "comparison": "silver",
+            "effect": "pressure_decrease",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 244,
+          "output_tokens": 36,
+          "total_tokens": 280,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "gold",
+            "silver"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"gold\",\"comparison_feature\":\"silver\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"gold\",\"comparison_feature\":\"silver\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "gold",
+            "comparison": "silver",
+            "effect": "pressure_decrease",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "gold",
+            "silver"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"silver\",\"comparison_feature\":\"gold\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"silver\",\"comparison_feature\":\"gold\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "silver",
+            "comparison": "gold",
+            "effect": "pressure_decrease",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "silver",
+            "gold"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"pink\",\"comparison_feature\":\"teal\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":10.464,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"pink\",\"comparison_feature\":\"teal\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":10.464,\"confidence\":0.8}",
+          "prediction": {
+            "target": "pink",
+            "comparison": "teal",
+            "effect": "pressure_decrease",
+            "delay": 10.464
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 247,
+          "output_tokens": 39,
+          "total_tokens": 286,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "pink",
+            "teal"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"blue\",\"comparison_feature\":\"red\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":3.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"blue\",\"comparison_feature\":\"red\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":3.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "blue",
+            "comparison": "red",
+            "effect": "pressure_increase",
+            "delay": 3.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "blue",
+            "red"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"red\",\"comparison_feature\":\"blue\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"red\",\"comparison_feature\":\"blue\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "prediction": {
+            "target": "red",
+            "comparison": "blue",
+            "effect": "pressure_increase",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 37,
+          "total_tokens": 282,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "red",
+            "blue"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"teal\",\"comparison_feature\":\"pink\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"teal\",\"comparison_feature\":\"pink\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "prediction": {
+            "target": "teal",
+            "comparison": "pink",
+            "effect": "pressure_increase",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 246,
+          "output_tokens": 37,
+          "total_tokens": 283,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "teal",
+            "pink"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"teal\",\"comparison_feature\":\"pink\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"teal\",\"comparison_feature\":\"pink\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "teal",
+            "comparison": "pink",
+            "effect": "pressure_decrease",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "teal",
+            "pink"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"teal\",\"comparison_feature\":\"pink\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":10.464,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"teal\",\"comparison_feature\":\"pink\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":10.464,\"confidence\":0.8}",
+          "prediction": {
+            "target": "teal",
+            "comparison": "pink",
+            "effect": "pressure_increase",
+            "delay": 10.464
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 248,
+          "output_tokens": 39,
+          "total_tokens": 287,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "teal",
+            "pink"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"pink\",\"comparison_feature\":\"teal\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"pink\",\"comparison_feature\":\"teal\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "pink",
+            "comparison": "teal",
+            "effect": "pressure_increase",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "pink",
+            "teal"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"gold\",\"comparison_feature\":\"silver\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"gold\",\"comparison_feature\":\"silver\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "gold",
+            "comparison": "silver",
+            "effect": "pressure_increase",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "gold",
+            "silver"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"silver\",\"comparison_feature\":\"gold\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"silver\",\"comparison_feature\":\"gold\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "silver",
+            "comparison": "gold",
+            "effect": "pressure_increase",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "silver",
+            "gold"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"silver\",\"comparison_feature\":\"gold\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"silver\",\"comparison_feature\":\"gold\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "prediction": {
+            "target": "silver",
+            "comparison": "gold",
+            "effect": "pressure_decrease",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 246,
+          "output_tokens": 37,
+          "total_tokens": 283,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "silver",
+            "gold"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"red\",\"comparison_feature\":\"blue\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":3.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"red\",\"comparison_feature\":\"blue\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":3.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "red",
+            "comparison": "blue",
+            "effect": "pressure_decrease",
+            "delay": 3.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 244,
+          "output_tokens": 36,
+          "total_tokens": 280,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "red",
+            "blue"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"silver\",\"comparison_feature\":\"gold\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"silver\",\"comparison_feature\":\"gold\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "prediction": {
+            "target": "silver",
+            "comparison": "gold",
+            "effect": "pressure_increase",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 246,
+          "output_tokens": 37,
+          "total_tokens": 283,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "silver",
+            "gold"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"red\",\"comparison_feature\":\"blue\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":7.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"red\",\"comparison_feature\":\"blue\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":7.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "red",
+            "comparison": "blue",
+            "effect": "pressure_increase",
+            "delay": 7.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "red",
+            "blue"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"indigo\",\"comparison_feature\":\"copper\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":10.464,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"indigo\",\"comparison_feature\":\"copper\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":10.464,\"confidence\":0.8}",
+          "prediction": {
+            "target": "indigo",
+            "comparison": "copper",
+            "effect": "pressure_increase",
+            "delay": 10.464
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 248,
+          "output_tokens": 39,
+          "total_tokens": 287,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "indigo",
+            "copper"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"pink\",\"comparison_feature\":\"teal\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"pink\",\"comparison_feature\":\"teal\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "pink",
+            "comparison": "teal",
+            "effect": "pressure_decrease",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "pink",
+            "teal"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"indigo\",\"comparison_feature\":\"copper\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"indigo\",\"comparison_feature\":\"copper\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "prediction": {
+            "target": "indigo",
+            "comparison": "copper",
+            "effect": "pressure_decrease",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 246,
+          "output_tokens": 37,
+          "total_tokens": 283,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "indigo",
+            "copper"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"silver\",\"comparison_feature\":\"gold\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"silver\",\"comparison_feature\":\"gold\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "silver",
+            "comparison": "gold",
+            "effect": "pressure_increase",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "silver",
+            "gold"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"blue\",\"comparison_feature\":\"red\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":10.464,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"blue\",\"comparison_feature\":\"red\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":10.464,\"confidence\":0.8}",
+          "prediction": {
+            "target": "blue",
+            "comparison": "red",
+            "effect": "pressure_decrease",
+            "delay": 10.464
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 247,
+          "output_tokens": 39,
+          "total_tokens": 286,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "blue",
+            "red"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"copper\",\"comparison_feature\":\"indigo\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":7.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"copper\",\"comparison_feature\":\"indigo\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":7.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "copper",
+            "comparison": "indigo",
+            "effect": "pressure_increase",
+            "delay": 7.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 244,
+          "output_tokens": 36,
+          "total_tokens": 280,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "copper",
+            "indigo"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"indigo\",\"comparison_feature\":\"copper\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"indigo\",\"comparison_feature\":\"copper\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "indigo",
+            "comparison": "copper",
+            "effect": "pressure_increase",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "indigo",
+            "copper"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"copper\",\"comparison_feature\":\"indigo\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":3.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"copper\",\"comparison_feature\":\"indigo\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":3.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "copper",
+            "comparison": "indigo",
+            "effect": "pressure_increase",
+            "delay": 3.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "copper",
+            "indigo"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"pink\",\"comparison_feature\":\"teal\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"pink\",\"comparison_feature\":\"teal\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "prediction": {
+            "target": "pink",
+            "comparison": "teal",
+            "effect": "pressure_increase",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 246,
+          "output_tokens": 37,
+          "total_tokens": 283,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "pink",
+            "teal"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"silver\",\"comparison_feature\":\"gold\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":7.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"silver\",\"comparison_feature\":\"gold\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":7.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "silver",
+            "comparison": "gold",
+            "effect": "pressure_increase",
+            "delay": 7.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "silver",
+            "gold"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"silver\",\"comparison_feature\":\"gold\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":7.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"silver\",\"comparison_feature\":\"gold\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":7.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "silver",
+            "comparison": "gold",
+            "effect": "pressure_decrease",
+            "delay": 7.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "silver",
+            "gold"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"blue\",\"comparison_feature\":\"red\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":7.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"blue\",\"comparison_feature\":\"red\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":7.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "blue",
+            "comparison": "red",
+            "effect": "pressure_increase",
+            "delay": 7.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 244,
+          "output_tokens": 36,
+          "total_tokens": 280,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "blue",
+            "red"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"copper\",\"comparison_feature\":\"indigo\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":3.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"copper\",\"comparison_feature\":\"indigo\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":3.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "copper",
+            "comparison": "indigo",
+            "effect": "pressure_increase",
+            "delay": 3.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "copper",
+            "indigo"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"red\",\"comparison_feature\":\"blue\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":7.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"red\",\"comparison_feature\":\"blue\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":7.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "red",
+            "comparison": "blue",
+            "effect": "pressure_decrease",
+            "delay": 7.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "red",
+            "blue"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"gold\",\"comparison_feature\":\"silver\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":10.464,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"gold\",\"comparison_feature\":\"silver\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":10.464,\"confidence\":0.8}",
+          "prediction": {
+            "target": "gold",
+            "comparison": "silver",
+            "effect": "pressure_increase",
+            "delay": 10.464
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 248,
+          "output_tokens": 39,
+          "total_tokens": 287,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "gold",
+            "silver"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"blue\",\"comparison_feature\":\"red\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"blue\",\"comparison_feature\":\"red\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":5.0,\"confidence\":0.8}",
+          "prediction": {
+            "target": "blue",
+            "comparison": "red",
+            "effect": "pressure_increase",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 245,
+          "output_tokens": 36,
+          "total_tokens": 281,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "blue",
+            "red"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"indigo\",\"comparison_feature\":\"copper\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"indigo\",\"comparison_feature\":\"copper\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":12.5,\"confidence\":0.8}",
+          "prediction": {
+            "target": "indigo",
+            "comparison": "copper",
+            "effect": "pressure_decrease",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 246,
+          "output_tokens": 37,
+          "total_tokens": 283,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "indigo",
+            "copper"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"blue\",\"comparison_feature\":\"red\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":10.464,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"blue\",\"comparison_feature\":\"red\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":10.464,\"confidence\":0.8}",
+          "prediction": {
+            "target": "blue",
+            "comparison": "red",
+            "effect": "pressure_decrease",
+            "delay": 10.464
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 247,
+          "output_tokens": 39,
+          "total_tokens": 286,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "blue",
+            "red"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"indigo\",\"comparison_feature\":\"copper\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":10.464,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"indigo\",\"comparison_feature\":\"copper\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":10.464,\"confidence\":0.8}",
+          "prediction": {
+            "target": "indigo",
+            "comparison": "copper",
+            "effect": "pressure_decrease",
+            "delay": 10.464
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 248,
+          "output_tokens": 39,
+          "total_tokens": 287,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "indigo",
+            "copper"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"gold\",\"comparison_feature\":\"silver\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":10.464,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"gold\",\"comparison_feature\":\"silver\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":10.464,\"confidence\":0.8}",
+          "prediction": {
+            "target": "gold",
+            "comparison": "silver",
+            "effect": "pressure_decrease",
+            "delay": 10.464
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 248,
+          "output_tokens": 39,
+          "total_tokens": 287,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "gold",
+            "silver"
+          ]
+        }
+      ]
+    },
+    "l1": {
+      "examples": 64,
+      "syntax_valid": 58,
+      "semantic_matches": 56,
+      "syntax_rate": 0.90625,
+      "semantic_accuracy": 0.875,
+      "mean_total_tokens": 169.59375,
+      "elapsed_seconds": 134.351,
+      "records": [
+        {
+          "expected": "H1 cause indigo control copper effect decrease delay 5.0 confidence 0.8",
+          "raw": "H1 cause indigo 2 control copper 2 effect decrease delay 5.0 confidence 0.8",
+          "prediction": null,
+          "syntax_valid": false,
+          "semantic_match": false,
+          "parse_error": "tiny_scientist_returned_no_single_semantic_causal_ir",
+          "input_tokens": 149,
+          "output_tokens": 23,
+          "total_tokens": 172,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "indigo",
+            "copper"
+          ]
+        },
+        {
+          "expected": "H1 cause blue control red effect increase delay 5.0 confidence 0.8",
+          "raw": "H1 cause blue control red effect increase delay 5.0 confidence 0.8",
+          "prediction": {
+            "target": "blue",
+            "comparison": "red",
+            "effect": "pressure_increase",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "blue",
+            "red"
+          ]
+        },
+        {
+          "expected": "H1 cause copper control indigo effect decrease delay 7.0 confidence 0.8",
+          "raw": "H1 cause copper control indigo effect decrease delay 7.0 confidence 0.8",
+          "prediction": {
+            "target": "copper",
+            "comparison": "indigo",
+            "effect": "pressure_decrease",
+            "delay": 7.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "copper",
+            "indigo"
+          ]
+        },
+        {
+          "expected": "H1 cause red control blue effect decrease delay 3.0 confidence 0.8",
+          "raw": "H1 cause red control blue effect decrease delay 3.0 confidence 0.8",
+          "prediction": {
+            "target": "red",
+            "comparison": "blue",
+            "effect": "pressure_decrease",
+            "delay": 3.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "red",
+            "blue"
+          ]
+        },
+        {
+          "expected": "H1 cause pink control teal effect decrease delay 7.0 confidence 0.8",
+          "raw": "H1 cause pink control teal effect decrease delay 7.0 confidence 0.8",
+          "prediction": {
+            "target": "pink",
+            "comparison": "teal",
+            "effect": "pressure_decrease",
+            "delay": 7.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "pink",
+            "teal"
+          ]
+        },
+        {
+          "expected": "H1 cause silver control gold effect decrease delay 7.0 confidence 0.8",
+          "raw": "H1 cause silver control gold effect decrease delay 7.0 confidence 0.8",
+          "prediction": {
+            "target": "silver",
+            "comparison": "gold",
+            "effect": "pressure_decrease",
+            "delay": 7.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "silver",
+            "gold"
+          ]
+        },
+        {
+          "expected": "H1 cause teal control pink effect increase delay 7.0 confidence 0.8",
+          "raw": "H1 cause teal control pink effect increase delay 7.0 confidence 0.8",
+          "prediction": {
+            "target": "teal",
+            "comparison": "pink",
+            "effect": "pressure_increase",
+            "delay": 7.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 148,
+          "output_tokens": 19,
+          "total_tokens": 167,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "teal",
+            "pink"
+          ]
+        },
+        {
+          "expected": "H1 cause red control blue effect increase delay 5.0 confidence 0.8",
+          "raw": "H1 cause red control blue effect increase delay 5.0 confidence 0.8",
+          "prediction": {
+            "target": "red",
+            "comparison": "blue",
+            "effect": "pressure_increase",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "red",
+            "blue"
+          ]
+        },
+        {
+          "expected": "H1 cause indigo control copper effect increase delay 3.0 confidence 0.8",
+          "raw": "H1 cause indigo control copper effect increase delay 3.0 confidence 0.8",
+          "prediction": {
+            "target": "indigo",
+            "comparison": "copper",
+            "effect": "pressure_increase",
+            "delay": 3.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "indigo",
+            "copper"
+          ]
+        },
+        {
+          "expected": "H1 cause teal control pink effect increase delay 3.0 confidence 0.8",
+          "raw": "H1 cause teal control pink effect increase delay 3.0 confidence 0.8",
+          "prediction": {
+            "target": "teal",
+            "comparison": "pink",
+            "effect": "pressure_increase",
+            "delay": 3.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 148,
+          "output_tokens": 19,
+          "total_tokens": 167,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "teal",
+            "pink"
+          ]
+        },
+        {
+          "expected": "H1 cause copper control indigo effect increase delay 12.5 confidence 0.8",
+          "raw": "H1 cause copper control indigo effect increase delay 12.5 confidence 0.8",
+          "prediction": {
+            "target": "copper",
+            "comparison": "indigo",
+            "effect": "pressure_increase",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 20,
+          "total_tokens": 169,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "copper",
+            "indigo"
+          ]
+        },
+        {
+          "expected": "H1 cause red control blue effect increase delay 12.5 confidence 0.8",
+          "raw": "H1 cause red control blue effect increase delay 12.5 confidence 0.8",
+          "prediction": {
+            "target": "red",
+            "comparison": "blue",
+            "effect": "pressure_increase",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 150,
+          "output_tokens": 20,
+          "total_tokens": 170,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "red",
+            "blue"
+          ]
+        },
+        {
+          "expected": "H1 cause gold control silver effect increase delay 10.464 confidence 0.8",
+          "raw": "H1 cause gold control silver effect increase delay 10.464 confidence 0.8",
+          "prediction": {
+            "target": "gold",
+            "comparison": "silver",
+            "effect": "pressure_increase",
+            "delay": 10.464
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 152,
+          "output_tokens": 22,
+          "total_tokens": 174,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "gold",
+            "silver"
+          ]
+        },
+        {
+          "expected": "H1 cause pink control teal effect increase delay 3.0 confidence 0.8",
+          "raw": "H1 cause pink control teal effect increase delay 3.0 confidence 0.8",
+          "prediction": {
+            "target": "pink",
+            "comparison": "teal",
+            "effect": "pressure_increase",
+            "delay": 3.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "pink",
+            "teal"
+          ]
+        },
+        {
+          "expected": "H1 cause copper control indigo effect decrease delay 7.0 confidence 0.8",
+          "raw": "H1 cause copper control indigo 7 effect decrease delay 7.0 confidence 0.8",
+          "prediction": null,
+          "syntax_valid": false,
+          "semantic_match": false,
+          "parse_error": "tiny_scientist_returned_no_single_semantic_causal_ir",
+          "input_tokens": 149,
+          "output_tokens": 21,
+          "total_tokens": 170,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "copper",
+            "indigo"
+          ]
+        },
+        {
+          "expected": "H1 cause copper control indigo effect decrease delay 3.0 confidence 0.8",
+          "raw": "H1 cause copper control indigo 7 effect decrease delay 3.0 confidence 0.8",
+          "prediction": null,
+          "syntax_valid": false,
+          "semantic_match": false,
+          "parse_error": "tiny_scientist_returned_no_single_semantic_causal_ir",
+          "input_tokens": 149,
+          "output_tokens": 21,
+          "total_tokens": 170,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "copper",
+            "indigo"
+          ]
+        },
+        {
+          "expected": "H1 cause pink control teal effect increase delay 12.5 confidence 0.8",
+          "raw": "H1 cause pink control teal effect increase delay 12.5 confidence 0.8",
+          "prediction": {
+            "target": "pink",
+            "comparison": "teal",
+            "effect": "pressure_increase",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 20,
+          "total_tokens": 169,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "pink",
+            "teal"
+          ]
+        },
+        {
+          "expected": "H1 cause gold control silver effect increase delay 3.0 confidence 0.8",
+          "raw": "H1 cause gold control silver effect increase delay 3.0 confidence 0.8",
+          "prediction": {
+            "target": "gold",
+            "comparison": "silver",
+            "effect": "pressure_increase",
+            "delay": 3.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "gold",
+            "silver"
+          ]
+        },
+        {
+          "expected": "H1 cause gold control silver effect decrease delay 12.5 confidence 0.8",
+          "raw": "H1 cause gold control silver effect decrease delay 12.5 confidence 0.8",
+          "prediction": {
+            "target": "gold",
+            "comparison": "silver",
+            "effect": "pressure_decrease",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 150,
+          "output_tokens": 20,
+          "total_tokens": 170,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "gold",
+            "silver"
+          ]
+        },
+        {
+          "expected": "H1 cause indigo control copper effect increase delay 12.5 confidence 0.8",
+          "raw": "H1 cause indigo 6 control copper 6 effect positive increase delay 12.5 confidence 0.8",
+          "prediction": null,
+          "syntax_valid": false,
+          "semantic_match": false,
+          "parse_error": "tiny_scientist_returned_no_single_semantic_causal_ir",
+          "input_tokens": 150,
+          "output_tokens": 25,
+          "total_tokens": 175,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "indigo",
+            "copper"
+          ]
+        },
+        {
+          "expected": "H1 cause teal control pink effect decrease delay 10.464 confidence 0.8",
+          "raw": "H1 cause teal control pink effect decrease delay 10.464 confidence 0.8",
+          "prediction": {
+            "target": "teal",
+            "comparison": "pink",
+            "effect": "pressure_decrease",
+            "delay": 10.464
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 152,
+          "output_tokens": 22,
+          "total_tokens": 174,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "teal",
+            "pink"
+          ]
+        },
+        {
+          "expected": "H1 cause teal control pink effect decrease delay 5.0 confidence 0.8",
+          "raw": "H1 cause teal control pink effect decrease delay 5.0 confidence 0.8",
+          "prediction": {
+            "target": "teal",
+            "comparison": "pink",
+            "effect": "pressure_decrease",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 148,
+          "output_tokens": 19,
+          "total_tokens": 167,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "teal",
+            "pink"
+          ]
+        },
+        {
+          "expected": "H1 cause teal control pink effect decrease delay 3.0 confidence 0.8",
+          "raw": "H1 cause teal control pink effect decrease delay 3.0 confidence 0.8",
+          "prediction": {
+            "target": "teal",
+            "comparison": "pink",
+            "effect": "pressure_decrease",
+            "delay": 3.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "teal",
+            "pink"
+          ]
+        },
+        {
+          "expected": "H1 cause red control blue effect decrease delay 12.5 confidence 0.8",
+          "raw": "H1 cause red control blue effect decrease delay 12.5 confidence 0.8",
+          "prediction": {
+            "target": "red",
+            "comparison": "blue",
+            "effect": "pressure_decrease",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 150,
+          "output_tokens": 20,
+          "total_tokens": 170,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "red",
+            "blue"
+          ]
+        },
+        {
+          "expected": "H1 cause pink control teal effect decrease delay 10.464 confidence 0.8",
+          "raw": "H1 cause pink control teal effect decrease delay 10.464 confidence 0.8",
+          "prediction": {
+            "target": "pink",
+            "comparison": "teal",
+            "effect": "pressure_decrease",
+            "delay": 10.464
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 152,
+          "output_tokens": 22,
+          "total_tokens": 174,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "pink",
+            "teal"
+          ]
+        },
+        {
+          "expected": "H1 cause copper control indigo effect decrease delay 10.464 confidence 0.8",
+          "raw": "H1 cause copper control indigo effect decrease delay 10.464 confidence 0.8",
+          "prediction": {
+            "target": "copper",
+            "comparison": "indigo",
+            "effect": "pressure_decrease",
+            "delay": 10.464
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 151,
+          "output_tokens": 22,
+          "total_tokens": 173,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "copper",
+            "indigo"
+          ]
+        },
+        {
+          "expected": "H1 cause blue control red effect decrease delay 7.0 confidence 0.8",
+          "raw": "H1 cause blue control red effect decrease delay 7.0 confidence 0.8",
+          "prediction": {
+            "target": "blue",
+            "comparison": "red",
+            "effect": "pressure_decrease",
+            "delay": 7.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 148,
+          "output_tokens": 19,
+          "total_tokens": 167,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "blue",
+            "red"
+          ]
+        },
+        {
+          "expected": "H1 cause blue control red effect decrease delay 12.5 confidence 0.8",
+          "raw": "H1 cause blue control red effect decrease delay 12.5 confidence 0.8",
+          "prediction": {
+            "target": "blue",
+            "comparison": "red",
+            "effect": "pressure_decrease",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 150,
+          "output_tokens": 20,
+          "total_tokens": 170,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "blue",
+            "red"
+          ]
+        },
+        {
+          "expected": "H1 cause gold control silver effect decrease delay 5.0 confidence 0.8",
+          "raw": "H1 cause gold control silver effect decrease delay 5.0 confidence 0.8",
+          "prediction": {
+            "target": "gold",
+            "comparison": "silver",
+            "effect": "pressure_decrease",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 148,
+          "output_tokens": 19,
+          "total_tokens": 167,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "gold",
+            "silver"
+          ]
+        },
+        {
+          "expected": "H1 cause gold control silver effect decrease delay 5.0 confidence 0.8",
+          "raw": "H1 cause silver control gold effect decrease delay 5.0 confidence 0.8",
+          "prediction": {
+            "target": "silver",
+            "comparison": "gold",
+            "effect": "pressure_decrease",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": false,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "gold",
+            "silver"
+          ]
+        },
+        {
+          "expected": "H1 cause silver control gold effect decrease delay 5.0 confidence 0.8",
+          "raw": "H1 cause silver control gold effect decrease delay 5.0 confidence 0.8",
+          "prediction": {
+            "target": "silver",
+            "comparison": "gold",
+            "effect": "pressure_decrease",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "silver",
+            "gold"
+          ]
+        },
+        {
+          "expected": "H1 cause pink control teal effect decrease delay 10.464 confidence 0.8",
+          "raw": "H1 cause pink control teal effect decrease delay 10.464 confidence 0.8",
+          "prediction": {
+            "target": "pink",
+            "comparison": "teal",
+            "effect": "pressure_decrease",
+            "delay": 10.464
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 151,
+          "output_tokens": 22,
+          "total_tokens": 173,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "pink",
+            "teal"
+          ]
+        },
+        {
+          "expected": "H1 cause blue control red effect increase delay 3.0 confidence 0.8",
+          "raw": "H1 cause blue control red effect increase delay 3.0 confidence 0.8",
+          "prediction": {
+            "target": "blue",
+            "comparison": "red",
+            "effect": "pressure_increase",
+            "delay": 3.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "blue",
+            "red"
+          ]
+        },
+        {
+          "expected": "H1 cause red control blue effect increase delay 12.5 confidence 0.8",
+          "raw": "H1 cause red control blue effect increase delay 12.5 confidence 0.8",
+          "prediction": {
+            "target": "red",
+            "comparison": "blue",
+            "effect": "pressure_increase",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 20,
+          "total_tokens": 169,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "red",
+            "blue"
+          ]
+        },
+        {
+          "expected": "H1 cause teal control pink effect increase delay 12.5 confidence 0.8",
+          "raw": "H1 cause teal control pink effect increase delay 12.5 confidence 0.8",
+          "prediction": {
+            "target": "teal",
+            "comparison": "pink",
+            "effect": "pressure_increase",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 150,
+          "output_tokens": 20,
+          "total_tokens": 170,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "teal",
+            "pink"
+          ]
+        },
+        {
+          "expected": "H1 cause teal control pink effect decrease delay 5.0 confidence 0.8",
+          "raw": "H1 cause teal control pink effect decrease delay 5.0 confidence 0.8",
+          "prediction": {
+            "target": "teal",
+            "comparison": "pink",
+            "effect": "pressure_decrease",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "teal",
+            "pink"
+          ]
+        },
+        {
+          "expected": "H1 cause teal control pink effect increase delay 10.464 confidence 0.8",
+          "raw": "H1 cause teal control pink effect increase delay 10.464 confidence 0.8",
+          "prediction": {
+            "target": "teal",
+            "comparison": "pink",
+            "effect": "pressure_increase",
+            "delay": 10.464
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 152,
+          "output_tokens": 22,
+          "total_tokens": 174,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "teal",
+            "pink"
+          ]
+        },
+        {
+          "expected": "H1 cause pink control teal effect increase delay 5.0 confidence 0.8",
+          "raw": "H1 cause pink control teal effect increase delay 5.0 confidence 0.8",
+          "prediction": {
+            "target": "pink",
+            "comparison": "teal",
+            "effect": "pressure_increase",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "pink",
+            "teal"
+          ]
+        },
+        {
+          "expected": "H1 cause gold control silver effect increase delay 5.0 confidence 0.8",
+          "raw": "H1 cause gold control silver effect increase delay 5.0 confidence 0.8",
+          "prediction": {
+            "target": "gold",
+            "comparison": "silver",
+            "effect": "pressure_increase",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "gold",
+            "silver"
+          ]
+        },
+        {
+          "expected": "H1 cause silver control gold effect increase delay 5.0 confidence 0.8",
+          "raw": "H1 cause silver control gold effect increase delay 5.0 confidence 0.8",
+          "prediction": {
+            "target": "silver",
+            "comparison": "gold",
+            "effect": "pressure_increase",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "silver",
+            "gold"
+          ]
+        },
+        {
+          "expected": "H1 cause silver control gold effect decrease delay 12.5 confidence 0.8",
+          "raw": "H1 cause silver control gold effect decrease delay 12.5 confidence 0.8",
+          "prediction": {
+            "target": "silver",
+            "comparison": "gold",
+            "effect": "pressure_decrease",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 150,
+          "output_tokens": 20,
+          "total_tokens": 170,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "silver",
+            "gold"
+          ]
+        },
+        {
+          "expected": "H1 cause red control blue effect decrease delay 3.0 confidence 0.8",
+          "raw": "H1 cause red control blue effect decrease delay 3.0 confidence 0.8",
+          "prediction": {
+            "target": "red",
+            "comparison": "blue",
+            "effect": "pressure_decrease",
+            "delay": 3.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 148,
+          "output_tokens": 19,
+          "total_tokens": 167,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "red",
+            "blue"
+          ]
+        },
+        {
+          "expected": "H1 cause silver control gold effect increase delay 12.5 confidence 0.8",
+          "raw": "H1 cause silver control gold effect increase delay 12.5 confidence 0.8",
+          "prediction": {
+            "target": "silver",
+            "comparison": "gold",
+            "effect": "pressure_increase",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 150,
+          "output_tokens": 20,
+          "total_tokens": 170,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "silver",
+            "gold"
+          ]
+        },
+        {
+          "expected": "H1 cause red control blue effect increase delay 7.0 confidence 0.8",
+          "raw": "H1 cause red control blue effect increase delay 7.0 confidence 0.8",
+          "prediction": {
+            "target": "red",
+            "comparison": "blue",
+            "effect": "pressure_increase",
+            "delay": 7.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "red",
+            "blue"
+          ]
+        },
+        {
+          "expected": "H1 cause indigo control copper effect increase delay 10.464 confidence 0.8",
+          "raw": "H1 cause indigo control copper effect increase delay 10.464 confidence 0.8",
+          "prediction": {
+            "target": "indigo",
+            "comparison": "copper",
+            "effect": "pressure_increase",
+            "delay": 10.464
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 152,
+          "output_tokens": 22,
+          "total_tokens": 174,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "indigo",
+            "copper"
+          ]
+        },
+        {
+          "expected": "H1 cause pink control teal effect decrease delay 5.0 confidence 0.8",
+          "raw": "H1 cause pink control teal effect decrease delay 5.0 confidence 0.8",
+          "prediction": {
+            "target": "pink",
+            "comparison": "teal",
+            "effect": "pressure_decrease",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "pink",
+            "teal"
+          ]
+        },
+        {
+          "expected": "H1 cause indigo control copper effect decrease delay 12.5 confidence 0.8",
+          "raw": "H1 cause indigo control copper effect decrease delay 12.5 confidence 0.8",
+          "prediction": {
+            "target": "indigo",
+            "comparison": "copper",
+            "effect": "pressure_decrease",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 150,
+          "output_tokens": 20,
+          "total_tokens": 170,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "indigo",
+            "copper"
+          ]
+        },
+        {
+          "expected": "H1 cause silver control gold effect increase delay 5.0 confidence 0.8",
+          "raw": "H1 cause silver control gold effect increase delay 5.0 confidence 0.8",
+          "prediction": {
+            "target": "silver",
+            "comparison": "gold",
+            "effect": "pressure_increase",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "silver",
+            "gold"
+          ]
+        },
+        {
+          "expected": "H1 cause blue control red effect decrease delay 10.464 confidence 0.8",
+          "raw": "H1 cause blue control red effect decrease delay 10.464 confidence 0.8",
+          "prediction": {
+            "target": "blue",
+            "comparison": "red",
+            "effect": "pressure_decrease",
+            "delay": 10.464
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 151,
+          "output_tokens": 22,
+          "total_tokens": 173,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "blue",
+            "red"
+          ]
+        },
+        {
+          "expected": "H1 cause copper control indigo effect increase delay 7.0 confidence 0.8",
+          "raw": "H1 cause copper control indigo 2 effect increase delay 7.0 confidence 0.8",
+          "prediction": null,
+          "syntax_valid": false,
+          "semantic_match": false,
+          "parse_error": "tiny_scientist_returned_no_single_semantic_causal_ir",
+          "input_tokens": 148,
+          "output_tokens": 21,
+          "total_tokens": 169,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "copper",
+            "indigo"
+          ]
+        },
+        {
+          "expected": "H1 cause indigo control copper effect increase delay 5.0 confidence 0.8",
+          "raw": "H1 cause indigo control copper effect increase delay 5.0 confidence 0.8",
+          "prediction": {
+            "target": "indigo",
+            "comparison": "copper",
+            "effect": "pressure_increase",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "indigo",
+            "copper"
+          ]
+        },
+        {
+          "expected": "H1 cause copper control indigo effect increase delay 3.0 confidence 0.8",
+          "raw": "H1 cause copper control indigo effect increase delay 3.0 confidence 0.8",
+          "prediction": {
+            "target": "copper",
+            "comparison": "indigo",
+            "effect": "pressure_increase",
+            "delay": 3.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "copper",
+            "indigo"
+          ]
+        },
+        {
+          "expected": "H1 cause pink control teal effect increase delay 12.5 confidence 0.8",
+          "raw": "H1 cause pink control teal effect increase delay 12.5 confidence 0.8",
+          "prediction": {
+            "target": "pink",
+            "comparison": "teal",
+            "effect": "pressure_increase",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 150,
+          "output_tokens": 20,
+          "total_tokens": 170,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "pink",
+            "teal"
+          ]
+        },
+        {
+          "expected": "H1 cause silver control gold effect increase delay 7.0 confidence 0.8",
+          "raw": "H1 cause silver control gold effect increase delay 7.0 confidence 0.8",
+          "prediction": {
+            "target": "silver",
+            "comparison": "gold",
+            "effect": "pressure_increase",
+            "delay": 7.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "silver",
+            "gold"
+          ]
+        },
+        {
+          "expected": "H1 cause silver control gold effect decrease delay 7.0 confidence 0.8",
+          "raw": "H1 cause silver control gold effect decrease delay 7.0 confidence 0.8",
+          "prediction": {
+            "target": "silver",
+            "comparison": "gold",
+            "effect": "pressure_decrease",
+            "delay": 7.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "silver",
+            "gold"
+          ]
+        },
+        {
+          "expected": "H1 cause blue control red effect increase delay 7.0 confidence 0.8",
+          "raw": "H1 cause blue control red effect increase delay 7.0 confidence 0.8",
+          "prediction": {
+            "target": "blue",
+            "comparison": "red",
+            "effect": "pressure_increase",
+            "delay": 7.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 148,
+          "output_tokens": 19,
+          "total_tokens": 167,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "blue",
+            "red"
+          ]
+        },
+        {
+          "expected": "H1 cause copper control indigo effect increase delay 3.0 confidence 0.8",
+          "raw": "H1 cause copper control indigo 7 effect increase delay 3.0 confidence 0.8",
+          "prediction": null,
+          "syntax_valid": false,
+          "semantic_match": false,
+          "parse_error": "tiny_scientist_returned_no_single_semantic_causal_ir",
+          "input_tokens": 149,
+          "output_tokens": 21,
+          "total_tokens": 170,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "copper",
+            "indigo"
+          ]
+        },
+        {
+          "expected": "H1 cause red control blue effect decrease delay 7.0 confidence 0.8",
+          "raw": "H1 cause red control blue effect decrease delay 7.0 confidence 0.8",
+          "prediction": {
+            "target": "red",
+            "comparison": "blue",
+            "effect": "pressure_decrease",
+            "delay": 7.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "red",
+            "blue"
+          ]
+        },
+        {
+          "expected": "H1 cause gold control silver effect increase delay 10.464 confidence 0.8",
+          "raw": "H1 cause gold control silver effect increase delay 10.464 confidence 0.8",
+          "prediction": {
+            "target": "gold",
+            "comparison": "silver",
+            "effect": "pressure_increase",
+            "delay": 10.464
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 152,
+          "output_tokens": 22,
+          "total_tokens": 174,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "gold",
+            "silver"
+          ]
+        },
+        {
+          "expected": "H1 cause blue control red effect increase delay 5.0 confidence 0.8",
+          "raw": "H1 cause blue control red effect increase delay 5.0 confidence 0.8",
+          "prediction": {
+            "target": "blue",
+            "comparison": "red",
+            "effect": "pressure_increase",
+            "delay": 5.0
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 149,
+          "output_tokens": 19,
+          "total_tokens": 168,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "blue",
+            "red"
+          ]
+        },
+        {
+          "expected": "H1 cause indigo control copper effect decrease delay 12.5 confidence 0.8",
+          "raw": "H1 cause indigo control copper effect decrease delay 12.5 confidence 0.8",
+          "prediction": {
+            "target": "indigo",
+            "comparison": "copper",
+            "effect": "pressure_decrease",
+            "delay": 12.5
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 150,
+          "output_tokens": 20,
+          "total_tokens": 170,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "indigo",
+            "copper"
+          ]
+        },
+        {
+          "expected": "H1 cause blue control red effect decrease delay 10.464 confidence 0.8",
+          "raw": "H1 cause blue control red effect decrease delay 10.464 confidence 0.8",
+          "prediction": {
+            "target": "blue",
+            "comparison": "red",
+            "effect": "pressure_decrease",
+            "delay": 10.464
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 151,
+          "output_tokens": 22,
+          "total_tokens": 173,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "blue",
+            "red"
+          ]
+        },
+        {
+          "expected": "H1 cause indigo control copper effect decrease delay 10.464 confidence 0.8",
+          "raw": "H1 cause indigo control copper effect decrease delay 10.464 confidence 0.8",
+          "prediction": {
+            "target": "indigo",
+            "comparison": "copper",
+            "effect": "pressure_decrease",
+            "delay": 10.464
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 152,
+          "output_tokens": 22,
+          "total_tokens": 174,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "indigo",
+            "copper"
+          ]
+        },
+        {
+          "expected": "H1 cause gold control silver effect decrease delay 10.464 confidence 0.8",
+          "raw": "H1 cause silver control gold effect decrease delay 10.464 confidence 0.8",
+          "prediction": {
+            "target": "silver",
+            "comparison": "gold",
+            "effect": "pressure_decrease",
+            "delay": 10.464
+          },
+          "syntax_valid": true,
+          "semantic_match": false,
+          "parse_error": null,
+          "input_tokens": 152,
+          "output_tokens": 22,
+          "total_tokens": 174,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "gold",
+            "silver"
+          ]
+        }
+      ]
+    },
+    "paired": {
+      "both_correct": 56,
+      "both_wrong": 0,
+      "json_only_correct": 8,
+      "l1_only_correct": 0,
+      "accuracy_difference_l1_minus_json": -0.125,
+      "l1_visible_token_reduction_percent": 39.93026730865017
+    }
+  },
+  "unity_transfer": {
+    "recording": "outputs/unity_shadow/causal_dsl_l1_unity_transfer_seed97_20260804.jsonl",
+    "orders": [
+      "canonical",
+      "reversed"
+    ],
+    "json": {
+      "examples": 2,
+      "syntax_valid": 2,
+      "semantic_matches": 1,
+      "syntax_rate": 1.0,
+      "semantic_accuracy": 0.5,
+      "mean_total_tokens": 291.0,
+      "elapsed_seconds": 7.885,
+      "records": [
+        {
+          "expected": "{\"target_cause\":\"red\",\"comparison_feature\":\"blue\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":10.724,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"red\",\"comparison_feature\":\"blue\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":10.724,\"confidence\":0.8}",
+          "prediction": {
+            "target": "red",
+            "comparison": "blue",
+            "effect": "pressure_increase",
+            "delay": 10.724
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 252,
+          "output_tokens": 39,
+          "total_tokens": 291,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "red",
+            "blue"
+          ]
+        },
+        {
+          "expected": "{\"target_cause\":\"red\",\"comparison_feature\":\"blue\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":10.724,\"confidence\":0.8}",
+          "raw": "{\"target_cause\":\"red\",\"comparison_feature\":\"blue\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":10.724,\"confidence\":0.8}",
+          "prediction": {
+            "target": "red",
+            "comparison": "blue",
+            "effect": "pressure_decrease",
+            "delay": 10.724
+          },
+          "syntax_valid": true,
+          "semantic_match": false,
+          "parse_error": null,
+          "input_tokens": 252,
+          "output_tokens": 39,
+          "total_tokens": 291,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "red",
+            "blue"
+          ]
+        }
+      ]
+    },
+    "l1": {
+      "examples": 2,
+      "syntax_valid": 2,
+      "semantic_matches": 2,
+      "syntax_rate": 1.0,
+      "semantic_accuracy": 1.0,
+      "mean_total_tokens": 178.0,
+      "elapsed_seconds": 4.923,
+      "records": [
+        {
+          "expected": "H1 cause red control blue effect increase delay 10.724 confidence 0.8",
+          "raw": "H1 cause red control blue effect increase delay 10.724 confidence 0.8",
+          "prediction": {
+            "target": "red",
+            "comparison": "blue",
+            "effect": "pressure_increase",
+            "delay": 10.724
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 156,
+          "output_tokens": 22,
+          "total_tokens": 178,
+          "evidence_order": "canonical",
+          "heldout_features": [
+            "red",
+            "blue"
+          ]
+        },
+        {
+          "expected": "H1 cause red control blue effect increase delay 10.724 confidence 0.8",
+          "raw": "H1 cause red control blue effect increase delay 10.724 confidence 0.8",
+          "prediction": {
+            "target": "red",
+            "comparison": "blue",
+            "effect": "pressure_increase",
+            "delay": 10.724
+          },
+          "syntax_valid": true,
+          "semantic_match": true,
+          "parse_error": null,
+          "input_tokens": 156,
+          "output_tokens": 22,
+          "total_tokens": 178,
+          "evidence_order": "reversed",
+          "heldout_features": [
+            "red",
+            "blue"
+          ]
+        }
+      ]
+    },
+    "paired": {
+      "both_correct": 1,
+      "both_wrong": 0,
+      "json_only_correct": 0,
+      "l1_only_correct": 1,
+      "accuracy_difference_l1_minus_json": 0.5,
+      "l1_visible_token_reduction_percent": 38.83161512027491
+    }
+  }
+}

@@ -1,0 +1,198 @@
+{
+  "experiment": "agent_native_causal_representation_benchmark_v1",
+  "recording": "outputs/unity_shadow/red_blue_tiny_scientist_20260731.jsonl",
+  "models": [
+    "google/gemma-3-1b-it"
+  ],
+  "contracts": {
+    "evaluated": [
+      "bound_schema_scaffolded_constrained",
+      "causal_ir_scaffolded_constrained"
+    ],
+    "json_baseline": "bound_schema_scaffolded_constrained",
+    "agent_native_ir": "causal_ir_scaffolded_constrained",
+    "agent_native_ir_grammar": "C1 cause comparison effect delay confidence"
+  },
+  "controls": {
+    "evidence_interface": "homeostatic_filtered",
+    "evidence_orders": [
+      "canonical",
+      "reversed"
+    ],
+    "decoding": "symmetric_candidate_constrained_beam_search",
+    "same_canonical_semantic_verifier": true,
+    "same_formal_falsifier_compiler": true,
+    "authority": 0.0
+  },
+  "summary": {
+    "feature_outcomes": {
+      "blue": {
+        "episodes": 14,
+        "isolated_episodes": 11,
+        "mean_pressure_delta": -0.0,
+        "positive_pressure_fraction": 0.0,
+        "mean_positive_delay_seconds": null
+      },
+      "red": {
+        "episodes": 2,
+        "isolated_episodes": 2,
+        "mean_pressure_delta": 0.34,
+        "positive_pressure_fraction": 1.0,
+        "mean_positive_delay_seconds": 10.464
+      }
+    },
+    "episode_count": 16,
+    "gnw_broadcast_count": 2,
+    "gnw_broadcast_features": {
+      "red": 2
+    },
+    "gnw_action_influence": 0
+  },
+  "static_chat_prompt_tokens": {
+    "google/gemma-3-1b-it": {
+      "canonical": {
+        "bound_schema_scaffolded_constrained": 376,
+        "causal_ir_scaffolded_constrained": 237
+      },
+      "reversed": {
+        "bound_schema_scaffolded_constrained": 376,
+        "causal_ir_scaffolded_constrained": 237
+      }
+    }
+  },
+  "trials": [
+    {
+      "model": "google/gemma-3-1b-it",
+      "contract": "bound_schema_scaffolded_constrained",
+      "evidence_order": "canonical",
+      "accepted": true,
+      "hypothesis": {
+        "hypothesis": {
+          "target_cause": "red",
+          "comparison_feature": "blue",
+          "observed_effect": "pressure_increase",
+          "latency_seconds": 10.464,
+          "confidence": 0.5
+        },
+        "falsifier_schema": {
+          "action_to_retest": "red",
+          "expected_contradictory_outcome": "no_pressure_increase_or_pressure_decrease"
+        },
+        "status": "proposed_unverified",
+        "authority": 0.0
+      },
+      "raw_model_output": "{\"target_cause\":\"red\",\"comparison_feature\":\"blue\",\"observed_effect\":\"pressure_increase\",\"latency_seconds\":10.464,\"confidence\":0.5}",
+      "rejection": null,
+      "metrics": {
+        "representation": "bound_schema_scaffolded_constrained",
+        "attempts": 1,
+        "input_tokens": 376,
+        "output_tokens": 39,
+        "total_tokens": 415,
+        "elapsed_seconds": 6.452605,
+        "accepted": true,
+        "attempt_records": [
+          {
+            "input_tokens": 376,
+            "output_tokens": 39
+          }
+        ]
+      }
+    },
+    {
+      "model": "google/gemma-3-1b-it",
+      "contract": "causal_ir_scaffolded_constrained",
+      "evidence_order": "canonical",
+      "accepted": false,
+      "hypothesis": null,
+      "raw_model_output": "C1 blue red - 10.464 0.5",
+      "rejection": "tiny_scientist_constrained_hypothesis_rejected:tiny_scientist_bound_cause_reverses_evidence; raw=C1 blue red - 10.464 0.5",
+      "metrics": {
+        "representation": "causal_ir_scaffolded_constrained",
+        "attempts": 1,
+        "input_tokens": 237,
+        "output_tokens": 17,
+        "total_tokens": 254,
+        "elapsed_seconds": 2.91533,
+        "accepted": false,
+        "attempt_records": [
+          {
+            "input_tokens": 237,
+            "output_tokens": 17
+          }
+        ]
+      }
+    },
+    {
+      "model": "google/gemma-3-1b-it",
+      "contract": "bound_schema_scaffolded_constrained",
+      "evidence_order": "reversed",
+      "accepted": false,
+      "hypothesis": null,
+      "raw_model_output": "{\"target_cause\":\"blue\",\"comparison_feature\":\"red\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":10.464,\"confidence\":0.5}",
+      "rejection": "tiny_scientist_constrained_hypothesis_rejected:tiny_scientist_bound_cause_reverses_evidence; raw={\"target_cause\":\"blue\",\"comparison_feature\":\"red\",\"observed_effect\":\"pressure_decrease\",\"latency_seconds\":10.464,\"confidence\":0.5}",
+      "metrics": {
+        "representation": "bound_schema_scaffolded_constrained",
+        "attempts": 1,
+        "input_tokens": 376,
+        "output_tokens": 39,
+        "total_tokens": 415,
+        "elapsed_seconds": 5.583623,
+        "accepted": false,
+        "attempt_records": [
+          {
+            "input_tokens": 376,
+            "output_tokens": 39
+          }
+        ]
+      }
+    },
+    {
+      "model": "google/gemma-3-1b-it",
+      "contract": "causal_ir_scaffolded_constrained",
+      "evidence_order": "reversed",
+      "accepted": false,
+      "hypothesis": null,
+      "raw_model_output": "C1 red blue - 10.464 0.5",
+      "rejection": "tiny_scientist_constrained_hypothesis_rejected:tiny_scientist_bound_effect_reverses_evidence; raw=C1 red blue - 10.464 0.5",
+      "metrics": {
+        "representation": "causal_ir_scaffolded_constrained",
+        "attempts": 1,
+        "input_tokens": 237,
+        "output_tokens": 17,
+        "total_tokens": 254,
+        "elapsed_seconds": 2.522762,
+        "accepted": false,
+        "attempt_records": [
+          {
+            "input_tokens": 237,
+            "output_tokens": 17
+          }
+        ]
+      }
+    }
+  ],
+  "aggregate": {
+    "google/gemma-3-1b-it": {
+      "contracts": {
+        "bound_schema_scaffolded_constrained": {
+          "trials": 2,
+          "accepted": 1,
+          "success_rate": 0.5,
+          "mean_total_tokens_per_trial": 415,
+          "retry_adjusted_tokens_per_accepted": 830.0,
+          "mean_elapsed_seconds": 6.018114000000001
+        },
+        "causal_ir_scaffolded_constrained": {
+          "trials": 2,
+          "accepted": 0,
+          "success_rate": 0.0,
+          "mean_total_tokens_per_trial": 254,
+          "retry_adjusted_tokens_per_accepted": null,
+          "mean_elapsed_seconds": 2.719046
+        }
+      },
+      "causal_ir_retry_adjusted_token_savings_percent": null
+    }
+  }
+}

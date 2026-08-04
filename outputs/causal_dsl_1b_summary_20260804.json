@@ -1,0 +1,57 @@
+{
+  "experiment": "gemma_3_1b_agent_native_causal_representation_summary",
+  "date": "2026-08-04",
+  "base_model": "google/gemma-3-1b-it",
+  "matched_training": {
+    "seed": 104,
+    "examples": 192,
+    "epochs": 2,
+    "lora_rank": 8,
+    "lora_targets": ["q_proj", "v_proj"],
+    "gradient_accumulation": 8,
+    "l1_training_seconds": 338.068,
+    "json_training_seconds": 524.964,
+    "h1_training_seconds": 379.568
+  },
+  "frozen_seed_205_heldout_128": {
+    "json_semantic_matches": 128,
+    "json_accuracy": 1.0,
+    "json_mean_visible_tokens": 282.3671875,
+    "l1_semantic_matches": 121,
+    "l1_accuracy": 0.9453125,
+    "l1_mean_visible_tokens": 184.4296875,
+    "l1_accuracy_difference_percentage_points": -5.46875,
+    "l1_visible_token_reduction_percent": 34.68444788755776,
+    "paired_json_only_correct": 7,
+    "paired_l1_only_correct": 0
+  },
+  "new_seed_306_h1_screen_64": {
+    "json_semantic_matches": 64,
+    "json_accuracy": 1.0,
+    "json_mean_visible_tokens": 282.328125,
+    "h1_semantic_matches": 56,
+    "h1_accuracy": 0.875,
+    "h1_mean_visible_tokens": 169.59375,
+    "h1_accuracy_difference_percentage_points": -12.5,
+    "h1_visible_token_reduction_percent": 39.93026730865017,
+    "paired_json_only_correct": 8,
+    "paired_h1_only_correct": 0
+  },
+  "corrected_unity_diagnostic": {
+    "eligible_endpoint": false,
+    "ineligibility_reason": "only_one_bidirectionally_isolated_red_pickup",
+    "trials_per_representation": 2,
+    "seed_205_json_matches": 1,
+    "seed_205_l1_matches": 0,
+    "seed_306_json_matches": 1,
+    "seed_306_h1_matches": 2,
+    "interpretation": "diagnostic_only_too_small_and_exposure_ineligible"
+  },
+  "verdict": "compact_formats_reduce_visible_tokens_but_do_not_preserve_json_reliability_at_1b",
+  "claim_boundary": "Do not claim equal-performance inference savings. JSON is the robust production representation in these frozen tests; L1 and H1 remain research representations.",
+  "source_artifacts": [
+    "outputs/causal_dsl_frozen_comparison_1b_20260804.json",
+    "outputs/causal_dsl_h1_screen_1b_seed306_20260804.json",
+    "outputs/causal_dsl_l1_unity_seed97_summary_20260804.json"
+  ]
+}

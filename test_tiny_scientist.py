@@ -7,11 +7,22 @@ from tiny_scientist import (
     analyze,
     bound_candidate_payloads,
     bound_schema_prompt,
+    causal_ir_prompt,
+    causal_ir_candidate_texts,
+    causal_ir_v2_candidate_texts,
+    extract_causal_ir_v2,
     compile_formal_falsifier,
+    extract_causal_ir,
     extract_json_object,
+    evidence_summary,
     hypothesis_prompt,
+    metabolic_episodes,
     validate_bound_hypothesis,
     validate_hypothesis,
+)
+from tiny_scientist_production_memory import (
+    VerifiedProductionMemory,
+    commit_verified_rule,
 )
 
 
@@ -191,6 +202,31 @@ class TinyScientistTests(unittest.TestCase):
         self.assertEqual(result["summary"]["feature_outcomes"]["red"]["episodes"], 1)
         self.assertNotIn("none", result["summary"]["feature_outcomes"])
 
+    def test_isolation_rejects_control_immediately_after_causal_pickup(self):
+        rows = []
+        for second in range(24):
+            total = 0
+            red_total = 0
+            if second >= 1:
+                total = 1
+                red_total = 1
+            if second >= 2:
+                total = 2
+            rows.append(
+                {
+                    "time": float(second),
+                    "mushroom_pickups_total": total,
+                    "red_mushroom_pickups_total": red_total,
+                    "mushroom_feature": "none",
+                    "metabolic_pressure": 0.34 if 11 <= second <= 15 else 0.0,
+                }
+            )
+        episodes = metabolic_episodes(rows)
+        self.assertEqual([episode.feature for episode in episodes], ["red", "blue"])
+        self.assertTrue(all(episode.intervening_pickup for episode in episodes))
+        summary = evidence_summary(episodes, [])
+        self.assertEqual(summary["feature_outcomes"]["blue"]["isolated_episodes"], 0)
+
     def test_homeostatic_filter_retains_both_features_without_gnw_metadata(self):
         summary = {
             "feature_outcomes": {
@@ -278,6 +314,95 @@ class TinyScientistTests(unittest.TestCase):
         self.assertIn("target_cause", prompt)
         self.assertNotIn("action_to_retest", prompt)
         self.assertNotIn("expected_contradictory_outcome", prompt)
+
+    def test_causal_ir_round_trip_uses_canonical_verifier(self):
+        summary = {
+            "feature_outcomes": {
+                "blue": {"mean_pressure_delta": 0.0},
+                "red": {
+                    "mean_pressure_delta": 0.34,
+                    "mean_positive_delay_seconds": 10.464,
+                },
+            }
+        }
+        payload = extract_causal_ir("C1 red blue + 10.464 0.95")
+        result = validate_bound_hypothesis(payload, summary)
+        self.assertEqual(result["hypothesis"]["target_cause"], "red")
+        self.assertEqual(
+            result["hypothesis"]["observed_effect"], "pressure_increase"
+        )
+        self.assertEqual(result["falsifier_schema"]["action_to_retest"], "red")
+
+    def test_causal_ir_rejects_extra_or_malformed_records(self):
+        with self.assertRaisesRegex(ValueError, "no_single_causal_ir"):
+            extract_causal_ir("C1 red blue + ten .9")
+        with self.assertRaisesRegex(ValueError, "no_single_causal_ir"):
+            extract_causal_ir("C1 red blue + 10 .9\nC1 blue red 0 0 .5")
+
+    def test_causal_ir_prompt_is_symmetric_and_non_answer_leaking(self):
+        summary = {
+            "feature_outcomes": {
+                "blue": {
+                    "isolated_episodes": 3,
+                    "mean_pressure_delta": 0.0,
+                    "positive_pressure_fraction": 0.0,
+                    "mean_positive_delay_seconds": None,
+                },
+                "red": {
+                    "isolated_episodes": 3,
+                    "mean_pressure_delta": 0.34,
+                    "positive_pressure_fraction": 1.0,
+                    "mean_positive_delay_seconds": 10.464,
+                },
+            }
+        }
+        canonical = causal_ir_prompt(summary, evidence_order="canonical")
+        reversed_prompt = causal_ir_prompt(summary, evidence_order="reversed")
+        self.assertIn("C1 cause comparison effect delay confidence", canonical)
+        self.assertNotIn("target_cause", canonical)
+        self.assertLess(canonical.index("blue 3"), canonical.index("red 3"))
+        self.assertLess(reversed_prompt.index("red 3"), reversed_prompt.index("blue 3"))
+
+    def test_causal_ir_candidates_match_json_candidate_semantics(self):
+        summary = {
+            "feature_outcomes": {
+                "blue": {"mean_positive_delay_seconds": None},
+                "red": {"mean_positive_delay_seconds": 10.464},
+            }
+        }
+        ir_candidates = causal_ir_candidate_texts(summary)
+        self.assertEqual(len(ir_candidates), len(bound_candidate_payloads(summary)))
+        self.assertIn("C1 red blue + 10.464 0.5", ir_candidates)
+        self.assertIn("C1 blue red - 0.0 0.5", ir_candidates)
+
+    def test_abstract_scaffolds_have_same_non_current_binding(self):
+        summary = {"feature_outcomes": {"blue": {}, "red": {}}}
+        json_prompt = bound_schema_prompt(
+            summary, include_abstract_example=True
+        )
+        ir_prompt = causal_ir_prompt(summary, include_abstract_example=True)
+        self.assertIn("feature alpha", json_prompt)
+        self.assertIn("feature alpha", ir_prompt)
+        self.assertIn('"target_cause":"alpha"', json_prompt)
+        self.assertIn("C1 alpha beta - 5 0.8", ir_prompt)
+        self.assertIn("C1 gamma delta + 7 0.8", ir_prompt)
+        self.assertIn("not current evidence", json_prompt)
+        self.assertIn("not current evidence", ir_prompt)
+
+    def test_causal_ir_v2_dependency_order_round_trip(self):
+        payload = extract_causal_ir_v2("C2 + 10.464 red blue 0.9")
+        self.assertEqual(payload["target_cause"], "red")
+        self.assertEqual(payload["observed_effect"], "pressure_increase")
+        summary = {
+            "feature_outcomes": {
+                "blue": {"mean_positive_delay_seconds": None},
+                "red": {"mean_positive_delay_seconds": 10.464},
+            }
+        }
+        self.assertIn(
+            "C2 + 10.464 red blue 0.5",
+            causal_ir_v2_candidate_texts(summary),
+        )
 
     def test_constrained_candidates_are_symmetric_and_non_leaking(self):
         summary = {
@@ -373,6 +498,33 @@ class TinyScientistTests(unittest.TestCase):
                 },
                 summary,
             )
+
+    def test_verified_rule_commit_is_read_only_and_idempotent(self):
+        import tempfile
+        from pathlib import Path
+
+        summary = {
+            "date": "2026-08-01",
+            "verdict": "preregistered_verification_pass",
+            "rule_status": "eligible_for_verified_shadow_production_memory",
+            "hypothesis_under_test": {
+                "cause": "red pickup",
+                "effect": "increased internal pressure",
+                "predicted_delay_seconds": 10.464,
+            },
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "summary.json"
+            memory = Path(directory) / "memory.json"
+            source.write_text(json.dumps(summary), encoding="utf-8")
+            first = commit_verified_rule(source, memory)
+            second = commit_verified_rule(source, memory)
+            audit = VerifiedProductionMemory(memory).audit()
+        self.assertEqual(first["committed_rule"], "red_pickup_delayed_pressure_increase_v1")
+        self.assertEqual(second["rule_count"], 1)
+        self.assertEqual(audit["authority"], 0.0)
+        self.assertEqual(audit["control_permissions"], [])
+        self.assertEqual(audit["action_influence"], 0)
 
 
 if __name__ == "__main__":

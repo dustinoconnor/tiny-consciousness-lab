@@ -1,0 +1,78 @@
+{
+  "date": "2026-08-04",
+  "experiment": "matched_lora_posttraining_for_agent_native_causal_dsl",
+  "base_model": "google/gemma-3-270m-it",
+  "adapter_method": "LoRA rank 8 on q_proj and v_proj",
+  "trainable_parameters_per_adapter": 368640,
+  "training_examples": 192,
+  "training_features": [
+    "amber",
+    "cyan",
+    "green",
+    "violet",
+    "orange",
+    "white",
+    "black",
+    "yellow"
+  ],
+  "heldout_features_include": [
+    "red",
+    "blue",
+    "silver",
+    "gold",
+    "teal",
+    "pink",
+    "copper",
+    "indigo"
+  ],
+  "representations": {
+    "json": "canonical five-field compact JSON",
+    "c1": "unlabeled positional DSL: C1 cause comparison effect delay confidence",
+    "l1": "labeled compact DSL: L1 c cause k comparison e effect t delay q confidence"
+  },
+  "initial_32_example_results": {
+    "json": {
+      "semantic_accuracy": 0.9375,
+      "mean_visible_tokens": 282.3125
+    },
+    "c1": {
+      "semantic_accuracy": 0.28125,
+      "mean_visible_tokens": 163.1875
+    },
+    "l1": {
+      "semantic_accuracy": 0.90625,
+      "mean_visible_tokens": 184.28125
+    }
+  },
+  "frozen_new_seed_128_example_result": {
+    "json": {
+      "correct": 116,
+      "total": 128,
+      "semantic_accuracy": 0.90625,
+      "mean_visible_tokens": 282.3671875
+    },
+    "l1": {
+      "correct": 116,
+      "total": 128,
+      "semantic_accuracy": 0.90625,
+      "mean_visible_tokens": 184.3671875
+    },
+    "paired": {
+      "both_correct": 104,
+      "both_wrong": 0,
+      "json_only_correct": 12,
+      "l1_only_correct": 12,
+      "accuracy_difference": 0.0,
+      "visible_token_reduction_percent": 34.706582187422185
+    }
+  },
+  "untouched_unity_transfer": {
+    "recording": "outputs/unity_shadow/red_blue_tiny_scientist_20260731.jsonl",
+    "json_correct_orders": "0/2",
+    "l1_correct_orders": "1/2",
+    "failure_mode": "Both adapters bound red, blue, and 10.464 seconds correctly but selected pressure_decrease in canonical order; L1 selected pressure_increase only in reversed order.",
+    "robust_transfer_demonstrated": false
+  },
+  "verdict": "preliminary_accuracy_parity_with_34.7_percent_visible_token_reduction",
+  "publication_boundary": "The frozen synthetic holdout supports a promising representation result, but robust Unity transfer and a preregistered multi-seed non-inferiority replication are still required before claiming publishable embodied inference-cost reduction."
+}

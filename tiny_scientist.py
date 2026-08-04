@@ -8,6 +8,7 @@ import json
 import math
 import re
 import statistics
+import time
 from collections import Counter
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -29,6 +30,13 @@ REQUIRED_BOUND_FIELDS = {
     "observed_effect",
     "latency_seconds",
     "confidence",
+}
+CAUSAL_IR_VERSION = "C1"
+CAUSAL_IR_V2_VERSION = "C2"
+CAUSAL_IR_EFFECTS = {
+    "+": "pressure_increase",
+    "0": "no_pressure_change",
+    "-": "pressure_decrease",
 }
 
 
@@ -161,6 +169,11 @@ def metabolic_episodes(rows, min_delay=7.0, max_delay=14.0):
             if pickup_number + 1 < len(pickups)
             else math.inf
         )
+        previous_pickup_time = (
+            float(rows[pickups[pickup_number - 1][0]]["time"])
+            if pickup_number > 0
+            else -math.inf
+        )
         episodes.append(
             MetabolicEpisode(
                 feature=feature,
@@ -169,7 +182,10 @@ def metabolic_episodes(rows, min_delay=7.0, max_delay=14.0):
                 peak_pressure=peak_pressure,
                 pressure_delta=peak_pressure - pressure_before,
                 peak_delay_seconds=float(peak["time"]) - pickup_time,
-                intervening_pickup=next_pickup_time <= pickup_time + max_delay,
+                intervening_pickup=(
+                    previous_pickup_time >= pickup_time - max_delay
+                    or next_pickup_time <= pickup_time + max_delay
+                ),
             )
         )
     return episodes
@@ -258,6 +274,7 @@ def bound_schema_prompt(
     summary,
     evidence_interface="homeostatic_filtered",
     evidence_order="canonical",
+    include_abstract_example=False,
 ):
     if evidence_interface not in {"original", "homeostatic_filtered"}:
         raise ValueError(f"unsupported_evidence_interface:{evidence_interface}")
@@ -291,6 +308,18 @@ def bound_schema_prompt(
             "a delayed change in internal pressure? Compare every observed "
             "feature below.\n" + evidence
         )
+    example = ""
+    if include_abstract_example:
+        example = (
+            "Balanced abstract examples, not current evidence. First: feature alpha has "
+            "change -0.3 at delay 5; beta has change 0. Correct binding: "
+            '{"target_cause":"alpha","comparison_feature":"beta",'
+            '"observed_effect":"pressure_decrease","latency_seconds":5,'
+            '"confidence":0.8}. Second: delta has change 0; gamma has change '
+            '+0.2 at delay 7. Correct binding: {"target_cause":"gamma",'
+            '"comparison_feature":"delta","observed_effect":"pressure_increase",'
+            '"latency_seconds":7,"confidence":0.8}. Now solve current evidence.\n'
+        )
     return (
         "You are a tiny embodied scientist. Select one causal hypothesis from "
         "the evidence. Return exactly one JSON object with keys target_cause, "
@@ -301,8 +330,211 @@ def bound_schema_prompt(
         "latency_seconds must be a number and confidence must be between 0 and "
         "1. Do not output a falsifier: a formal deduction layer will bind the "
         "selected cause once and derive its logical contradiction. Do not "
-        "include markdown.\n" + evidence
+        "include markdown.\n" + example + evidence
     )
+
+
+def causal_ir_prompt(
+    summary,
+    evidence_interface="homeostatic_filtered",
+    evidence_order="canonical",
+    include_abstract_example=False,
+):
+    """Build the compact, non-answer-leaking C1 hypothesis interface."""
+    if evidence_interface not in {"original", "homeostatic_filtered"}:
+        raise ValueError(f"unsupported_evidence_interface:{evidence_interface}")
+    if evidence_order not in {"canonical", "reversed"}:
+        raise ValueError(f"unsupported_evidence_order:{evidence_order}")
+    feature_items = list(summary.get("feature_outcomes", {}).items())
+    if evidence_order == "reversed":
+        feature_items.reverse()
+    rows = []
+    for feature, outcomes in feature_items:
+        delay = outcomes.get("mean_positive_delay_seconds")
+        rows.append(
+            " ".join(
+                [
+                    str(feature),
+                    str(outcomes.get("isolated_episodes", 0)),
+                    str(outcomes.get("mean_pressure_delta")),
+                    str(outcomes.get("positive_pressure_fraction")),
+                    "NA" if delay is None else str(delay),
+                ]
+            )
+        )
+    evidence = "\n".join(rows)
+    if evidence_interface == "original":
+        broadcasts = ",".join(
+            f"{feature}:{count}"
+            for feature, count in summary.get("gnw_broadcast_features", {}).items()
+        ) or "none"
+        evidence += f"\nGNW {broadcasts}"
+    else:
+        evidence = "Homeostatic gate chose the question, not its answer.\n" + evidence
+    example = ""
+    if include_abstract_example:
+        example = (
+            "Balanced abstract examples, not current evidence. First: feature alpha has "
+            "change -0.3 at delay 5; beta has change 0. Correct binding: "
+            "C1 alpha beta - 5 0.8. Second: delta has change 0; gamma has "
+            "change +0.2 at delay 7. Correct binding: C1 gamma delta + 7 0.8. "
+            "Now solve current evidence.\n"
+        )
+    return (
+        "Infer one causal hypothesis from observed pickup features. "
+        "Rows are: feature isolated_count mean_pressure_change "
+        "positive_fraction mean_positive_delay_seconds. "
+        "Emit exactly six space-separated atoms: "
+        "C1 cause comparison effect delay confidence. "
+        "Cause and comparison must be different observed feature tokens. "
+        "Effect is + for pressure increase, 0 for no pressure change, or - "
+        "for pressure decrease. Delay is seconds; confidence is 0..1. "
+        "No JSON, markdown, or explanation.\n" + example + evidence
+    )
+
+
+def extract_causal_ir(text):
+    """Extract one strict C1 record and translate it to the canonical schema."""
+    pattern = re.compile(
+        r"(?m)^\s*C1\s+(\S+)\s+(\S+)\s+([+0-])\s+"
+        r"([0-9]+(?:\.[0-9]+)?)\s+"
+        r"((?:0(?:\.[0-9]+)?|1(?:\.0+)?))\s*$"
+    )
+    matches = pattern.findall(str(text))
+    if len(matches) != 1:
+        raise ValueError("tiny_scientist_returned_no_single_causal_ir")
+    target, comparison, effect, latency, confidence = matches[0]
+    return {
+        "target_cause": target.lower(),
+        "comparison_feature": comparison.lower(),
+        "observed_effect": CAUSAL_IR_EFFECTS[effect],
+        "latency_seconds": float(latency),
+        "confidence": float(confidence),
+    }
+
+
+def causal_ir_v2_prompt(
+    summary,
+    evidence_interface="homeostatic_filtered",
+    evidence_order="canonical",
+):
+    """Dependency-ordered IR: effect and delay precede feature binding."""
+    c1 = causal_ir_prompt(
+        summary,
+        evidence_interface=evidence_interface,
+        evidence_order=evidence_order,
+    )
+    return c1.replace(
+        "C1 cause comparison effect delay confidence",
+        "C2 effect delay cause comparison confidence",
+    ).replace(
+        "Cause and comparison must be different observed feature tokens. "
+        "Effect is +",
+        "Effect is +",
+    ).replace(
+        "Delay is seconds; confidence is 0..1.",
+        "Delay is seconds. Cause and comparison must be different observed "
+        "feature tokens; confidence is 0..1.",
+    )
+
+
+def extract_causal_ir_v2(text):
+    pattern = re.compile(
+        r"(?m)^\s*C2\s+([+0-])\s+([0-9]+(?:\.[0-9]+)?)\s+"
+        r"(\S+)\s+(\S+)\s+((?:0(?:\.[0-9]+)?|1(?:\.0+)?))\s*$"
+    )
+    matches = pattern.findall(str(text))
+    if len(matches) != 1:
+        raise ValueError("tiny_scientist_returned_no_single_causal_ir_v2")
+    effect, latency, target, comparison, confidence = matches[0]
+    return {
+        "target_cause": target.lower(),
+        "comparison_feature": comparison.lower(),
+        "observed_effect": CAUSAL_IR_EFFECTS[effect],
+        "latency_seconds": float(latency),
+        "confidence": float(confidence),
+    }
+
+
+def labeled_causal_ir_prompt(
+    summary,
+    evidence_interface="homeostatic_filtered",
+    evidence_order="canonical",
+):
+    """Compact DSL retaining single-token semantic role labels."""
+    return causal_ir_prompt(
+        summary,
+        evidence_interface=evidence_interface,
+        evidence_order=evidence_order,
+    ).replace(
+        "C1 cause comparison effect delay confidence",
+        "L1 c cause k comparison e effect t delay q confidence",
+    ).replace(
+        "No JSON, markdown, or explanation.",
+        "The role atoms c k e t q are literal. No JSON, markdown, or explanation.",
+    )
+
+
+def extract_labeled_causal_ir(text):
+    pattern = re.compile(
+        r"(?m)^\s*L1\s+c\s+(\S+)\s+k\s+(\S+)\s+e\s+([+0-])\s+"
+        r"t\s+([0-9]+(?:\.[0-9]+)?)\s+q\s+"
+        r"((?:0(?:\.[0-9]+)?|1(?:\.0+)?))\s*$"
+    )
+    matches = pattern.findall(str(text))
+    if len(matches) != 1:
+        raise ValueError("tiny_scientist_returned_no_single_labeled_causal_ir")
+    target, comparison, effect, latency, confidence = matches[0]
+    return {
+        "target_cause": target.lower(),
+        "comparison_feature": comparison.lower(),
+        "observed_effect": CAUSAL_IR_EFFECTS[effect],
+        "latency_seconds": float(latency),
+        "confidence": float(confidence),
+    }
+
+
+def semantic_causal_ir_prompt(
+    summary,
+    evidence_interface="homeostatic_filtered",
+    evidence_order="canonical",
+):
+    """Compact DSL using pretrained semantic role/effect words."""
+    return causal_ir_prompt(
+        summary,
+        evidence_interface=evidence_interface,
+        evidence_order=evidence_order,
+    ).replace(
+        "C1 cause comparison effect delay confidence",
+        "H1 cause feature control feature effect direction delay seconds confidence value",
+    ).replace(
+        "Effect is + for pressure increase, 0 for no pressure change, or - for pressure decrease.",
+        "Direction is increase or decrease.",
+    ).replace(
+        "No JSON, markdown, or explanation.",
+        "The words cause control effect delay confidence are literal. "
+        "No JSON, markdown, or explanation.",
+    )
+
+
+def extract_semantic_causal_ir(text):
+    pattern = re.compile(
+        r"(?m)^\s*h1\s+cause\s+(\S+)\s+control\s+(\S+)\s+"
+        r"effect\s+(increase|decrease)\s+delay\s+"
+        r"([0-9]+(?:\.[0-9]+)?)\s+confidence\s+"
+        r"((?:0(?:\.[0-9]+)?|1(?:\.0+)?))\s*$"
+    )
+    matches = pattern.findall(str(text).lower())
+    if len(matches) != 1:
+        raise ValueError("tiny_scientist_returned_no_single_semantic_causal_ir")
+    target, comparison, direction, latency, confidence = matches[0]
+    return {
+        "target_cause": target,
+        "comparison_feature": comparison,
+        "observed_effect": f"pressure_{direction}",
+        "latency_seconds": float(latency),
+        "confidence": float(confidence),
+    }
 
 
 def extract_json_object(text):
@@ -534,37 +766,112 @@ def bound_candidate_payloads(summary):
     ]
 
 
-def generate_local_hypothesis(
+def causal_ir_candidate_texts(summary):
+    effect_codes = {value: key for key, value in CAUSAL_IR_EFFECTS.items()}
+    return [
+        " ".join(
+            [
+                CAUSAL_IR_VERSION,
+                payload["target_cause"],
+                payload["comparison_feature"],
+                effect_codes[payload["observed_effect"]],
+                str(payload["latency_seconds"]),
+                str(payload["confidence"]),
+            ]
+        )
+        for payload in bound_candidate_payloads(summary)
+    ]
+
+
+def causal_ir_v2_candidate_texts(summary):
+    effect_codes = {value: key for key, value in CAUSAL_IR_EFFECTS.items()}
+    return [
+        " ".join(
+            [
+                CAUSAL_IR_V2_VERSION,
+                effect_codes[payload["observed_effect"]],
+                str(payload["latency_seconds"]),
+                payload["target_cause"],
+                payload["comparison_feature"],
+                str(payload["confidence"]),
+            ]
+        )
+        for payload in bound_candidate_payloads(summary)
+    ]
+
+
+class HypothesisGenerationError(ValueError):
+    def __init__(self, message, metrics, raw_output):
+        super().__init__(message)
+        self.metrics = metrics
+        self.raw_output = raw_output
+
+
+def generate_hypothesis_with_model(
     summary,
-    model_name=DEFAULT_MODEL,
+    tokenizer,
+    model,
+    device,
     max_new_tokens=256,
     evidence_interface="original",
     hypothesis_contract="freeform",
     evidence_order="canonical",
 ):
+    """Generate with an already-loaded model and report retry-adjusted tokens."""
     import torch
-    from transformers import AutoModelForCausalLM, AutoTokenizer
 
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForCausalLM.from_pretrained(
-        model_name,
-        torch_dtype="auto",
-    )
-    device = "mps" if torch.backends.mps.is_available() else "cpu"
-    model.to(device)
     if hypothesis_contract == "freeform":
         prompt = hypothesis_prompt(summary, evidence_interface)
         validator = lambda payload: validate_hypothesis(payload, summary)
+        extractor = extract_json_object
+        correction_format = "one corrected JSON object only"
     elif hypothesis_contract == "freeform_compiled_falsifier":
         prompt = hypothesis_prompt(summary, evidence_interface)
         validator = lambda payload: compile_formal_falsifier(payload, summary)
-    elif hypothesis_contract in {"bound_schema", "bound_schema_constrained"}:
+        extractor = extract_json_object
+        correction_format = "one corrected JSON object only"
+    elif hypothesis_contract in {
+        "bound_schema",
+        "bound_schema_constrained",
+        "bound_schema_scaffolded",
+        "bound_schema_scaffolded_constrained",
+    }:
         prompt = bound_schema_prompt(
             summary,
             evidence_interface,
             evidence_order,
+            include_abstract_example="scaffolded" in hypothesis_contract,
         )
         validator = lambda payload: validate_bound_hypothesis(payload, summary)
+        extractor = extract_json_object
+        correction_format = "one corrected JSON object only"
+    elif hypothesis_contract in {
+        "causal_ir",
+        "causal_ir_constrained",
+        "causal_ir_scaffolded",
+        "causal_ir_scaffolded_constrained",
+    }:
+        prompt = causal_ir_prompt(
+            summary,
+            evidence_interface,
+            evidence_order,
+            include_abstract_example="scaffolded" in hypothesis_contract,
+        )
+        validator = lambda payload: validate_bound_hypothesis(payload, summary)
+        extractor = extract_causal_ir
+        correction_format = "one corrected C1 record only"
+    elif hypothesis_contract == "causal_ir_v2_constrained":
+        prompt = causal_ir_v2_prompt(summary, evidence_interface, evidence_order)
+        validator = lambda payload: validate_bound_hypothesis(payload, summary)
+        extractor = extract_causal_ir_v2
+        correction_format = "one corrected C2 record only"
+    elif hypothesis_contract == "labeled_causal_ir":
+        prompt = labeled_causal_ir_prompt(
+            summary, evidence_interface, evidence_order
+        )
+        validator = lambda payload: validate_bound_hypothesis(payload, summary)
+        extractor = extract_labeled_causal_ir
+        correction_format = "one corrected L1 record only"
     else:
         raise ValueError(f"unsupported_hypothesis_contract:{hypothesis_contract}")
     messages = [
@@ -573,7 +880,24 @@ def generate_local_hypothesis(
             "content": prompt,
         }
     ]
-    if hypothesis_contract == "bound_schema_constrained":
+    metrics = {
+        "representation": hypothesis_contract,
+        "attempts": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "elapsed_seconds": 0.0,
+        "accepted": False,
+        "attempt_records": [],
+    }
+    started = time.perf_counter()
+    if hypothesis_contract in {
+        "bound_schema_constrained",
+        "causal_ir_constrained",
+        "bound_schema_scaffolded_constrained",
+        "causal_ir_scaffolded_constrained",
+        "causal_ir_v2_constrained",
+    }:
         encoded = tokenizer.apply_chat_template(
             messages,
             add_generation_prompt=True,
@@ -583,10 +907,15 @@ def generate_local_hypothesis(
         )
         encoded = {key: value.to(device) for key, value in encoded.items()}
         prompt_length = encoded["input_ids"].shape[-1]
-        candidate_texts = [
-            json.dumps(payload, separators=(",", ":"))
-            for payload in bound_candidate_payloads(summary)
-        ]
+        if hypothesis_contract == "causal_ir_v2_constrained":
+            candidate_texts = causal_ir_v2_candidate_texts(summary)
+        elif hypothesis_contract.startswith("causal_ir"):
+            candidate_texts = causal_ir_candidate_texts(summary)
+        else:
+            candidate_texts = [
+                json.dumps(payload, separators=(",", ":"))
+                for payload in bound_candidate_payloads(summary)
+            ]
         candidate_tokens = [
             tokenizer.encode(text, add_special_tokens=False)
             for text in candidate_texts
@@ -621,16 +950,28 @@ def generate_local_hypothesis(
             output[0][prompt_length:],
             skip_special_tokens=True,
         )
+        output_tokens = int(output.shape[-1] - prompt_length)
+        metrics["attempts"] = 1
+        metrics["input_tokens"] = int(prompt_length)
+        metrics["output_tokens"] = output_tokens
+        metrics["total_tokens"] = int(prompt_length) + output_tokens
+        metrics["elapsed_seconds"] = round(time.perf_counter() - started, 6)
+        metrics["attempt_records"].append(
+            {"input_tokens": int(prompt_length), "output_tokens": output_tokens}
+        )
         try:
-            return validator(extract_json_object(generated)), generated
+            result = validator(extractor(generated))
+            metrics["accepted"] = True
+            return result, generated, metrics
         except ValueError as exc:
-            raise ValueError(
-                f"tiny_scientist_constrained_hypothesis_rejected:{exc}; "
-                f"raw={generated}"
+            raise HypothesisGenerationError(
+                f"tiny_scientist_constrained_hypothesis_rejected:{exc}; raw={generated}",
+                metrics,
+                generated,
             ) from exc
     generated = ""
     last_error = None
-    for _attempt in range(2):
+    for attempt in range(2):
         encoded = tokenizer.apply_chat_template(
             messages,
             add_generation_prompt=True,
@@ -650,11 +991,20 @@ def generate_local_hypothesis(
             output[0][encoded["input_ids"].shape[-1] :],
             skip_special_tokens=True,
         )
+        input_tokens = int(encoded["input_ids"].shape[-1])
+        output_tokens = int(output.shape[-1] - input_tokens)
+        metrics["attempts"] = attempt + 1
+        metrics["input_tokens"] += input_tokens
+        metrics["output_tokens"] += output_tokens
+        metrics["total_tokens"] += input_tokens + output_tokens
+        metrics["attempt_records"].append(
+            {"input_tokens": input_tokens, "output_tokens": output_tokens}
+        )
         try:
-            return (
-                validator(extract_json_object(generated)),
-                generated,
-            )
+            result = validator(extractor(generated))
+            metrics["accepted"] = True
+            metrics["elapsed_seconds"] = round(time.perf_counter() - started, 6)
+            return result, generated, metrics
         except ValueError as exc:
             last_error = exc
             messages.extend(
@@ -664,14 +1014,53 @@ def generate_local_hypothesis(
                         "role": "user",
                         "content": (
                             f"Verifier rejection: {exc}. Re-read the evidence "
-                            "and return one corrected JSON object only."
+                            f"and return {correction_format}."
                         ),
                     },
                 ]
             )
-    raise ValueError(
-        f"tiny_scientist_hypothesis_rejected:{last_error}; raw={generated}"
+    metrics["elapsed_seconds"] = round(time.perf_counter() - started, 6)
+    raise HypothesisGenerationError(
+        f"tiny_scientist_hypothesis_rejected:{last_error}; raw={generated}",
+        metrics,
+        generated,
     )
+
+
+def generate_local_hypothesis(
+    summary,
+    model_name=DEFAULT_MODEL,
+    max_new_tokens=256,
+    evidence_interface="original",
+    hypothesis_contract="freeform",
+    evidence_order="canonical",
+    adapter_path=None,
+):
+    import torch
+    from transformers import AutoModelForCausalLM, AutoTokenizer
+
+    tokenizer = AutoTokenizer.from_pretrained(adapter_path or model_name)
+    model = AutoModelForCausalLM.from_pretrained(
+        model_name,
+        torch_dtype="auto",
+    )
+    if adapter_path:
+        from peft import PeftModel
+
+        model = PeftModel.from_pretrained(model, adapter_path)
+    device = "mps" if torch.backends.mps.is_available() else "cpu"
+    model.to(device)
+    hypothesis, raw, _metrics = generate_hypothesis_with_model(
+        summary,
+        tokenizer,
+        model,
+        device,
+        max_new_tokens=max_new_tokens,
+        evidence_interface=evidence_interface,
+        hypothesis_contract=hypothesis_contract,
+        evidence_order=evidence_order,
+    )
+    return hypothesis, raw
 
 
 def analyze(
@@ -681,6 +1070,7 @@ def analyze(
     evidence_interface="original",
     hypothesis_contract="freeform",
     evidence_order="canonical",
+    adapter_path=None,
 ):
     episodes = metabolic_episodes(rows)
     gate = PassiveScientificGNW()
@@ -695,6 +1085,7 @@ def analyze(
         "evidence_interface": evidence_interface,
         "hypothesis_contract": hypothesis_contract,
         "evidence_order": evidence_order,
+        "adapter": str(adapter_path) if adapter_path else None,
         "summary": summary,
         "gnw": {
             "mode": "passive_scientific_broadcast",
@@ -714,6 +1105,7 @@ def analyze(
             evidence_interface=evidence_interface,
             hypothesis_contract=hypothesis_contract,
             evidence_order=evidence_order,
+            adapter_path=adapter_path,
         )
         result["hypothesis"] = hypothesis
         result["raw_model_output"] = raw
@@ -737,6 +1129,14 @@ def main():
             "freeform_compiled_falsifier",
             "bound_schema",
             "bound_schema_constrained",
+            "causal_ir",
+            "causal_ir_constrained",
+            "bound_schema_scaffolded",
+            "causal_ir_scaffolded",
+            "bound_schema_scaffolded_constrained",
+            "causal_ir_scaffolded_constrained",
+            "causal_ir_v2_constrained",
+            "labeled_causal_ir",
         ],
         default="freeform",
     )
@@ -744,6 +1144,11 @@ def main():
         "--evidence-order",
         choices=["canonical", "reversed"],
         default="canonical",
+    )
+    parser.add_argument(
+        "--adapter",
+        default=None,
+        help="Optional frozen PEFT/LoRA adapter directory for the base model.",
     )
     parser.add_argument(
         "--output", default="outputs/tiny_scientist_hypothesis.json"
@@ -759,6 +1164,7 @@ def main():
             args.evidence_interface,
             args.hypothesis_contract,
             args.evidence_order,
+            args.adapter,
         )
         result["status"] = (
             "accepted_unverified" if result.get("hypothesis") else "evidence_only"
@@ -772,6 +1178,7 @@ def main():
             args.evidence_interface,
             args.hypothesis_contract,
             args.evidence_order,
+            args.adapter,
         )
         result["status"] = "rejected"
         result["rejection"] = rejection

@@ -1523,3 +1523,10 @@ is treated as external and is not inferred from these measurements.
   result, independent replication, and explicit claim boundary. The rendered
   site build and both content tests passed; Sites version 17 was saved and
   deployed successfully to the existing public Tiny Consciousness Lab URL.
+- GitHub publication completed on `codex/tiny-scientist-neurosymbolic`: commit
+  `4d4599c` adds the mechanistic probe, causal intervention, finite-state repair,
+  preregistered protocols, full frozen audit artifacts, tests, and qualified
+  report, while excluding adapter weights and unrelated dirty-worktree work.
+  The existing draft PR #16 was pushed and retitled “Resolve compact causal
+  binding tradeoff”; its description now reports the root cause, 256/256
+  confirmation, matched 34.711% token reduction, validation, and claim limits.

@@ -10,6 +10,7 @@ from tiny_scientist import (
     causal_ir_prompt,
     causal_ir_candidate_texts,
     causal_ir_v2_candidate_texts,
+    labeled_causal_ir_candidate_texts,
     extract_causal_ir_v2,
     compile_formal_falsifier,
     extract_causal_ir,
@@ -27,6 +28,33 @@ from tiny_scientist_production_memory import (
 
 
 class TinyScientistTests(unittest.TestCase):
+    def test_bound_verifier_accepts_grounded_negative_effect(self):
+        summary = {
+            "feature_outcomes": {
+                "silver": {
+                    "mean_pressure_delta": -0.34,
+                    "mean_positive_delay_seconds": 3.0,
+                },
+                "gold": {
+                    "mean_pressure_delta": 0.0,
+                    "mean_positive_delay_seconds": None,
+                },
+            }
+        }
+        result = validate_bound_hypothesis(
+            {
+                "target_cause": "silver",
+                "comparison_feature": "gold",
+                "observed_effect": "pressure_decrease",
+                "latency_seconds": 3.0,
+                "confidence": 0.5,
+            },
+            summary,
+        )
+        self.assertEqual(
+            result["hypothesis"]["observed_effect"], "pressure_decrease"
+        )
+
     def episode(self, feature="red", delta=0.34, intervening=False):
         return MetabolicEpisode(
             feature=feature,
@@ -374,6 +402,10 @@ class TinyScientistTests(unittest.TestCase):
         self.assertEqual(len(ir_candidates), len(bound_candidate_payloads(summary)))
         self.assertIn("C1 red blue + 10.464 0.5", ir_candidates)
         self.assertIn("C1 blue red - 0.0 0.5", ir_candidates)
+        labeled = labeled_causal_ir_candidate_texts(summary)
+        self.assertEqual(len(labeled), len(bound_candidate_payloads(summary)))
+        self.assertIn("L1 c red k blue e + t 10.464 q 0.5", labeled)
+        self.assertIn("L1 c blue k red e - t 0.0 q 0.5", labeled)
 
     def test_abstract_scaffolds_have_same_non_current_binding(self):
         summary = {"feature_outcomes": {"blue": {}, "red": {}}}

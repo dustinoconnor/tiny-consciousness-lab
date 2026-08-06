@@ -1354,3 +1354,172 @@ is treated as external and is not inferred from these measurements.
   deployment/counting turn: 103 min 57 s total, rounded to **104 minutes**.
   Per user instruction, divide this two-day-equivalent budget by two: **52
   minutes of effective coding/research work per day**.
+- 5 August starting checkpoint: user reported 44% remaining, a 30% nominal
+  stopping target, and plans to reserve roughly four percentage points for
+  dream-loop work, leaving approximately ten points for this lab. Recommended
+  no additional LoRA or MPS run today: yesterday's frozen Pareto result is a
+  clean stopping point, and tuning again against its observed failures would
+  weaken the evaluation. Highest-value future repair is a preregistered formal
+  candidate-selection assay: code enumerates all symmetric valid causal JSON
+  candidates, the model selects one candidate ID, and the formal layer maps the
+  ID back to canonical JSON. This tests whether serialization can be made cheap
+  without sacrificing semantic binding or leaking the answer. JSON remains the
+  production interface meanwhile.
+- Paper triage for the bounded 5 August phase: verified all three suggested
+  publications. Selected Wu, Geiger, and Millière's ICML 2025 variable-binding
+  work as the only direction directly diagnostic of yesterday's cause/control
+  failures. Its actual experiment trained a small Transformer on synthetic
+  variable-dereferencing programs and used linear probes plus causal
+  interventions to identify residual-stream/addressable-memory and specialized
+  attention-routing mechanisms. A Gemma hook alone cannot establish the same
+  circuit claim; our clean extension would require paired correct/error cases,
+  layerwise role decodability, and causal activation patching or head ablation.
+- Rejected Mixture-of-Depths as today's task: the published result trains MoD
+  architectures with learned per-block routers, fixed token capacities, and an
+  autoregressive routing predictor. It is not a drop-in inference wrapper for a
+  frozen Gemma LoRA, and local MPS top-k/gather overhead could erase theoretical
+  FLOP reductions. Also rejected `Beyond Markov` as an immediate implementation
+  recipe: it is a conceptual account of transformers as non-Markovian
+  generative models using memory and attention, not the claimed discrete-state
+  variational-free-energy Unity algorithm. That algorithm would be a new design
+  inspired by the paper rather than a reproduction.
+- Implemented and preregistered `variable_binding_probe.py` without loading the
+  model. The deterministic cohort contains 32 frozen seed-205 cases, retains
+  all seven L1 failures, assigns eight cases to each held-out feature pair, and
+  balances the correct cause between evidence rows 16/16. The primary endpoint
+  is cause-row decoding at every residual layer with leave-one-feature-pair-out
+  ridge probes and 100 within-pair permutations corrected for choosing the
+  maximum layer.
+- Added discovery/confirmation separation for the mechanistic claim. Even
+  original indices rank heads by cause-minus-control evidence attention; odd
+  indices test pre-output-projection ablation of the frozen top head against a
+  same-layer low-signal head. The registered causal endpoint is loss of correct-
+  versus-swapped first-cause-token logit margin. Even a pass supports only that
+  the head contributes to this binding decision, not a complete circuit.
+  Protocol: `VARIABLE_BINDING_PROBE_PROTOCOL_20260805.md`.
+- Non-MPS validation passes: six new probe unit tests, actual cached-tokenizer
+  span validation for all 32 cases (181–188 tokens), Python compilation, dry
+  manifest generation, and whitespace checks. No Gemma weights have been loaded
+  and no MPS computation has run; live execution awaits user confirmation that
+  MPS is free.
+- User reported 42% remaining and confirmed Comfy rendering was complete, so
+  the registered 32-case Gemma 3 1B MPS probe ran without training or prompt
+  changes. Cause-row identity was chance at the embedding state (0.500), rose
+  to 1.000 at hidden-state indices 4–17, and declined to 0.84375 at the final
+  state. The peak survived 100 within-pair, max-layer-corrected permutations
+  (`p=0.00990099`; maximum null peak 0.84375).
+- Even-index discovery selected zero-based block 17, head 0: mean attention to
+  correct cause evidence minus control evidence was 0.5836, versus 0.00448 for
+  the fixed same-layer head-1 control. On 18 untouched odd-index confirmation
+  cases, ablating head 0 reduced correct-versus-swapped cause-token margin from
+  10.376 to 7.624 (drop 2.752); control ablation raised it to 11.967. The
+  preregistered causal gate passed. Defensible claim: this head contributes to
+  the first cause-token binding decision in this adapter; it is not a complete
+  variable-binding circuit.
+- Added an explicitly post-registration comparison-role audit because the first
+  output could not explain later L1 failures. Comparison-row decoding peaked at
+  1.000 at hidden-state index 11 and declined to 0.8125 finally; its separate
+  max-layer-corrected permutation result was also `p=0.00990099`. The same block
+  17/head 0 was selected (comparison-minus-cause attention 0.3389). Confirmation
+  ablation reduced comparison-token margin from 14.091 to 8.762 (drop 5.330),
+  while head-1 control ablation raised it to 16.021.
+- Mechanistic failure decomposition: all four genuine role-binding failures
+  were the frozen `gold` cause incorrectly repeated as the `gold` comparison
+  instead of `silver`; all four had negative teacher-forced comparison margins,
+  while zero successful cases did. The other three of seven L1 failures had
+  strong correct cause/comparison margins and failed by inserting numeric atoms
+  or corrupting the effect field. Therefore yesterday's 5.47-point reliability
+  tax combines four localized comparison-binding failures with three distinct
+  serialization/grammar failures. Summary artifact:
+  `outputs/variable_binding_probe_summary_20260805.json`.
+- Robustness/validation: peak leave-pair-out decoding remained 1.000 for both
+  cause and comparison across ridge penalties 0.01, 0.1, 1, 10, and 100. Final
+  cause accuracy remained 0.844–0.875 and final comparison 0.781–0.813, so the
+  middle-layer peak and late decline are not artifacts of the registered ridge
+  value. The full repository suite passes all 184 tests, summary JSON parses,
+  Python compilation passes, and diff whitespace checks pass.
+- Mechanism-guided repair: added `labeled_causal_ir_constrained`, which keeps
+  the frozen L1 adapter and prompt but restricts beam decoding to a symmetric
+  code-generated set of valid L1 records. Candidate causes/comparisons include
+  every distinct observed-feature assignment, all three canonical effects, and
+  every observed or zero delay; the candidate space does not identify the
+  correct answer. Registered seed 307, 128 cases, paired greedy/constrained
+  accuracy, repairs versus regressions, visible tokens, and runtime before the
+  seed was observed (`L1_FORMAL_REPAIR_PROTOCOL_20260805.md`).
+- Seed-308 eight-case smoke initially appeared to fall from 8/8 greedy to 6/8
+  constrained, but both rejected outputs were semantically exact negative-
+  pressure records. This exposed a pre-existing positive-only verifier bug:
+  `validate_bound_hypothesis` always required the largest-valued feature and
+  `pressure_increase`, incorrectly rejecting the largest absolute negative
+  departure and `pressure_decrease`. Fixed the verifier generically and added a
+  negative-effect regression test. The preserved v2 smoke then scored 8/8 in
+  both conditions; seed 307 remained untouched throughout diagnosis.
+- Frozen seed-307 repair audit: ordinary L1 scored 118/128 = 92.1875%; symmetric
+  constrained L1 scored 128/128 = 100%. Paired outcomes were 118 both correct,
+  ten constrained-only, zero greedy-only, and zero both wrong: +7.8125 points,
+  exact two-sided McNemar `p=0.001953125`. The repair removed four replicated
+  `gold`-for-`silver` comparison bindings plus six numeric/effect serialization
+  errors without a regression.
+- Repair cost boundary: mean visible tokens were essentially unchanged
+  (184.633 greedy versus 184.531 constrained; -0.055%), while elapsed MPS time
+  rose from 162.865 to 262.101 seconds (+60.93%). The mechanism-guided formal
+  constraint therefore repairs reliability by spending additional internal
+  beam-search compute; it does not yet solve the original inference-efficiency
+  goal. A matched seed-307 JSON control and independent replication remain
+  future work. Summary: `outputs/l1_constraint_repair_summary_20260805.json`.
+- Efficiency repair was registered before observation in
+  `L1_MASKED_GREEDY_PROTOCOL_20260805.md`: replace four-beam search with a
+  one-path finite-state mask over the same symmetric candidate set. The model
+  follows its ordinary greedy choice unless that token would make every valid
+  L1 continuation impossible. The mask enforces grammar and distinct observed
+  cause/comparison roles but does not identify the correct causal assignment.
+- Seed-310 smoke scored 8/8 under both ordinary and masked greedy, with 10.472
+  versus 10.019 seconds elapsed. The untouched seed-309 128-case audit then
+  scored 123/128 = 96.09375% for ordinary greedy and 128/128 = 100% for masked
+  greedy. Paired outcomes were 123 both correct, five masked-only, zero
+  greedy-only, and zero both wrong: +3.90625 points with no regression. The
+  five repairs comprised four repeated `gold` cause-as-comparison errors and
+  one invalid inserted numeric atom. Exact two-sided McNemar `p=0.0625`, so
+  this single audit is encouraging but does not by itself establish a
+  population-level accuracy improvement.
+- Masked-greedy cost was nearly neutral: mean visible tokens changed from
+  184.344 to 184.328 (-0.0085%), and elapsed MPS time changed from 160.323 to
+  164.412 seconds (+2.55%). This repairs the observed L1 failures without the
+  earlier beam method's +60.93% latency, while retaining the original compact
+  representation. Claim boundary: independent replication and a matched JSON
+  audit are still needed before claiming general JSON-level reliability or an
+  end-to-end inference-cost win. Summary:
+  `outputs/l1_masked_greedy_summary_20260805.json`.
+- Post-repair validation passes all 186 repository tests, Python compilation,
+  both final JSON parse checks, and `git diff --check`. The MPS audit exited
+  normally; no model process remains running.
+- 6 August starting checkpoint: user reported 32% remaining with a 16% stopping
+  target and requested a confirmation sweep suitable for publication and a
+  LessWrong mechanistic-interpretability post. Registered
+  `L1_PUBLICATION_CONFIRMATION_PROTOCOL_20260806.md` before new inference. To
+  conserve budget and MPS time, the confirmation omits a redundant ordinary-L1
+  pass: frozen JSON will run on seed 309 for a case-matched accuracy/token
+  comparison, and masked L1 will run on untouched seed 311 for independent
+  128-case replication. The public wording is explicitly bounded to zero
+  observed defects, not universal zero-defect performance.
+- Publication confirmation passed both registered audits without modification.
+  Frozen JSON scored 128/128 on the same seed-309 cases where masked L1 had
+  scored 128/128. Mean visible tokens were 282.328 for JSON and 184.328 for
+  masked L1, confirming a matched **34.711% reduction** at equal point
+  accuracy. Sequential elapsed times were 323.345 and 164.412 seconds,
+  respectively; the observed 49.15% L1 speed advantage is descriptive because
+  machine load was not experimentally controlled.
+- Untouched seed-311 masked-L1 replication scored 128/128 in 163.012 seconds,
+  with 184.422 mean visible tokens. Across the independent seed-309 and
+  seed-311 confirmation sets, the frozen repaired system therefore produced
+  256/256 exact matches with zero observed failures. Updated the qualified
+  result report and wrote
+  `outputs/l1_publication_confirmation_summary_20260806.json`. Public wording
+  must say “zero observed defects across 256 cases,” not universal “100%
+  zero-defect precision.”
+- Confirmation validation passes all 186 repository tests, Python compilation,
+  JSON parsing, and whitespace checks. Updated the existing research website's
+  Tiny Scientist section with the mechanism-guided resolution, matched token
+  result, independent replication, and explicit claim boundary. The rendered
+  site build and both content tests passed; Sites version 17 was saved and
+  deployed successfully to the existing public Tiny Consciousness Lab URL.

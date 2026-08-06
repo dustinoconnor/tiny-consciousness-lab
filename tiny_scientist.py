@@ -33,6 +33,7 @@ REQUIRED_BOUND_FIELDS = {
 }
 CAUSAL_IR_VERSION = "C1"
 CAUSAL_IR_V2_VERSION = "C2"
+LABELED_CAUSAL_IR_VERSION = "L1"
 CAUSAL_IR_EFFECTS = {
     "+": "pressure_increase",
     "0": "no_pressure_change",
@@ -657,11 +658,19 @@ def validate_bound_hypothesis(payload, summary):
     high_feature = max(means, key=means.get)
     low_feature = min(means, key=means.get)
     if means[high_feature] - means[low_feature] >= 0.10:
-        if target != high_feature or comparison != low_feature:
+        if abs(means[high_feature]) >= abs(means[low_feature]):
+            evidence_cause = high_feature
+            evidence_comparison = low_feature
+            evidence_effect = "pressure_increase"
+        else:
+            evidence_cause = low_feature
+            evidence_comparison = high_feature
+            evidence_effect = "pressure_decrease"
+        if target != evidence_cause or comparison != evidence_comparison:
             raise ValueError("tiny_scientist_bound_cause_reverses_evidence")
-        if effect != "pressure_increase":
+        if effect != evidence_effect:
             raise ValueError("tiny_scientist_bound_effect_reverses_evidence")
-        observed_delay = features[high_feature].get(
+        observed_delay = features[evidence_cause].get(
             "mean_positive_delay_seconds"
         )
         if observed_delay is not None and abs(
@@ -800,6 +809,28 @@ def causal_ir_v2_candidate_texts(summary):
     ]
 
 
+def labeled_causal_ir_candidate_texts(summary):
+    effect_codes = {value: key for key, value in CAUSAL_IR_EFFECTS.items()}
+    return [
+        " ".join(
+            [
+                LABELED_CAUSAL_IR_VERSION,
+                "c",
+                payload["target_cause"],
+                "k",
+                payload["comparison_feature"],
+                "e",
+                effect_codes[payload["observed_effect"]],
+                "t",
+                str(payload["latency_seconds"]),
+                "q",
+                str(payload["confidence"]),
+            ]
+        )
+        for payload in bound_candidate_payloads(summary)
+    ]
+
+
 class HypothesisGenerationError(ValueError):
     def __init__(self, message, metrics, raw_output):
         super().__init__(message)
@@ -865,7 +896,11 @@ def generate_hypothesis_with_model(
         validator = lambda payload: validate_bound_hypothesis(payload, summary)
         extractor = extract_causal_ir_v2
         correction_format = "one corrected C2 record only"
-    elif hypothesis_contract == "labeled_causal_ir":
+    elif hypothesis_contract in {
+        "labeled_causal_ir",
+        "labeled_causal_ir_constrained",
+        "labeled_causal_ir_masked_greedy",
+    }:
         prompt = labeled_causal_ir_prompt(
             summary, evidence_interface, evidence_order
         )
@@ -897,6 +932,8 @@ def generate_hypothesis_with_model(
         "bound_schema_scaffolded_constrained",
         "causal_ir_scaffolded_constrained",
         "causal_ir_v2_constrained",
+        "labeled_causal_ir_constrained",
+        "labeled_causal_ir_masked_greedy",
     }:
         encoded = tokenizer.apply_chat_template(
             messages,
@@ -909,6 +946,11 @@ def generate_hypothesis_with_model(
         prompt_length = encoded["input_ids"].shape[-1]
         if hypothesis_contract == "causal_ir_v2_constrained":
             candidate_texts = causal_ir_v2_candidate_texts(summary)
+        elif hypothesis_contract in {
+            "labeled_causal_ir_constrained",
+            "labeled_causal_ir_masked_greedy",
+        }:
+            candidate_texts = labeled_causal_ir_candidate_texts(summary)
         elif hypothesis_contract.startswith("causal_ir"):
             candidate_texts = causal_ir_candidate_texts(summary)
         else:
@@ -942,7 +984,11 @@ def generate_hypothesis_with_model(
                 **encoded,
                 max_new_tokens=max(len(tokens) for tokens in candidate_tokens) + 1,
                 do_sample=False,
-                num_beams=min(4, len(candidate_tokens)),
+                num_beams=(
+                    1
+                    if hypothesis_contract == "labeled_causal_ir_masked_greedy"
+                    else min(4, len(candidate_tokens))
+                ),
                 prefix_allowed_tokens_fn=allowed_tokens,
                 pad_token_id=eos_token_id,
             )
@@ -1137,6 +1183,8 @@ def main():
             "causal_ir_scaffolded_constrained",
             "causal_ir_v2_constrained",
             "labeled_causal_ir",
+            "labeled_causal_ir_constrained",
+            "labeled_causal_ir_masked_greedy",
         ],
         default="freeform",
     )

@@ -1,7 +1,7 @@
 # Agent-Native Causal Representation: A Reliability–Token Pareto Result
 
 **Date:** 4 August 2026
-**Status:** Frozen local result; not peer reviewed
+**Status:** Frozen local result with preregistered repair confirmation; not peer reviewed
 
 ## Question
 
@@ -67,3 +67,47 @@ small language model.
 Adapter weights are intentionally excluded from the ordinary Git repository;
 the training settings and frozen result artifacts are retained for audit and
 reproduction.
+
+## Mechanism-guided resolution (5–6 August 2026)
+
+The original Pareto result remains the baseline, but a subsequent mechanistic
+probe separated its seven errors into four comparison-role binding failures and
+three grammar/serialization failures. A symmetric finite-state decoder was
+then registered before new-seed evaluation. It follows Gemma's ordinary greedy
+choice unless that token would make every valid L1 continuation impossible;
+it enforces valid grammar and distinct observed cause/comparison roles without
+encoding which causal assignment is correct.
+
+On seed 309, ordinary L1 scored 123/128 and masked-greedy L1 scored 128/128,
+repairing five errors with zero regressions. The repair added 2.55% elapsed time
+relative to ordinary L1 while leaving visible-token volume effectively
+unchanged. An independent, untouched seed-311 replication also scored 128/128.
+Thus the frozen masked system produced **zero observed defects across 256
+new-seed cases**.
+
+The publication confirmation evaluated the frozen JSON adapter on those same
+128 seed-309 cases:
+
+| Representation | Exact matches | Mean visible tokens | Elapsed time |
+| --- | ---: | ---: | ---: |
+| JSON | 128/128 | 282.328 | 323.345 s |
+| Masked-greedy L1 | 128/128 | 184.328 | 164.412 s |
+
+Masked L1 therefore preserved matched point accuracy while using **34.711%
+fewer visible tokens**. Its observed run was 49.15% faster than JSON, although
+that timing is descriptive rather than a controlled hardware benchmark.
+
+The defensible conclusion is that the observed reliability–token trade-off was
+resolved on these frozen audits by combining statistical causal selection with
+a non-answer-leaking formal grammar and role constraint. “Zero observed
+defects” must not be shortened to universal “zero-defect precision”; broader
+causal distributions and embodied replication remain future work.
+
+Additional artifacts:
+
+- `VARIABLE_BINDING_PROBE_PROTOCOL_20260805.md`
+- `L1_MASKED_GREEDY_PROTOCOL_20260805.md`
+- `L1_PUBLICATION_CONFIRMATION_PROTOCOL_20260806.md`
+- `outputs/variable_binding_probe_summary_20260805.json`
+- `outputs/l1_masked_greedy_summary_20260805.json`
+- `outputs/l1_publication_confirmation_summary_20260806.json`

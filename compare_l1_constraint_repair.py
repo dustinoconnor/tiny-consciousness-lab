@@ -113,6 +113,7 @@ def main():
         choices=[
             "labeled_causal_ir_constrained",
             "labeled_causal_ir_masked_greedy",
+            "labeled_causal_ir_syntax_masked_greedy",
         ],
         default="labeled_causal_ir_constrained",
     )
@@ -149,8 +150,11 @@ def main():
         "adapter_or_prompt_changed": False,
         "repair_contract": args.contract,
         "repair": (
-            "symmetric candidate-constrained L1 decoding; cause and comparison "
-            "must be distinct observed features"
+            "syntax-only finite-state masked greedy; repeated cause/comparison "
+            "roles remain permitted"
+            if args.contract == "labeled_causal_ir_syntax_masked_greedy"
+            else "symmetric candidate-constrained L1 decoding; cause and "
+            "comparison must be distinct observed features"
         ),
         "greedy": greedy,
         "constrained": constrained,

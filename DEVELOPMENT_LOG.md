@@ -1530,3 +1530,76 @@ is treated as external and is not inferred from these measurements.
   The existing draft PR #16 was pushed and retitled “Resolve compact causal
   binding tradeoff”; its description now reports the root cause, 256/256
   confirmation, matched 34.711% token reduction, validation, and claim limits.
+- Post-publication discoverability review: the two papers directly framing the
+  Tiny Scientist/repair sequence were Tom Zahavy's 2026 position paper `LLMs
+  can't jump` (abductive hypothesis generation from grounded simulation) and
+  Wu, Geiger, and Millière's ICML 2025 `How Do Transformers Learn Variable
+  Binding in Symbolic Programs?` (residual-stream probes plus causal attention
+  interventions). LessWrong's March 2026 policy allows human-written text whose
+  facts, arguments, experiments, or code were developed with LLM assistance,
+  but treats first-time users as near-zero-LLM for submitted prose; any post
+  should therefore be written in the user's own words and limited to claims the
+  user can explain and defend.
+- GitHub metadata audit found 14 of the 20 permitted repository topics already
+  populated, including `mechanistic-interpretability`. Acronyms alone are weak
+  discovery terms. A future explicit metadata update should preferentially add
+  expanded topics such as `model-predictive-control`, `embodied-ai`,
+  `neuro-symbolic-ai`, `causal-reasoning`, `global-workspace-theory`, and
+  `adaptive-resonance-theory`; no public topic mutation was made during this
+  read-only review.
+- Audited the user's first human-written LessWrong draft for factual accuracy
+  without rewriting it. The compact-DSL result section is substantially
+  accurate, but publication corrections are required: distinguish the DSL
+  synthetic-table audit from Unity embodiment; describe block 17/head 0 as a
+  causal contributor rather than the primary or complete binding circuit; and
+  report the negative comparison-margin diagnostic against the 25 successful
+  cases in the selected 32-case probe cohort, not all 121 successes in the
+  original 128-case L1 audit. Recommended adding the held-out case definition,
+  frozen/new-seed chronology, exact ablation margins, and the internal-
+  replication boundary.
+- Fixed the public research site's broken hash deep links. A direct load of
+  `#tiny-scientist` preserved the URL hash but remained at the top because the
+  Vinext client tree completed after the browser's native anchor-navigation
+  pass. Added a client hash-scroll manager that re-aligns the requested target
+  after hydration, fonts, and pending images settle, and on later hash changes.
+  Removed the duplicate section `scroll-margin` offset so the global sticky-
+  header padding is applied only once. The full site build and two rendered-
+  content tests pass. Browser verification on both local production output and
+  the deployed public URL placed “Neuro-symbolic Tiny Scientist in Unity” at
+  92 px from the viewport top (68 px sticky header), rather than at the page
+  top or Access Consciousness. Sites version 19 deployed successfully from
+  source commit `025bf08`.
+- 8 August starting checkpoint: user reported a fresh 100% daily allowance;
+  the previous day's unused 19% did not carry over. No inference or new
+  experiment has run yet. After reviewing the Tiny Scientist/compact-DSL
+  evidence, the highest-value next question is whether the successful repair
+  comes from generic syntax enforcement or from the mechanism-motivated
+  distinct-role constraint. Proposed a frozen four-condition comparison:
+  ordinary L1 greedy, syntax-only finite-state masking that still permits
+  cause/comparison repetition, the existing syntax-plus-distinct-role masked
+  greedy decoder, and matched JSON. This would establish the correct generic
+  constrained-decoding baseline before making a broader novelty claim.
+- Implemented the preregistered syntax-only L1 control without changing the
+  frozen Gemma 3 1B adapter, prompt, tokenizer, validator, semantic scorer, or
+  existing role-bound decoder. The new one-path finite-state mask permits all
+  grammatical observed-feature assignments, including repeated cause and
+  comparison roles. Added focused candidate-space and paired-comparison tests;
+  the full non-MPS suite now passes 188 tests.
+- Seed-312 smoke separated the controls as intended: ordinary and syntax-only
+  both scored 7/8 and emitted the same invalid `gold/gold` role assignment;
+  the role-bound decoder scored 8/8 by selecting `gold/silver`.
+- Matched seed-309 diagnostic: ordinary greedy scored 123/128, syntax-only
+  scored 124/128, and syntax-plus-distinct-role scored 128/128. Syntax masking
+  repaired the one numeric insertion but left all four repeated-role failures;
+  the semantic constraint repaired those four with no regression.
+- Untouched seed-313 confirmation reproduced the decomposition: ordinary
+  greedy scored 121/128, syntax-only 124/128, and role-bound 128/128. Generic
+  syntax repaired three malformed records; the distinct-role rule repaired the
+  four remaining `gold/gold` bindings with zero regressions. The confirmatory
+  role-over-syntax comparison is four versus zero discordant cases (exact
+  two-sided McNemar `p=0.125`), so the single new audit is directionally exact
+  but underpowered at 0.05. Across the diagnostic and confirmation stages the
+  registered pattern is eight role-specific repairs and zero regressions
+  (`p=0.0078125` descriptively), with the explicit boundary that the pooled
+  statistic includes the post-hoc diagnostic set. Full interpretation:
+  `L1_SYNTAX_CONTROL_RESULT_20260808.md`.

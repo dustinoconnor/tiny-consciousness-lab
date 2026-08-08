@@ -17,7 +17,11 @@ def main():
     parser.add_argument("--adapter", required=True)
     parser.add_argument(
         "--contract",
-        choices=["json", "labeled_causal_ir_masked_greedy"],
+        choices=[
+            "json",
+            "labeled_causal_ir_masked_greedy",
+            "labeled_causal_ir_syntax_masked_greedy",
+        ],
         required=True,
     )
     parser.add_argument("--seed", type=int, required=True)

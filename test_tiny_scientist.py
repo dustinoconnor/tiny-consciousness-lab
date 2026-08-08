@@ -11,6 +11,7 @@ from tiny_scientist import (
     causal_ir_candidate_texts,
     causal_ir_v2_candidate_texts,
     labeled_causal_ir_candidate_texts,
+    labeled_causal_ir_syntax_candidate_texts,
     extract_causal_ir_v2,
     compile_formal_falsifier,
     extract_causal_ir,
@@ -406,6 +407,20 @@ class TinyScientistTests(unittest.TestCase):
         self.assertEqual(len(labeled), len(bound_candidate_payloads(summary)))
         self.assertIn("L1 c red k blue e + t 10.464 q 0.5", labeled)
         self.assertIn("L1 c blue k red e - t 0.0 q 0.5", labeled)
+
+    def test_syntax_only_l1_candidates_allow_repeated_roles(self):
+        summary = {
+            "feature_outcomes": {
+                "blue": {"mean_positive_delay_seconds": None},
+                "red": {"mean_positive_delay_seconds": 10.464},
+            }
+        }
+        role_bound = labeled_causal_ir_candidate_texts(summary)
+        syntax_only = labeled_causal_ir_syntax_candidate_texts(summary)
+        self.assertEqual(len(syntax_only), 2 * len(role_bound))
+        self.assertIn("L1 c red k red e + t 10.464 q 0.5", syntax_only)
+        self.assertNotIn("L1 c red k red e + t 10.464 q 0.5", role_bound)
+        self.assertIn("L1 c red k blue e + t 10.464 q 0.5", syntax_only)
 
     def test_abstract_scaffolds_have_same_non_current_binding(self):
         summary = {"feature_outcomes": {"blue": {}, "red": {}}}

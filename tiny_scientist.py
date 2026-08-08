@@ -744,7 +744,7 @@ def compile_formal_falsifier(payload, summary):
     return result
 
 
-def bound_candidate_payloads(summary):
+def bound_candidate_payloads(summary, *, require_distinct_roles=True):
     features = sorted(
         str(feature).lower()
         for feature in summary.get("feature_outcomes", {})
@@ -769,7 +769,7 @@ def bound_candidate_payloads(summary):
         }
         for target in features
         for comparison in features
-        if comparison != target
+        if not require_distinct_roles or comparison != target
         for effect in effects
         for delay in sorted(delays)
     ]
@@ -828,6 +828,31 @@ def labeled_causal_ir_candidate_texts(summary):
             ]
         )
         for payload in bound_candidate_payloads(summary)
+    ]
+
+
+def labeled_causal_ir_syntax_candidate_texts(summary):
+    """All grammatical L1 records, including repeated cause/control roles."""
+    effect_codes = {value: key for key, value in CAUSAL_IR_EFFECTS.items()}
+    return [
+        " ".join(
+            [
+                LABELED_CAUSAL_IR_VERSION,
+                "c",
+                payload["target_cause"],
+                "k",
+                payload["comparison_feature"],
+                "e",
+                effect_codes[payload["observed_effect"]],
+                "t",
+                str(payload["latency_seconds"]),
+                "q",
+                str(payload["confidence"]),
+            ]
+        )
+        for payload in bound_candidate_payloads(
+            summary, require_distinct_roles=False
+        )
     ]
 
 
@@ -900,6 +925,7 @@ def generate_hypothesis_with_model(
         "labeled_causal_ir",
         "labeled_causal_ir_constrained",
         "labeled_causal_ir_masked_greedy",
+        "labeled_causal_ir_syntax_masked_greedy",
     }:
         prompt = labeled_causal_ir_prompt(
             summary, evidence_interface, evidence_order
@@ -934,6 +960,7 @@ def generate_hypothesis_with_model(
         "causal_ir_v2_constrained",
         "labeled_causal_ir_constrained",
         "labeled_causal_ir_masked_greedy",
+        "labeled_causal_ir_syntax_masked_greedy",
     }:
         encoded = tokenizer.apply_chat_template(
             messages,
@@ -946,6 +973,8 @@ def generate_hypothesis_with_model(
         prompt_length = encoded["input_ids"].shape[-1]
         if hypothesis_contract == "causal_ir_v2_constrained":
             candidate_texts = causal_ir_v2_candidate_texts(summary)
+        elif hypothesis_contract == "labeled_causal_ir_syntax_masked_greedy":
+            candidate_texts = labeled_causal_ir_syntax_candidate_texts(summary)
         elif hypothesis_contract in {
             "labeled_causal_ir_constrained",
             "labeled_causal_ir_masked_greedy",
@@ -986,7 +1015,10 @@ def generate_hypothesis_with_model(
                 do_sample=False,
                 num_beams=(
                     1
-                    if hypothesis_contract == "labeled_causal_ir_masked_greedy"
+                    if hypothesis_contract in {
+                        "labeled_causal_ir_masked_greedy",
+                        "labeled_causal_ir_syntax_masked_greedy",
+                    }
                     else min(4, len(candidate_tokens))
                 ),
                 prefix_allowed_tokens_fn=allowed_tokens,
@@ -1185,6 +1217,7 @@ def main():
             "labeled_causal_ir",
             "labeled_causal_ir_constrained",
             "labeled_causal_ir_masked_greedy",
+            "labeled_causal_ir_syntax_masked_greedy",
         ],
         default="freeform",
     )

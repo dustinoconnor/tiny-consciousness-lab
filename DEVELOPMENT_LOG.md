@@ -1603,3 +1603,18 @@ is treated as external and is not inferred from these measurements.
   (`p=0.0078125` descriptively), with the explicit boundary that the pooled
   statistic includes the post-hoc diagnostic set. Full interpretation:
   `L1_SYNTAX_CONTROL_RESULT_20260808.md`.
+- Published the syntax-only control implementation, frozen artifacts, tests,
+  preregistered protocol, and bounded result report to GitHub on
+  `codex/tiny-scientist-neurosymbolic` in commit `99c333f`; updated draft PR
+  #16 to foreground the grammar-versus-binding decomposition. Expanded the
+  repository's discoverability metadata to include `causal-reasoning`,
+  `constrained-decoding`, `embodied-ai`, `gemma`,
+  `model-predictive-control`, and `neuro-symbolic-ai` while preserving the
+  existing research topics.
+- Updated the public Tiny Scientist section with the untouched seed-313
+  three-way control table (ordinary 121/128, syntax-only 124/128, and
+  syntax-plus-distinct-role 128/128), the underpowered confirmatory
+  `p=0.125` boundary, and a direct link to the complete result report. The
+  website build and both rendered-content tests passed; Sites version 20 was
+  saved from source commit `f939310` and deployed successfully to the existing
+  Tiny Consciousness Lab public URL.

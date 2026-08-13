@@ -2052,3 +2052,13 @@ is treated as external and is not inferred from these measurements.
   `admitted_unverified` to `verified_held_out` once later evidence reaches 0.95.
   This does not alter posterior updating, experiment selection, or authority;
   seed 154's 33 held-out updates and posterior already establish verification.
+- Published the PGNW and dynamic embodied-hypothesis milestone to the existing
+  `codex/tiny-scientist-neurosymbolic` branch. Commit `05b9f90` contains the
+  causal-probe conversion, Unity red/blue sensing and experiment reset,
+  predictive experiment planner, committed/isolation controller, dynamic L1
+  admission pool, batch tooling, 226-test coverage, compact derived metrics,
+  and qualified protocols/results. Raw 59-69 MB Unity recordings, local model
+  adapters, and unrelated working-tree experiments remain intentionally local.
+  Draft PR #16 was retitled `Close the dynamic embodied Tiny Scientist loop`
+  and its description now reports both the seed-154 held-out verification pass
+  and the small committed-versus-passive manipulation boundary.

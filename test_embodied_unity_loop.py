@@ -10,6 +10,8 @@ from embodied_unity_loop import (
     fuzzy_art_similarity,
     orbit_teacher_due,
     orbit_recovery_should_finish,
+    pgnw_experiment_guidance_allowed,
+    pgnw_constrained_target_action,
     route_memory_adapter,
     route_reversal_count,
     route_waypoint_radius,
@@ -61,7 +63,7 @@ class MetabolicObservationTests(unittest.TestCase):
         body.update(updates)
         return body
 
-    def test_red_pickup_has_delayed_not_immediate_internal_effect(self):
+    def test_red_pickup_has_delayed_passive_causal_probe_effect(self):
         ego = EmbodiedFunctionalEgo(hz=5.0)
         ego.update_from_body(self.body())
         ego.steps += 1
@@ -73,9 +75,9 @@ class MetabolicObservationTests(unittest.TestCase):
                 mushroom_feature="red",
             )
         )
-        self.assertEqual(ego.metabolic_challenge_events, 0)
-        self.assertEqual(len(ego.metabolic_challenge_due_steps), 1)
-        for _ in range(ego.metabolic_challenge_delay_ticks):
+        self.assertEqual(ego.causal_probe_events, 0)
+        self.assertEqual(len(ego.causal_probe_due_steps), 1)
+        for _ in range(ego.causal_probe_delay_ticks):
             ego.steps += 1
             ego.update_from_body(
                 self.body(
@@ -84,8 +86,9 @@ class MetabolicObservationTests(unittest.TestCase):
                     red_mushroom_pickups_total=1,
                 )
             )
-        self.assertEqual(ego.metabolic_challenge_events, 1)
-        self.assertGreater(ego.metabolic_pressure, 0.30)
+        self.assertEqual(ego.causal_probe_events, 1)
+        self.assertGreater(ego.causal_probe_signal, 0.30)
+        self.assertEqual(ego.metabolic_pressure, ego.causal_probe_signal)
 
     def test_blue_pickup_never_schedules_red_challenge(self):
         ego = EmbodiedFunctionalEgo(hz=5.0)
@@ -98,7 +101,186 @@ class MetabolicObservationTests(unittest.TestCase):
                 mushroom_feature="blue",
             )
         )
-        self.assertFalse(ego.metabolic_challenge_due_steps)
+        self.assertFalse(ego.causal_probe_due_steps)
+
+    def test_causal_probe_has_zero_workspace_and_navigation_influence(self):
+        ego = EmbodiedFunctionalEgo(hz=5.0)
+        ego.tiny_scientist_memory.rules = [
+            {"rule_id": "red_pickup_delayed_pressure_increase_v1"}
+        ]
+        ego.causal_probe_signal = 0.60
+        before = (
+            ego.prediction_error,
+            ego.crosstalk,
+            ego.complexity,
+            ego.tiny_scientist_rule_action_influence,
+        )
+        ego.update_tiny_scientist_rule_targeting(
+            self.body(
+                red_food_visible=True,
+                blue_food_visible=True,
+                red_food_distance=8.0,
+                blue_food_distance=8.8,
+                red_food_world_x=0.0,
+                red_food_world_z=1.0,
+                blue_food_world_x=1.0,
+                blue_food_world_z=0.0,
+            )
+        )
+        after = (
+            ego.prediction_error,
+            ego.crosstalk,
+            ego.complexity,
+            ego.tiny_scientist_rule_action_influence,
+        )
+        self.assertFalse(ego.tiny_scientist_rule_active)
+        self.assertEqual(ego.tiny_scientist_rule_target_feature, "none")
+        self.assertEqual(ego.tiny_scientist_rule_guidance_weight, 0.0)
+        self.assertEqual(after, before)
+
+    def test_delayed_probe_does_not_change_functional_ego_state(self):
+        red = EmbodiedFunctionalEgo(hz=5.0)
+        blue = EmbodiedFunctionalEgo(hz=5.0)
+        red.update_from_body(self.body())
+        blue.update_from_body(self.body())
+        red.steps += 1
+        blue.steps += 1
+        red.update_from_body(
+            self.body(
+                mushroom_pickups_total=1,
+                mushroom_reward_total=0.35,
+                red_mushroom_pickups_total=1,
+                mushroom_feature="red",
+            )
+        )
+        blue.update_from_body(
+            self.body(
+                mushroom_pickups_total=1,
+                mushroom_reward_total=0.35,
+                mushroom_feature="blue",
+            )
+        )
+        for _ in range(red.causal_probe_delay_ticks):
+            red.steps += 1
+            blue.steps += 1
+            red.update_from_body(
+                self.body(
+                    mushroom_pickups_total=1,
+                    mushroom_reward_total=0.35,
+                    red_mushroom_pickups_total=1,
+                )
+            )
+            blue.update_from_body(
+                self.body(
+                    mushroom_pickups_total=1,
+                    mushroom_reward_total=0.35,
+                )
+            )
+        self.assertGreater(red.causal_probe_signal, 0.30)
+        self.assertEqual(blue.causal_probe_signal, 0.0)
+        self.assertEqual(
+            (
+                red.prediction_error,
+                red.crosstalk,
+                red.complexity,
+                red.hunger,
+                red.dopamine,
+                red.last_action,
+                red.workspace_packet,
+            ),
+            (
+                blue.prediction_error,
+                blue.crosstalk,
+                blue.complexity,
+                blue.hunger,
+                blue.dopamine,
+                blue.last_action,
+                blue.workspace_packet,
+            ),
+        )
+
+    def test_active_tiny_scientist_rule_control_is_retired(self):
+        with self.assertRaisesRegex(ValueError, "passive_only"):
+            EmbodiedFunctionalEgo(
+                hz=5.0, tiny_scientist_rule_control="pressure_avoidance"
+            )
+
+    def test_bounded_pgnw_requires_mpc(self):
+        with self.assertRaisesRegex(ValueError, "requires_shadow_mpc"):
+            EmbodiedFunctionalEgo(
+                hz=5.0,
+                tiny_scientist_experiment_control="bounded",
+            )
+
+    def test_passive_pgnw_updates_from_delayed_red_probe(self):
+        ego = EmbodiedFunctionalEgo(
+            hz=1.0,
+            tiny_scientist_experiment_control="passive",
+        )
+        planner = ego.pgnw_experiment_planner
+        planner.current_action = 0
+        planner.phase = "seeking_target"
+        ego.update_from_body(self.body())
+        ego.steps += 1
+        ego.update_from_body(
+            self.body(
+                mushroom_pickups_total=1,
+                mushroom_reward_total=0.35,
+                red_mushroom_pickups_total=1,
+                mushroom_feature="red",
+            )
+        )
+        for _ in range(ego.causal_probe_delay_ticks):
+            ego.steps += 1
+            ego.update_from_body(
+                self.body(
+                    mushroom_pickups_total=1,
+                    mushroom_reward_total=0.35,
+                    red_mushroom_pickups_total=1,
+                )
+            )
+        self.assertEqual(planner.experiments_completed, 1)
+        self.assertEqual(planner.last_outcome, "probe_rise")
+        self.assertGreater(planner.posterior[0], planner.posterior[1])
+        self.assertEqual(planner.action_influence, 0)
+
+    def test_pgnw_guidance_yields_to_every_safety_gate(self):
+        base = dict(
+            mode="bounded",
+            guidance_active=True,
+            fallback_active=False,
+            stuck=False,
+            hunger=0.50,
+            air_guided=False,
+            resource_guided=False,
+        )
+        self.assertTrue(pgnw_experiment_guidance_allowed(**base))
+        committed = dict(base, mode="committed")
+        self.assertTrue(pgnw_experiment_guidance_allowed(**committed))
+        for override in (
+            {"fallback_active": True},
+            {"stuck": True},
+            {"hunger": 0.92},
+            {"air_guided": True},
+            {"resource_guided": True},
+            {"mode": "passive"},
+            {"guidance_active": False},
+        ):
+            values = dict(base)
+            values.update(override)
+            self.assertFalse(pgnw_experiment_guidance_allowed(**values))
+
+    def test_committed_target_choice_respects_safety_score_regret(self):
+        scores = [1.00, 0.91, 0.76, float("-inf")]
+        alignments = [0.1, 0.9, 1.0, 1.0]
+        self.assertEqual(
+            pgnw_constrained_target_action(scores, alignments, 0.18),
+            1,
+        )
+        self.assertEqual(
+            pgnw_constrained_target_action(scores, alignments, 0.30),
+            2,
+        )
 
 
 class ArtRouteRetrievalTests(unittest.TestCase):

@@ -1,0 +1,203 @@
+{
+  "experiment": "predictive GNW multiple-hypothesis selection",
+  "seed_start": 20,
+  "seed_count": 100,
+  "counterbalanced_worlds_per_seed": 5,
+  "experiment_budget": 8,
+  "episode_count_per_condition": 500,
+  "hypotheses": [
+    "red_causes_probe",
+    "blue_causes_probe",
+    "either_pickup_causes_probe",
+    "probe_is_spontaneous",
+    "no_tested_cause"
+  ],
+  "experiments": [
+    "observe_red_pickup",
+    "observe_blue_pickup",
+    "wait_no_pickup"
+  ],
+  "likelihood_rise": [
+    [
+      0.92,
+      0.08,
+      0.05
+    ],
+    [
+      0.08,
+      0.92,
+      0.05
+    ],
+    [
+      0.92,
+      0.92,
+      0.05
+    ],
+    [
+      0.55,
+      0.55,
+      0.65
+    ],
+    [
+      0.05,
+      0.05,
+      0.05
+    ]
+  ],
+  "pragmatic_value": [
+    0.15,
+    0.15,
+    -0.01
+  ],
+  "pragmatic_weight": 0.35,
+  "summary": {
+    "pgnw_efe": {
+      "identification_accuracy": 0.908,
+      "mean_true_posterior": 0.8755114412448026,
+      "reached_090_fraction": 0.85,
+      "mean_steps_to_090_or_censored": 5.644,
+      "mean_cumulative_pragmatic_value": 1.07904,
+      "broadcast_execution_agreement": 1.0,
+      "executed_experiment_counts": {
+        "observe_blue_pickup": 1791,
+        "observe_red_pickup": 1831,
+        "wait_no_pickup": 378
+      }
+    },
+    "epistemic_only": {
+      "identification_accuracy": 0.926,
+      "mean_true_posterior": 0.9052683347615326,
+      "reached_090_fraction": 0.882,
+      "mean_steps_to_090_or_censored": 5.418,
+      "mean_cumulative_pragmatic_value": 0.7932800000000002,
+      "broadcast_execution_agreement": 1.0,
+      "executed_experiment_counts": {
+        "observe_blue_pickup": 1373,
+        "observe_red_pickup": 1356,
+        "wait_no_pickup": 1271
+      }
+    },
+    "pragmatic_only": {
+      "identification_accuracy": 0.576,
+      "mean_true_posterior": 0.5194272546321379,
+      "reached_090_fraction": 0.112,
+      "mean_steps_to_090_or_censored": 8.7,
+      "mean_cumulative_pragmatic_value": 1.1999999999999997,
+      "broadcast_execution_agreement": 1.0,
+      "executed_experiment_counts": {
+        "observe_blue_pickup": 2104,
+        "observe_red_pickup": 1896
+      }
+    },
+    "posterior_confirmation": {
+      "identification_accuracy": 0.696,
+      "mean_true_posterior": 0.6575081236946364,
+      "reached_090_fraction": 0.372,
+      "mean_steps_to_090_or_censored": 7.774,
+      "mean_cumulative_pragmatic_value": 1.14432,
+      "broadcast_execution_agreement": 1.0,
+      "executed_experiment_counts": {
+        "observe_red_pickup": 2462,
+        "observe_blue_pickup": 1364,
+        "wait_no_pickup": 174
+      }
+    },
+    "random_selection": {
+      "identification_accuracy": 0.872,
+      "mean_true_posterior": 0.8227174177799763,
+      "reached_090_fraction": 0.708,
+      "mean_steps_to_090_or_censored": 6.706,
+      "mean_cumulative_pragmatic_value": 0.76192,
+      "broadcast_execution_agreement": 1.0,
+      "executed_experiment_counts": {
+        "wait_no_pickup": 1369,
+        "observe_blue_pickup": 1338,
+        "observe_red_pickup": 1293
+      }
+    },
+    "pgnw_broadcast_scramble": {
+      "identification_accuracy": 0.556,
+      "mean_true_posterior": 0.5519563389591591,
+      "reached_090_fraction": 0.142,
+      "mean_steps_to_090_or_censored": 8.4,
+      "mean_cumulative_pragmatic_value": 0.60672,
+      "broadcast_execution_agreement": 0.0,
+      "executed_experiment_counts": {
+        "wait_no_pickup": 1854,
+        "observe_red_pickup": 1139,
+        "observe_blue_pickup": 1007
+      }
+    }
+  },
+  "paired_seed_contrasts": {
+    "pgnw_minus_pragmatic_true_posterior": {
+      "mean": 0.3560841866126647,
+      "standard_deviation": 0.1100743304170663,
+      "ci95_low": 0.3345096178509197,
+      "ci95_high": 0.37765875537440974,
+      "positive_seeds": 100,
+      "seed_count": 100,
+      "one_sided_sign_test_p": 7.888609052210118e-31,
+      "paired_effect_dz": 3.2349430177179275
+    },
+    "pgnw_minus_random_true_posterior": {
+      "mean": 0.05279402346482627,
+      "standard_deviation": 0.13186075306289707,
+      "ci95_low": 0.026949315864498443,
+      "ci95_high": 0.0786387310651541,
+      "positive_seeds": 71,
+      "seed_count": 100,
+      "one_sided_sign_test_p": 1.6080007647833164e-05,
+      "paired_effect_dz": 0.4003770814174231
+    },
+    "pgnw_minus_scramble_true_posterior": {
+      "mean": 0.32355510228564344,
+      "standard_deviation": 0.1043461724862161,
+      "ci95_low": 0.3031032524783451,
+      "ci95_high": 0.3440069520929418,
+      "positive_seeds": 100,
+      "seed_count": 100,
+      "one_sided_sign_test_p": 7.888609052210118e-31,
+      "paired_effect_dz": 3.1007855350744595
+    },
+    "pgnw_minus_epistemic_true_posterior": {
+      "mean": -0.029756893516730033,
+      "standard_deviation": 0.10190052723034995,
+      "ci95_low": -0.04972939685387862,
+      "ci95_high": -0.009784390179581444,
+      "positive_seeds": 39,
+      "seed_count": 100,
+      "one_sided_sign_test_p": 0.9895106321610742,
+      "paired_effect_dz": -0.29201903391003525
+    },
+    "pgnw_minus_epistemic_pragmatic_value": {
+      "mean": 0.2857600000000001,
+      "standard_deviation": 0.06579385007028174,
+      "ci95_low": 0.2728644053862249,
+      "ci95_high": 0.29865559461377533,
+      "positive_seeds": 100,
+      "seed_count": 100,
+      "one_sided_sign_test_p": 7.888609052210118e-31,
+      "paired_effect_dz": 4.343263081499988
+    },
+    "pgnw_minus_confirmation_true_posterior": {
+      "mean": 0.21800331755016614,
+      "standard_deviation": 0.10539700257597451,
+      "ci95_low": 0.19734550504527512,
+      "ci95_high": 0.23866113005505715,
+      "positive_seeds": 99,
+      "seed_count": 100,
+      "one_sided_sign_test_p": 7.967495142732219e-29,
+      "paired_effect_dz": 2.0684014936100326
+    }
+  },
+  "criteria": {
+    "pgnw_beats_pragmatic_only": true,
+    "pgnw_beats_random": true,
+    "bound_broadcast_beats_scramble": true,
+    "pgnw_information_noninferior_to_epistemic": false,
+    "pgnw_pragmatic_value_beats_epistemic": true
+  },
+  "all_criteria_pass": false,
+  "claim_boundary": "Passing supports formal selection among explicit causal models in this synthetic assay. It does not establish biological PGNW, conscious access, autonomous LLM hypothesis invention, Unity intervention control, or natural-world causal discovery."
+}

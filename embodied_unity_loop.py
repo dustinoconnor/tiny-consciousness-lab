@@ -24,6 +24,7 @@ from collections import deque
 from pathlib import Path
 
 from embodied_conductor import PassiveEmbodiedConductor
+from embodied_pgnw_planner import EmbodiedPGNWExperimentPlanner
 from embodied_systemic_conductor import (
     BoundedExecutiveRouter,
     PassiveAdaptiveIgnitionGate,
@@ -37,6 +38,8 @@ from terrain_air_route_controller import (
 )
 from terrain_escape_teacher import TerrainEscapeTeacher
 from terrain_resource_memory import PassiveTerrainResourceMemory
+from dynamic_hypothesis_pool import LocalL1HypothesisProposer
+from tiny_scientist_production_memory import VerifiedProductionMemory
 
 
 ACTIONS = [
@@ -197,6 +200,45 @@ def conductor_gate_allows(
     return (
         recommendation == "episodic"
         and float(confidence) >= float(confidence_threshold)
+    )
+
+
+def pgnw_experiment_guidance_allowed(
+    mode,
+    guidance_active,
+    fallback_active,
+    stuck,
+    hunger,
+    air_guided,
+    resource_guided,
+):
+    """Keep scientific requests subordinate to survival and route controllers."""
+    return bool(
+        mode in {"bounded", "committed", "dynamic_committed"}
+        and guidance_active
+        and not fallback_active
+        and not stuck
+        and float(hunger) < 0.92
+        and not air_guided
+        and not resource_guided
+    )
+
+
+def pgnw_constrained_target_action(scores, alignments, max_score_regret):
+    """Choose target alignment only among finite actions near the MPC optimum."""
+    values = [float(value) for value in scores]
+    target = [float(value) for value in alignments]
+    finite = [index for index, value in enumerate(values) if math.isfinite(value)]
+    if not finite or len(values) != len(target):
+        return None
+    best = max(values[index] for index in finite)
+    regret = max(0.0, float(max_score_regret))
+    admissible = [
+        index for index in finite if values[index] >= best - regret
+    ]
+    return max(
+        admissible,
+        key=lambda index: (target[index], values[index], -index),
     )
 
 
@@ -536,6 +578,12 @@ class ShadowRecorder:
             "food_feature": str(body_state.get("food_feature", "none")),
             "food_distance": body_state.get("food_distance"),
             "food_world": [body_state.get("food_world_x"), body_state.get("food_world_z")],
+            "red_food_visible": bool(body_state.get("red_food_visible", False)),
+            "red_food_distance": body_state.get("red_food_distance"),
+            "red_food_world": [body_state.get("red_food_world_x"), body_state.get("red_food_world_z")],
+            "blue_food_visible": bool(body_state.get("blue_food_visible", False)),
+            "blue_food_distance": body_state.get("blue_food_distance"),
+            "blue_food_world": [body_state.get("blue_food_world_x"), body_state.get("blue_food_world_z")],
             "food_available_in_radius": int(body_state.get("food_available_in_radius", 0) or 0),
             "food_visible_in_radius": int(body_state.get("food_visible_in_radius", 0) or 0),
             "food_occluded_in_radius": int(body_state.get("food_occluded_in_radius", 0) or 0),
@@ -622,9 +670,25 @@ class ShadowRecorder:
                 body_state.get("red_mushroom_pickups_total", 0) or 0
             ),
             "mushrooms_eaten": ego.mushrooms_eaten,
+            "causal_probe_signal": ego.causal_probe_signal,
+            "causal_probe_events": ego.causal_probe_events,
+            "causal_probe_pending_events": len(ego.causal_probe_due_steps),
+            "causal_probe_action_influence": 0,
+            # Read-only aliases keep historical Tiny Scientist analyzers able
+            # to consume new recordings without restoring metabolic effects.
             "metabolic_pressure": ego.metabolic_pressure,
             "metabolic_challenge_events": ego.metabolic_challenge_events,
             "metabolic_pending_challenges": len(ego.metabolic_challenge_due_steps),
+            "tiny_scientist_memory": ego.tiny_scientist_memory.audit(),
+            "tiny_scientist_rule_control": ego.tiny_scientist_rule_control,
+            "tiny_scientist_rule_active": ego.tiny_scientist_rule_active,
+            "tiny_scientist_rule_target_feature": ego.tiny_scientist_rule_target_feature,
+            "tiny_scientist_rule_predicted_pressure_risk": ego.tiny_scientist_rule_predicted_pressure_risk,
+            "tiny_scientist_rule_red_utility": ego.tiny_scientist_rule_red_utility,
+            "tiny_scientist_rule_blue_utility": ego.tiny_scientist_rule_blue_utility,
+            "tiny_scientist_rule_guidance_weight": ego.tiny_scientist_rule_guidance_weight,
+            "tiny_scientist_rule_action_influence": ego.tiny_scientist_rule_action_influence,
+            "pgnw_experiment": ego.pgnw_experiment_planner.audit(),
             "conductor_observer_mode": (
                 (
                     "live_bounded_familiar_hidden_goal"
@@ -969,6 +1033,17 @@ class EmbodiedFunctionalEgo:
         systemic_conductor_confidence=0.55,
         adaptive_gnw_passive=False,
         adaptive_gnw_control="disabled",
+        tiny_scientist_rule_control="passive",
+        tiny_scientist_experiment_control="disabled",
+        tiny_scientist_experiment_seed=0,
+        tiny_scientist_experiment_guidance_weight=0.03,
+        tiny_scientist_experiment_guidance_margin=0.08,
+        tiny_scientist_experiment_commit_seconds=3.0,
+        tiny_scientist_experiment_commit_cooldown_seconds=2.0,
+        tiny_scientist_experiment_max_score_regret=0.18,
+        tiny_scientist_experiment_isolation_retreat_seconds=2.0,
+        tiny_scientist_experiment_isolation_retreat_max_score_regret=0.35,
+        tiny_scientist_hypothesis_proposer=None,
     ):
         self.crosstalk = 0.07
         self.complexity = 0.12
@@ -1029,10 +1104,10 @@ class EmbodiedFunctionalEgo:
         self.last_mushroom_reward_total = 0.0
         self.last_red_mushroom_pickup_total = 0
         self.last_consumable_feature = "none"
-        self.metabolic_challenge_delay_ticks = max(1, int(round(self.hz * 10.0)))
-        self.metabolic_challenge_due_steps = deque()
-        self.metabolic_pressure = 0.0
-        self.metabolic_challenge_events = 0
+        self.causal_probe_delay_ticks = max(1, int(round(self.hz * 10.0)))
+        self.causal_probe_due_steps = deque()
+        self.causal_probe_signal = 0.0
+        self.causal_probe_events = 0
         self.food_feedback_initialized = False
         self.ticks_since_food = 0
         self.food_seek_ticks = 0
@@ -1186,6 +1261,46 @@ class EmbodiedFunctionalEgo:
         self.terrain_air_observer = PassiveTerrainAirObserver()
         self.terrain_air_route_controller = TerrainAirRouteController()
         self.resource_memory = PassiveTerrainResourceMemory()
+        self.tiny_scientist_memory = VerifiedProductionMemory()
+        if tiny_scientist_rule_control != "passive":
+            raise ValueError("tiny_scientist_rule_control_is_passive_only")
+        self.tiny_scientist_rule_control = tiny_scientist_rule_control
+        self.tiny_scientist_rule_active = False
+        self.tiny_scientist_rule_target_feature = "none"
+        self.tiny_scientist_rule_predicted_pressure_risk = 0.0
+        self.tiny_scientist_rule_guidance_vector = (0.0, 0.0)
+        self.tiny_scientist_rule_red_vector = (0.0, 0.0)
+        self.tiny_scientist_rule_red_utility = 0.0
+        self.tiny_scientist_rule_blue_utility = 0.0
+        self.tiny_scientist_rule_guidance_weight = 0.0
+        self.tiny_scientist_rule_decisions = 0
+        self.tiny_scientist_rule_action_influence = 0
+        if (
+            tiny_scientist_experiment_control in {
+                "bounded", "committed", "dynamic_committed"
+            }
+            and not self.shadow_mpc
+        ):
+            raise ValueError("bounded_pgnw_experiment_requires_shadow_mpc")
+        self.pgnw_experiment_planner = EmbodiedPGNWExperimentPlanner(
+            mode=tiny_scientist_experiment_control,
+            hz=self.hz,
+            seed=tiny_scientist_experiment_seed,
+            max_guidance_weight=tiny_scientist_experiment_guidance_weight,
+            guidance_margin_threshold=tiny_scientist_experiment_guidance_margin,
+            commitment_seconds=tiny_scientist_experiment_commit_seconds,
+            commitment_cooldown_seconds=(
+                tiny_scientist_experiment_commit_cooldown_seconds
+            ),
+            max_score_regret=tiny_scientist_experiment_max_score_regret,
+            isolation_retreat_seconds=(
+                tiny_scientist_experiment_isolation_retreat_seconds
+            ),
+            isolation_retreat_max_score_regret=(
+                tiny_scientist_experiment_isolation_retreat_max_score_regret
+            ),
+            hypothesis_proposer=tiny_scientist_hypothesis_proposer,
+        )
         self.conductor_control = str(conductor_control)
         if self.conductor_control != "passive" and not conductor_checkpoint:
             raise ValueError("live_conductor_requires_checkpoint")
@@ -1238,6 +1353,27 @@ class EmbodiedFunctionalEgo:
             self.enable_orbit_adapter(orbit_exit_adapter)
         if hidden_goal_adapter:
             self.enable_hidden_goal_adapter(hidden_goal_adapter)
+
+    @property
+    def metabolic_pressure(self):
+        """Deprecated read/write alias for passive causal-probe telemetry."""
+        return self.causal_probe_signal
+
+    @metabolic_pressure.setter
+    def metabolic_pressure(self, value):
+        self.causal_probe_signal = clamp(value)
+
+    @property
+    def metabolic_challenge_delay_ticks(self):
+        return self.causal_probe_delay_ticks
+
+    @property
+    def metabolic_challenge_due_steps(self):
+        return self.causal_probe_due_steps
+
+    @property
+    def metabolic_challenge_events(self):
+        return self.causal_probe_events
 
     def systemic_executive_signal(self):
         if (
@@ -2408,7 +2544,95 @@ class EmbodiedFunctionalEgo:
                     resource_memory.action_influence += 1
                     resource_memory.guidance_decisions += 1
                     self.shadow_mpc_mode = "resource_memory_guided_mpc"
-        selected = int(torch.argmax(risk_adjusted).item())
+        experiment_planner = self.pgnw_experiment_planner
+        experiment_planner.last_effective_guidance_weight = 0.0
+        experiment_unguided = int(torch.argmax(risk_adjusted).item())
+        experiment_committed_selected = None
+        experiment_retreat_active = False
+        if pgnw_experiment_guidance_allowed(
+            experiment_planner.mode,
+            experiment_planner.guidance_active,
+            self.shadow_fallback_hold_ticks > 0,
+            self.current_stuck,
+            self.hunger,
+            air_controller.control_mode == "guided" and air_controller.active,
+            resource_memory.control_mode == "guided" and resource_memory.active,
+        ):
+            guidance = torch.tensor(
+                experiment_planner.guidance_vector,
+                dtype=move_tensor.dtype,
+            )
+            guidance_length = torch.linalg.vector_norm(guidance)
+            if float(guidance_length.item()) > 1e-6:
+                guidance /= guidance_length
+                target_alignment = move_tensor @ guidance
+                if experiment_planner.mode in {"committed", "dynamic_committed"}:
+                    experiment_regret = experiment_planner.max_score_regret
+                    if (
+                        experiment_planner.isolation_active
+                        and experiment_planner.isolation_retreat_remaining_ticks > 0
+                    ):
+                        experiment_retreat_active = True
+                        experiment_regret = (
+                            experiment_planner.isolation_retreat_max_score_regret
+                        )
+                    experiment_committed_selected = (
+                        pgnw_constrained_target_action(
+                            risk_adjusted.detach().tolist(),
+                            target_alignment.detach().tolist(),
+                            experiment_regret,
+                        )
+                    )
+                    if experiment_committed_selected is not None:
+                        experiment_planner.last_effective_guidance_weight = (
+                            experiment_regret
+                        )
+                        experiment_planner.guidance_decisions += 1
+                        if experiment_planner.isolation_active:
+                            experiment_planner.isolation_decisions += 1
+                            if experiment_retreat_active:
+                                experiment_planner.isolation_retreat_decisions += 1
+                                experiment_planner.isolation_retreat_remaining_ticks -= 1
+                            self.shadow_mpc_mode = "pgnw_isolation_mpc"
+                        else:
+                            self.shadow_mpc_mode = "pgnw_committed_mpc"
+                else:
+                    finite_scores = risk_adjusted[torch.isfinite(risk_adjusted)]
+                    if len(finite_scores) >= 2:
+                        top_scores = torch.topk(finite_scores, 2).values
+                        margin = float((top_scores[0] - top_scores[1]).item())
+                    else:
+                        margin = math.inf
+                    ambiguity = score_margin_ambiguity(
+                        margin,
+                        experiment_planner.guidance_margin_threshold,
+                    )
+                    effective_weight = (
+                        experiment_planner.guidance_weight * ambiguity
+                    )
+                    if effective_weight > 0.0:
+                        risk_adjusted += effective_weight * (
+                            target_alignment
+                        )
+                        experiment_planner.last_effective_guidance_weight = (
+                            effective_weight
+                        )
+                        experiment_planner.guidance_decisions += 1
+                        self.shadow_mpc_mode = "pgnw_experiment_guided_mpc"
+        selected = (
+            experiment_committed_selected
+            if experiment_committed_selected is not None
+            else int(torch.argmax(risk_adjusted).item())
+        )
+        if experiment_planner.last_effective_guidance_weight > 0.0:
+            changed = int(selected != experiment_unguided)
+            experiment_planner.action_influence += changed
+            if experiment_planner.isolation_active:
+                experiment_planner.isolation_action_influence += changed
+                if experiment_retreat_active:
+                    experiment_planner.isolation_retreat_action_influence += (
+                        changed
+                    )
         resource_memory.last_unguided_action = SHADOW_ACTIONS[
             resource_unguided
         ]
@@ -2472,6 +2696,14 @@ class EmbodiedFunctionalEgo:
             self.trap_course_outcome = body_state.get("trap_outcome", self.trap_course_outcome)
         self.apply_control_overrides(body_state)
         self.apply_food_feedback(body_state)
+        if isinstance(body_state, dict):
+            self.pgnw_experiment_planner.update(
+                self.steps,
+                self.causal_probe_signal,
+                body_state.get("mushroom_pickups_total", 0) or 0,
+                body_state.get("red_mushroom_pickups_total", 0) or 0,
+            )
+            self.pgnw_experiment_planner.update_guidance(body_state)
         self.ticks_since_food += 1
         food_visible_now = self.food_visible(body_state)
         self.last_body_obstacle_visible = self.obstacle_visible(body_state)
@@ -2488,7 +2720,7 @@ class EmbodiedFunctionalEgo:
         self.decay_obstacle_memory()
         horizontal_collision = bool(body_state and body_state.get("horizontal_collision", False))
 
-        body_error = 0.18 + 0.42 * self.metabolic_pressure
+        body_error = 0.18
         collision_pressure = 0.0
         clear_progress = moving and not blocked and body_state is not None and not self.current_stuck
         self.last_clear_progress = clear_progress
@@ -2548,12 +2780,6 @@ class EmbodiedFunctionalEgo:
         if not self.sleeping:
             self.crosstalk = clamp(self.crosstalk + 0.0025 + 0.010 * self.prediction_error)
             self.complexity = clamp(self.complexity + 0.0015 + 0.006 * self.prediction_error)
-            self.crosstalk = clamp(
-                self.crosstalk + 0.006 * self.metabolic_pressure
-            )
-            self.complexity = clamp(
-                self.complexity + 0.003 * self.metabolic_pressure
-            )
             repair_gain = 0.002 + 0.008 * self.acetylcholine
             self.crosstalk = clamp(self.crosstalk * (0.999 - repair_gain))
             self.complexity = clamp(self.complexity * (0.999 - 0.45 * repair_gain))
@@ -2734,7 +2960,7 @@ class EmbodiedFunctionalEgo:
 
     def apply_food_feedback(self, body_state):
         self.shadow_last_reward = 0.0
-        self.metabolic_pressure = clamp(self.metabolic_pressure * 0.985)
+        self.causal_probe_signal = clamp(self.causal_probe_signal * 0.985)
         if isinstance(body_state, dict):
             try:
                 pickup_total = int(body_state.get("mushroom_pickups_total", body_state.get("ate_mushroom", 0)))
@@ -2768,8 +2994,8 @@ class EmbodiedFunctionalEgo:
                 self.last_mushroom_reward_total = 0.0
                 self.last_red_mushroom_pickup_total = 0
                 self.mushrooms_eaten = 0
-                self.metabolic_challenge_due_steps.clear()
-                self.metabolic_pressure = 0.0
+                self.causal_probe_due_steps.clear()
+                self.causal_probe_signal = 0.0
 
             eaten = max(0, pickup_total - self.last_mushroom_pickup_total)
             red_eaten = max(
@@ -2791,8 +3017,8 @@ class EmbodiedFunctionalEgo:
                 self.dopamine_food_boost = clamp(self.dopamine_food_boost + reward)
                 self.shadow_last_reward = reward
             for _ in range(red_eaten):
-                self.metabolic_challenge_due_steps.append(
-                    self.steps + self.metabolic_challenge_delay_ticks
+                self.causal_probe_due_steps.append(
+                    self.steps + self.causal_probe_delay_ticks
                 )
             self.last_mushroom_pickup_total = pickup_total
             self.last_mushroom_reward_total = reward_total
@@ -2800,14 +3026,14 @@ class EmbodiedFunctionalEgo:
 
         due = 0
         while (
-            self.metabolic_challenge_due_steps
-            and self.metabolic_challenge_due_steps[0] <= self.steps
+            self.causal_probe_due_steps
+            and self.causal_probe_due_steps[0] <= self.steps
         ):
-            self.metabolic_challenge_due_steps.popleft()
+            self.causal_probe_due_steps.popleft()
             due += 1
         if due:
-            self.metabolic_pressure = clamp(self.metabolic_pressure + 0.34 * due)
-            self.metabolic_challenge_events += due
+            self.causal_probe_signal = clamp(self.causal_probe_signal + 0.34 * due)
+            self.causal_probe_events += due
 
         self.dopamine_food_boost *= 0.992
         self.dopamine = clamp(self.dopamine + self.dopamine_food_boost)
@@ -2820,6 +3046,17 @@ class EmbodiedFunctionalEgo:
             "feeling": "calm_positive_valence",
             "confidence": 0.0,
         }
+
+    def update_tiny_scientist_rule_targeting(self, body_state):
+        """Keep verified rules observational; they cannot target or steer."""
+        self.tiny_scientist_rule_active = False
+        self.tiny_scientist_rule_target_feature = "none"
+        self.tiny_scientist_rule_predicted_pressure_risk = 0.0
+        self.tiny_scientist_rule_guidance_vector = (0.0, 0.0)
+        self.tiny_scientist_rule_red_vector = (0.0, 0.0)
+        self.tiny_scientist_rule_red_utility = 0.0
+        self.tiny_scientist_rule_blue_utility = 0.0
+        self.tiny_scientist_rule_guidance_weight = 0.0
 
     def apply_control_overrides(self, body_state):
         controls = {}
@@ -3540,7 +3777,22 @@ class EmbodiedFunctionalEgo:
         food_action = None
         hunger_anchor = self.hunger > (0.58 if self.workspace_unreliable else 0.72)
         foraging_committed = self.foraging_commit_ticks > 0
-        if trap_pressure < (0.62 if hunger_anchor else 0.35):
+        experiment_planner = self.pgnw_experiment_planner
+        isolation_allowed = pgnw_experiment_guidance_allowed(
+            experiment_planner.mode,
+            experiment_planner.isolation_active,
+            self.shadow_fallback_hold_ticks > 0,
+            self.current_stuck,
+            self.hunger,
+            self.terrain_air_route_controller.control_mode == "guided"
+            and self.terrain_air_route_controller.active,
+            self.resource_memory.control_mode == "guided"
+            and self.resource_memory.active,
+        )
+        if isolation_allowed:
+            self.foraging_commit_ticks = 0
+            experiment_planner.isolation_food_suppression_frames += 1
+        elif trap_pressure < (0.62 if hunger_anchor else 0.35):
             food_action = self.choose_food_action(body_state)
         try:
             food_distance = float(body_state.get("food_distance", 999.0))
@@ -4032,6 +4284,32 @@ class EmbodiedFunctionalEgo:
             "resource_memory_action_influence": (
                 self.resource_memory.action_influence
             ),
+            "pgnw_experiment_mode": self.pgnw_experiment_planner.mode,
+            "pgnw_experiment_request": (
+                self.pgnw_experiment_planner.requested_experiment
+            ),
+            "pgnw_experiment_phase": self.pgnw_experiment_planner.phase,
+            "pgnw_experiment_map_hypothesis": (
+                self.pgnw_experiment_planner.map_hypothesis
+            ),
+            "pgnw_experiment_map_confidence": round(
+                self.pgnw_experiment_planner.map_confidence, 4
+            ),
+            "pgnw_experiment_last_outcome": (
+                self.pgnw_experiment_planner.last_outcome
+            ),
+            "pgnw_experiment_completed": (
+                self.pgnw_experiment_planner.experiments_completed
+            ),
+            "pgnw_experiment_discarded": (
+                self.pgnw_experiment_planner.experiments_discarded
+            ),
+            "pgnw_experiment_guidance_weight": (
+                self.pgnw_experiment_planner.last_effective_guidance_weight
+            ),
+            "pgnw_experiment_action_influence": (
+                self.pgnw_experiment_planner.action_influence
+            ),
             "sync_observer_mode": "passive",
             "sync_coherence": round(self.dynamics_observer.coherence, 4),
             "sync_active_modules": self.dynamics_observer.active_modules,
@@ -4129,6 +4407,9 @@ class EmbodiedFunctionalEgo:
             f"air={self.terrain_air_observer.recalled_action}:"
             f"{self.terrain_air_observer.confidence:.2f}/"
             f"{self.terrain_air_observer.agreement_rate:.2f} "
+            f"science={self.pgnw_experiment_planner.requested_experiment}:"
+            f"{self.pgnw_experiment_planner.phase}:"
+            f"{self.pgnw_experiment_planner.map_confidence:.2f} "
             f"recent={len(self.recent_failures):02d} {body}"
         )
 
@@ -4173,6 +4454,23 @@ def main():
         type=float,
         default=None,
         help="Diagnostic initial hunger override in the normalized 0..1 range.",
+    )
+    parser.add_argument(
+        "--initial-causal-probe-signal",
+        type=float,
+        default=None,
+        help=(
+            "Diagnostic initial value for the passive delayed causal signal. "
+            "It has zero motor, routing, workspace, or neuromodulatory influence."
+        ),
+    )
+    parser.add_argument(
+        "--initial-metabolic-pressure",
+        type=float,
+        default=None,
+        help=(
+            "Deprecated alias for --initial-causal-probe-signal."
+        ),
     )
     parser.add_argument(
         "--diagnostic-teleport",
@@ -4400,6 +4698,89 @@ def main():
         default=0.03,
         help="Maximum resource-memory bonus applied to grounded MPC scores.",
     )
+    parser.add_argument(
+        "--tiny-scientist-production-memory",
+        default=None,
+        help=(
+            "Load verified Tiny Scientist rules for passive audit telemetry only. "
+            "This option has zero motor, routing, and MPC influence."
+        ),
+    )
+    parser.add_argument(
+        "--tiny-scientist-rule-control",
+        choices=["passive"],
+        default="passive",
+        help=(
+            "Keep committed Tiny Scientist rules read-only with zero motor, "
+            "routing, workspace, and MPC influence."
+        ),
+    )
+    parser.add_argument(
+        "--tiny-scientist-experiment-control",
+        choices=[
+            "disabled", "passive", "bounded", "committed", "dynamic_committed"
+        ],
+        default="disabled",
+        help=(
+            "Let PGNW select red, blue, or no-pickup observations. Passive "
+            "logs requests only; bounded adds a capped uncertainty-gated MPC "
+            "preference; committed chooses target alignment only within a "
+            "safety-filtered MPC regret bound; dynamic_committed first admits "
+            "a Gemma-proposed L1 hypothesis from discovery evidence."
+        ),
+    )
+    parser.add_argument(
+        "--tiny-scientist-dynamic-model",
+        default="google/gemma-3-1b-it",
+        help="Local base model used only by dynamic_committed proposal generation.",
+    )
+    parser.add_argument(
+        "--tiny-scientist-dynamic-adapter",
+        default=None,
+        help="L1 LoRA adapter required by dynamic_committed proposal generation.",
+    )
+    parser.add_argument(
+        "--tiny-scientist-experiment-guidance-weight",
+        type=float,
+        default=0.03,
+        help="Maximum PGNW experiment preference added to ambiguous MPC scores.",
+    )
+    parser.add_argument(
+        "--tiny-scientist-experiment-guidance-margin",
+        type=float,
+        default=0.08,
+        help="MPC score-margin range in which PGNW experiment guidance may act.",
+    )
+    parser.add_argument(
+        "--tiny-scientist-experiment-commit-seconds",
+        type=float,
+        default=3.0,
+        help="Maximum duration of each constrained PGNW target commitment.",
+    )
+    parser.add_argument(
+        "--tiny-scientist-experiment-commit-cooldown-seconds",
+        type=float,
+        default=2.0,
+        help="Cooldown before PGNW may recommit to a still-visible target.",
+    )
+    parser.add_argument(
+        "--tiny-scientist-experiment-max-score-regret",
+        type=float,
+        default=0.18,
+        help="Largest MPC-score loss admitted for target-aligned commitment.",
+    )
+    parser.add_argument(
+        "--tiny-scientist-experiment-isolation-retreat-seconds",
+        type=float,
+        default=2.0,
+        help="Brief post-pickup interval allowed stronger safe food repulsion.",
+    )
+    parser.add_argument(
+        "--tiny-scientist-experiment-isolation-retreat-max-score-regret",
+        type=float,
+        default=0.35,
+        help="Collision-safe MPC regret bound during immediate post-pickup retreat.",
+    )
     args = parser.parse_args()
 
     random.seed(args.seed)
@@ -4410,6 +4791,18 @@ def main():
             torch.manual_seed(args.seed)
         except ImportError:
             pass
+
+    if (
+        args.tiny_scientist_experiment_control == "dynamic_committed"
+        and not args.tiny_scientist_dynamic_adapter
+    ):
+        parser.error("dynamic_committed requires --tiny-scientist-dynamic-adapter")
+    hypothesis_proposer = None
+    if args.tiny_scientist_experiment_control == "dynamic_committed":
+        hypothesis_proposer = LocalL1HypothesisProposer(
+            args.tiny_scientist_dynamic_model,
+            args.tiny_scientist_dynamic_adapter,
+        )
 
     link = UnityBodyLink(args.unity_host, args.unity_port, args.listen_port)
     ego = EmbodiedFunctionalEgo(
@@ -4449,6 +4842,33 @@ def main():
         systemic_conductor_confidence=args.systemic_conductor_confidence,
         adaptive_gnw_passive=args.adaptive_gnw_passive,
         adaptive_gnw_control=args.adaptive_gnw_control,
+        tiny_scientist_rule_control=args.tiny_scientist_rule_control,
+        tiny_scientist_experiment_control=(
+            args.tiny_scientist_experiment_control
+        ),
+        tiny_scientist_experiment_seed=args.seed,
+        tiny_scientist_experiment_guidance_weight=(
+            args.tiny_scientist_experiment_guidance_weight
+        ),
+        tiny_scientist_experiment_guidance_margin=(
+            args.tiny_scientist_experiment_guidance_margin
+        ),
+        tiny_scientist_experiment_commit_seconds=(
+            args.tiny_scientist_experiment_commit_seconds
+        ),
+        tiny_scientist_experiment_commit_cooldown_seconds=(
+            args.tiny_scientist_experiment_commit_cooldown_seconds
+        ),
+        tiny_scientist_experiment_max_score_regret=(
+            args.tiny_scientist_experiment_max_score_regret
+        ),
+        tiny_scientist_experiment_isolation_retreat_seconds=(
+            args.tiny_scientist_experiment_isolation_retreat_seconds
+        ),
+        tiny_scientist_experiment_isolation_retreat_max_score_regret=(
+            args.tiny_scientist_experiment_isolation_retreat_max_score_regret
+        ),
+        tiny_scientist_hypothesis_proposer=hypothesis_proposer,
     )
     ego.controller_seed = args.seed
     ego.terrain_air_observer = PassiveTerrainAirObserver(args.terrain_air_memory)
@@ -4468,8 +4888,16 @@ def main():
         control_mode=args.terrain_resource_control,
         max_guidance_weight=args.terrain_resource_max_guidance_weight,
     )
+    ego.tiny_scientist_memory = VerifiedProductionMemory(
+        args.tiny_scientist_production_memory
+    )
     if args.initial_hunger is not None:
         ego.hunger = clamp(args.initial_hunger)
+    initial_probe = args.initial_causal_probe_signal
+    if initial_probe is None:
+        initial_probe = args.initial_metabolic_pressure
+    if initial_probe is not None:
+        ego.causal_probe_signal = clamp(initial_probe)
     delay = 1.0 / max(args.hz, 0.1)
     started = time.time()
     latest_body = None
@@ -4510,6 +4938,7 @@ def main():
                 else:
                     ego.update_from_body(latest_body)
                     ego.resource_memory.update(latest_body, ego.hunger)
+                    ego.update_tiny_scientist_rule_targeting(latest_body)
                     action = ego.choose_action(latest_body)
                     ego.update_shadow_policy(latest_body, action)
                     ego.terrain_air_observer.update(

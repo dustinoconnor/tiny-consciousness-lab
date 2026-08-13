@@ -79,6 +79,16 @@ public class FoodMushroom : MonoBehaviour
         observableProfile = profile;
     }
 
+    public void ResetForExperiment()
+    {
+        if (!gameObject.activeSelf)
+        {
+            gameObject.SetActive(true);
+        }
+        respawnAt = -1f;
+        SetAvailable(true);
+    }
+
     private void SetAvailable(bool available)
     {
         this.available = available;

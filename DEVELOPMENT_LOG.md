@@ -1618,3 +1618,437 @@ is treated as external and is not inferred from these measurements.
   website build and both rendered-content tests passed; Sites version 20 was
   saved from source commit `f939310` and deployed successfully to the existing
   Tiny Consciousness Lab public URL.
+- 9 August AST starting point: reviewed the existing adaptive GNW governor and
+  determined that its active-broadcast, challenger, persistence, and reward
+  fields already constitute substantial explicit self-state. Preregistered a
+  stricter test in `ATTENTION_SCHEMA_PROTOCOL_20260809.md`: a 60-parameter
+  softmax predictor forecasts the router's next local focus from current and
+  previous bid distributions plus broadcast state, with no context labels,
+  optimal-specialist labels, outcomes, or future observations. Frozen
+  conditions were no-schema adaptive GNW, a correctly bound schema at fixed
+  0.30 influence, a role-shuffled parameter-matched control, and a disconnected
+  post-training lesion.
+- The registered 12-seed AST audit evaluated 17,280 held-out steps per
+  condition and did not pass its overall decision rule. Correct schema access
+  beat shuffled schema in utility by `+0.07664` (95% interval
+  `[+0.02562, +0.12766]`), improved transient-distractor routing over adaptive
+  GNW by `+0.16628` (`[+0.06743, +0.26513]`), and reduced unnecessary handoffs
+  by `0.03056`. However, it reduced genuine boundary routing by `0.18542` and
+  utility by `0.04414` versus adaptive GNW; both intervals excluded zero. The
+  lesion exactly matched the baseline. Interpretation: the learned schema
+  carried correctly bound temporal information but behaved as an always-on
+  persistence prior, duplicating the existing governor and delaying real rule
+  changes. Full bounded result: `ATTENTION_SCHEMA_RESULT_20260809.md`; metrics:
+  `outputs/attention_schema_registered_20260809.json`. No Unity integration is
+  warranted unless a separately preregistered change-point-aware schema first
+  passes held-out synthetic evaluation.
+- Replaced the delayed red-mushroom `metabolic_pressure` intervention with a
+  passive `causal_probe_signal`. Red still schedules a `+0.34` observable event
+  after ten seconds and blue remains the negative control, but the signal no
+  longer enters body prediction error, crosstalk, complexity, workspace
+  selection, MPC scoring, routing, or navigation. Retired the optional
+  `pressure_avoidance` Tiny Scientist control path; committed rules are now
+  structurally read-only. New recordings expose explicit causal-probe fields
+  plus deprecated read-only pressure aliases for historical analyzer
+  compatibility, and `tiny_scientist.py` prefers the new signal. A paired
+  red/blue functional-state test confirms identical prediction error,
+  crosstalk, complexity, hunger, dopamine, action, and workspace state despite
+  the red-only telemetry event. All 193 tests pass after the conversion.
+- Implemented the preregistered multiple-hypothesis predictive-workspace assay
+  in `pgnw_hypothesis_selection_lab.py`. The formal pool contains red-cause,
+  blue-cause, either-pickup, spontaneous, and no-cause models; available tests
+  are red observation, blue observation, and a no-pickup wait. Hidden worlds
+  are counterbalanced, all policies receive matched per-action outcome draws,
+  and no hypothesis receives Unity, motor, physiology, or navigation authority.
+  Comparisons include epistemic-only, pragmatic-only, confirmation seeking,
+  random selection, and a scrambled broadcast binding.
+- The initial 20-seed PGNW audit passed three causal comparisons and the
+  pragmatic-value criterion but left PGNW-over-random and epistemic
+  noninferiority intervals unresolved. Without changing any model, weight,
+  budget, metric, or criterion, registered and ran a disjoint 100-seed
+  confirmation (500 counterbalanced worlds per condition). PGNW identified the
+  true model in 90.8% of worlds with mean true posterior `0.8755`; it beat
+  pragmatic-only by `+0.35608`, random by `+0.05279`, confirmation seeking by
+  `+0.21800`, and scrambled broadcast by `+0.32356`, with all 95% intervals
+  above zero. It also gained `+0.28576` pragmatic value over epistemic-only.
+  However, its true posterior was `0.02976` below epistemic-only with interval
+  `[-0.04973, -0.00978]`, failing the frozen `-0.03` noninferiority boundary.
+  Four of five criteria passed; overall result remains a bounded failure and a
+  measured epistemic/pragmatic Pareto tradeoff. Full report:
+  `PGNW_HYPOTHESIS_SELECTION_RESULT_20260809.md`.
+- 10 August bounded-authority implementation: added
+  `EmbodiedPGNWExperimentPlanner`, which carries the five-model posterior into
+  the Unity loop and broadcasts `observe_red_pickup`, `observe_blue_pickup`, or
+  `wait_no_pickup`. It starts a ten-second passive-probe observation after the
+  experiment actually encountered, discards windows contaminated by additional
+  pickups, logs requested/executed mismatches, updates the posterior only from
+  uncontaminated outcomes, and selects the next experiment. Passive mode has
+  structurally zero guidance.
+- Added `--tiny-scientist-experiment-control {disabled,passive,bounded}`. In
+  bounded mode a requested visible color supplies at most `0.03` alignment
+  preference to an already-engaged ambiguous MPC decision; it cannot activate
+  MPC. The preference is disabled during fallback, physical wedges, critical
+  hunger, guided AIR, guided resource memory, no target visibility, or any
+  collision-masked direction. Telemetry records the full posterior, request,
+  phase, outcome, completed/discarded trials, effective guidance, decisions,
+  and changed MPC selections. `ACTIVE_PGNW_UNITY_PROTOCOL_20260810.md`
+  preregisters feasibility and the boundary that this is experiment-selection
+  authority rather than direct motor or general production-rule authority.
+  All 206 repository tests, Python compilation, and whitespace validation pass;
+  live Unity feasibility remains pending a user-run smoke.
+- Completed and analyzed the seed-141 bounded Active-PGNW Unity smoke
+  (`outputs/unity_shadow/pgnw_active_science_smoke_20260810.jsonl`; 1,193.508
+  recorded seconds, 5,674 rows). The preregistered feasibility criterion passed:
+  21 experiments began, 11 uncontaminated experiments completed and caused 11
+  posterior updates, while ten contaminated delay windows were discarded.
+  Completed evidence separated perfectly into four red observations with a
+  delayed probe rise and seven blue observations with no rise. The posterior
+  moved from a uniform five-model prior to `red_causes_probe = 0.999134`, an
+  entropy reduction of 2.31179 bits and final red-versus-all odds of 1,153.99:1.
+- The authority audit found 96 effective bounded-guidance decisions, a maximum
+  effective weight of `0.02961`, and one changed MPC selection while both
+  colors were visible. Thirteen of 21 pickups mismatched the current request and
+  were correctly analyzed by the experiment actually encountered. This means
+  the online science loop worked, but most evidence remained opportunistic and
+  the run does not establish a navigation benefit. Safety remained intact: zero
+  survival, trap, or escape failures and zero critical-hunger exposure. One
+  stuck event occurred while PGNW guidance was zero. Full bounded result and
+  matched passive-versus-bounded next-test boundary:
+  `ACTIVE_PGNW_UNITY_RESULT_20260810.md`.
+- Preregistered the next comparison in
+  `PGNW_ACTIVE_PASSIVE_PROTOCOL_20260810.md`. A different active seed alone
+  cannot distinguish epistemic guidance from passive wandering, so the next
+  run is the matched seed-141 passive half of the existing bounded pilot. The
+  frozen primary metric is elapsed time to `red_causes_probe >= 0.95`, with
+  posterior-entropy area, clean-experiment rate, request compliance, and safety
+  as secondary measures. One pair remains diagnostic; a learning-speed claim
+  requires additional counterbalanced passive/bounded seed pairs.
+- Completed the matched seed-141 passive half and audited it against the frozen
+  bounded run. The diagnostic pair favors bounded PGNW: bounded crossed
+  `P(red_causes_probe) >= 0.95` at 863.97 seconds, whereas passive remained
+  below threshold through 1,194.35 seconds and ended at 0.932651. This is a
+  right-censored bounded lead greater than 330.38 seconds. Bounded also had
+  34.02% lower mean posterior entropy and 22.31% more clean experiments per
+  hour, ending with four clean red-positive and seven blue-negative trials;
+  passive obtained one red-positive and eight blue-negative trials.
+- The result remains a positive pilot rather than a causal claim. Passive found
+  the first clean red result 18.07 seconds earlier, bounded changed only one MPC
+  selection, and independent Unity trajectories diverged strongly (32 versus
+  28 pickups and one versus nine stuck events). Both had zero survival failures
+  and zero critical-hunger exposure. Real-time trajectory variation could
+  explain much of the gap, so the next step is counterbalanced passive/bounded
+  seed pairs with unchanged `0.03` authority. Full result:
+  `PGNW_ACTIVE_PASSIVE_PILOT_RESULT_20260810.md`.
+- Completed the passive-first half of counterbalanced seed 142. Passive crossed
+  `P(red_causes_probe) >= 0.95` at 586.49 seconds, completed 17 clean
+  experiments from 24 starts (nine red-positive and eight blue-negative), and
+  ended at posterior 0.999968 with mean entropy 0.89205 bits. It collected 35
+  mushrooms including ten red, logged seven discarded windows, 12 protocol
+  mismatches, five stuck events, 17 seconds of critical hunger, and zero
+  survival failures. Guidance and action influence were structurally zero.
+  This strong result relative to passive seed 141 demonstrates substantial
+  between-run/seed variability; no active-versus-passive conclusion is drawn
+  until the bounded seed-142 half is complete.
+- Completed bounded seed 142 and closed the second active/passive pair. Bounded
+  again inferred the correct rule, crossing posterior 0.95 at 867.42 seconds
+  and ending at 0.998370 with zero survival failures. It completed ten clean
+  experiments (three red-positive, seven blue-negative), compared with
+  passive's 17, and was 280.93 seconds slower than passive on the primary
+  threshold metric. Bounded also had higher mean entropy, fewer pickups, more
+  stuck events, and more critical-hunger exposure in this pair.
+- Across seeds 141 and 142, one pair favors each condition. Bounded threshold
+  times were remarkably consistent at 863.97 and 867.42 seconds, while passive
+  ranged from 586.49 seconds to not reaching threshold by 1,194.35 seconds.
+  With the registered 1,200-second censoring horizon, the descriptive
+  restricted mean favors bounded by only 27.55 seconds; two pairs do not support
+  an inferential speed claim. Bounded changed one MPC selection in each run,
+  and the seed-142 change occurred at 1,036.66 seconds, after learning crossed
+  threshold. The replicated result is safe online causal discovery, not yet
+  active acceleration. Full comparison:
+  `PGNW_ACTIVE_PASSIVE_TWO_PAIR_RESULT_20260810.md`.
+- Pre-seed-143 storage audit: the data volume reports 12 GiB available at 97%
+  capacity. `outputs/` occupies 2.8 GiB and `outputs/unity_shadow/` occupies
+  2.7 GiB across 155 JSONL recordings. The four completed PGNW logs total about
+  235 MiB; another bounded/passive pair should add roughly 118 MiB. Chose a
+  staged design rather than committing immediately to ten pairs: complete the
+  counterbalanced seed-143 pair, reassess after three pairs, and reserve a
+  larger sample for any formal variance or tail-reliability claim.
+- Storage cleanup authorized by the user: permanently removed 59 completed
+  non-PGNW raw JSONL recordings from `outputs/unity_shadow`, freeing 2.08 GiB.
+  Preserved the four completed PGNW comparison recordings and the in-progress
+  seed-143 bounded recording, along with derived metrics and result reports.
+  `outputs/` fell from 2.8 GiB to 731 MiB and available disk space increased
+  from 12 GiB to 14 GiB. The raw deleted recordings are not recoverable from
+  the project directory.
+- Added resumable unattended PGNW batching in
+  `run_pgnw_active_passive_batch.py`. It counterbalances odd seeds
+  bounded-first and even seeds passive-first, skips only recordings verified as
+  complete, refuses to overwrite partial data, checks for at least 5 GiB free,
+  applies a per-run timeout, records a batch manifest, and aborts on any Unity,
+  subprocess, or recording-validation failure. The seed-143 bounded recording
+  is complete (1,194.69 seconds, posterior 0.999570, 12 clean experiments), so
+  a `143-145` batch will skip it and execute five remaining runs.
+- Back-to-back Python processes alone would not reproduce the zero-position,
+  zero-pickup Unity starts seen in all valid runs. Added an acknowledged
+  `experiment_reset` command to both the repository Unity bridge and the actual
+  `/Users/dustinoconnor/My project` scripts. Before every run it restores the
+  terrain spawn, clears movement and pickup telemetry, and makes all mushrooms
+  available. The batch waits for Unity telemetry acknowledging zero red and
+  total pickups before launching the condition. Added focused batch tests; all
+  209 repository tests, Python compilation, and whitespace validation pass.
+- The unattended seed-143-through-145 batch completed all five scheduled runs
+  with zero subprocess errors and approximately 1,200 recorded seconds per
+  condition. Analysis uncovered a reset-height mismatch: automated starts were
+  `(0, -2.856, 0)` while manual Unity restarts were `(0, -0.008, 0)`. Seed 143
+  mixed those start methods and was excluded from the paired aggregate. Seeds
+  144 and 145 remained internally matched because both halves used the same
+  automated reset. The one seed-143 bounded survival failure was a persistent
+  physics wedge while effective PGNW guidance was zero.
+- Across the four valid pairs (141, 142, 144, 145), bounded and passive each won
+  two threshold-time comparisons. Bounded crossed posterior 0.95 in 3/4 runs
+  versus passive 2/4, but the 1,200-second-capped paired mean advantage was only
+  7.38 seconds. Bounded had lower descriptive threshold-time dispersion and
+  mean posterior entropy, but a lower clean-experiment rate and only two changed
+  MPC choices before convergence. This does not replicate raw acceleration or
+  establish a worst-case guarantee; it leaves variance reduction as an
+  underpowered hypothesis. Full interim result:
+  `PGNW_ACTIVE_PASSIVE_FOUR_PAIR_INTERIM_RESULT_20260810.md`.
+- Corrected unattended resets to use the exact scene-authored terrain spawn
+  rather than resampling terrain height. The batch runner now also rejects a
+  reset acknowledgement unless position is within 0.25 Unity units of
+  `(0, -0.008, 0)` in addition to zero pickup counters, preventing silent
+  start-state mismatch in future data.
+- Added `--max-new-runs` to the resumable batch runner for a one-run validation
+  checkpoint. The corrected seed-143-through-145 replication can execute one
+  bounded seed-143 run, stop for inspection, then resume the identical schedule
+  overnight while skipping the verified completed recording.
+- Completed the six-run seed-143-through-145 floor-start replication under the
+  resumable batch. All subprocesses returned zero, all recordings reached about
+  1,200 seconds, and every condition began with zero pickup counters at the same
+  recorded `(0, -2.856, 0)` floor position. This forms an internally matched
+  replication block, separate from the earlier command-first starts near
+  `y = 0`.
+- The active reliability hypothesis did not replicate. Bounded crossed the
+  0.95 posterior threshold in 1/3 runs and passive in 2/3; passive won two
+  paired comparisons, bounded one. The 1,200-second-capped paired mean was
+  67.31 seconds slower for bounded, whose threshold times were also more
+  variable. Both conditions had zero survival failures. Across the three
+  bounded runs, guidance changed only two MPC selections, both in the seed-144
+  failure; the large seed-143 bounded win occurred with zero changed actions
+  and cannot be attributed to active guidance.
+- Localized the failure to diagnostic evidence acquisition rather than causal
+  updating. All three conditions with at least two uncontaminated red
+  observations reached the correct threshold; all three conditions with zero
+  clean red observations failed and retained `no_tested_cause` as MAP. More
+  unchanged runs are not warranted. The next registered manipulation must make
+  experiment authority behaviorally meaningful before the diagnostic event
+  while freezing posterior inference and contamination rejection. Full result:
+  `PGNW_FLOOR_START_REPLICATION_RESULT_20260811.md`.
+- Hardened batch provenance after the replication: reset acknowledgement near
+  `y = 0` is no longer treated as proof of recording start, because model load
+  time lets the body settle before telemetry begins. The runner now separately
+  validates the first recorded position and defaults to the explicitly labeled
+  floor-start protocol `(0, -2.856, 0)`. A requested airborne-start protocol
+  will fail rather than being silently mixed with floor-start data.
+- Preregistered a ten-minute stronger-authority manipulation check in
+  `PGNW_STRONGER_AUTHORITY_SMOKE_PROTOCOL_20260811.md`. The causal updater and
+  safety architecture remain frozen. The new explicit configuration raises the
+  PGNW score weight from 0.03 to 0.12 and the eligible ambiguous-MPC margin from
+  0.08 to 0.25, while retaining the existing persistent experiment request and
+  every collision, fallback, stuck, hunger, AIR, and resource-memory gate. The
+  smoke must produce at least five changed MPC selections before convergence
+  and a requested-color pickup following guidance; posterior success alone does
+  not pass the manipulation check.
+- Completed the seed-146 stronger-weight manipulation smoke. It failed the
+  registered behavioral criterion: 13 eligible guidance decisions and maximum
+  effective weight 0.09299 produced zero changed MPC selections. Two red
+  pickups were opportunistic rather than guidance-caused, and both ten-second
+  red windows were contaminated by an additional blue pickup. The updater
+  correctly discarded them; six clean blue-negative trials left
+  `no_tested_cause` as MAP and red-cause posterior 0.44923.
+- Safety remained intact with zero stuck events, zero critical-hunger exposure,
+  and zero survival failures. No overnight comparison is warranted for this
+  configuration. The next manipulation must replace larger additive weighting
+  with a preregistered constrained commitment: retain every safety veto, admit
+  only actions within a bounded score regret of ordinary MPC, and choose the
+  safest admissible action most aligned to the requested target. Full result:
+  `PGNW_STRONGER_AUTHORITY_SMOKE_RESULT_20260811.md`.
+- Implemented the preregistered constrained-commitment controller for a second
+  short manipulation check. New `committed` PGNW mode preserves the persistent
+  experiment request but, only while the requested color is visible, chooses
+  target alignment from collision-safe actions no more than 0.18 MPC-score
+  units below the ordinary optimum. Authority lasts at most three seconds with
+  a two-second cooldown. Fallback, stuck, critical hunger, guided AIR, guided
+  resource memory, and the requirement that MPC already be engaged remain
+  absolute vetoes. Telemetry records commitment starts, expirations, remaining
+  duration, regret bound, decisions, and action influence. Protocol:
+  `PGNW_CONSTRAINED_COMMITMENT_SMOKE_PROTOCOL_20260811.md`.
+- Completed the seed-147 constrained-commitment smoke. It was the first partial
+  behavioral success: 27 committed decisions changed two MPC selections, and a
+  requested red pickup followed the second change by 0.21 seconds. Safety
+  remained intact with zero critical-hunger exposure and zero survival
+  failures. However, the registered requirement was five changes, so the smoke
+  did not pass.
+- A blue pickup 1.50 seconds after the guidance-linked red pickup contaminated
+  the ten-second observation; an earlier red pickup was similarly followed by
+  blue after 1.06 seconds. Seven trials were discarded, five clean blue-only
+  trials completed, and zero clean red evidence left `no_tested_cause` as MAP
+  with red posterior 0.45412. The next bottleneck is post-intervention evidence
+  isolation. Freeze target acquisition and add a safety-gated ten-second phase
+  that suppresses optional food seeking and prefers movement away from visible
+  mushrooms. Do not schedule an overnight comparison until a short smoke
+  produces both a request-linked pickup and a clean red completion. Full
+  result: `PGNW_CONSTRAINED_COMMITMENT_SMOKE_RESULT_20260811.md`.
+- 12 August observation-isolation implementation: retained the adjacent red and
+  blue spawn mushrooms as a deliberate stress test. In committed mode, any
+  experimental pickup now opens the existing ten-second observation delay and
+  activates a safety-gated isolation phase. Optional food seeking is suppressed
+  and its commitment cleared; visible red/blue directions form an
+  inverse-distance-weighted repulsion vector; constrained MPC chooses the most
+  food-averse collision-safe action within the frozen 0.18 regret bound.
+  Fallback, stuck recovery, critical hunger, guided AIR, guided resource
+  memory, collision masking, and the requirement that MPC already be active
+  remain absolute. Telemetry now separates isolation decisions, action changes,
+  food-suppression frames, and intervening pickups. Preregistered smoke:
+  `PGNW_OBSERVATION_ISOLATION_PROTOCOL_20260812.md`.
+- Completed the seed-148 isolation smoke. Isolation clearly reached behavior:
+  63 isolation decisions suppressed food seeking for 63 frames and changed 46
+  MPC selections, with zero survival failures. It nevertheless failed the
+  evidence criterion. The single red pickup at 2.96 seconds was followed by the
+  adjacent blue at 5.11 seconds, contaminating the trial after 2.14 seconds.
+  Overall, 4/6 trials were discarded, only two blue-negative trials completed,
+  and the final red posterior was 0.43091. Six stuck events and 63 seconds of
+  critical hunger also rule out calling the behavior harmless beyond the
+  absence of survival failure.
+- Preregistered and implemented a narrow immediate-retreat refinement in
+  `PGNW_IMMEDIATE_RETREAT_PROTOCOL_20260812.md`. For only the first two seconds
+  after pickup, food repulsion may choose collision-safe MPC actions within a
+  0.35 score-regret bound to overcome approach momentum; the remaining delay
+  returns to the frozen 0.18 bound. Isolation now stops once a trial is already
+  confounded. Target acquisition, inference, evidence rejection, and every
+  safety veto remain unchanged.
+- Completed the seed-149 immediate-retreat smoke. It passed the registered
+  system-level evidence criterion: one requested red pickup completed a clean
+  ten-second window and produced the delayed probe rise; six clean blue controls
+  followed, leaving `red_causes_probe` as MAP at 0.93103. Red contamination
+  improved from 2/2 in seed 147 to 1/2. Thirty retreat decisions changed 30 MPC
+  selections; total isolation changed 54 selections; safety ended with zero
+  critical-hunger exposure and zero survival failures.
+- The adjacent spawn pair itself remained unsolved: blue followed its red after
+  4.26 seconds, improved from 2.14 seconds but below ten. The clean red occurred
+  later and did not itself require visible repulsion, so causation is not
+  assigned to retreat from this single run. Full qualified result:
+  `PGNW_IMMEDIATE_RETREAT_SMOKE_RESULT_20260812.md`.
+- Preregistered a three-pair committed-versus-passive batch on seeds 150-152 in
+  `PGNW_COMMITTED_PASSIVE_BATCH_PROTOCOL_20260812.md`. Extended the resumable
+  batch runner with `--active-mode committed`, preserving alternating order,
+  reset validation, partial-file refusal, disk checks, and fail-fast behavior.
+  The six-run batch will measure threshold time, clean-red acquisition,
+  contamination, verified pre-evidence influence, entropy, and safety before
+  deciding whether a larger sample is warranted.
+- Completed and analyzed the six-run seed-150-152 committed-versus-passive
+  batch. All runs began from the same validated floor state with cleared Unity
+  counters and completed the full 20-minute bound. Committed guidance reached
+  posterior `P(red_causes_probe) >= 0.95` in 3/3 runs at 930.8, 556.9, and
+  411.5 seconds. Passive reached it in only 1/3 runs, at 1,179.8 seconds.
+  Right-censoring misses at 1,200 seconds gives means of 633.1 seconds committed
+  versus 1,193.3 seconds passive, a bounded 560.2-second (46.9%) reduction.
+- The behavioral chain preceded inference: committed action changes before the
+  first clean red completion numbered 86, 147, and 36 across the three seeds.
+  Committed mode produced 8 clean red observations versus 2 passive, completed
+  53 total observations versus 31, reduced the discard fraction from 49.2% to
+  27.4%, and reduced mean time-averaged posterior entropy from 1.140 to 0.718
+  bits. Final mean red-cause posterior was 0.996598 versus 0.617184.
+- Severe safety remained intact: zero critical-hunger seconds and zero survival
+  failures in both conditions. Committed mode incurred 21 stuck events versus
+  17 passive, and target-protocol mismatch remained high in both conditions, so
+  the intervention is effective but not cost-free and does not guarantee target
+  compliance. With only three pairs, this is a successful manipulation check,
+  not a population-level significance claim. Full qualified result:
+  `PGNW_COMMITTED_PASSIVE_BATCH_RESULT_20260812.md`.
+- Began the dynamic Tiny Scientist loop with an explicit discovery/verification
+  boundary. The architecture will preserve Bayesian updating as the evidence
+  accounting layer while removing the frozen five-hypothesis ontology: Gemma
+  proposes a compact L1 causal record from discovery telemetry, the existing
+  semantic verifier and formal layer compile it into an executable likelihood
+  model at zero production-rule authority, and PGNW may select future tests.
+  Evidence at or before admission is ineligible to verify the proposal.
+- Added `dynamic_hypothesis_pool.py` and focused tests. The first bounded
+  compiler accepts a grounded red/blue directional L1 rule, derives its action-
+  conditional probe likelihoods, records the exact source DSL and admission
+  cutoff, rejects duplicates, and supports variable-size posterior and expected-
+  information-gain calculation. This is an offline admission substrate, not yet
+  live Unity integration or a claim of open-ended ontology formation.
+- Exercised the admission path with the actual frozen Gemma 3 1B L1 adapter and
+  mechanism-guided masked-greedy decoder. From seed-149 discovery evidence it
+  generated `L1 c red k blue e + t 10.0 q 0.5` in 2.538 seconds using 190 input
+  and 20 output tokens. The verifier accepted it and the compiler admitted
+  `dsl:red_causes_probe_rise@10s` at prior 0.20 against only spontaneous and
+  no-tested-cause baselines; it began with zero held-out updates and no rule or
+  direct motor authority.
+- In chronological post-development replay, all seed-149 discovery observations
+  were excluded from verification. Fifteen later clean seed-150 observations
+  raised the dynamically admitted candidate above 0.95 on the second clean red
+  result and to 0.999877 finally. Nine earlier blue-negative controls alone did
+  not verify it. This closes formulation, formal admission, epistemic test
+  selection, and later verification in offline replay, but not yet during one
+  live Unity process and not beyond the bounded red/blue vocabulary. Full
+  qualified result: `DYNAMIC_HYPOTHESIS_REPLAY_RESULT_20260812.md`.
+- Implemented the first live dynamic path behind the explicit
+  `dynamic_committed` mode. Before any candidate exists, PGNW runs a seeded
+  balanced red/blue/no-pickup survey rather than letting the two null models
+  request no-pickup forever. After at least four clean observations spanning
+  both colors, a single background worker lazily loads the frozen Gemma 3 1B L1
+  adapter and generates one masked-greedy proposal while Unity control
+  continues. The exact submission summary and observation cutoff are frozen.
+- On successful return, the semantic verifier and formal compiler admit the
+  candidate at zero held-out updates; only later clean observations update its
+  variable posterior and EFE experiment selection. Telemetry exposes proposal
+  status, raw L1, generation metrics, errors, discovery count, the full dynamic
+  pool, cutoff, and held-out update count. Existing committed MPC regret bounds,
+  isolation, collision masks, and safety vetoes are reused unchanged. Two async
+  and balanced-survey tests were added. Preregistered the seed-153 20-minute
+  plumbing smoke in `DYNAMIC_HYPOTHESIS_UNITY_SMOKE_PROTOCOL_20260812.md`.
+- Completed the seed-153 live dynamic smoke: 5,110 rows over 1,199.384 seconds,
+  22 clean observations, four discarded windows, 22 pickups including two red,
+  66 PGNW action changes, five stuck events, and zero critical hunger, respawns,
+  or survival failures. The first clean red positive arrived late at 798.267
+  seconds. Gemma proposed `L1 c blue k red e - t 10.0 q 0.5`; the formal
+  verifier correctly rejected it, so no candidate was admitted or verified.
+- The failed run exposed two interface defects. Rejection incorrectly launched
+  another proposal every time the background future returned; it is now
+  terminal for the run. Discovery feature order also depended on first
+  encounter and is now frozen canonically as red then blue. Exact-evidence
+  diagnostics further found a tokenization-sensitive sign flip when an
+  effectively zero blue mean was serialized as `-0.00000036`: `0.0` produced
+  the grounded positive-red rule, `-0.000001` produced a rejected negative-red
+  rule, and `-0.008` again produced the grounded rule. Dynamic evidence means
+  are now symmetrically quantized to three decimals with sub-0.0005 values
+  normalized to zero; the semantic verifier remains strict and unchanged.
+  Full qualified failure: `DYNAMIC_HYPOTHESIS_UNITY_SMOKE_RESULT_20260812.md`.
+- Froze a single seed-154 live replication before execution in
+  `DYNAMIC_HYPOTHESIS_UNITY_REPLICATION_PROTOCOL_20260812.md`. The only changes
+  from seed 153 are terminal rejection and symmetric fixed-precision canonical
+  evidence serialization. Model, verifier, DSL grammar, discovery and held-out
+  boundaries, control authority, safety gates, duration, and pass criteria are
+  unchanged.
+- Completed the seed-154 live dynamic replication. It passed the full plumbing
+  gate: 5,636 rows over 1,193.503 seconds; four mixed discovery observations;
+  asynchronous proposal start at 171.232 seconds; and formal admission at
+  178.113 seconds of `L1 c red k blue e + t 10.0 q 0.5`. Generation used 167
+  input and 20 output tokens and 1.686 seconds of model generation. The new
+  candidate entered at prior 0.20 with zero held-out updates against only the
+  spontaneous and no-tested-cause baselines.
+- Six strictly post-cutoff clean updates raised the candidate above 0.95 at
+  548.356 seconds; 33 held-out updates ended at posterior 0.999999999584 with
+  zero pre-admission evidence reuse. The run completed 37 clean observations,
+  discarded nine confounded windows, collected 37 mushrooms including 12 red,
+  and logged 147 PGNW action changes. Median telemetry spacing was 0.2120
+  seconds, 99th percentile 0.2212, and maximum generation-period gap 0.936;
+  there were five stuck events but zero critical hunger, respawns, or survival
+  failures. Full bounded pass:
+  `DYNAMIC_HYPOTHESIS_UNITY_REPLICATION_RESULT_20260812.md`.
+- Corrected the audit-only proposal status so future runs change from
+  `admitted_unverified` to `verified_held_out` once later evidence reaches 0.95.
+  This does not alter posterior updating, experiment selection, or authority;
+  seed 154's 33 held-out updates and posterior already establish verification.

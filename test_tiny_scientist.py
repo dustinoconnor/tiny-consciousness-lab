@@ -206,7 +206,7 @@ class TinyScientistTests(unittest.TestCase):
                     "time": float(second),
                     "mushroom_pickups_total": total,
                     "mushroom_feature": feature,
-                    "metabolic_pressure": pressure,
+                    "causal_probe_signal": pressure,
                 }
             )
         result = analyze(rows)

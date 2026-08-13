@@ -355,6 +355,14 @@ public class RobotUdpBridge : MonoBehaviour
         public int food_occluded_in_radius;
         public float nearest_available_food_distance;
         public string food_feature;
+        public bool red_food_visible;
+        public float red_food_distance;
+        public float red_food_world_x;
+        public float red_food_world_z;
+        public bool blue_food_visible;
+        public float blue_food_distance;
+        public float blue_food_world_x;
+        public float blue_food_world_z;
         public float[] directional_rays;
         public float[] directional_body_clearance;
         public string trap_course;
@@ -495,6 +503,11 @@ public class RobotUdpBridge : MonoBehaviour
 
         string action = string.IsNullOrWhiteSpace(command.action) ? VectorToAction(command.move_x, command.move_z) : command.action;
         string mode = string.IsNullOrWhiteSpace(command.mode) ? "wake" : command.mode;
+        if (string.Equals(action, "experiment_reset", StringComparison.OrdinalIgnoreCase))
+        {
+            ResetTerrainExperiment();
+            return;
+        }
         if (string.Equals(action, "diagnostic_teleport", StringComparison.OrdinalIgnoreCase))
         {
             Vector3 destination = new Vector3(command.teleport_x, 0f, command.teleport_z);
@@ -787,6 +800,8 @@ public class RobotUdpBridge : MonoBehaviour
         bool rightClear = IsClear(transform.right);
         ObstacleSensor nearestObstacle = SenseForwardObstacle();
         FoodSensor nearestFood = SenseNearestFood();
+        FoodSensor nearestRedFood = SenseNearestFoodFeature("red");
+        FoodSensor nearestBlueFood = SenseNearestFoodFeature("blue");
         lastFoodVisible = nearestFood.visible;
         lastFoodDistance = nearestFood.distance;
         lastObstacleVisible = nearestObstacle.visible;
@@ -843,6 +858,14 @@ public class RobotUdpBridge : MonoBehaviour
             food_occluded_in_radius = lastOccludedFoodWithinRadius,
             nearest_available_food_distance = lastNearestAvailableFoodDistance,
             food_feature = nearestFood.feature,
+            red_food_visible = nearestRedFood.visible,
+            red_food_distance = nearestRedFood.distance,
+            red_food_world_x = nearestRedFood.worldDirection.x,
+            red_food_world_z = nearestRedFood.worldDirection.z,
+            blue_food_visible = nearestBlueFood.visible,
+            blue_food_distance = nearestBlueFood.distance,
+            blue_food_world_x = nearestBlueFood.worldDirection.x,
+            blue_food_world_z = nearestBlueFood.worldDirection.z,
             directional_rays = SenseDirectionalRays(),
             directional_body_clearance = SenseDirectionalBodyClearance(),
             trap_course = TrapCourseSpawner.CurrentCourseLabel,
@@ -914,6 +937,29 @@ public class RobotUdpBridge : MonoBehaviour
             lastMode = "wake";
             lastSleepRemaining = 0;
         }
+    }
+
+    private void ResetTerrainExperiment()
+    {
+        hasAiMoveTarget = false;
+        desiredAiMove = Vector2.zero;
+        smoothedAiMove = Vector2.zero;
+        aiMoveVelocity = Vector2.zero;
+        desiredAiRun = false;
+        ResetFoodTelemetry();
+        FoodMushroom[] foods = FindObjectsByType<FoodMushroom>(FindObjectsInactive.Include);
+        foreach (FoodMushroom food in foods)
+        {
+            food.ResetForExperiment();
+        }
+        spawnPosition = terrainSpawnPosition;
+        spawnRotation = terrainSpawnRotation;
+        controller.Respawn(spawnPosition, spawnRotation);
+        controller.SetAiCommand("idle", "wake");
+        lastAction = "experiment_reset";
+        lastMode = "wake";
+        lastSleepRemaining = 0;
+        Debug.Log($"RobotUdpBridge reset terrain experiment with {foods.Length} mushrooms.");
     }
 
     private struct FoodSensor
@@ -1059,6 +1105,34 @@ public class RobotUdpBridge : MonoBehaviour
             result = BuildFoodSensor(bestDirection, bestDistance, lockedFoodTarget);
         }
 
+        return result;
+    }
+
+    private FoodSensor SenseNearestFoodFeature(string feature)
+    {
+        FoodSensor result = new FoodSensor { visible = false, distance = 0f, direction = Vector3.zero, moveInput = Vector2.zero, worldDirection = Vector3.zero, feature = feature };
+        FoodMushroom[] foods = FindObjectsByType<FoodMushroom>(FindObjectsInactive.Exclude);
+        float sensingRadius = TrapCourseSpawner.IsActive
+            ? Mathf.Clamp(lastFoodSensorRadius, 7f, 13f)
+            : Mathf.Clamp(lastFoodSensorRadius, foodSensorRadius, 28f);
+        float bestDistance = sensingRadius;
+        Vector3 origin = transform.position;
+        foreach (FoodMushroom food in foods)
+        {
+            if (!TrapCourseSpawner.IsRelevantFood(food) || !food.isActiveAndEnabled || !food.IsAvailable || food.ObservableFeature != feature)
+            {
+                continue;
+            }
+            Vector3 offset = food.transform.position - origin;
+            offset.y = 0f;
+            float distance = offset.magnitude;
+            if (distance <= 0.001f || distance > bestDistance || !HasFoodLineOfSight(food, distance))
+            {
+                continue;
+            }
+            bestDistance = distance;
+            result = BuildFoodSensor(offset.normalized, distance, food);
+        }
         return result;
     }
 

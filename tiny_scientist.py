@@ -114,6 +114,14 @@ def load_rows(path):
     ]
 
 
+def causal_probe_value(row):
+    """Read passive probe telemetry, falling back to historical recordings."""
+    return float(
+        row.get("causal_probe_signal", row.get("metabolic_pressure", 0.0))
+        or 0.0
+    )
+
+
 def metabolic_episodes(rows, min_delay=7.0, max_delay=14.0):
     pickups = []
     previous_total = None
@@ -148,7 +156,7 @@ def metabolic_episodes(rows, min_delay=7.0, max_delay=14.0):
     for pickup_number, (index, feature) in enumerate(pickups):
         row = rows[index]
         pickup_time = float(row["time"])
-        pressure_before = float(row.get("metabolic_pressure", 0.0) or 0.0)
+        pressure_before = causal_probe_value(row)
         window = []
         for candidate in rows[index:]:
             delay = float(candidate["time"]) - pickup_time
@@ -160,11 +168,9 @@ def metabolic_episodes(rows, min_delay=7.0, max_delay=14.0):
             continue
         peak = max(
             window,
-            key=lambda candidate: float(
-                candidate.get("metabolic_pressure", 0.0) or 0.0
-            ),
+            key=causal_probe_value,
         )
-        peak_pressure = float(peak.get("metabolic_pressure", 0.0) or 0.0)
+        peak_pressure = causal_probe_value(peak)
         next_pickup_time = (
             float(rows[pickups[pickup_number + 1][0]]["time"])
             if pickup_number + 1 < len(pickups)

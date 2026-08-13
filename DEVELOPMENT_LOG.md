@@ -2062,3 +2062,13 @@ is treated as external and is not inferred from these measurements.
   Draft PR #16 was retitled `Close the dynamic embodied Tiny Scientist loop`
   and its description now reports both the seed-154 held-out verification pass
   and the small committed-versus-passive manipulation boundary.
+- Updated and deployed the public Tiny Consciousness Lab site's Tiny Scientist
+  section. The page now separates the original staged verification from live
+  dynamic formation; reports the seed-154 L1 record, four-observation discovery
+  cutoff, six updates to posterior 0.95, 33 held-out updates, asynchronous
+  timing, and safety outcomes; and adds the 3/3 committed versus 1/3 passive
+  manipulation result with its three-pair and bundled-controller limitations.
+  Added direct links to the GitHub PGNW and dynamic-loop reports, rendered-
+  content regressions, revised metadata, and a project-specific dynamic Tiny
+  Scientist social card. Both site tests passed and Sites version 21 deployed
+  successfully to the existing public URL.

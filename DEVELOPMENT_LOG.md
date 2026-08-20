@@ -3142,3 +3142,14 @@ is treated as external and is not inferred from these measurements.
   confirmation. Detailed records are in
   `PGNW_DUAL_CONFLICT_CALIBRATION_RESULT_20260820.md` and
   `outputs/pgnw_dual_conflict_seed172_summary_20260820.json`.
+- Registered seed 173 as the single-parameter motor calibration after seed 172.
+  It preserves the same start geometry, initial hunger 0.92, frozen protective
+  and metabolic memories, scoring function, target distances, 240-second hazard,
+  and four-minute bound. The only change is committed MPC max-score regret from
+  0.30 to 0.45, still inside the existing collision-masked action set.
+- Seed-173 success remains the original physical sequence: red creates both
+  needs; verified blue wins and produces nonzero pre-pickup MPC influence; blue
+  is physically reached before yellow; relief closes hunger urgency; verified
+  yellow then owns guidance and physically cancels the same pending hazard; no
+  survival failure or respawn occurs. Merely increasing authority telemetry or
+  eventually eating both colors is not sufficient.

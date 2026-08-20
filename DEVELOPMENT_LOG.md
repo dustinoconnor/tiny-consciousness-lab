@@ -2848,3 +2848,31 @@ is treated as external and is not inferred from these measurements.
   7.053 seconds. No Unity run was required for this bookkeeping/controller
   invariant; the next physical smoke should deliberately remove one remembered
   yellow and verify abandonment plus fallback to another memory.
+- Prepared the bounded seed-166 stale-memory fallback launcher. It copies the
+  frozen seed-163 acquisition map, adds a single answer-neutral decoy yellow
+  memory 10 units north of the known red pickup, and preserves all real yellow
+  memories. After red, the decoy must win by proximity; the preregistered result
+  is one typed stale-arrival event followed by selection of a different yellow
+  memory, with the original acquisition artifact left unchanged. The run is
+  bounded to 300 seconds and writes fresh 20260820 memory and telemetry files.
+- Seed-166 completed its normal 299.553-second bound with 1,426 telemetry rows.
+  Red was collected at 3.39 seconds and immediately selected the injected decoy
+  yellow memory. At 4.87 seconds the agent arrived without seeing yellow,
+  recorded exactly one typed stale arrival, persisted `failures: 1` on the
+  decoy, and selected the genuine `(116.8036, -174.3526)` yellow memory in the
+  same frame while verified protection remained active.
+- The fallback memory controlled all 15 frames until a closer, unmemorized
+  yellow entered direct perception at 7.85 seconds, including 13 additional
+  protective MPC action changes. Perception correctly superseded memory and the
+  agent collected that opportunistic yellow at 12.94 seconds, 9.55 seconds after
+  red. The hazard was cancelled with zero hunger-cost events, zero survival
+  failures, and zero respawns; three stuck events recovered normally.
+- Verdict: stale typed recall, persistent counterfactual failure evidence,
+  same-frame fallback selection, and memory-to-perception handoff passed. The
+  run does not prove completion of the second remembered route during the active
+  hazard because the closer chance antidote validly resolved the need first.
+  The frozen acquisition memory remained unchanged at SHA-256
+  `a47ecc470aff22d6cbb736ebdbc4e32e6e21d8d601b3be8ca62beba7e8df38fe`.
+  Detailed and compact records are in
+  `TYPED_STALE_MEMORY_FALLBACK_RESULT_20260820.md` and
+  `outputs/typed_resource_stale_fallback_summary_20260820.json`.

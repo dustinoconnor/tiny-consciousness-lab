@@ -3123,3 +3123,22 @@ is treated as external and is not inferred from these measurements.
   reach blue first under high hunger; hunger relief to end blue urgency; control
   to return to yellow; physical yellow cancellation before the deadline; and no
   survival failure or respawn. Language labels remain absent from scoring.
+- Seed-172 completed its normal 239.406-second bound (1,133 rows) but failed the
+  preregistered physical conflict sequence. Red was collected at 2.971 seconds
+  with hunger 0.934. PGNW immediately selected verified blue with full authority
+  for 80 frames, but changed zero MPC actions during that first conflict. The
+  unguided trajectory intercepted yellow at 19.872 seconds, cancelling the
+  hazard, before reaching blue at 23.650 seconds.
+- A second red at 130.831 seconds exposed genuine score competition later in the
+  run: rising hunger moved arbitration from yellow authority through 29
+  low-margin abstention frames to blue authority at 178.888 seconds. This phase
+  produced action changes, but no further target was physically reached before
+  the bound and the second hazard remained pending. Whole-run totals were 432
+  arbitration frames, 403 authority frames, and 107 arbitration-sourced changes,
+  with one recovered stuck event and zero costs, failures, or respawns.
+- Verdict: disclosed calibration failure. The rules disagreed and authority
+  transferred safely, but the first selected blue target had no causal motor
+  influence and nearby yellow intercepted the body. Seed 172 is excluded from
+  confirmation. Detailed records are in
+  `PGNW_DUAL_CONFLICT_CALIBRATION_RESULT_20260820.md` and
+  `outputs/pgnw_dual_conflict_seed172_summary_20260820.json`.

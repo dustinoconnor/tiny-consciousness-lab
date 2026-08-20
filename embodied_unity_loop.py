@@ -214,6 +214,7 @@ def pgnw_experiment_guidance_allowed(
     hunger,
     air_guided,
     resource_guided,
+    verified_metabolic_rescue=False,
 ):
     """Keep scientific requests subordinate to survival and route controllers."""
     return bool(
@@ -221,7 +222,10 @@ def pgnw_experiment_guidance_allowed(
         and guidance_active
         and not fallback_active
         and not stuck
-        and float(hunger) < 0.92
+        and (
+            float(hunger) < 0.92
+            or bool(verified_metabolic_rescue)
+        )
         and not air_guided
         and not resource_guided
     )
@@ -2666,6 +2670,16 @@ class EmbodiedFunctionalEgo:
                 resource_memory.control_mode == "guided"
                 and resource_memory.active
                 and not experiment_planner.protective_memory_active
+            ),
+            (
+                experiment_planner.multi_hypothesis_arbitration
+                == "bounded_dual_verified"
+                and experiment_planner.arbitration_authority > 0.0
+                and experiment_planner.metabolic_learner is not None
+                and experiment_planner.metabolic_learner.status
+                == "verified_held_out"
+                and experiment_planner.arbitration_selected_feature
+                == experiment_planner.metabolic_learner.admitted_nutrient
             ),
         ):
             guidance = torch.tensor(

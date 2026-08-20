@@ -3153,3 +3153,22 @@ is treated as external and is not inferred from these measurements.
   yellow then owns guidance and physically cancels the same pending hazard; no
   survival failure or respawn occurs. Merely increasing authority telemetry or
   eventually eating both colors is not sufficient.
+- Seed-173 completed normally (239.452 seconds, 1,137 rows) but repeated the
+  seed-172 failure exactly. Red arrived at 2.781 seconds with hunger 0.934;
+  verified blue held authority for 84 frames yet produced zero MPC changes.
+  Yellow cancelled the hazard at 20.541 seconds and blue followed at 24.344.
+  Raising max-score regret to 0.45 therefore had no observable effect.
+- Diagnosed the upstream cause: `pgnw_experiment_guidance_allowed` categorically
+  blocked PGNW motor guidance at hunger >=0.92. The protocol intentionally
+  creates critical hunger to make the verified metabolic rule relevant, so the
+  safety gate made symbolic blue authority behaviorally inert. This explains
+  both zero-influence first conflicts without invoking insufficient weights.
+- Added a narrow verified-rescue exception: the hunger gate alone may yield when
+  bounded dual arbitration owns the target, that target exactly matches the
+  held-out verified nutrient, and the metabolic learner is still verified. All
+  fallback, stuck, AIR, resource, collision-mask, and MPC-regret gates remain.
+  Tests confirm critical-hunger rescue is allowed while every other safety gate
+  still vetoes it; the full suite passed 312/312 in 6.506 seconds.
+- Prepared fresh seed 174 with the same frozen geometry, needs, memories, and
+  original 0.30 regret bound. Thus the verified-rescue gate repair is the only
+  operative change from seed 172. The physical preregistration is unchanged.

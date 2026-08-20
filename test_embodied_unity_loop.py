@@ -574,6 +574,20 @@ class MetabolicObservationTests(unittest.TestCase):
             values.update(override)
             self.assertFalse(pgnw_experiment_guidance_allowed(**values))
 
+        rescue = dict(base, hunger=0.99, verified_metabolic_rescue=True)
+        self.assertTrue(pgnw_experiment_guidance_allowed(**rescue))
+        for override in (
+            {"fallback_active": True},
+            {"stuck": True},
+            {"air_guided": True},
+            {"resource_guided": True},
+            {"mode": "passive"},
+            {"guidance_active": False},
+        ):
+            values = dict(rescue)
+            values.update(override)
+            self.assertFalse(pgnw_experiment_guidance_allowed(**values))
+
     def test_committed_target_choice_respects_safety_score_regret(self):
         scores = [1.00, 0.91, 0.76, float("-inf")]
         alignments = [0.1, 0.9, 1.0, 1.0]

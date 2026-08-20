@@ -52,6 +52,13 @@ class PassiveTerrainResourceMemory:
         self.hunger_gate = clamp(hunger_gate)
         self.cell_size = max(1.0, float(cell_size))
         self.arrival_radius = max(0.5, float(arrival_radius))
+        # Typed memories aggregate evidence in coarse spatial cells. Use half
+        # a cell as their answer-blind arrival tolerance so bounded steering
+        # need not hit an exact historical pickup coordinate.
+        self.typed_arrival_radius = max(
+            self.arrival_radius,
+            0.5 * self.cell_size,
+        )
         self.max_entries = max(1, int(max_entries))
         self.distance_penalty = max(0.0, float(distance_penalty))
         self.hz = max(0.1, float(hz))
@@ -346,7 +353,7 @@ class PassiveTerrainResourceMemory:
             ]
             if arrived:
                 nearest_distance, nearest_key, nearest_entry = min(arrived)
-                if nearest_distance < self.arrival_radius:
+                if nearest_distance < self.typed_arrival_radius:
                     self.counterfactual_stale_arrivals += 1
                     self.typed_counterfactual_stale_arrivals += 1
                     self.typed_suppressed_frames[nearest_key] = (

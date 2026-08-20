@@ -2876,3 +2876,52 @@ is treated as external and is not inferred from these measurements.
   Detailed and compact records are in
   `TYPED_STALE_MEMORY_FALLBACK_RESULT_20260820.md` and
   `outputs/typed_resource_stale_fallback_summary_20260820.json`.
+- Prepared the closing seed-167 physical fallback-completion run. It uses the
+  counterbalanced seed-165 start 8.04 units short of the natural red at
+  `(82.9424, -181.1689)`, injects a decoy yellow 10 units north at
+  `(82.9424, -171.1689)`, and retains the genuine remembered yellow at
+  `(116.8036, -174.3526)`, about 34.54 units from red. The run is bounded to
+  120 seconds with the existing 240-second pending hazard, so no deadline cost
+  can confound route completion. Success requires decoy rejection, selection of
+  the genuine memory, pre-visibility PGNW/MPC influence, and physical pickup at
+  the genuine region before any opportunistic yellow resolves the need.
+- Seed-167 completed its normal 119.425-second bound but failed the preregistered
+  completion criterion. Red was collected at 3.01 seconds and the decoy was
+  selected with verified protection, but no yellow was collected and no stale
+  event fired. The robot's closest decoy approach was 4.868 units at 29.01
+  seconds while PGNW guidance and commitment were both active—just outside the
+  fixed 4.0-unit arrival radius. The target later changed at 97.31 seconds only
+  because the genuine memory became nearer than the decoy, not because the
+  decoy was rejected. The run had 420 protective guidance decisions and 185
+  action changes, zero stuck events, failures, or respawns, but it is a failed
+  calibration run and must not be counted as stale-fallback confirmation.
+- Replaced the typed path's exact-coordinate tolerance with an answer-blind
+  resolution rule: typed arrival radius is the greater of the legacy radius and
+  half the coarse memory cell. With the existing 12-unit cells this is 6 units.
+  This parameter is derived from representation resolution rather than the
+  observed 4.868-unit miss; seed-167 remains excluded from confirmation and a
+  fresh seed is required. Added telemetry for the effective typed radius and
+  boundary regressions at 5.5 and 6.5 units.
+- The resolution repair passed 72/72 focused memory/planner/embodiment tests and
+  the full suite passed 291/291 in 8.705 seconds. Prepared untouched seed 168
+  with the same frozen geometry and two-minute bound as the failed calibration;
+  it is the first admissible confirmation of the six-unit typed arrival rule.
+- Seed-168 passed the complete physical fallback criterion over its normal
+  119.389-second bound (566 rows, steps 0--565). Red was collected at 2.96
+  seconds; the decoy was detected stale at 6.36 seconds and persisted exactly
+  one failure. In that same frame the still-invisible genuine yellow memory at
+  `(116.8036, -174.3526)` became the target while verified protection remained
+  active.
+- Across the 54 frames from fallback selection to direct visibility, typed
+  memory remained active for 53 frames, PGNW issued bounded guidance for 44,
+  and changed 33 additional MPC actions. The intended yellow entered perception
+  at 17.61 seconds and was physically collected at `(116.67, -175.24)` at 22.26
+  seconds, 19.299 seconds after red. The pending hazard was cancelled with zero
+  cost events, survival failures, or respawns; two stuck events recovered.
+- Verdict: one disclosed calibration failure followed by one untouched pass for
+  decoy rejection, failure persistence, same-frame fallback, pre-visibility
+  control, perceptual handoff, genuine remembered pickup, and metabolic
+  resolution. This closes the physical-completion limitation but does not
+  estimate population reliability. Detailed and compact records are in
+  `TYPED_STALE_MEMORY_COMPLETION_RESULT_20260820.md` and
+  `outputs/typed_resource_stale_completion_summary_20260820.json`.

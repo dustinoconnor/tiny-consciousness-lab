@@ -147,6 +147,40 @@ class TypedStaleMemoryTests(unittest.TestCase):
         self.assertEqual(memory.target, (60.0, 30.0))
         self.assertEqual(memory.typed_counterfactual_stale_arrivals, 1)
 
+    def test_typed_arrival_tolerance_is_half_the_coarse_memory_cell(self):
+        memory = PassiveTerrainResourceMemory(
+            self.path,
+            cell_size=12.0,
+            arrival_radius=4.0,
+        )
+        memory.record_typed_reward("yellow", 30.0, 30.0)
+
+        memory.update(
+            packet(x=24.5, z=30.0),
+            hunger=0.1,
+            requested_feature="yellow",
+        )
+
+        self.assertEqual(memory.typed_arrival_radius, 6.0)
+        self.assertEqual(memory.typed_counterfactual_stale_arrivals, 1)
+
+    def test_typed_arrival_tolerance_does_not_exceed_half_cell(self):
+        memory = PassiveTerrainResourceMemory(
+            self.path,
+            cell_size=12.0,
+            arrival_radius=4.0,
+        )
+        memory.record_typed_reward("yellow", 30.0, 30.0)
+
+        memory.update(
+            packet(x=23.5, z=30.0),
+            hunger=0.1,
+            requested_feature="yellow",
+        )
+
+        self.assertTrue(memory.active)
+        self.assertEqual(memory.typed_counterfactual_stale_arrivals, 0)
+
     def test_pickup_does_not_mark_freshly_collected_location_stale(self):
         memory = PassiveTerrainResourceMemory(self.path)
         memory.record_typed_reward("yellow", 30.0, 30.0)

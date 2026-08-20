@@ -41,6 +41,7 @@ from terrain_resource_memory import PassiveTerrainResourceMemory
 from dynamic_hypothesis_pool import LocalL1HypothesisProposer
 from tiny_scientist_production_memory import VerifiedProductionMemory
 from typed_causal_domain import OrderedCausalProbeWorld, PassiveOrderedEpisodeLearner
+from typed_metabolic_domain import HeldOutMetabolicRoleLearner
 from formulate_ordered_interaction import LocalCalibratedOrderedProposer
 
 
@@ -699,6 +700,10 @@ class ShadowRecorder:
                 ego.causal_probe_hunger_cost_total
             ),
             "typed_interaction_learning": ego.typed_interaction_learner.audit(),
+            "typed_metabolic_role_learning": {
+                "enabled": ego.typed_metabolic_role_learning,
+                **ego.typed_metabolic_role_learner.audit(),
+            },
             # Read-only aliases keep historical Tiny Scientist analyzers able
             # to consume new recordings without restoring metabolic effects.
             "metabolic_pressure": ego.metabolic_pressure,
@@ -1097,6 +1102,8 @@ class EmbodiedFunctionalEgo:
         typed_interaction_hypothesis_proposer=None,
         typed_interaction_rule_control="passive",
         pgnw_multi_hypothesis_arbitration="disabled",
+        typed_metabolic_role_learning=False,
+        typed_metabolic_role_memory=None,
     ):
         self.crosstalk = 0.07
         self.complexity = 0.12
@@ -1178,6 +1185,10 @@ class EmbodiedFunctionalEgo:
             memory_path=typed_interaction_memory,
             discovery_memory_path=typed_interaction_discovery_memory,
             hypothesis_proposer=typed_interaction_hypothesis_proposer,
+        )
+        self.typed_metabolic_role_learning = bool(typed_metabolic_role_learning)
+        self.typed_metabolic_role_learner = HeldOutMetabolicRoleLearner(
+            memory_path=typed_metabolic_role_memory,
         )
         self.food_feedback_initialized = False
         self.ticks_since_food = 0
@@ -3176,13 +3187,37 @@ class EmbodiedFunctionalEgo:
                 if reward <= 0.0:
                     reward = 0.35 * eaten
                 self.mushrooms_eaten += eaten
-                self.hunger = clamp(self.hunger - 0.34 * eaten)
-                self.ticks_since_food = 0
-                self.critical_hunger_ticks = 0
-                self.forage_lapse_ticks = 0
-                self.survival_failed = False
+                hunger_before_pickup = self.hunger
+                nutritional_eaten = (
+                    blue_eaten
+                    if self.typed_metabolic_role_learning
+                    else eaten
+                )
+                self.hunger = clamp(
+                    self.hunger - 0.34 * nutritional_eaten
+                )
+                if nutritional_eaten > 0:
+                    self.ticks_since_food = 0
+                    self.critical_hunger_ticks = 0
+                    self.forage_lapse_ticks = 0
+                    self.survival_failed = False
                 self.dopamine_food_boost = clamp(self.dopamine_food_boost + reward)
                 self.shadow_last_reward = reward
+                if (
+                    self.typed_metabolic_role_learning
+                    and eaten == 1
+                    and red_eaten + blue_eaten + yellow_eaten == 1
+                    and hunger_before_pickup > 1e-6
+                ):
+                    feature = (
+                        "red" if red_eaten else
+                        "blue" if blue_eaten else
+                        "yellow"
+                    )
+                    self.typed_metabolic_role_learner.observe(
+                        feature,
+                        self.hunger < hunger_before_pickup - 1e-6,
+                    )
             can_start_typed_episode = len(self.causal_probe_due_steps) == 0
             self.typed_interaction_learner.observe_pickups(
                 self.steps,
@@ -4748,6 +4783,19 @@ def main():
         ),
     )
     parser.add_argument(
+        "--typed-metabolic-role-learning",
+        action="store_true",
+        help=(
+            "Experimental hidden world in which only blue immediately relieves "
+            "hunger; learn nutrient identity from unambiguous pickup deltas."
+        ),
+    )
+    parser.add_argument(
+        "--typed-metabolic-role-memory",
+        default=None,
+        help="Fresh JSON output for metabolic-role evidence and verification.",
+    )
+    parser.add_argument(
         "--initial-metabolic-pressure",
         type=float,
         default=None,
@@ -5194,6 +5242,8 @@ def main():
         pgnw_multi_hypothesis_arbitration=(
             args.pgnw_multi_hypothesis_arbitration
         ),
+        typed_metabolic_role_learning=args.typed_metabolic_role_learning,
+        typed_metabolic_role_memory=args.typed_metabolic_role_memory,
     )
     ego.controller_seed = args.seed
     ego.terrain_air_observer = PassiveTerrainAirObserver(args.terrain_air_memory)

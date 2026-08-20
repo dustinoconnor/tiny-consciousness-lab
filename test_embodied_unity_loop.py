@@ -110,6 +110,44 @@ class MetabolicObservationTests(unittest.TestCase):
         )
         self.assertFalse(ego.causal_probe_due_steps)
 
+    def test_live_metabolic_role_mode_learns_and_verifies_blue(self):
+        with tempfile.TemporaryDirectory() as directory:
+            memory = Path(directory) / "metabolic.json"
+            ego = EmbodiedFunctionalEgo(
+                hz=5.0,
+                typed_metabolic_role_learning=True,
+                typed_metabolic_role_memory=memory,
+            )
+            ego.update_from_body(self.body())
+            totals = {"red": 0, "blue": 0, "yellow": 0}
+            for index, feature in enumerate(
+                ("red", "yellow", "blue", "blue", "blue", "yellow"),
+                start=1,
+            ):
+                ego.hunger = 0.60
+                totals[feature] += 1
+                ego.steps += 1
+                ego.update_from_body(self.body(
+                    mushroom_pickups_total=index,
+                    mushroom_reward_total=0.35 * index,
+                    red_mushroom_pickups_total=totals["red"],
+                    blue_mushroom_pickups_total=totals["blue"],
+                    yellow_flower_pickups_total=totals["yellow"],
+                    mushroom_feature=feature,
+                ))
+                if feature == "blue":
+                    self.assertLess(ego.hunger, 0.30)
+                else:
+                    self.assertGreater(ego.hunger, 0.59)
+
+            audit = ego.typed_metabolic_role_learner.audit()
+            self.assertEqual(audit["status"], "verified_held_out")
+            self.assertEqual(audit["admitted_nutrient"], "blue")
+            self.assertEqual(audit["admission_cutoff"], 4)
+            self.assertEqual(audit["held_out_positive"], 1)
+            self.assertEqual(audit["held_out_negative"], 1)
+            self.assertTrue(memory.exists())
+
     def test_typed_yellow_after_red_cancels_pending_probe(self):
         ego = EmbodiedFunctionalEgo(
             hz=1.0,

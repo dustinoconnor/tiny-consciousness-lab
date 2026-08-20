@@ -4,7 +4,9 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+import json
 import math
+from pathlib import Path
 
 import numpy as np
 
@@ -98,7 +100,7 @@ class TypedMetabolicRolePool:
 class HeldOutMetabolicRoleLearner:
     """Freeze an admitted rule, then verify it on post-cutoff outcomes."""
 
-    def __init__(self, admission_confidence=0.95):
+    def __init__(self, admission_confidence=0.95, memory_path=None):
         self.pool = TypedMetabolicRolePool()
         self.admission_confidence = float(admission_confidence)
         self.observations = []
@@ -109,6 +111,9 @@ class HeldOutMetabolicRoleLearner:
         self.held_out_contradictions = 0
         self.held_out_positive = 0
         self.held_out_negative = 0
+        self.memory_path = (
+            Path(memory_path).expanduser().resolve() if memory_path else None
+        )
 
     def observe(self, feature, relieved):
         feature = str(feature).strip().lower()
@@ -129,6 +134,7 @@ class HeldOutMetabolicRoleLearner:
                 self.status = "admitted_unverified"
                 self.admitted_nutrient = hypothesis.nutrient
                 self.admission_cutoff = record["index"]
+            self._save()
             return
         expected = feature == self.admitted_nutrient
         if relieved == expected:
@@ -145,6 +151,18 @@ class HeldOutMetabolicRoleLearner:
             and self.held_out_negative > 0
         ):
             self.status = "verified_held_out"
+        self._save()
+
+    def _save(self):
+        if self.memory_path is None:
+            return
+        self.memory_path.parent.mkdir(parents=True, exist_ok=True)
+        temporary = self.memory_path.with_suffix(self.memory_path.suffix + ".tmp")
+        temporary.write_text(
+            json.dumps(self.audit(), indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        temporary.replace(self.memory_path)
 
     def audit(self):
         return {

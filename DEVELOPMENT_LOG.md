@@ -3058,3 +3058,21 @@ is treated as external and is not inferred from these measurements.
   target while hunger urgency selects the independently learned nutrient, using
   only existing yellow and blue objects. Fourteen focused tests and the full
   306-test suite passed; live metabolic observation remains the next gate.
+- Added an explicitly opt-in live metabolic-role world. With
+  `--typed-metabolic-role-learning`, only blue produces immediate hunger relief;
+  red and yellow retain their dopamine and established causal roles but do not
+  reset nutritional urgency. Unambiguous pickup identity and the observed
+  before/after hunger delta are sent to the symmetric learner. The hidden correct
+  feature is never passed to its posterior update, and its JSON audit is persisted
+  independently from the established ordered-interaction memory.
+- Added telemetry and CLI plumbing plus an embodiment regression reproducing the
+  preregistered sequence: four calibration observations admit blue above 0.95,
+  then a post-cutoff blue relief and non-blue non-relief promote the rule to
+  `verified_held_out`. Twenty focused metabolic/embodiment tests passed and the
+  full suite passed 310/310 in 7.147 seconds.
+- Prepared a fresh three-minute seed-171 Unity run using the seed-170 start area,
+  frozen resource acquisition memory, existing verified yellow protection, and
+  passive metabolic-role learning. Success requires blue admission above 0.95,
+  post-cutoff positive and negative confirmation with zero contradictions, and
+  bounded controller safety. The language labels remain passive and are not a
+  tested source of motor influence.

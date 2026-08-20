@@ -3076,3 +3076,21 @@ is treated as external and is not inferred from these measurements.
   post-cutoff positive and negative confirmation with zero contradictions, and
   bounded controller safety. The language labels remain passive and are not a
   tested source of motor influence.
+- Seed-171 passed the live metabolic-role gate over a normal 179.429-second run
+  (851 rows). Seven clean single-pickup transitions were accepted. Red and
+  yellow produced no hunger relief, while blue produced relief. The sequence
+  admitted `blue_restores_metabolic_reserve` after observation 4 at 32.341
+  seconds with 0.975865 posterior confidence.
+- Post-cutoff yellow/no-relief at 93.207 seconds supplied the negative control;
+  blue/relief at 129.360 seconds supplied the positive confirmation and promoted
+  the rule to `verified_held_out`. A later blue relief added a third confirmation.
+  Final status was 3 held-out confirmations, 0 contradictions, 2 positive blue
+  observations, 1 negative non-blue observation, and 0.997130 confidence.
+- Existing protection remained intact: red was collected at 2.999 seconds,
+  yellow at 21.502 seconds, and the pending hazard cancelled without cost. Two
+  stuck events recovered with zero survival failures or respawns. Verdict: the
+  system now has a second independently admitted and held-out verified rule over
+  existing objects. Both the metabolic rule and failed Smith-inspired language
+  labels remained passive, so real yellow-versus-blue need conflict is the next
+  test. Detailed records are in `TYPED_METABOLIC_ROLE_UNITY_RESULT_20260820.md`
+  and `outputs/typed_metabolic_role_seed171_summary_20260820.json`.

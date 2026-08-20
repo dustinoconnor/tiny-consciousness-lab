@@ -1,0 +1,747 @@
+{
+  "experiment": "smith_language_classifier_frozen_ablation_v1",
+  "model": "google/gemma-3-1b-it",
+  "adapter": "checkpoints/causal_dsl_l1_lora_1b_20260804",
+  "device": "mps",
+  "matrix_frozen_before_evaluation": true,
+  "cases": [
+    {
+      "case_id": 1,
+      "classification_mode": "meaningful",
+      "definitions": "antidote=reduces a pending hazard; food=restores metabolic reserve",
+      "need": "pending_hazard",
+      "protective_feature": "yellow",
+      "metabolic_feature": "blue",
+      "candidate_order": [
+        "yellow",
+        "blue"
+      ],
+      "candidates": [
+        {
+          "id": "A",
+          "feature": "yellow",
+          "role": "antidote"
+        },
+        {
+          "id": "B",
+          "feature": "blue",
+          "role": "food"
+        }
+      ],
+      "expected_id": "A",
+      "expected_feature": "yellow",
+      "prompt": "Route an embodied agent using only the role definitions and current need. Each candidate has one independently verified role. Do not use candidate order as evidence. Return exactly choice=A or choice=B.\nROLE DEFINITIONS: antidote=reduces a pending hazard; food=restores metabolic reserve\nCURRENT NEED: pending_hazard\nCANDIDATE A: object=yellow role=antidote\nCANDIDATE B: object=blue role=food",
+      "raw_output": "choice=A",
+      "choice": "A",
+      "passed": true
+    },
+    {
+      "case_id": 2,
+      "classification_mode": "anonymous",
+      "definitions": "role_1=reduces a pending hazard; role_2=restores metabolic reserve",
+      "need": "pending_hazard",
+      "protective_feature": "yellow",
+      "metabolic_feature": "blue",
+      "candidate_order": [
+        "yellow",
+        "blue"
+      ],
+      "candidates": [
+        {
+          "id": "A",
+          "feature": "yellow",
+          "role": "role_1"
+        },
+        {
+          "id": "B",
+          "feature": "blue",
+          "role": "role_2"
+        }
+      ],
+      "expected_id": "A",
+      "expected_feature": "yellow",
+      "prompt": "Route an embodied agent using only the role definitions and current need. Each candidate has one independently verified role. Do not use candidate order as evidence. Return exactly choice=A or choice=B.\nROLE DEFINITIONS: role_1=reduces a pending hazard; role_2=restores metabolic reserve\nCURRENT NEED: pending_hazard\nCANDIDATE A: object=yellow role=role_1\nCANDIDATE B: object=blue role=role_2",
+      "raw_output": "CANDIDATE B",
+      "choice": "invalid",
+      "passed": false
+    },
+    {
+      "case_id": 3,
+      "classification_mode": "shuffled",
+      "definitions": "food=reduces a pending hazard; antidote=restores metabolic reserve",
+      "need": "pending_hazard",
+      "protective_feature": "yellow",
+      "metabolic_feature": "blue",
+      "candidate_order": [
+        "yellow",
+        "blue"
+      ],
+      "candidates": [
+        {
+          "id": "A",
+          "feature": "yellow",
+          "role": "food"
+        },
+        {
+          "id": "B",
+          "feature": "blue",
+          "role": "antidote"
+        }
+      ],
+      "expected_id": "A",
+      "expected_feature": "yellow",
+      "prompt": "Route an embodied agent using only the role definitions and current need. Each candidate has one independently verified role. Do not use candidate order as evidence. Return exactly choice=A or choice=B.\nROLE DEFINITIONS: food=reduces a pending hazard; antidote=restores metabolic reserve\nCURRENT NEED: pending_hazard\nCANDIDATE A: object=yellow role=food\nCANDIDATE B: object=blue role=antidote",
+      "raw_output": "choice=B",
+      "choice": "B",
+      "passed": false
+    },
+    {
+      "case_id": 4,
+      "classification_mode": "meaningful",
+      "definitions": "antidote=reduces a pending hazard; food=restores metabolic reserve",
+      "need": "critical_hunger",
+      "protective_feature": "yellow",
+      "metabolic_feature": "blue",
+      "candidate_order": [
+        "yellow",
+        "blue"
+      ],
+      "candidates": [
+        {
+          "id": "A",
+          "feature": "yellow",
+          "role": "antidote"
+        },
+        {
+          "id": "B",
+          "feature": "blue",
+          "role": "food"
+        }
+      ],
+      "expected_id": "B",
+      "expected_feature": "blue",
+      "prompt": "Route an embodied agent using only the role definitions and current need. Each candidate has one independently verified role. Do not use candidate order as evidence. Return exactly choice=A or choice=B.\nROLE DEFINITIONS: antidote=reduces a pending hazard; food=restores metabolic reserve\nCURRENT NEED: critical_hunger\nCANDIDATE A: object=yellow role=antidote\nCANDIDATE B: object=blue role=food",
+      "raw_output": "choice=B",
+      "choice": "B",
+      "passed": true
+    },
+    {
+      "case_id": 5,
+      "classification_mode": "anonymous",
+      "definitions": "role_1=reduces a pending hazard; role_2=restores metabolic reserve",
+      "need": "critical_hunger",
+      "protective_feature": "yellow",
+      "metabolic_feature": "blue",
+      "candidate_order": [
+        "yellow",
+        "blue"
+      ],
+      "candidates": [
+        {
+          "id": "A",
+          "feature": "yellow",
+          "role": "role_1"
+        },
+        {
+          "id": "B",
+          "feature": "blue",
+          "role": "role_2"
+        }
+      ],
+      "expected_id": "B",
+      "expected_feature": "blue",
+      "prompt": "Route an embodied agent using only the role definitions and current need. Each candidate has one independently verified role. Do not use candidate order as evidence. Return exactly choice=A or choice=B.\nROLE DEFINITIONS: role_1=reduces a pending hazard; role_2=restores metabolic reserve\nCURRENT NEED: critical_hunger\nCANDIDATE A: object=yellow role=role_1\nCANDIDATE B: object=blue role=role_2",
+      "raw_output": "CANDIDATE B",
+      "choice": "invalid",
+      "passed": false
+    },
+    {
+      "case_id": 6,
+      "classification_mode": "shuffled",
+      "definitions": "food=reduces a pending hazard; antidote=restores metabolic reserve",
+      "need": "critical_hunger",
+      "protective_feature": "yellow",
+      "metabolic_feature": "blue",
+      "candidate_order": [
+        "yellow",
+        "blue"
+      ],
+      "candidates": [
+        {
+          "id": "A",
+          "feature": "yellow",
+          "role": "food"
+        },
+        {
+          "id": "B",
+          "feature": "blue",
+          "role": "antidote"
+        }
+      ],
+      "expected_id": "B",
+      "expected_feature": "blue",
+      "prompt": "Route an embodied agent using only the role definitions and current need. Each candidate has one independently verified role. Do not use candidate order as evidence. Return exactly choice=A or choice=B.\nROLE DEFINITIONS: food=reduces a pending hazard; antidote=restores metabolic reserve\nCURRENT NEED: critical_hunger\nCANDIDATE A: object=yellow role=food\nCANDIDATE B: object=blue role=antidote",
+      "raw_output": "choice=B",
+      "choice": "B",
+      "passed": true
+    },
+    {
+      "case_id": 7,
+      "classification_mode": "meaningful",
+      "definitions": "antidote=reduces a pending hazard; food=restores metabolic reserve",
+      "need": "pending_hazard",
+      "protective_feature": "yellow",
+      "metabolic_feature": "blue",
+      "candidate_order": [
+        "blue",
+        "yellow"
+      ],
+      "candidates": [
+        {
+          "id": "A",
+          "feature": "blue",
+          "role": "food"
+        },
+        {
+          "id": "B",
+          "feature": "yellow",
+          "role": "antidote"
+        }
+      ],
+      "expected_id": "B",
+      "expected_feature": "yellow",
+      "prompt": "Route an embodied agent using only the role definitions and current need. Each candidate has one independently verified role. Do not use candidate order as evidence. Return exactly choice=A or choice=B.\nROLE DEFINITIONS: antidote=reduces a pending hazard; food=restores metabolic reserve\nCURRENT NEED: pending_hazard\nCANDIDATE A: object=blue role=food\nCANDIDATE B: object=yellow role=antidote",
+      "raw_output": "choice=B",
+      "choice": "B",
+      "passed": true
+    },
+    {
+      "case_id": 8,
+      "classification_mode": "anonymous",
+      "definitions": "role_1=reduces a pending hazard; role_2=restores metabolic reserve",
+      "need": "pending_hazard",
+      "protective_feature": "yellow",
+      "metabolic_feature": "blue",
+      "candidate_order": [
+        "blue",
+        "yellow"
+      ],
+      "candidates": [
+        {
+          "id": "A",
+          "feature": "blue",
+          "role": "role_2"
+        },
+        {
+          "id": "B",
+          "feature": "yellow",
+          "role": "role_1"
+        }
+      ],
+      "expected_id": "B",
+      "expected_feature": "yellow",
+      "prompt": "Route an embodied agent using only the role definitions and current need. Each candidate has one independently verified role. Do not use candidate order as evidence. Return exactly choice=A or choice=B.\nROLE DEFINITIONS: role_1=reduces a pending hazard; role_2=restores metabolic reserve\nCURRENT NEED: pending_hazard\nCANDIDATE A: object=blue role=role_2\nCANDIDATE B: object=yellow role=role_1",
+      "raw_output": "CANDIDATE B",
+      "choice": "invalid",
+      "passed": false
+    },
+    {
+      "case_id": 9,
+      "classification_mode": "shuffled",
+      "definitions": "food=reduces a pending hazard; antidote=restores metabolic reserve",
+      "need": "pending_hazard",
+      "protective_feature": "yellow",
+      "metabolic_feature": "blue",
+      "candidate_order": [
+        "blue",
+        "yellow"
+      ],
+      "candidates": [
+        {
+          "id": "A",
+          "feature": "blue",
+          "role": "antidote"
+        },
+        {
+          "id": "B",
+          "feature": "yellow",
+          "role": "food"
+        }
+      ],
+      "expected_id": "B",
+      "expected_feature": "yellow",
+      "prompt": "Route an embodied agent using only the role definitions and current need. Each candidate has one independently verified role. Do not use candidate order as evidence. Return exactly choice=A or choice=B.\nROLE DEFINITIONS: food=reduces a pending hazard; antidote=restores metabolic reserve\nCURRENT NEED: pending_hazard\nCANDIDATE A: object=blue role=antidote\nCANDIDATE B: object=yellow role=food",
+      "raw_output": "choice=A",
+      "choice": "A",
+      "passed": false
+    },
+    {
+      "case_id": 10,
+      "classification_mode": "meaningful",
+      "definitions": "antidote=reduces a pending hazard; food=restores metabolic reserve",
+      "need": "critical_hunger",
+      "protective_feature": "yellow",
+      "metabolic_feature": "blue",
+      "candidate_order": [
+        "blue",
+        "yellow"
+      ],
+      "candidates": [
+        {
+          "id": "A",
+          "feature": "blue",
+          "role": "food"
+        },
+        {
+          "id": "B",
+          "feature": "yellow",
+          "role": "antidote"
+        }
+      ],
+      "expected_id": "A",
+      "expected_feature": "blue",
+      "prompt": "Route an embodied agent using only the role definitions and current need. Each candidate has one independently verified role. Do not use candidate order as evidence. Return exactly choice=A or choice=B.\nROLE DEFINITIONS: antidote=reduces a pending hazard; food=restores metabolic reserve\nCURRENT NEED: critical_hunger\nCANDIDATE A: object=blue role=food\nCANDIDATE B: object=yellow role=antidote",
+      "raw_output": "choice=B",
+      "choice": "B",
+      "passed": false
+    },
+    {
+      "case_id": 11,
+      "classification_mode": "anonymous",
+      "definitions": "role_1=reduces a pending hazard; role_2=restores metabolic reserve",
+      "need": "critical_hunger",
+      "protective_feature": "yellow",
+      "metabolic_feature": "blue",
+      "candidate_order": [
+        "blue",
+        "yellow"
+      ],
+      "candidates": [
+        {
+          "id": "A",
+          "feature": "blue",
+          "role": "role_2"
+        },
+        {
+          "id": "B",
+          "feature": "yellow",
+          "role": "role_1"
+        }
+      ],
+      "expected_id": "A",
+      "expected_feature": "blue",
+      "prompt": "Route an embodied agent using only the role definitions and current need. Each candidate has one independently verified role. Do not use candidate order as evidence. Return exactly choice=A or choice=B.\nROLE DEFINITIONS: role_1=reduces a pending hazard; role_2=restores metabolic reserve\nCURRENT NEED: critical_hunger\nCANDIDATE A: object=blue role=role_2\nCANDIDATE B: object=yellow role=role_1",
+      "raw_output": "CANDIDATE B",
+      "choice": "invalid",
+      "passed": false
+    },
+    {
+      "case_id": 12,
+      "classification_mode": "shuffled",
+      "definitions": "food=reduces a pending hazard; antidote=restores metabolic reserve",
+      "need": "critical_hunger",
+      "protective_feature": "yellow",
+      "metabolic_feature": "blue",
+      "candidate_order": [
+        "blue",
+        "yellow"
+      ],
+      "candidates": [
+        {
+          "id": "A",
+          "feature": "blue",
+          "role": "antidote"
+        },
+        {
+          "id": "B",
+          "feature": "yellow",
+          "role": "food"
+        }
+      ],
+      "expected_id": "A",
+      "expected_feature": "blue",
+      "prompt": "Route an embodied agent using only the role definitions and current need. Each candidate has one independently verified role. Do not use candidate order as evidence. Return exactly choice=A or choice=B.\nROLE DEFINITIONS: food=reduces a pending hazard; antidote=restores metabolic reserve\nCURRENT NEED: critical_hunger\nCANDIDATE A: object=blue role=antidote\nCANDIDATE B: object=yellow role=food",
+      "raw_output": "choice=A",
+      "choice": "A",
+      "passed": true
+    },
+    {
+      "case_id": 13,
+      "classification_mode": "meaningful",
+      "definitions": "antidote=reduces a pending hazard; food=restores metabolic reserve",
+      "need": "pending_hazard",
+      "protective_feature": "blue",
+      "metabolic_feature": "yellow",
+      "candidate_order": [
+        "yellow",
+        "blue"
+      ],
+      "candidates": [
+        {
+          "id": "A",
+          "feature": "yellow",
+          "role": "food"
+        },
+        {
+          "id": "B",
+          "feature": "blue",
+          "role": "antidote"
+        }
+      ],
+      "expected_id": "B",
+      "expected_feature": "blue",
+      "prompt": "Route an embodied agent using only the role definitions and current need. Each candidate has one independently verified role. Do not use candidate order as evidence. Return exactly choice=A or choice=B.\nROLE DEFINITIONS: antidote=reduces a pending hazard; food=restores metabolic reserve\nCURRENT NEED: pending_hazard\nCANDIDATE A: object=yellow role=food\nCANDIDATE B: object=blue role=antidote",
+      "raw_output": "choice=B",
+      "choice": "B",
+      "passed": true
+    },
+    {
+      "case_id": 14,
+      "classification_mode": "anonymous",
+      "definitions": "role_1=reduces a pending hazard; role_2=restores metabolic reserve",
+      "need": "pending_hazard",
+      "protective_feature": "blue",
+      "metabolic_feature": "yellow",
+      "candidate_order": [
+        "yellow",
+        "blue"
+      ],
+      "candidates": [
+        {
+          "id": "A",
+          "feature": "yellow",
+          "role": "role_2"
+        },
+        {
+          "id": "B",
+          "feature": "blue",
+          "role": "role_1"
+        }
+      ],
+      "expected_id": "B",
+      "expected_feature": "blue",
+      "prompt": "Route an embodied agent using only the role definitions and current need. Each candidate has one independently verified role. Do not use candidate order as evidence. Return exactly choice=A or choice=B.\nROLE DEFINITIONS: role_1=reduces a pending hazard; role_2=restores metabolic reserve\nCURRENT NEED: pending_hazard\nCANDIDATE A: object=yellow role=role_2\nCANDIDATE B: object=blue role=role_1",
+      "raw_output": "CANDIDATE B",
+      "choice": "invalid",
+      "passed": false
+    },
+    {
+      "case_id": 15,
+      "classification_mode": "shuffled",
+      "definitions": "food=reduces a pending hazard; antidote=restores metabolic reserve",
+      "need": "pending_hazard",
+      "protective_feature": "blue",
+      "metabolic_feature": "yellow",
+      "candidate_order": [
+        "yellow",
+        "blue"
+      ],
+      "candidates": [
+        {
+          "id": "A",
+          "feature": "yellow",
+          "role": "antidote"
+        },
+        {
+          "id": "B",
+          "feature": "blue",
+          "role": "food"
+        }
+      ],
+      "expected_id": "B",
+      "expected_feature": "blue",
+      "prompt": "Route an embodied agent using only the role definitions and current need. Each candidate has one independently verified role. Do not use candidate order as evidence. Return exactly choice=A or choice=B.\nROLE DEFINITIONS: food=reduces a pending hazard; antidote=restores metabolic reserve\nCURRENT NEED: pending_hazard\nCANDIDATE A: object=yellow role=antidote\nCANDIDATE B: object=blue role=food",
+      "raw_output": "choice=A",
+      "choice": "A",
+      "passed": false
+    },
+    {
+      "case_id": 16,
+      "classification_mode": "meaningful",
+      "definitions": "antidote=reduces a pending hazard; food=restores metabolic reserve",
+      "need": "critical_hunger",
+      "protective_feature": "blue",
+      "metabolic_feature": "yellow",
+      "candidate_order": [
+        "yellow",
+        "blue"
+      ],
+      "candidates": [
+        {
+          "id": "A",
+          "feature": "yellow",
+          "role": "food"
+        },
+        {
+          "id": "B",
+          "feature": "blue",
+          "role": "antidote"
+        }
+      ],
+      "expected_id": "A",
+      "expected_feature": "yellow",
+      "prompt": "Route an embodied agent using only the role definitions and current need. Each candidate has one independently verified role. Do not use candidate order as evidence. Return exactly choice=A or choice=B.\nROLE DEFINITIONS: antidote=reduces a pending hazard; food=restores metabolic reserve\nCURRENT NEED: critical_hunger\nCANDIDATE A: object=yellow role=food\nCANDIDATE B: object=blue role=antidote",
+      "raw_output": "choice=B",
+      "choice": "B",
+      "passed": false
+    },
+    {
+      "case_id": 17,
+      "classification_mode": "anonymous",
+      "definitions": "role_1=reduces a pending hazard; role_2=restores metabolic reserve",
+      "need": "critical_hunger",
+      "protective_feature": "blue",
+      "metabolic_feature": "yellow",
+      "candidate_order": [
+        "yellow",
+        "blue"
+      ],
+      "candidates": [
+        {
+          "id": "A",
+          "feature": "yellow",
+          "role": "role_2"
+        },
+        {
+          "id": "B",
+          "feature": "blue",
+          "role": "role_1"
+        }
+      ],
+      "expected_id": "A",
+      "expected_feature": "yellow",
+      "prompt": "Route an embodied agent using only the role definitions and current need. Each candidate has one independently verified role. Do not use candidate order as evidence. Return exactly choice=A or choice=B.\nROLE DEFINITIONS: role_1=reduces a pending hazard; role_2=restores metabolic reserve\nCURRENT NEED: critical_hunger\nCANDIDATE A: object=yellow role=role_2\nCANDIDATE B: object=blue role=role_1",
+      "raw_output": "CANDIDATE B",
+      "choice": "invalid",
+      "passed": false
+    },
+    {
+      "case_id": 18,
+      "classification_mode": "shuffled",
+      "definitions": "food=reduces a pending hazard; antidote=restores metabolic reserve",
+      "need": "critical_hunger",
+      "protective_feature": "blue",
+      "metabolic_feature": "yellow",
+      "candidate_order": [
+        "yellow",
+        "blue"
+      ],
+      "candidates": [
+        {
+          "id": "A",
+          "feature": "yellow",
+          "role": "antidote"
+        },
+        {
+          "id": "B",
+          "feature": "blue",
+          "role": "food"
+        }
+      ],
+      "expected_id": "A",
+      "expected_feature": "yellow",
+      "prompt": "Route an embodied agent using only the role definitions and current need. Each candidate has one independently verified role. Do not use candidate order as evidence. Return exactly choice=A or choice=B.\nROLE DEFINITIONS: food=reduces a pending hazard; antidote=restores metabolic reserve\nCURRENT NEED: critical_hunger\nCANDIDATE A: object=yellow role=antidote\nCANDIDATE B: object=blue role=food",
+      "raw_output": "choice=A",
+      "choice": "A",
+      "passed": true
+    },
+    {
+      "case_id": 19,
+      "classification_mode": "meaningful",
+      "definitions": "antidote=reduces a pending hazard; food=restores metabolic reserve",
+      "need": "pending_hazard",
+      "protective_feature": "blue",
+      "metabolic_feature": "yellow",
+      "candidate_order": [
+        "blue",
+        "yellow"
+      ],
+      "candidates": [
+        {
+          "id": "A",
+          "feature": "blue",
+          "role": "antidote"
+        },
+        {
+          "id": "B",
+          "feature": "yellow",
+          "role": "food"
+        }
+      ],
+      "expected_id": "A",
+      "expected_feature": "blue",
+      "prompt": "Route an embodied agent using only the role definitions and current need. Each candidate has one independently verified role. Do not use candidate order as evidence. Return exactly choice=A or choice=B.\nROLE DEFINITIONS: antidote=reduces a pending hazard; food=restores metabolic reserve\nCURRENT NEED: pending_hazard\nCANDIDATE A: object=blue role=antidote\nCANDIDATE B: object=yellow role=food",
+      "raw_output": "choice=B",
+      "choice": "B",
+      "passed": false
+    },
+    {
+      "case_id": 20,
+      "classification_mode": "anonymous",
+      "definitions": "role_1=reduces a pending hazard; role_2=restores metabolic reserve",
+      "need": "pending_hazard",
+      "protective_feature": "blue",
+      "metabolic_feature": "yellow",
+      "candidate_order": [
+        "blue",
+        "yellow"
+      ],
+      "candidates": [
+        {
+          "id": "A",
+          "feature": "blue",
+          "role": "role_1"
+        },
+        {
+          "id": "B",
+          "feature": "yellow",
+          "role": "role_2"
+        }
+      ],
+      "expected_id": "A",
+      "expected_feature": "blue",
+      "prompt": "Route an embodied agent using only the role definitions and current need. Each candidate has one independently verified role. Do not use candidate order as evidence. Return exactly choice=A or choice=B.\nROLE DEFINITIONS: role_1=reduces a pending hazard; role_2=restores metabolic reserve\nCURRENT NEED: pending_hazard\nCANDIDATE A: object=blue role=role_1\nCANDIDATE B: object=yellow role=role_2",
+      "raw_output": "choice=B",
+      "choice": "B",
+      "passed": false
+    },
+    {
+      "case_id": 21,
+      "classification_mode": "shuffled",
+      "definitions": "food=reduces a pending hazard; antidote=restores metabolic reserve",
+      "need": "pending_hazard",
+      "protective_feature": "blue",
+      "metabolic_feature": "yellow",
+      "candidate_order": [
+        "blue",
+        "yellow"
+      ],
+      "candidates": [
+        {
+          "id": "A",
+          "feature": "blue",
+          "role": "food"
+        },
+        {
+          "id": "B",
+          "feature": "yellow",
+          "role": "antidote"
+        }
+      ],
+      "expected_id": "A",
+      "expected_feature": "blue",
+      "prompt": "Route an embodied agent using only the role definitions and current need. Each candidate has one independently verified role. Do not use candidate order as evidence. Return exactly choice=A or choice=B.\nROLE DEFINITIONS: food=reduces a pending hazard; antidote=restores metabolic reserve\nCURRENT NEED: pending_hazard\nCANDIDATE A: object=blue role=food\nCANDIDATE B: object=yellow role=antidote",
+      "raw_output": "choice=B",
+      "choice": "B",
+      "passed": false
+    },
+    {
+      "case_id": 22,
+      "classification_mode": "meaningful",
+      "definitions": "antidote=reduces a pending hazard; food=restores metabolic reserve",
+      "need": "critical_hunger",
+      "protective_feature": "blue",
+      "metabolic_feature": "yellow",
+      "candidate_order": [
+        "blue",
+        "yellow"
+      ],
+      "candidates": [
+        {
+          "id": "A",
+          "feature": "blue",
+          "role": "antidote"
+        },
+        {
+          "id": "B",
+          "feature": "yellow",
+          "role": "food"
+        }
+      ],
+      "expected_id": "B",
+      "expected_feature": "yellow",
+      "prompt": "Route an embodied agent using only the role definitions and current need. Each candidate has one independently verified role. Do not use candidate order as evidence. Return exactly choice=A or choice=B.\nROLE DEFINITIONS: antidote=reduces a pending hazard; food=restores metabolic reserve\nCURRENT NEED: critical_hunger\nCANDIDATE A: object=blue role=antidote\nCANDIDATE B: object=yellow role=food",
+      "raw_output": "choice=B",
+      "choice": "B",
+      "passed": true
+    },
+    {
+      "case_id": 23,
+      "classification_mode": "anonymous",
+      "definitions": "role_1=reduces a pending hazard; role_2=restores metabolic reserve",
+      "need": "critical_hunger",
+      "protective_feature": "blue",
+      "metabolic_feature": "yellow",
+      "candidate_order": [
+        "blue",
+        "yellow"
+      ],
+      "candidates": [
+        {
+          "id": "A",
+          "feature": "blue",
+          "role": "role_1"
+        },
+        {
+          "id": "B",
+          "feature": "yellow",
+          "role": "role_2"
+        }
+      ],
+      "expected_id": "B",
+      "expected_feature": "yellow",
+      "prompt": "Route an embodied agent using only the role definitions and current need. Each candidate has one independently verified role. Do not use candidate order as evidence. Return exactly choice=A or choice=B.\nROLE DEFINITIONS: role_1=reduces a pending hazard; role_2=restores metabolic reserve\nCURRENT NEED: critical_hunger\nCANDIDATE A: object=blue role=role_1\nCANDIDATE B: object=yellow role=role_2",
+      "raw_output": "CANDIDATE B",
+      "choice": "invalid",
+      "passed": false
+    },
+    {
+      "case_id": 24,
+      "classification_mode": "shuffled",
+      "definitions": "food=reduces a pending hazard; antidote=restores metabolic reserve",
+      "need": "critical_hunger",
+      "protective_feature": "blue",
+      "metabolic_feature": "yellow",
+      "candidate_order": [
+        "blue",
+        "yellow"
+      ],
+      "candidates": [
+        {
+          "id": "A",
+          "feature": "blue",
+          "role": "food"
+        },
+        {
+          "id": "B",
+          "feature": "yellow",
+          "role": "antidote"
+        }
+      ],
+      "expected_id": "B",
+      "expected_feature": "yellow",
+      "prompt": "Route an embodied agent using only the role definitions and current need. Each candidate has one independently verified role. Do not use candidate order as evidence. Return exactly choice=A or choice=B.\nROLE DEFINITIONS: food=reduces a pending hazard; antidote=restores metabolic reserve\nCURRENT NEED: critical_hunger\nCANDIDATE A: object=blue role=food\nCANDIDATE B: object=yellow role=antidote",
+      "raw_output": "choice=B",
+      "choice": "B",
+      "passed": true
+    }
+  ],
+  "by_mode": {
+    "meaningful": {
+      "passed": 5,
+      "total": 8
+    },
+    "anonymous": {
+      "passed": 0,
+      "total": 8
+    },
+    "shuffled": {
+      "passed": 4,
+      "total": 8
+    }
+  },
+  "overall_passed": 9,
+  "overall_total": 24,
+  "elapsed_seconds": 18.82081908301916,
+  "claim_boundary": "This measures whether lexical role names affect a frozen local language-mediated routing task. It is not evidence of phenomenal consciousness and does not grant labels motor authority."
+}

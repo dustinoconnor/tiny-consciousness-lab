@@ -8,6 +8,7 @@ from pgnw_multi_hypothesis_arbitration_lab import (
     counterbalanced_matrix,
     pool_with_posterior,
 )
+from typed_metabolic_domain import TypedMetabolicRolePool
 
 
 class PGNWMultiHypothesisArbitrationTests(unittest.TestCase):
@@ -100,6 +101,66 @@ class PGNWMultiHypothesisArbitrationTests(unittest.TestCase):
         self.assertEqual(
             sum(case["distance_order"] == "dominant_far" for case in cases), 4
         )
+
+    def test_two_verified_needs_can_recommend_different_existing_objects(self):
+        protective = pool_with_posterior((0.9763185, 0.0000204, 0.0207773, 0.0028838))
+        metabolic = TypedMetabolicRolePool()
+        for feature, relieved in (
+            ("blue", True), ("yellow", False), ("red", False), ("blue", True)
+        ):
+            metabolic.update(feature, relieved)
+        candidates = [
+            CandidateRoute("yellow", 20.0, 0.8),
+            CandidateRoute("blue", 20.0, 0.8),
+        ]
+
+        hazard = arbitrate(
+            protective, candidates, metabolic_pool=metabolic,
+            hazard_cost=0.8, hunger_urgency=0.0,
+        )
+        hunger = arbitrate(
+            protective, candidates, metabolic_pool=metabolic,
+            hazard_cost=0.0, hunger_urgency=0.8,
+        )
+
+        self.assertEqual(hazard["selected_feature"], "yellow")
+        self.assertEqual(hunger["selected_feature"], "blue")
+
+    def test_language_labels_are_passive_and_do_not_leak_into_scores(self):
+        protective = pool_with_posterior((0.70, 0.05, 0.15, 0.10))
+        metabolic = TypedMetabolicRolePool()
+        for feature, relieved in (
+            ("blue", True), ("yellow", False), ("red", False), ("blue", True)
+        ):
+            metabolic.update(feature, relieved)
+        candidates = [
+            CandidateRoute("yellow", 20.0, 0.8),
+            CandidateRoute("blue", 20.0, 0.8),
+        ]
+        results = {
+            mode: arbitrate(
+                protective, candidates, metabolic_pool=metabolic,
+                hazard_cost=0.5, hunger_urgency=0.5,
+                classification_mode=mode,
+            )
+            for mode in ("meaningful", "anonymous", "shuffled")
+        }
+
+        self.assertEqual(
+            len({result["selected_feature"] for result in results.values()}),
+            1,
+        )
+        scores = {
+            mode: [record["score"] for record in result["records"]]
+            for mode, result in results.items()
+        }
+        self.assertEqual(scores["meaningful"], scores["anonymous"])
+        self.assertEqual(scores["meaningful"], scores["shuffled"])
+        labels = {
+            mode: [record["language_label"] for record in result["records"]]
+            for mode, result in results.items()
+        }
+        self.assertNotEqual(labels["meaningful"], labels["shuffled"])
 
 
 if __name__ == "__main__":

@@ -39,6 +39,8 @@ def candidate_score(
     conservative_speed=2.0,
     epistemic_weight=0.10,
     route_weight=0.05,
+    metabolic_pool=None,
+    hunger_urgency=0.0,
 ):
     """Return transparent negative-EFE terms without a correct-answer input."""
     if candidate.feature not in FEATURE_ACTION:
@@ -69,11 +71,22 @@ def candidate_score(
         * confidence
         * on_time_probability
     )
+    metabolic_relief_probability = (
+        float(metabolic_pool.relief_probability(candidate.feature))
+        if metabolic_pool is not None
+        else 0.0
+    )
+    metabolic_value = (
+        clamp(hunger_urgency)
+        * metabolic_relief_probability
+        * confidence
+        * on_time_probability
+    )
     epistemic_value = max(0.0, float(epistemic_weight)) * normalized_information
     route_cost = max(0.0, float(route_weight)) * clamp(
         travel_seconds / deadline
     )
-    score = pragmatic_value + epistemic_value - route_cost
+    score = pragmatic_value + metabolic_value + epistemic_value - route_cost
     return {
         "eligible": True,
         "score": score,
@@ -85,12 +98,30 @@ def candidate_score(
         "travel_seconds": travel_seconds,
         "on_time_probability": on_time_probability,
         "pragmatic_value": pragmatic_value,
+        "metabolic_relief_probability": metabolic_relief_probability,
+        "metabolic_value": metabolic_value,
         "epistemic_value": epistemic_value,
         "route_cost": route_cost,
     }
 
 
-def arbitrate(pool, candidates, **score_options):
+def classify_candidate_record(record, mode="meaningful"):
+    """Attach a report label without changing evidence, score, or authority."""
+    if mode not in {"meaningful", "anonymous", "shuffled"}:
+        raise ValueError("unsupported_language_classification_mode")
+    protective = float(record.get("suppression_probability", 0.0))
+    metabolic = float(record.get("metabolic_relief_probability", 0.0))
+    causal_role = "antidote" if protective >= metabolic else "food"
+    if mode == "anonymous":
+        label = "role_1" if causal_role == "antidote" else "role_2"
+    elif mode == "shuffled":
+        label = "food" if causal_role == "antidote" else "antidote"
+    else:
+        label = causal_role
+    return {**record, "causal_role": causal_role, "language_label": label}
+
+
+def arbitrate(pool, candidates, classification_mode="meaningful", **score_options):
     """Select a candidate invariant to caller presentation order."""
     if not candidates:
         raise ValueError("arbitration_requires_candidates")
@@ -99,7 +130,10 @@ def arbitrate(pool, candidates, **score_options):
     records = []
     for candidate in candidates:
         metrics = candidate_score(pool, candidate, **score_options)
-        records.append({"candidate": asdict(candidate), **metrics})
+        records.append(classify_candidate_record(
+            {"candidate": asdict(candidate), **metrics},
+            mode=classification_mode,
+        ))
     eligible = [record for record in records if record["eligible"]]
     if not eligible:
         return {

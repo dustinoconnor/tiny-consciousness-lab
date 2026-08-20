@@ -3014,3 +3014,47 @@ is treated as external and is not inferred from these measurements.
   regressions and the full suite passed 301/301 in 6.832 seconds. The first
   attempted test invocation used Apple's bare `python3` and could not import
   NumPy; rerunning with the project's Miniforge `python` completed cleanly.
+
+## Language classification and a second verified rule — 2026-08-20
+
+- Reviewed Barry Smith's language-as-classifier proposal as a functional design
+  hypothesis rather than a consciousness test. The implementation target is to
+  classify stabilized causal content as reportable roles such as `antidote` and
+  `food`, while keeping labels observational until an ablation demonstrates a
+  benefit. Jaynes-style split control was deferred because it would add another
+  controller without a preregistered performance advantage.
+- Found a necessary environmental confound before live integration: the current
+  Python metabolism reduces hunger after every pickup, so telemetry cannot yet
+  independently identify blue as nutritional. Added a symmetric Bayesian
+  metabolic-role learner with separate admission and post-cutoff held-out
+  verification. The learner receives only pickup identity and observed relief;
+  it is not given the correct nutrient.
+- Extended the offline PGNW arbiter to combine independently computed protective
+  and metabolic values. Meaningful, anonymous, and shuffled language labels are
+  attached only after scoring and cannot alter selection or authority. This
+  establishes the non-leaking scaffold needed to test whether language labels
+  improve a downstream language-mediated decision rather than granting an
+  improvement by construction.
+- Froze and ran a 24-case Gemma 3 1B language-role ablation balancing protective
+  color, candidate order, current need, and meaningful/anonymous/shuffled role
+  vocabulary. All modes carried equivalent explicit definitions and no prompt
+  contained its expected answer. Meaningful labels scored 5/8, anonymous labels
+  scored 0/8 under the exact output contract, and shuffled labels scored 4/8;
+  overall accuracy was 9/24 in 18.821 seconds.
+- The meaningful result is not distinguishable from the 4/8 chance expectation
+  (one-sided binomial probability for >=5/8: 0.363). Gemma selected B in 7/8
+  meaningful cases. Seven anonymous outputs violated the frozen contract by
+  emitting `CANDIDATE B`; interpreting those post hoc still yields only 4/8.
+  Shuffled trials selected the lexical label `antidote` in all 8 cases despite
+  its reversed supplied definition. Verdict: language labels affect the model
+  but did not improve arbitration, so they remain passive and receive no control
+  authority. Detailed results are in
+  `SMITH_LANGUAGE_CLASSIFIER_ABLATION_RESULT_20260820.md` and
+  `outputs/smith_language_classifier_ablation_20260820.json`.
+- The useful independent result is retained: the answer-blind metabolic learner
+  admits a color-specific nutrient only above 0.95 posterior confidence and
+  promotes it only after post-cutoff positive and negative confirmations. In
+  focused dual-rule arbitration, hazard urgency selects the verified protective
+  target while hunger urgency selects the independently learned nutrient, using
+  only existing yellow and blue objects. Fourteen focused tests and the full
+  306-test suite passed; live metabolic observation remains the next gate.

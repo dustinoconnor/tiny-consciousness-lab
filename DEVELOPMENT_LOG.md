@@ -2925,3 +2925,31 @@ is treated as external and is not inferred from these measurements.
   estimate population reliability. Detailed and compact records are in
   `TYPED_STALE_MEMORY_COMPLETION_RESULT_20260820.md` and
   `outputs/typed_resource_stale_completion_summary_20260820.json`.
+
+## PGNW actionable multi-hypothesis arbitration — 2026-08-20
+
+- Confirmed that the prior `pgnw_hypothesis_selection_lab.py` already tests
+  multi-model experimental design, so the new milestone targets the missing
+  layer: competition among actionable typed causal candidates after a pending
+  hazard. Implemented a pure answer-blind arbiter over the complete typed
+  posterior, formal suppression likelihood, expected information gain,
+  metabolic hazard value, route time, memory confidence, and an absolute safety
+  gate. The scoring function receives no true suppressor or expected winner.
+- Registered a 2 x 2 x 2 counterbalance over dominant causal color, near/far
+  route assignment, and candidate presentation order. All 8/8 cases selected
+  the posterior-supported candidate; score margins ranged from 0.071292 to
+  0.083736. Color-swapping the posterior swapped the decision, order reversal
+  left the result unchanged, and an unsafe dominant candidate could not outvote
+  the safety gate.
+- Replayed the verified seed-168 posterior against the frozen seed-163 terrain
+  memories at the post-decoy position. Yellow scored 0.079840 from 0.916019
+  expected suppression probability; blue scored 0.006319 from 0.066640 despite
+  its larger epistemic value. The result selected yellow using all explicit
+  terms rather than MAP text, first position, or a hardcoded color answer.
+- Five focused arbitration regressions passed and the full suite passed 296/296
+  in 6.850 seconds. Detailed and machine-readable records are in
+  `PGNW_MULTI_HYPOTHESIS_ARBITRATION_RESULT_20260820.md` and
+  `outputs/pgnw_multi_hypothesis_arbitration_20260820.json`. Claim boundary:
+  this is an offline and replay-grounded pass with zero Unity motor authority.
+  Next add passive Unity telemetry and compare arbitration recommendations with
+  the existing verified-protective controller before considering authority.

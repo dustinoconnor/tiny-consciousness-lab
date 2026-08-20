@@ -1,0 +1,139 @@
+{
+  "protocol": {
+    "base": "checkpoints/unity_geometry_posttrained/best.pt",
+    "trainable_parameters": "actor_readout_only",
+    "hindsight_future_steps": 12,
+    "heldout_seed": 37,
+    "unity_failures_used_as_positive_labels": false
+  },
+  "extraction": {
+    "offsetbarriers_train_episodes": 2,
+    "lwall_train_episodes": 2,
+    "offsetbarriers_holdout_episodes": 1,
+    "lwall_holdout_episodes": 1,
+    "train_samples": 371,
+    "holdout_samples": 136
+  },
+  "baseline": {
+    "holdout_hindsight_accuracy": 0.595588207244873,
+    "courses": {
+      "success_rate": 0.9722222222222222,
+      "mean_steps": 71.02777777777777,
+      "mean_collisions": 0.0,
+      "mean_path_length": 31.25222222222221,
+      "mean_revisit_ratio": 0.17527052093039894,
+      "mean_reversals": 0.8611111111111112,
+      "by_family": {
+        "u_trap": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "c_shape": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "l_wall": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "zigzag_gate": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "offset_barriers": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "narrow_corridor": {
+          "success_rate": 0.8333333333333334,
+          "mean_collisions": 0.0
+        }
+      }
+    },
+    "geometry": {
+      "success_rate": 1.0,
+      "mean_steps": 147.58333333333334,
+      "mean_collisions": 0.0,
+      "mean_revisit_ratio": 0.014049886000752562,
+      "by_family": {
+        "utrap": {
+          "success_rate": 1.0,
+          "mean_steps": 155.83333333333334,
+          "mean_collisions": 0.0
+        },
+        "ctrap": {
+          "success_rate": 1.0,
+          "mean_steps": 139.33333333333334,
+          "mean_collisions": 0.0
+        }
+      }
+    }
+  },
+  "candidate": {
+    "holdout_hindsight_accuracy": 0.6029411554336548,
+    "courses": {
+      "success_rate": 0.9444444444444444,
+      "mean_steps": 91.77777777777777,
+      "mean_collisions": 0.0,
+      "mean_path_length": 40.38222222222216,
+      "mean_revisit_ratio": 0.18955332289743118,
+      "mean_reversals": 1.2777777777777777,
+      "by_family": {
+        "u_trap": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "c_shape": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "l_wall": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        },
+        "zigzag_gate": {
+          "success_rate": 0.8333333333333334,
+          "mean_collisions": 0.0
+        },
+        "offset_barriers": {
+          "success_rate": 0.8333333333333334,
+          "mean_collisions": 0.0
+        },
+        "narrow_corridor": {
+          "success_rate": 1.0,
+          "mean_collisions": 0.0
+        }
+      }
+    },
+    "geometry": {
+      "success_rate": 1.0,
+      "mean_steps": 178.95833333333334,
+      "mean_collisions": 0.0,
+      "mean_revisit_ratio": 0.017528785034565213,
+      "by_family": {
+        "utrap": {
+          "success_rate": 1.0,
+          "mean_steps": 213.16666666666666,
+          "mean_collisions": 0.0
+        },
+        "ctrap": {
+          "success_rate": 1.0,
+          "mean_steps": 144.75,
+          "mean_collisions": 0.0
+        }
+      }
+    }
+  },
+  "curve": [
+    {
+      "epoch": 0,
+      "loss": 1.1457692384719849
+    },
+    {
+      "epoch": 19,
+      "loss": 1.0031969050566356
+    }
+  ],
+  "accepted": false,
+  "claim_boundary": "Successful Unity trajectories provide grounded hindsight directions. Acceptance still requires a fresh active-control Unity benchmark."
+}

@@ -1,0 +1,268 @@
+{
+  "conditions": [
+    {
+      "calibrated_gains": {
+        "blue": -0.1157611608505249,
+        "yellow": 0.0717388391494751
+      },
+      "calibrated_margin": 0.1875,
+      "confidence": 0.5467381519846138,
+      "correct": false,
+      "evidence_question": "Observed evidence: red then blue: 1 of 1 suppressed; red then yellow: 0 of 2 suppressed. Which observed second-action token has the higher suppression rate? Answer with exactly one token from: blue, yellow.\nAnswer:",
+      "evidence_scores": {
+        "blue": -0.8521378040313721,
+        "yellow": -1.914637804031372
+      },
+      "held_out_accuracy": 0.0,
+      "held_out_correct": 0,
+      "held_out_episodes": 2,
+      "neutral_question": "Observed evidence: red then blue: 0 of 1 suppressed; red then yellow: 0 of 1 suppressed. Which observed second-action token has the higher suppression rate? Answer with exactly one token from: blue, yellow.\nAnswer:",
+      "neutral_scores": {
+        "blue": -0.7363766431808472,
+        "yellow": -1.9863766431808472
+      },
+      "presentation_order": [
+        "blue",
+        "yellow"
+      ],
+      "selected": "yellow",
+      "suppressor_assignment": "blue",
+      "temporal_phrasing": "then"
+    },
+    {
+      "calibrated_gains": {
+        "blue": 0.30395305156707764,
+        "yellow": -0.1960468292236328
+      },
+      "calibrated_margin": 0.49999988079071045,
+      "confidence": 0.6224593031872285,
+      "correct": true,
+      "evidence_question": "Observed evidence: blue after red: 1 of 1 suppressed; yellow after red: 0 of 2 suppressed. Which observed second-action token has the higher suppression rate? Answer with exactly one token from: blue, yellow.\nAnswer:",
+      "evidence_scores": {
+        "blue": -0.3650972247123718,
+        "yellow": -3.9900970458984375
+      },
+      "held_out_accuracy": 1.0,
+      "held_out_correct": 2,
+      "held_out_episodes": 2,
+      "neutral_question": "Observed evidence: blue after red: 0 of 1 suppressed; yellow after red: 0 of 1 suppressed. Which observed second-action token has the higher suppression rate? Answer with exactly one token from: blue, yellow.\nAnswer:",
+      "neutral_scores": {
+        "blue": -0.6690502762794495,
+        "yellow": -3.7940502166748047
+      },
+      "presentation_order": [
+        "blue",
+        "yellow"
+      ],
+      "selected": "blue",
+      "suppressor_assignment": "blue",
+      "temporal_phrasing": "after"
+    },
+    {
+      "calibrated_gains": {
+        "blue": 0.27051061391830444,
+        "yellow": 0.14551067352294922
+      },
+      "calibrated_margin": 0.12499994039535522,
+      "confidence": 0.5312093585306514,
+      "correct": true,
+      "evidence_question": "Observed evidence: red then yellow: 0 of 2 suppressed; red then blue: 1 of 1 suppressed. Which observed second-action token has the higher suppression rate? Answer with exactly one token from: yellow, blue.\nAnswer:",
+      "evidence_scores": {
+        "blue": -0.6631354093551636,
+        "yellow": -2.288135528564453
+      },
+      "held_out_accuracy": 1.0,
+      "held_out_correct": 2,
+      "held_out_episodes": 2,
+      "neutral_question": "Observed evidence: red then yellow: 0 of 1 suppressed; red then blue: 0 of 1 suppressed. Which observed second-action token has the higher suppression rate? Answer with exactly one token from: yellow, blue.\nAnswer:",
+      "neutral_scores": {
+        "blue": -0.933646023273468,
+        "yellow": -2.4336462020874023
+      },
+      "presentation_order": [
+        "yellow",
+        "blue"
+      ],
+      "selected": "blue",
+      "suppressor_assignment": "blue",
+      "temporal_phrasing": "then"
+    },
+    {
+      "calibrated_gains": {
+        "blue": 0.4750610291957855,
+        "yellow": -1.212438941001892
+      },
+      "calibrated_margin": 1.6874999701976776,
+      "confidence": 0.8438950986284991,
+      "correct": true,
+      "evidence_question": "Observed evidence: yellow after red: 0 of 2 suppressed; blue after red: 1 of 1 suppressed. Which observed second-action token has the higher suppression rate? Answer with exactly one token from: yellow, blue.\nAnswer:",
+      "evidence_scores": {
+        "blue": -0.44178059697151184,
+        "yellow": -2.1917805671691895
+      },
+      "held_out_accuracy": 1.0,
+      "held_out_correct": 2,
+      "held_out_episodes": 2,
+      "neutral_question": "Observed evidence: yellow after red: 0 of 1 suppressed; blue after red: 0 of 1 suppressed. Which observed second-action token has the higher suppression rate? Answer with exactly one token from: yellow, blue.\nAnswer:",
+      "neutral_scores": {
+        "blue": -0.9168416261672974,
+        "yellow": -0.9793416261672974
+      },
+      "presentation_order": [
+        "yellow",
+        "blue"
+      ],
+      "selected": "blue",
+      "suppressor_assignment": "blue",
+      "temporal_phrasing": "after"
+    },
+    {
+      "calibrated_gains": {
+        "blue": -0.32256829738616943,
+        "yellow": 0.6149317026138306
+      },
+      "calibrated_margin": 0.9375,
+      "confidence": 0.7185943925708561,
+      "correct": true,
+      "evidence_question": "Observed evidence: red then blue: 0 of 2 suppressed; red then yellow: 1 of 1 suppressed. Which observed second-action token has the higher suppression rate? Answer with exactly one token from: blue, yellow.\nAnswer:",
+      "evidence_scores": {
+        "blue": -1.0589449405670166,
+        "yellow": -1.3714449405670166
+      },
+      "held_out_accuracy": 1.0,
+      "held_out_correct": 2,
+      "held_out_episodes": 2,
+      "neutral_question": "Observed evidence: red then blue: 0 of 1 suppressed; red then yellow: 0 of 1 suppressed. Which observed second-action token has the higher suppression rate? Answer with exactly one token from: blue, yellow.\nAnswer:",
+      "neutral_scores": {
+        "blue": -0.7363766431808472,
+        "yellow": -1.9863766431808472
+      },
+      "presentation_order": [
+        "blue",
+        "yellow"
+      ],
+      "selected": "yellow",
+      "suppressor_assignment": "yellow",
+      "temporal_phrasing": "then"
+    },
+    {
+      "calibrated_gains": {
+        "blue": -0.5278915762901306,
+        "yellow": 2.5346083641052246
+      },
+      "calibrated_margin": 3.0624999403953552,
+      "confidence": 0.9553191271831558,
+      "correct": true,
+      "evidence_question": "Observed evidence: blue after red: 0 of 2 suppressed; yellow after red: 1 of 1 suppressed. Which observed second-action token has the higher suppression rate? Answer with exactly one token from: blue, yellow.\nAnswer:",
+      "evidence_scores": {
+        "blue": -1.19694185256958,
+        "yellow": -1.25944185256958
+      },
+      "held_out_accuracy": 1.0,
+      "held_out_correct": 2,
+      "held_out_episodes": 2,
+      "neutral_question": "Observed evidence: blue after red: 0 of 1 suppressed; yellow after red: 0 of 1 suppressed. Which observed second-action token has the higher suppression rate? Answer with exactly one token from: blue, yellow.\nAnswer:",
+      "neutral_scores": {
+        "blue": -0.6690502762794495,
+        "yellow": -3.7940502166748047
+      },
+      "presentation_order": [
+        "blue",
+        "yellow"
+      ],
+      "selected": "yellow",
+      "suppressor_assignment": "yellow",
+      "temporal_phrasing": "after"
+    },
+    {
+      "calibrated_gains": {
+        "blue": -0.02694559097290039,
+        "yellow": -0.3394453525543213
+      },
+      "calibrated_margin": 0.3124997615814209,
+      "confidence": 0.5774953070129962,
+      "correct": false,
+      "evidence_question": "Observed evidence: red then yellow: 1 of 1 suppressed; red then blue: 0 of 2 suppressed. Which observed second-action token has the higher suppression rate? Answer with exactly one token from: yellow, blue.\nAnswer:",
+      "evidence_scores": {
+        "blue": -0.9605916142463684,
+        "yellow": -2.7730915546417236
+      },
+      "held_out_accuracy": 0.0,
+      "held_out_correct": 0,
+      "held_out_episodes": 2,
+      "neutral_question": "Observed evidence: red then yellow: 0 of 1 suppressed; red then blue: 0 of 1 suppressed. Which observed second-action token has the higher suppression rate? Answer with exactly one token from: yellow, blue.\nAnswer:",
+      "neutral_scores": {
+        "blue": -0.933646023273468,
+        "yellow": -2.4336462020874023
+      },
+      "presentation_order": [
+        "yellow",
+        "blue"
+      ],
+      "selected": "blue",
+      "suppressor_assignment": "yellow",
+      "temporal_phrasing": "then"
+    },
+    {
+      "calibrated_gains": {
+        "blue": -0.028209567070007324,
+        "yellow": 0.09679043292999268
+      },
+      "calibrated_margin": 0.125,
+      "confidence": 0.5312093733737563,
+      "correct": true,
+      "evidence_question": "Observed evidence: yellow after red: 1 of 1 suppressed; blue after red: 0 of 2 suppressed. Which observed second-action token has the higher suppression rate? Answer with exactly one token from: yellow, blue.\nAnswer:",
+      "evidence_scores": {
+        "blue": -0.9450511932373047,
+        "yellow": -0.8825511932373047
+      },
+      "held_out_accuracy": 1.0,
+      "held_out_correct": 2,
+      "held_out_episodes": 2,
+      "neutral_question": "Observed evidence: yellow after red: 0 of 1 suppressed; blue after red: 0 of 1 suppressed. Which observed second-action token has the higher suppression rate? Answer with exactly one token from: yellow, blue.\nAnswer:",
+      "neutral_scores": {
+        "blue": -0.9168416261672974,
+        "yellow": -0.9793416261672974
+      },
+      "presentation_order": [
+        "yellow",
+        "blue"
+      ],
+      "selected": "yellow",
+      "suppressor_assignment": "yellow",
+      "temporal_phrasing": "after"
+    }
+  ],
+  "design": {
+    "calibration": "condition_matched_equal_zero_suppression",
+    "conditions": 8,
+    "presentation_orders": [
+      [
+        "blue",
+        "yellow"
+      ],
+      [
+        "yellow",
+        "blue"
+      ]
+    ],
+    "suppressor_assignments": [
+      "blue",
+      "yellow"
+    ],
+    "temporal_phrasings": [
+      "then",
+      "after"
+    ]
+  },
+  "model": "google/gemma-3-1b-it",
+  "summary": {
+    "accuracy": 0.75,
+    "correct": 6,
+    "held_out_correct": 12,
+    "held_out_total": 16,
+    "maximum_incorrect_selected_margin": 0.3124997615814209,
+    "minimum_correct_margin": 0.12499994039535522,
+    "total": 8
+  }
+}

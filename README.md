@@ -143,6 +143,28 @@ are continuous Unity handoffs and attention-gated terrain episodic encoding.
 
 ![Four-context adaptive conductor, routing, lesions, and boundary entropy](outputs/four_context_conductor_summary.png)
 
+### Bunge-Inspired Systemic Emergence
+
+`bunge_systemic_emergence_lab.py` asks whether useful mixed-context capability
+is a property of the causally organized whole rather than any component alone.
+Across 20 seeds and 48,000 matched held-out steps, the intact system reached
+**96.5% success** and **0.782 utility per step**, versus 76.5% success and
+0.155 utility for the best isolated specialist. It beat that specialist on all
+20 paired seeds (`p = 9.54e-7`, one-sided sign test).
+
+An equal-component static control reached 0.062 utility. Scrambling input,
+output, or both connection sets while retaining all components erased most of
+the intact advantage. Targeted lesions selectively damaged their matching
+contexts: recurrent/clear terrain, ART/hidden goals, MPC/visible targets, and
+fallback/wedges.
+
+This supports Bunge-style **functional systemic synergy** in a synthetic
+benchmark. It does not demonstrate phenomenal consciousness, biological CNS
+equivalence, open-ended emergence, or transfer of the complete organization
+into Unity. Publication is deferred until embodiment validation.
+
+![Bunge-inspired whole/component, connection-scrambling, and lesion controls](outputs/bunge_systemic_emergence_summary.png)
+
 ### Attention-Gated Episodic Encoding
 
 `attended_episodic_encoding_lab.py` tests an AIR-inspired claim at the software
@@ -2949,8 +2971,8 @@ or safe-place seeking.
 ## Neuro-Symbolic Tiny Scientist Verification
 
 The Tiny Scientist is a bounded causal-hypothesis component layered over the
-Unity telemetry path. It is not a free-running language agent and it does not
-receive motor authority. A passive analyzer converts food-pickup episodes into
+Unity telemetry path. It is not a free-running language agent. During discovery
+it has no motor authority: a passive analyzer converts food-pickup episodes into
 grounded red/blue outcome summaries; Gemma 3 1B selects a causal candidate;
 the formal layer binds the retest action to that one selected cause and derives
 the contradictory outcome. The candidate remains at authority 0.0 until a new
@@ -2963,11 +2985,31 @@ seconds; no blue control had a positive response and no red counterexample
 occurred. The rule therefore passed the registered synthetic-Unity verification
 gate and is eligible only for future passive shadow production memory.
 
-This is a system-level result: Gemma selected the candidate from grounded
+That original verification is a system-level result: Gemma selected the candidate from grounded
 episode summaries, code performed exact falsifier binding, and Unity supplied
 the prospective verification. It does not show unaided LLM abduction,
 autonomous experiment selection, natural-world causal discovery, sentience, or
-permission to change MPC/GNW weights.
+unbounded permission to change MPC/GNW weights.
+
+The later typed-interaction program added a yellow flower and learned the
+ordered relation `yellow after red suppresses the delayed probe`. Only the
+specific rule above 0.95 posterior can request bounded protective authority.
+Typed episodic memory stores red, blue, and yellow coordinates symmetrically;
+the verified rule selects yellow while a real synthetic metabolic event remains
+pending. PGNW then supplies a committed soft target to MPC while collision,
+stuck, fallback, AIR, hunger, and score-regret gates retain priority. Blue
+remains edible and cannot satisfy or erase the yellow objective.
+
+Two counterbalanced Unity pairs tested initially invisible yellow recall from
+two red starts. Memory changed 67 and 49 MPC actions before visual contact.
+Red-to-yellow latency averaged **31.02 seconds with memory** versus **46.56
+seconds with empty memory**, a descriptive 15.54-second (33.4%) reduction. One
+empty control luckily encountered a closer unknown flower, so memory won the
+first-antidote metric in only one of two pairs; it reached its selected known
+target much sooner in both. This establishes functional causal production,
+typed recall, pre-visibility action influence, visual handoff, and metabolic
+resolution. With `n=2`, it is not a population-level speed claim. See
+`TYPED_EPISODIC_PROTECTIVE_RECALL_RESULT_20260819.md` for the audit boundary.
 
 Compact artifacts are committed under:
 
@@ -3114,6 +3156,7 @@ python biological_control_lab.py
 python unified_functional_ego_lab.py
 python cortical_conductor_lab.py
 python four_context_conductor_lab.py
+python bunge_systemic_emergence_lab.py
 python attended_episodic_encoding_lab.py
 ./embodied_unity_loop.py --sleep-seconds 60
 ```
@@ -3161,6 +3204,7 @@ outputs/
 - `unified_functional_ego_lab.py` - combined hierarchy, neuromodulation, causal credit, fatigue, repair, and sleep stack
 - `cortical_conductor_lab.py` - Bach-inspired learned specialist routing and protocol-memory lesions
 - `four_context_conductor_lab.py` - noisy four-context arbitration, static baselines, gate entropy, and targeted branch lesions
+- `bunge_systemic_emergence_lab.py` - whole/component, connection-scrambling, and targeted-lesion systemic controls
 - `attended_episodic_encoding_lab.py` - AIR-inspired equal-capacity attention, scrambling, and feature-lesion benchmark
 - `terrain_air_memory_lab.py` - offline passive Unity terrain packet encoding and retrieval evaluation
 - `TERRAIN_EPISODIC_MEMORY_PLAN.md` - Garden of Eden preservation and AIR-guided terrain-memory protocol
@@ -3210,6 +3254,7 @@ outputs/
 - `outputs/unified_functional_ego_metrics.json` - combined functional-ego stack metrics and traces
 - `outputs/cortical_conductor_metrics.json` - three-specialist protocol conductor metrics
 - `outputs/four_context_conductor_metrics.json` - four-context adaptive arbitration and branch-lesion metrics
+- `outputs/bunge_systemic_emergence_metrics.json` - local systemic synergy, scrambling, and lesion metrics pending embodiment validation
 - `outputs/unity_critical_hunger_reanchoring_metrics.json` - matched terrain failure reproduction and repair
 
 ## Next Steps

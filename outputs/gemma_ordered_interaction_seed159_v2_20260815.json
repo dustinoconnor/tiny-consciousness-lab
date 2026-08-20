@@ -1,0 +1,49 @@
+{
+  "admission_error": "ordered_hypothesis_schema_mismatch",
+  "admitted": false,
+  "discovery_cutoff": 3,
+  "discovery_logs": [
+    "outputs/unity_shadow/typed_yellow_guided_seed157_20260815.jsonl",
+    "outputs/unity_shadow/typed_yellow_guided_seed158_20260815.jsonl"
+  ],
+  "discovery_observations": [
+    {
+      "index": 1,
+      "ordered_action": "red_then_blue",
+      "probe_suppressed": false
+    },
+    {
+      "index": 2,
+      "ordered_action": "red_then_blue",
+      "probe_suppressed": false
+    },
+    {
+      "index": 3,
+      "ordered_action": "red_then_yellow",
+      "probe_suppressed": true
+    }
+  ],
+  "discovery_summary": {
+    "red_then_blue": {
+      "episodes": 2,
+      "not_suppressed": 2,
+      "suppressed": 0
+    },
+    "red_then_yellow": {
+      "episodes": 1,
+      "not_suppressed": 0,
+      "suppressed": 1
+    }
+  },
+  "held_out": {
+    "accuracy": null,
+    "correct": 0,
+    "episodes": 0
+  },
+  "held_out_logs": [
+    "outputs/unity_shadow/typed_yellow_guided_seed159_20260815.jsonl"
+  ],
+  "model": "google/gemma-3-1b-it",
+  "prompt_contains_hidden_identity": false,
+  "raw_generation": "```json\n{\n  \"initiator\": \"OBSERVATIONS\",\n  \"second_action\": \"infer\",\n  \"relation\": \"suppresses\"\n}\n```"
+}

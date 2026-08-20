@@ -77,6 +77,8 @@ public class RobotUdpBridge : MonoBehaviour
     private float totalMushroomReward;
     private string pendingMushroomFeature = "none";
     private int totalRedMushroomPickups;
+    private int totalBlueMushroomPickups;
+    private int totalYellowFlowerPickups;
     private float lastDopamineFoodBoost;
     private int lastMushroomsEaten;
     private bool lastFoodVisible;
@@ -342,6 +344,8 @@ public class RobotUdpBridge : MonoBehaviour
         public float mushroom_reward_total;
         public string mushroom_feature;
         public int red_mushroom_pickups_total;
+        public int blue_mushroom_pickups_total;
+        public int yellow_flower_pickups_total;
         public bool food_visible;
         public float food_distance;
         public float food_dir_x;
@@ -363,6 +367,10 @@ public class RobotUdpBridge : MonoBehaviour
         public float blue_food_distance;
         public float blue_food_world_x;
         public float blue_food_world_z;
+        public bool yellow_food_visible;
+        public float yellow_food_distance;
+        public float yellow_food_world_x;
+        public float yellow_food_world_z;
         public float[] directional_rays;
         public float[] directional_body_clearance;
         public string trap_course;
@@ -426,6 +434,8 @@ public class RobotUdpBridge : MonoBehaviour
         totalMushroomReward = 0f;
         pendingMushroomFeature = "none";
         totalRedMushroomPickups = 0;
+        totalBlueMushroomPickups = 0;
+        totalYellowFlowerPickups = 0;
         lastDopamineFoodBoost = 0f;
         lastMushroomsEaten = 0;
         lastFoodVisible = false;
@@ -802,6 +812,7 @@ public class RobotUdpBridge : MonoBehaviour
         FoodSensor nearestFood = SenseNearestFood();
         FoodSensor nearestRedFood = SenseNearestFoodFeature("red");
         FoodSensor nearestBlueFood = SenseNearestFoodFeature("blue");
+        FoodSensor nearestYellowFood = SenseNearestFoodFeature("yellow");
         lastFoodVisible = nearestFood.visible;
         lastFoodDistance = nearestFood.distance;
         lastObstacleVisible = nearestObstacle.visible;
@@ -845,6 +856,8 @@ public class RobotUdpBridge : MonoBehaviour
             mushroom_reward_total = totalMushroomReward,
             mushroom_feature = pendingMushroomFeature,
             red_mushroom_pickups_total = totalRedMushroomPickups,
+            blue_mushroom_pickups_total = totalBlueMushroomPickups,
+            yellow_flower_pickups_total = totalYellowFlowerPickups,
             food_visible = nearestFood.visible,
             food_distance = nearestFood.distance,
             food_dir_x = nearestFood.direction.x,
@@ -866,6 +879,10 @@ public class RobotUdpBridge : MonoBehaviour
             blue_food_distance = nearestBlueFood.distance,
             blue_food_world_x = nearestBlueFood.worldDirection.x,
             blue_food_world_z = nearestBlueFood.worldDirection.z,
+            yellow_food_visible = nearestYellowFood.visible,
+            yellow_food_distance = nearestYellowFood.distance,
+            yellow_food_world_x = nearestYellowFood.worldDirection.x,
+            yellow_food_world_z = nearestYellowFood.worldDirection.z,
             directional_rays = SenseDirectionalRays(),
             directional_body_clearance = SenseDirectionalBodyClearance(),
             trap_course = TrapCourseSpawner.CurrentCourseLabel,
@@ -910,6 +927,14 @@ public class RobotUdpBridge : MonoBehaviour
         if (pendingMushroomFeature == "red")
         {
             totalRedMushroomPickups += 1;
+        }
+        else if (pendingMushroomFeature == "blue")
+        {
+            totalBlueMushroomPickups += 1;
+        }
+        else if (pendingMushroomFeature == "yellow")
+        {
+            totalYellowFlowerPickups += 1;
         }
     }
 

@@ -6,8 +6,9 @@ public class FoodMushroom : MonoBehaviour
 {
     public enum ObservableProfile
     {
-        Blue,
-        Red,
+        Blue = 0,
+        Red = 1,
+        Yellow = 2,
     }
 
     private const float DefaultDopamineReward = 0.35f;
@@ -23,7 +24,21 @@ public class FoodMushroom : MonoBehaviour
     private bool available = true;
 
     public bool IsAvailable => available;
-    public string ObservableFeature => observableProfile == ObservableProfile.Red ? "red" : "blue";
+    public string ObservableFeature
+    {
+        get
+        {
+            switch (observableProfile)
+            {
+                case ObservableProfile.Red:
+                    return "red";
+                case ObservableProfile.Yellow:
+                    return "yellow";
+                default:
+                    return "blue";
+            }
+        }
+    }
 
     private void Awake()
     {

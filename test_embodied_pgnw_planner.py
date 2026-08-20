@@ -1,10 +1,12 @@
 import unittest
 import time
+from types import SimpleNamespace
 
 import numpy as np
 
 from embodied_pgnw_planner import EmbodiedPGNWExperimentPlanner
 from pgnw_hypothesis_selection_lab import HYPOTHESES
+from typed_causal_domain import PassiveOrderedEpisodeLearner
 
 
 class EmbodiedPGNWPlannerTests(unittest.TestCase):
@@ -53,6 +55,18 @@ class EmbodiedPGNWPlannerTests(unittest.TestCase):
         self.assertGreater(
             planner.posterior[red_index], planner.posterior[blue_index]
         )
+
+    def test_legacy_red_blue_planner_never_collapses_yellow_into_blue(self):
+        planner = self.planner(seed=1)
+        planner.current_action = 1
+        planner.phase = "seeking_target"
+        planner.update(0, 0.0, 0, 0, 0, 0)
+        planner.update(1, 0.0, 1, 0, 0, 1)
+        self.assertEqual(planner.last_outcome, "unexpected_yellow")
+        self.assertEqual(planner.protocol_mismatches, 1)
+        self.assertEqual(planner.experiments_discarded, 1)
+        self.assertEqual(planner.posterior_updates, 0)
+        self.assertTrue(np.allclose(planner.posterior, 0.2))
 
     def test_intervening_pickup_discards_trial(self):
         planner = self.planner(seed=1)
@@ -148,6 +162,76 @@ class EmbodiedPGNWPlannerTests(unittest.TestCase):
         self.assertTrue(planner.isolation_active)
         self.assertEqual(planner.guidance_vector, (-1.0, 0.0))
 
+    def test_observation_isolation_also_repels_visible_yellow(self):
+        planner = EmbodiedPGNWExperimentPlanner(
+            mode="committed", hz=1.0, seed=3
+        )
+        planner.phase = "observing_delay"
+        planner.update_guidance(
+            {
+                "yellow_food_visible": True,
+                "yellow_food_distance": 2.0,
+                "yellow_food_world_x": 0.0,
+                "yellow_food_world_z": 1.0,
+            }
+        )
+        self.assertTrue(planner.isolation_active)
+        self.assertEqual(planner.guidance_vector, (0.0, -1.0))
+
+    def test_typed_guidance_requests_red_then_yellow_without_answer_prior(self):
+        learner = PassiveOrderedEpisodeLearner(
+            hz=1.0, delay_seconds=10.0, enabled=True
+        )
+        planner = EmbodiedPGNWExperimentPlanner(
+            mode="committed", hz=1.0, typed_learner=learner
+        )
+        self.assertEqual(planner.requested_experiment, "red_then_yellow")
+        planner.update(0, 0.0, 0, 0, 0, 0)
+        planner.update_guidance(
+            {
+                "red_food_visible": True,
+                "red_food_distance": 4.0,
+                "red_food_world_x": 1.0,
+                "red_food_world_z": 0.0,
+            }
+        )
+        self.assertEqual(planner.phase, "seeking_red")
+        self.assertEqual(planner.guidance_vector, (1.0, 0.0))
+        learner.observe_pickups(1, red=1)
+        planner.update(1, 0.0, 1, 1, 0, 0)
+        planner.update_guidance(
+            {
+                "yellow_food_visible": True,
+                "yellow_food_distance": 3.0,
+                "yellow_food_world_x": 0.0,
+                "yellow_food_world_z": 1.0,
+            }
+        )
+        self.assertEqual(planner.phase, "seeking_second")
+        self.assertEqual(planner.guidance_vector, (0.0, 1.0))
+
+    def test_typed_guidance_isolates_after_second_pickup(self):
+        learner = PassiveOrderedEpisodeLearner(
+            hz=1.0, delay_seconds=10.0, enabled=True
+        )
+        planner = EmbodiedPGNWExperimentPlanner(
+            mode="committed", hz=1.0, typed_learner=learner
+        )
+        learner.observe_pickups(1, red=1)
+        learner.observe_pickups(2, yellow=1, can_start=False)
+        planner.update(2, 0.0, 2, 1, 0, 1)
+        planner.update_guidance(
+            {
+                "blue_food_visible": True,
+                "blue_food_distance": 2.0,
+                "blue_food_world_x": 1.0,
+                "blue_food_world_z": 0.0,
+            }
+        )
+        self.assertEqual(planner.phase, "observing_delay")
+        self.assertTrue(planner.isolation_active)
+        self.assertEqual(planner.guidance_vector, (-1.0, 0.0))
+
     def test_isolation_counts_intervening_pickup(self):
         planner = self.planner("committed", seed=1)
         planner.current_action = 0
@@ -165,6 +249,141 @@ class EmbodiedPGNWPlannerTests(unittest.TestCase):
             }
         )
         self.assertFalse(planner.isolation_active)
+
+    def test_verified_protective_rule_is_inert_until_red_is_pending(self):
+        learner = PassiveOrderedEpisodeLearner(
+            hz=1.0, delay_seconds=10.0, enabled=True
+        )
+        learner.pool.posterior = np.array([0.97, 0.01, 0.01, 0.01])
+        planner = EmbodiedPGNWExperimentPlanner(
+            mode="committed",
+            hz=1.0,
+            typed_learner=learner,
+            typed_rule_control="verified_protective",
+        )
+        yellow = {
+            "yellow_food_visible": True,
+            "yellow_food_distance": 3.0,
+            "yellow_food_world_x": 0.0,
+            "yellow_food_world_z": 1.0,
+        }
+        planner.update_guidance(yellow)
+        self.assertFalse(planner.guidance_active)
+        learner.observe_pickups(1, red=1)
+        planner.update(1, 0.0, 1, 1, 0, 0)
+        planner.update_guidance(yellow)
+        self.assertTrue(planner.guidance_active)
+        self.assertTrue(planner.protective_rule_active)
+        self.assertEqual(planner.protective_target_feature, "yellow")
+        self.assertEqual(planner.guidance_vector, (0.0, 1.0))
+
+    def test_verified_protective_rule_can_recall_unseen_yellow_location(self):
+        learner = PassiveOrderedEpisodeLearner(
+            hz=1.0, delay_seconds=10.0, enabled=True
+        )
+        learner.pool.posterior = np.array([0.97, 0.01, 0.01, 0.01])
+        learner.observe_pickups(1, red=1)
+        planner = EmbodiedPGNWExperimentPlanner(
+            mode="committed",
+            hz=1.0,
+            typed_learner=learner,
+            typed_rule_control="verified_protective",
+        )
+        memory = SimpleNamespace(
+            active=True,
+            active_feature="yellow",
+            target=(30.0, 40.0),
+            guidance_vector=(0.6, 0.8),
+            distance=50.0,
+        )
+
+        planner.update_guidance(
+            {"yellow_food_visible": False}, resource_memory=memory
+        )
+
+        self.assertTrue(planner.protective_rule_active)
+        self.assertTrue(planner.protective_memory_active)
+        self.assertTrue(planner.guidance_active)
+        self.assertEqual(planner.protective_target_feature, "yellow")
+        self.assertEqual(planner.guidance_vector, (0.6, 0.8))
+
+    def test_verified_protection_survives_irrelevant_blue_intervention(self):
+        learner = PassiveOrderedEpisodeLearner(
+            hz=1.0, delay_seconds=10.0, enabled=True
+        )
+        learner.pool.posterior = np.array([0.97, 0.01, 0.01, 0.01])
+        learner.observe_pickups(1, red=1)
+        learner.observe_pickups(2, blue=1, can_start=False)
+        planner = EmbodiedPGNWExperimentPlanner(
+            mode="committed",
+            hz=1.0,
+            typed_learner=learner,
+            typed_rule_control="verified_protective",
+        )
+        planner.phase = "observing_delay"
+        memory = SimpleNamespace(
+            active=True,
+            active_feature="yellow",
+            target=(30.0, 40.0),
+            guidance_vector=(0.6, 0.8),
+            distance=50.0,
+        )
+
+        planner.update_guidance(
+            {"yellow_food_visible": False},
+            resource_memory=memory,
+            protective_need_active=True,
+        )
+
+        self.assertTrue(planner.protective_rule_active)
+        self.assertTrue(planner.protective_need_active)
+        self.assertTrue(planner.protective_memory_active)
+        self.assertTrue(planner.guidance_active)
+        self.assertFalse(planner.isolation_active)
+
+    def test_verified_protection_stops_when_metabolic_need_is_resolved(self):
+        learner = PassiveOrderedEpisodeLearner(
+            hz=1.0, delay_seconds=10.0, enabled=True
+        )
+        learner.pool.posterior = np.array([0.97, 0.01, 0.01, 0.01])
+        learner.observe_pickups(1, red=1)
+        planner = EmbodiedPGNWExperimentPlanner(
+            mode="committed",
+            hz=1.0,
+            typed_learner=learner,
+            typed_rule_control="verified_protective",
+        )
+
+        planner.update_guidance(
+            {"yellow_food_visible": True}, protective_need_active=False
+        )
+
+        self.assertFalse(planner.protective_rule_active)
+        self.assertFalse(planner.guidance_active)
+
+    def test_unverified_or_nonspecific_rule_cannot_gain_protective_authority(self):
+        learner = PassiveOrderedEpisodeLearner(
+            hz=1.0, delay_seconds=10.0, enabled=True
+        )
+        planner = EmbodiedPGNWExperimentPlanner(
+            mode="committed",
+            hz=1.0,
+            typed_learner=learner,
+            typed_rule_control="verified_protective",
+        )
+        learner.observe_pickups(1, red=1)
+        state = {
+            "yellow_food_visible": True,
+            "yellow_food_distance": 3.0,
+            "yellow_food_world_x": 0.0,
+            "yellow_food_world_z": 1.0,
+        }
+        learner.pool.posterior = np.array([0.94, 0.02, 0.02, 0.02])
+        planner.update_guidance(state)
+        self.assertFalse(planner.guidance_active)
+        learner.pool.posterior = np.array([0.01, 0.01, 0.97, 0.01])
+        planner.update_guidance(state)
+        self.assertFalse(planner.guidance_active)
 
     def test_red_pickup_arms_brief_stronger_isolation_retreat(self):
         planner = EmbodiedPGNWExperimentPlanner(

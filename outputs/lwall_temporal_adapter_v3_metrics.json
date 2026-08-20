@@ -1,0 +1,95 @@
+{
+  "protocol": {
+    "recordings": [
+      "outputs/unity_shadow/lwall_adapter_v2_multiseed_20260721/seed_11.jsonl",
+      "outputs/unity_shadow/lwall_adapter_v2_multiseed_20260721/seed_23.jsonl",
+      "outputs/unity_shadow/lwall_adapter_v2_multiseed_20260721/seed_37.jsonl",
+      "outputs/unity_shadow/lwall_adapter_v2_multiseed_20260721/seed_53.jsonl",
+      "outputs/unity_shadow/lwall_adapter_v2_multiseed_20260721/seed_71.jsonl"
+    ],
+    "base_checkpoint": "checkpoints/unity_geometry_posttrained/best.pt",
+    "v2_checkpoint": "checkpoints/lwall_hidden_goal_adapter/v2.pt",
+    "temporal_steps": 12,
+    "future_hindsight_steps": 12,
+    "whole_recording_seed_holdout": true,
+    "base_policy_frozen": true
+  },
+  "extraction": {
+    "episodes_success": 26,
+    "episodes_timeout": 4,
+    "samples": 1865,
+    "successful_episodes_with_samples": 26,
+    "recording_groups_with_samples": 5
+  },
+  "action_counts": {
+    "down_right": 430,
+    "left": 503,
+    "up_right": 491,
+    "down": 74,
+    "right": 64,
+    "up_left": 172,
+    "up": 127,
+    "down_left": 4
+  },
+  "folds": [
+    {
+      "heldout_group": "seed_11",
+      "train_samples": 1396,
+      "heldout_samples": 469,
+      "base_policy_accuracy": 0.6503198146820068,
+      "v2_linear_accuracy": 0.8017057776451111,
+      "v3_temporal_accuracy": 0.9040511846542358,
+      "training_loss": 0.43436224081299524
+    },
+    {
+      "heldout_group": "seed_23",
+      "train_samples": 1403,
+      "heldout_samples": 462,
+      "base_policy_accuracy": 0.6883116960525513,
+      "v2_linear_accuracy": 0.8376623392105103,
+      "v3_temporal_accuracy": 0.9588744640350342,
+      "training_loss": 0.44022510133006354
+    },
+    {
+      "heldout_group": "seed_37",
+      "train_samples": 1393,
+      "heldout_samples": 472,
+      "base_policy_accuracy": 0.6906779408454895,
+      "v2_linear_accuracy": 0.8389830589294434,
+      "v3_temporal_accuracy": 0.9173728823661804,
+      "training_loss": 0.44579158452424134
+    },
+    {
+      "heldout_group": "seed_53",
+      "train_samples": 1591,
+      "heldout_samples": 274,
+      "base_policy_accuracy": 0.5364963412284851,
+      "v2_linear_accuracy": 0.7664233446121216,
+      "v3_temporal_accuracy": 0.8065693378448486,
+      "training_loss": 0.4929605007171631
+    },
+    {
+      "heldout_group": "seed_71",
+      "train_samples": 1677,
+      "heldout_samples": 188,
+      "base_policy_accuracy": 0.6223404407501221,
+      "v2_linear_accuracy": 0.771276593208313,
+      "v3_temporal_accuracy": 0.9308510422706604,
+      "training_loss": 0.4702189509515409
+    }
+  ],
+  "base_policy_accuracy": 0.6376292467117309,
+  "v2_linear_accuracy": 0.8032102227210999,
+  "v3_temporal_accuracy": 0.9035437822341919,
+  "v3_improvement_over_v2": 0.10033355951309197,
+  "criteria": {
+    "whole_seed_recording_holdout": true,
+    "base_policy_frozen": true,
+    "v3_accuracy_at_least_90_percent": true,
+    "v3_beats_v2_by_two_points": true,
+    "no_v3_fold_below_80_percent": true
+  },
+  "accepted": true,
+  "final_training_loss": 0.44313267469406126,
+  "claim_boundary": "This tests a narrow temporal readout on repeated instances of one fixed Unity L-wall. Acceptance would support temporal sequencing beyond a linear hidden-state readout, not general topology learning or consciousness."
+}

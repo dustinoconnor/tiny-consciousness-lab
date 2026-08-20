@@ -4,13 +4,27 @@ from analyze_resource_memory_unity import summarize
 from terrain_resource_memory import PassiveTerrainResourceMemory
 
 
-def packet(x=0.0, z=0.0, pickups=0, food_visible=False):
-    return {
+def packet(
+    x=0.0,
+    z=0.0,
+    pickups=0,
+    food_visible=False,
+    red=0,
+    blue=0,
+    yellow=0,
+    **updates,
+):
+    body = {
         "x": x,
         "z": z,
         "mushroom_pickups_total": pickups,
         "food_visible": food_visible,
+        "red_mushroom_pickups_total": red,
+        "blue_mushroom_pickups_total": blue,
+        "yellow_flower_pickups_total": yellow,
     }
+    body.update(updates)
+    return body
 
 
 def test_pickup_encodes_and_persists_coarse_region(tmp_path):
@@ -24,6 +38,76 @@ def test_pickup_encodes_and_persists_coarse_region(tmp_path):
     payload = json.loads(path.read_text())
     assert payload["format"] == memory.FORMAT
     assert len(payload["regions"]) == 1
+
+
+def test_pickups_are_persisted_as_separate_typed_locations(tmp_path):
+    path = tmp_path / "resource_memory.json"
+    memory = PassiveTerrainResourceMemory(path)
+    memory.update(packet(), hunger=0.2)
+    memory.update(
+        packet(x=10.0, z=10.0, pickups=1, red=1), hunger=0.2
+    )
+    memory.update(
+        packet(x=10.0, z=10.0, pickups=2, red=1, yellow=1),
+        hunger=0.2,
+    )
+
+    assert memory.typed_encodings == 2
+    assert {key[0] for key in memory.typed_entries} == {"red", "yellow"}
+    payload = json.loads(path.read_text())
+    assert payload["format"] == "terrain_resource_memory_v2"
+    assert {item["feature"] for item in payload["typed_regions"]} == {
+        "red",
+        "yellow",
+    }
+
+
+def test_typed_recall_returns_only_requested_feature_without_hunger_gate(tmp_path):
+    memory = PassiveTerrainResourceMemory(tmp_path / "memory.json")
+    memory.record_typed_reward("blue", 5.0, 0.0)
+    memory.record_typed_reward("yellow", 30.0, 0.0)
+
+    memory.update(packet(), hunger=0.1, requested_feature="yellow")
+
+    assert memory.active
+    assert memory.active_feature == "yellow"
+    assert memory.target == (30.0, 0.0)
+    assert memory.recommendation.startswith("typed_yellow_")
+    assert memory.typed_queries == 1
+    assert memory.typed_recommendations == 1
+
+
+def test_visible_requested_feature_releases_typed_recall(tmp_path):
+    memory = PassiveTerrainResourceMemory(tmp_path / "memory.json")
+    memory.record_typed_reward("yellow", 30.0, 0.0)
+
+    memory.update(
+        packet(yellow_food_visible=True),
+        hunger=0.9,
+        requested_feature="yellow",
+    )
+
+    assert not memory.active
+    assert memory.release_reason == "requested_feature_visible"
+
+
+def test_legacy_untyped_memory_remains_loadable(tmp_path):
+    path = tmp_path / "legacy.json"
+    path.write_text(
+        json.dumps(
+            {
+                "format": "terrain_resource_memory_v1",
+                "regions": [
+                    {"x": 12.0, "z": 18.0, "rewards": 2, "failures": 0}
+                ],
+            }
+        )
+    )
+
+    memory = PassiveTerrainResourceMemory(path)
+
+    assert len(memory.entries) == 1
+    assert memory.typed_entries == {}
 
 
 def test_recall_requires_hunger_and_absent_visible_food(tmp_path):

@@ -1,0 +1,145 @@
+{
+  "checkpoint_type": "passive_embodied_conductor",
+  "version": 1,
+  "mode": "passive_only",
+  "context": "familiar_hidden_goal",
+  "specialists": [
+    "recurrent",
+    "episodic"
+  ],
+  "q_values": {
+    "familiar_hidden_goal": {
+      "recurrent": 0.012438497868120757,
+      "episodic": 0.7376533387081065
+    }
+  },
+  "visits": {
+    "familiar_hidden_goal": {
+      "recurrent": 30,
+      "episodic": 30
+    }
+  },
+  "training_sources": {
+    "recurrent": "outputs/unity_shadow/v5_1_collection_user_20260723",
+    "episodic": "outputs/unity_shadow/v5_1_acceptance_20260723"
+  },
+  "matched_episode_count": 30,
+  "leave_one_seed_out": [
+    {
+      "held_out_seed": 11,
+      "train_q": {
+        "recurrent": 0.3610106030576791,
+        "episodic": 0.729670816743342
+      },
+      "train_visits": {
+        "recurrent": 24,
+        "episodic": 24
+      },
+      "evaluation": {
+        "episodes": 6,
+        "selected_specialist": "episodic",
+        "selection_accuracy": 1.0,
+        "mean_regret": 0.0,
+        "mean_selected_utility": 0.7695834265671643,
+        "mean_recurrent_utility": -1.3818499228901129,
+        "utility_gain_over_recurrent": 2.1514333494572773
+      }
+    },
+    {
+      "held_out_seed": 23,
+      "train_q": {
+        "recurrent": -0.03724564008006436,
+        "episodic": 0.7323488165291124
+      },
+      "train_visits": {
+        "recurrent": 24,
+        "episodic": 24
+      },
+      "evaluation": {
+        "episodes": 6,
+        "selected_specialist": "episodic",
+        "selection_accuracy": 1.0,
+        "mean_regret": 0.0,
+        "mean_selected_utility": 0.7588714274240825,
+        "mean_recurrent_utility": 0.21117504966086123,
+        "utility_gain_over_recurrent": 0.5476963777632213
+      }
+    },
+    {
+      "held_out_seed": 37,
+      "train_q": {
+        "recurrent": -0.11192197108511209,
+        "episodic": 0.7407670562584657
+      },
+      "train_visits": {
+        "recurrent": 24,
+        "episodic": 24
+      },
+      "evaluation": {
+        "episodes": 6,
+        "selected_specialist": "episodic",
+        "selection_accuracy": 1.0,
+        "mean_regret": 0.0,
+        "mean_selected_utility": 0.7251984685066694,
+        "mean_recurrent_utility": 0.5098803736810522,
+        "utility_gain_over_recurrent": 0.21531809482561717
+      }
+    },
+    {
+      "held_out_seed": 53,
+      "train_q": {
+        "recurrent": -0.0336627703005073,
+        "episodic": 0.7463149734510104
+      },
+      "train_visits": {
+        "recurrent": 24,
+        "episodic": 24
+      },
+      "evaluation": {
+        "episodes": 6,
+        "selected_specialist": "episodic",
+        "selection_accuracy": 0.8333333333333334,
+        "mean_regret": 0.02156355722549484,
+        "mean_selected_utility": 0.7030067997364906,
+        "mean_recurrent_utility": 0.19684357054263302,
+        "utility_gain_over_recurrent": 0.5061632291938576
+      }
+    },
+    {
+      "held_out_seed": 71,
+      "train_q": {
+        "recurrent": -0.11598773225139158,
+        "episodic": 0.7391650305586017
+      },
+      "train_visits": {
+        "recurrent": 24,
+        "episodic": 24
+      },
+      "evaluation": {
+        "episodes": 6,
+        "selected_specialist": "episodic",
+        "selection_accuracy": 1.0,
+        "mean_regret": 0.0,
+        "mean_selected_utility": 0.7316065713061253,
+        "mean_recurrent_utility": 0.5261434183461701,
+        "utility_gain_over_recurrent": 0.20546315295995518
+      }
+    }
+  ],
+  "aggregate": {
+    "fold_selection_accuracy": 0.9666666666666666,
+    "fold_mean_regret": 0.0043127114450989676,
+    "fold_utility_gain_over_recurrent": 0.7252148408399857,
+    "full_data_evaluation": {
+      "episodes": 30,
+      "selected_specialist": "episodic",
+      "selection_accuracy": 0.9666666666666667,
+      "mean_regret": 0.0043127114450989676,
+      "mean_selected_utility": 0.7376533387081066,
+      "mean_recurrent_utility": 0.012438497868120756,
+      "utility_gain_over_recurrent": 0.7252148408399858
+    }
+  },
+  "utility_definition": "success_or_timeout - normalized hidden duration - hidden collision rate - normalized hidden yaw travel",
+  "claim_boundary": "This checkpoint learns a recurrent-versus-ART preference for matched Unity L-wall hidden-goal episodes. It contains no evidence for visible-target MPC handoff timing or stable fallback selection and remains passive."
+}

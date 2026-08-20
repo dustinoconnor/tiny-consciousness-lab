@@ -2072,3 +2072,758 @@ is treated as external and is not inferred from these measurements.
   content regressions, revised metadata, and a project-specific dynamic Tiny
   Scientist social card. Both site tests passed and Sites version 21 deployed
   successfully to the existing public URL.
+- 14 August yellow-concept scene preparation: evaluated Mao et al.'s NS-CL,
+  PDSketch, Neural Logic Machines, Agent Workflow Memory, and the newer
+  concept-centric neuro-symbolic framework against the live Tiny Scientist.
+  Selected typed concept grounding plus a lightweight PDSketch-style planning
+  bridge as the useful direction; no third-party framework was imported.
+- Added a third stable `FoodMushroom.ObservableProfile` value, `Yellow = 2`,
+  without changing the serialized numeric identities of blue or red. Yellow
+  pickups now report the general observable feature `yellow`; no antidote,
+  toxin-cancellation, special reward, hypothesis, or navigation semantics have
+  been assigned yet, so the future causal result is not leaked into the world.
+- Added `YellowFlowerPrefabTools` to both the correct live terrain project at
+  `/Users/dustinoconnor/My project` and the tracked Unity source mirror. The
+  tool builds `YellowFoodFlower.prefab` from the imported `Assets/flower.glb`,
+  attaches yellow pickup metadata, fits a trigger `BoxCollider` to renderer
+  bounds, and configures a no-gravity kinematic `Rigidbody`. Its dedicated
+  placement window defaults to 60 flowers and exposes seed, yellow/other-food
+  spacing, slope limit, and a 1.5-unit terrain Y offset. It repairs an existing
+  yellow population in place, preserves all red and blue population roots, and
+  provides an Undo-compatible yellow-only clear action.
+- Static source and tracked-file checks passed. Unity's current editor session
+  had not automatically refreshed scripts during the change, and an attempted
+  standalone legacy `xbuild` check was invalid because Unity's generated project
+  references virtual package paths unavailable to `xbuild`; therefore Unity
+  compilation and one visual collider/terrain-contact inspection remain the
+  required editor-side verification before scattering the population.
+- Added a visual-only `FlowerWindSway` behavior after the scattered yellow
+  flowers looked unnaturally rigid beside the terrain ferns. Reusing the fern
+  Shader Graph was rejected because it expects fern-specific material textures
+  and mesh inputs. The lightweight component instead finds the imported visual
+  root, computes the mesh base from combined renderer bounds, and applies a
+  subtle two-axis 3.5-degree sway around that base. World-position phase offsets
+  keep the population asynchronous. The root transform and trigger collider do
+  not move, so wind cannot alter pickup sensing, experimental contact timing, or
+  physics.
+- Updated the yellow prefab builder to install the sway component whenever
+  `YellowFoodFlower.prefab` is created or repaired, and mirrored the source and
+  `.meta` identity into the tracked Unity project. Unity 6000.4 compiled the
+  runtime and editor assemblies successfully with no C# errors; the placement
+  tool's deprecated object-query overload was also replaced. Re-running Create
+  / Repair Prefab is still required to propagate sway to the already-scattered
+  prefab instances, followed by a brief Play-mode visual check.
+- Visual verification passed after the prefab repair: the nearby inspection
+  instance showed subtle wind motion. The yellow prefab root was then enlarged
+  uniformly from scale 1 to scale 3, which propagates to connected scattered
+  instances. Inspection confirmed the trigger scales with the visible mesh to
+  roughly 1.94 x 3.00 x 1.98 world units; with the existing 1.5-unit placement
+  offset, the approximately three-unit-tall model remains based near the sampled
+  terrain rather than sinking below it. This is now the intended yellow pickup
+  presentation and collider scale for the first causal test.
+- 15 August typed-interaction phase: preregistered
+  `TYPED_YELLOW_INTERACTION_PROTOCOL_20260815.md`, a bounded combination of the
+  concept-centric neuro-symbolic and PDSketch design patterns. The supplied
+  ontology names red/blue/yellow as typed pickups and supplies composition and
+  temporal-relation operators, but does not use `antidote`, `toxin`, `cure`, or
+  identify the correct suppressor. This is an inspired architecture test, not a
+  reproduction claim for either paper.
+- Froze the new hidden world transition behind explicit environment-only
+  configuration: red schedules a passive probe rise after 30 seconds; yellow
+  consumed later while that event is pending cancels one event; yellow before
+  red and blue after red do not. Same-frame red/yellow telemetry is marked
+  order-ambiguous and cannot cancel. The legacy ten-second, no-cancellation
+  behavior remains the default, and the probe still has zero reward, survival,
+  workspace, neuromodulatory, conductor, or ordinary navigation influence.
+- Added `typed_causal_domain.py` with grounded pickup type checking, ordered
+  action schemas, deterministic hidden transition accounting, and a symmetric
+  four-model Bayesian pool: yellow-specific suppression, blue-specific
+  suppression, any-second-pickup suppression, and no ordered suppression. All
+  begin at 0.25. Three clean yellow-positive/blue-negative pairs recover the
+  yellow-specific rule above posterior 0.95 offline; this is a formal substrate
+  result, not embodied discovery.
+- Extended the correct Unity terrain bridge and tracked source mirror with
+  independent durable red, blue, and yellow pickup counters and per-feature
+  yellow visibility, distance, and world-direction telemetry. The legacy
+  red/blue PGNW planner now treats yellow as an explicit protocol mismatch
+  rather than silently collapsing every non-red pickup into blue, and its
+  observation isolation repels visible yellow along with existing food.
+- Integrated configurable delay/cancellation dynamics and audit telemetry into
+  `embodied_unity_loop.py`, including completed, pending, cancelled, and
+  same-frame-ambiguous event accounting. Added focused world, embodiment, and
+  PGNW contamination tests. Python compilation passed and the full repository
+  suite passed 236/236 in 5.23 seconds. Unity had not refreshed the latest
+  `RobotUdpBridge.cs` edit at log time, so editor compilation remains the first
+  gate before the plumbing smoke; no ordered PGNW navigation or Gemma L2
+  formulation claim has been made yet.
+- Before collecting the first typed-interaction Unity record, amended the
+  frozen opportunity parameters from 60 yellow flowers and a 30-second window
+  to 100 yellow flowers and a 60-second window. This matches the intended red
+  population count and makes an unguided ordered encounter physically
+  plausible. The change was made with zero observed outcome data and does not
+  alter the typed candidate set, hidden suppressor identity, controls, or
+  inference thresholds.
+- Audited the completed seed-155 yellow plumbing smoke in
+  `TYPED_YELLOW_PLUMBING_RESULT_20260815.md`. The appended log contained two
+  Unity sessions; the current session reached step 2827 and collected 6 red, 10
+  blue, and 1 yellow pickup. The yellow pickup followed the most recent red by
+  192 controller steps (38.4 nominal seconds), with no intervening blue pickup,
+  and cancelled the one remaining pending event inside the preregistered
+  60-second window. There were 0 ambiguous red/yellow frames, 0 survival
+  failures, 0 critical-hunger seconds, and 0 causal-probe action influences;
+  5 stuck events remain a later matched-condition diagnostic.
+- Classified the outcome as a successful pickup/hidden-transition plumbing
+  result, not causal learning. The live embodiment does not yet instantiate or
+  update the symmetric `TypedInteractionPool`, so the environment's cancellation
+  counter cannot be treated as an inferred posterior. The audit also found that
+  yellow visibility/distance/direction are transmitted by Unity but not stored
+  in shadow JSONL. Persisting those signals and admitting uncontaminated ordered
+  episodes to the four-model pool are the next gates before dynamic Gemma/PGNW
+  discovery.
+- Connected a new opt-in `PassiveOrderedEpisodeLearner` to the live Unity
+  feedback loop behind `--typed-interaction-learning`. It starts only from a
+  single red pickup with no previously pending red event, admits at most one
+  subsequent blue or yellow pickup, discards resets, repeated red events, and
+  additional-pickup contamination, and waits until the original delayed
+  observation deadline before updating the symmetric four-candidate pool from
+  the observed presence or absence of a probe event. It never reads the hidden
+  cancellation counter and reports zero motor authority.
+- Added the complete learner posterior, selected model, clean/discarded episode
+  counts, active episode, and last outcome to every shadow record. Also persisted
+  yellow visibility, distance, and direction telemetry, closing the recorder gap
+  found in the first plumbing audit. Focused deadline/no-premature-update and
+  contamination tests passed; Python compilation and the full repository suite
+  passed 238/238 in 5.42 seconds. No Unity C# source changed in this step, so no
+  editor recompilation is required before the first online passive-learning run.
+- Audited the first online passive-learning run in
+  `TYPED_YELLOW_LEARNING_SEED156_RESULT_20260815.md`. Across steps 0–2818 the
+  agent collected 3 red and 10 blue pickups but neither saw nor collected a
+  yellow flower. The learner discarded one contaminated red/blue interval,
+  accepted one clean `red_wait -> probe_observed` control, and ended with one
+  red-wait interval still 100 steps short of its deadline. Because `red_wait`
+  has identical likelihood under all four preregistered candidates, the one
+  legitimate update correctly left every posterior at 0.25. Safety remained
+  intact with 0 survival failures and 0 critical-hunger seconds; 5 stuck events
+  were recorded.
+- Classified seed 156 as a valid no-yellow-opportunity result rather than a
+  causal-learning failure. It demonstrates deadline-gated online admission and
+  non-informative-control invariance, but passive wandering is too variable to
+  efficiently distinguish the suppressor. The next efficient experiment is to
+  route the typed pool's requested `red_then_yellow` and `red_then_blue`
+  interventions through safety-bounded PGNW target guidance while preserving
+  zero direct authority for the hidden outcome and passive posterior updates.
+- Connected the typed interaction pool to the existing committed PGNW/MPC
+  guidance path. The pool's expected-information-gain selector now requests an
+  ordered experiment; PGNW first targets a visible red pickup, then targets the
+  requested yellow or blue second pickup, and switches to the existing
+  all-food observation-isolation behavior after the second pickup. It reuses
+  the established survival, stuck/fallback, terrain-route, resource-memory,
+  collision-clearance, commitment-duty-cycle, and maximum-score-regret gates
+  instead of introducing a parallel motor controller.
+- Kept causal credit separated: typed PGNW can influence only safe target
+  selection, while `PassiveOrderedEpisodeLearner` still waits until the frozen
+  60-second deadline and updates from observed probe presence/absence. It does
+  not receive the hidden cancellation counter or causal label. Added tests for
+  red-then-yellow phase switching and post-second-pickup isolation. Python
+  compilation, 66 focused tests, and the full repository suite passed 240/240
+  in 7.74 seconds. No Unity source changed, so the new guided run requires no
+  editor compilation.
+- Audited the 20-minute seed-157 guided run in
+  `TYPED_YELLOW_GUIDED_SEED157_RESULT_20260815.md`. The agent collected 4 red,
+  32 blue, and 3 yellow pickups; yellow was independently visible for 72 frames
+  and came within 2.47 units. PGNW made 103 bounded guidance decisions and
+  changed 63 MPC actions, including 56 isolation changes, while safety remained
+  intact at 0 survival failures and 0 critical-hunger seconds.
+- The online learner accepted two clean `red_then_blue -> probe_observed`
+  controls and discarded one contaminated interval. The resulting posterior
+  reduced blue-specific suppression to 0.3490% and generic any-pickup
+  suppression to 1.2269%, leaving yellow-specific suppression and the null tied
+  at 49.2121% each. No hidden event was cancelled and no clean red-then-yellow
+  episode completed. In two trials a blue pickup followed red only six
+  controller steps later, consistent with the manually colocated red/blue spawn
+  pair preventing PGNW from executing its requested yellow second action.
+- The next run requires moving/removing that nearby manual blue and preserving
+  the learned posterior across process boundaries. One clean yellow-positive
+  update from the current posterior would reach approximately 92.78%, with a
+  second expected to exceed the 0.95 verification gate; restarting at uniform
+  priors would discard the two legitimate negative controls.
+- After the user removed the manually colocated blue and placed a separated
+  yellow near the controlled spawn red, added opt-in persistent typed-
+  interaction memory through `--typed-interaction-memory`. The learner now
+  validates hypothesis names, probability finiteness/non-negativity and unit
+  normalization before loading; writes accepted/discarded counts and posterior
+  atomically after terminal episodes; and never persists an unfinished active
+  interval across process boundaries.
+- Materialized `outputs/typed_interaction_memory_seed157_20260815.json` solely
+  from the two accepted seed-157 red/blue controls. A dry reload recovered 2
+  completed updates, 1 discarded interval, the 49.2121% yellow / 49.2121% null
+  posterior, and an expected-information-gain request for `red_then_yellow`.
+  The checkpoint contains no hidden cancellation identity or unobserved yellow
+  outcome. Added a persistence round-trip regression; Python compilation and
+  the full repository suite passed 241/241 in 5.18 seconds.
+- Audited the seed-158 persistent guided run in
+  `TYPED_YELLOW_GUIDED_SEED158_RESULT_20260815.md`. The controlled spawn pair
+  produced red at step 12 and yellow at step 22. PGNW changed 6 MPC actions by
+  the second pickup, and the uncontaminated interval reached its step-312
+  deadline without a probe event. The learner admitted `red_then_yellow ->
+  suppressed`, persisted its third accepted update, and raised the yellow-
+  specific posterior from 49.2121% to 92.7844%; null fell to 5.0426%, generic
+  any-pickup to 2.1372%, and blue-specific to 0.0358%.
+- The run collected 3 red, 6 blue, and 3 yellow pickups, with 68 yellow-visible
+  frames and a 2.45-unit nearest approach. PGNW made 104 guidance decisions and
+  changed 36 MPC actions overall. Safety remained intact at 0 survival failures
+  and 0 critical-hunger seconds; 4 stuck events occurred. A second physical
+  red/yellow cancellation was conservatively discarded because an extra red
+  arrived exactly at the observation deadline. One more comparable clean
+  positive from persistent memory is expected to reach 97.6319% and clear the
+  preregistered 0.95 verification gate; no code or scene adjustment is needed.
+- Verified the ordered yellow rule in the seed-159 persistent run and documented
+  it in `TYPED_YELLOW_VERIFICATION_SEED159_RESULT_20260815.md`. The decisive
+  episode collected red at step 12 and yellow at step 22; PGNW had changed 3 MPC
+  actions before the yellow evidence, and the interval remained uncontaminated
+  through its step-312 deadline. The observed absence of a probe raised the
+  yellow-specific posterior from 92.7844% to 97.6319%, independently clearing
+  the preregistered 0.95 gate.
+- A later clean observed red/yellow episode raised the final persisted posterior
+  to 98.0562%, versus 1.9280% any-pickup, 0.0157% null, and 0.0001% blue-specific.
+  Persistent memory now contains 5 accepted episodes and 2 conservative
+  discards. The 594.09-second run collected 2 red, 21 blue, and 6 yellow pickups,
+  recorded 144 yellow-visible frames, 2 hidden cancellations, 0 survival
+  failures, 0 critical-hunger seconds, and 3 stuck events. The verification
+  claim is limited to online selection within the supplied symmetric typed pool;
+  dynamic Gemma generation of the new ontology remains untested.
+- Added `formulate_ordered_interaction.py` to replay only accepted ordered
+  episodes across persistent Unity logs, freeze discovery at the first three
+  observations (two red/blue negatives and one red/yellow positive), and reserve
+  seed 159 as post-admission evidence. The formal compiler validates grounded
+  features, relation, effect, confidence, and observed-action support but is
+  deliberately answer-blind; a regression confirms it will admit a well-formed
+  but empirically wrong blue hypothesis.
+- Recorded three honest Gemma 3 1B decoder failures before repair: free JSON
+  selected the blue negative control with an invalid relation; a clarified free
+  prompt produced malformed ungrounded fields; symmetric whole-record scoring
+  selected blue suppression. A one-slot masked scorer still preferred blue by
+  0.1875 raw mean log probability, demonstrating a lexical prior that overrode
+  the explicit 0/2 versus 1/1 suppression rates.
+- Applied content-free calibration using the identical blue/yellow slot under
+  equal zero-suppression evidence. After subtracting this prior, yellow gained
+  +0.307418 versus blue -0.192582, a calibrated +0.500000 margin. Gemma selected
+  yellow at two-choice confidence 0.622459; the formal layer compiled
+  `T1 i red s yellow r after e suppresses_probe`; and both completely held-out
+  seed-159 episodes matched (2/2). Documented the exploratory result and all
+  ablations in `GEMMA_ORDERED_INTERACTION_FORMULATION_RESULT_20260815.md`.
+  Python compilation and the full repository suite passed 243/243 in 8.89
+  seconds. The calibration was developed after observing failures, so a frozen
+  counterbalanced replication remains required before a reliability claim or
+  live asynchronous Unity integration.
+- Integrated the calibrated ordered-role proposer into the live embodiment
+  behind `--typed-interaction-formulation`. `PassiveOrderedEpisodeLearner` now
+  persists accepted observation records, starts one background formulation
+  worker after a configurable three-observation minimum, freezes the admission
+  cutoff before inference, and records generation status, raw selected role,
+  calibration diagnostics, and the compiled hypothesis in shadow telemetry.
+  Formulation has no motor authority and cannot block the Unity control loop.
+- Added a separate smoke memory,
+  `outputs/typed_interaction_formulation_memory_seed158_20260815.json`, frozen at
+  exactly the original discovery cutoff: two red/blue non-suppressions and one
+  red/yellow suppression. Seed-159 evidence and the 98.06% verified posterior
+  are excluded. Added an asynchronous proposer regression; 70 focused tests and
+  the full repository suite passed 244/244 in 7.81 seconds. No Unity C# source
+  changed, so the bounded live formulation smoke needs no editor compilation.
+- Audited the seed-160 live asynchronous smoke in
+  `LIVE_GEMMA_ORDERED_FORMULATION_SMOKE_SEED160_20260815.md`. Formulation began
+  at step 0 from exactly three frozen discovery observations. Gemma completed
+  inside the running Unity process at step 33, selected raw token `yellow`, and
+  the answer-blind compiler admitted
+  `T1 i red s yellow r after e suppresses_probe` at cutoff 3. The new controlled
+  red/yellow interval was not in that evidence and did not reach its outcome
+  deadline until step 309, when it independently recorded suppression as
+  accepted observation 4 and raised the Bayesian posterior to 97.6319%.
+- The 172.94-second live smoke collected 1 red, 3 blue, and 1 yellow pickup,
+  recorded 1 hidden cancellation and 0 probe rises, and ended with no pending
+  event. PGNW made 35 guidance decisions and changed 16 MPC actions. Safety
+  remained intact at 0 survival failures and 0 critical-hunger seconds, with 1
+  stuck event. The formulation layer retained 0.0 motor authority. The current
+  status field remains `admitted_unverified` because automatic post-cutoff
+  confirmation bookkeeping is not implemented yet, although the temporal log
+  directly establishes one post-admission match.
+- Added automatic formulation verification bookkeeping to
+  `PassiveOrderedEpisodeLearner`. After formal admission, the learner now scans
+  only accepted observations whose indices are strictly greater than the frozen
+  formulation cutoff and whose ordered action matches the compiled initiator and
+  second-action roles. A matching observed effect promotes telemetry from
+  `admitted_unverified` to `verified_held_out`; derived held-out evaluation and
+  confirmation counts are included in every audit row and cannot double-count
+  under repeated polling.
+- Added a focused regression that freezes formulation at observation 3, admits
+  the red-then-yellow suppression rule, verifies that status initially remains
+  unverified, then accepts observation 4 only after its deadline and confirms
+  promotion plus exact 1/1 held-out counters. The focused typed-domain suite
+  passed 11/11 and the full repository suite passed 245/245 in 5.52 seconds.
+  Matplotlib used a temporary cache because the home cache directory was not
+  writable under the managed sandbox; this warning did not affect test results.
+- Added and froze an eight-condition ordered-formulation counterbalance crossing
+  suppressor color (blue/yellow), evidence-line presentation order
+  (blue-first/yellow-first), and equivalent temporal wording (`red then color`
+  versus `color after red`). Every condition used its own equal-evidence neutral
+  calibration, preventing the baseline from encoding the assigned suppressor.
+  `counterbalance_ordered_formulation.py` loads Gemma once and records raw,
+  neutral, and calibrated scores for every condition; three regressions verify
+  assignment/order independence, temporal semantic equivalence, and neutral
+  prompt identity.
+- The deterministic run and rerun reproduced 6/8 correct selections exactly.
+  Both suppressor colors scored 3/4 and both evidence presentation orders scored
+  3/4, but `after` wording passed 4/4 while `then` passed only 2/4. The two
+  failures selected the second-listed color when the true suppressor appeared
+  first under `then`, with incorrect margins 0.187500 and 0.312500. Documented
+  the negative boundary in `GEMMA_ORDERED_COUNTERBALANCE_RESULT_20260816.md`;
+  this is a synthetic relabeling/invariance test, not sixteen new Unity episodes
+  or physical color generalization. Sixteen focused tests passed and the full
+  repository suite passed 248/248 in 5.42 seconds.
+- Added `normalized_ordered_formulation.py`, a deterministic answer-blind wrapper
+  that maps lexically sorted grounded colors to anonymous roles, sorts records by
+  role, and renders every equivalent temporal statement as the fixed predicate
+  `initiator=red|relation=before`. Raw wording and input position are unavailable
+  to Gemma, while suppression counts and episode totals remain visible. Three
+  focused regressions prove surface/order collapse, outcome-independent role
+  binding, and invalid-count rejection.
+- Froze and evaluated a new 16-condition held-out matrix crossing blue/yellow
+  suppressor assignment, two previously unused count regimes (2/3 versus 1/4 and
+  3/5 versus 0/4), forward/reverse record order, and two new surface renderings.
+  Normalization completely removed the measured wording/order variance: all
+  equivalent variants produced identical canonical prompts and decisions.
+  Selection nevertheless scored only 8/16 (16/32 synthetic held-out episodes)
+  because Gemma selected the anonymous role mapped to yellow in every condition:
+  blue 0/8, yellow 8/8. This exposes a persistent role/color bias rather than
+  causal generalization, so the held-out set is frozen and was not used for
+  repair. Documented the negative result in
+  `GEMMA_ORDERED_NORMALIZED_HOLDOUT_RESULT_20260816.md`; the raw artifact is
+  `outputs/gemma_ordered_normalized_holdout_20260816.json`. The combined focused
+  suite passed 19/19 and the full repository suite passed 251/251 in 5.36 seconds.
+- Added `calibrated_role_decoder.py` to repair the normalized decoder's role bias
+  without touching the failed 16-condition holdout. Calibration uses three new
+  grounded labels (`amber`, `jade`, `violet`), three new count regimes, and nine
+  conditions balanced so each anonymous role is the high-rate role exactly three
+  times. A mean role-offset correction alone reached only 3/9 on calibration, so
+  the frozen neuro-symbolic score adds one shared observed-rate coefficient. The
+  coefficient (0.1387319566) is the minimum learned on calibration to establish a
+  0.01 margin; the same equation applies to every role, has no color exceptions,
+  and the estimator receives no supplied suppressor label. The final calibration
+  reached 9/9 and was sealed under SHA-256
+  `4e5b75819920a9fa81f8f5791c310eaabbecef95f2d5b7f9e760eaf1898fc64c`.
+- Opened a disjoint reserve exactly once after freezing calibration. It crosses
+  new grounded labels (`cobalt`, `saffron`, `umber`), three unseen count regimes,
+  and all three high-rate role assignments. The frozen decoder passed 9/9 with a
+  minimum margin of 0.0133032; stored-logit ablations scored 5/9 for neutral-
+  adjusted Gemma alone and 3/9 for offset-only correction. This is evidence for
+  the calibrated neuro-symbolic decoder, not proof of independent Gemma fraction
+  reasoning, because the symmetric formal rate feature carries task-relevant
+  numeric evidence. Documented the result and limitations in
+  `GEMMA_ROLE_BIAS_CALIBRATED_RESERVED_RESULT_20260816.md`. Added seven focused
+  regressions; the combined suite passed 26/26 and the full repository suite
+  passed 258/258 in 5.38 seconds.
+
+## Session checkpoint — 2026-08-17
+
+- User-reported weekly budget began this phase at 55%, with a 37% stop target.
+  The experimental voice/screen-observation workflow produced about 14 minutes
+  of programming while consuming roughly 45 percentage points, so it was
+  discontinued as too expensive for routine development.
+- Audited the manually launched 180-second seed-160 formulation/resource smoke.
+  Execution was safe (0 survival failures, critical-hunger seconds, stuck
+  events, or respawns), but the scientific test was ineligible: the run loaded
+  the already-expanded four-observation 20260815 memory, rewrote that same file,
+  admitted the incorrect blue-suppression rule, and collected 0 held-out
+  evaluations. Guided resource memory encoded six pickups into four regions but
+  had 0 queries or action changes because hunger never crossed its 0.70 gate.
+- Added the immutable three-observation checkpoint
+  `checkpoints/typed_interaction/discovery_three_20260817.json` and separated the
+  learner's optional read-only discovery input from its writable run memory.
+  Loading a sealed discovery immediately materializes the separate run-memory
+  snapshot, so provenance exists even when no new episode reaches its deadline.
+  Sealed-discovery CLI mode now refuses a wrong discovery profile, identical
+  input/output memory paths, an existing writable memory, a missing explicit
+  telemetry path, or an existing telemetry file. This prevents the provenance
+  failure from recurring while leaving legacy single-path runs available.
+- Hardened live ordered-role decoding with a symmetric maximum-observed-rate
+  mask. Gemma's neutral-calibrated score remains the tie-breaker among roles with
+  the same maximum rate, but a lower-rate candidate can no longer win from a
+  lexical or positional bias. No color is encoded as correct. A real local
+  Gemma preflight on the sealed 0/2 blue versus 1/1 yellow discovery evidence
+  selected yellow and exposed the mask/rates in diagnostics.
+- Added five focused regressions for immutable discovery loading/writing,
+  same-path rejection, exact checkpoint validation, wrong-bias masking, and
+  tied-rate Gemma selection. Focused formulation/domain tests passed 18/18; the
+  full repository suite passed 263/263 in 7.28 seconds. CLI help and diff hygiene
+  also passed. No Unity run was started during this repair.
+- Completed the repaired 180-second seed-161 sealed smoke. The recording was one
+  continuous 852-row session over 179.966 seconds. It loaded exactly the three
+  immutable discovery observations at cutoff 3 and materialized a distinct
+  writable run memory. Committed PGNW requested red-then-yellow, collected red
+  at step 8, changed four MPC selections before yellow at step 16, and the yellow
+  pickup cancelled the pending event without contamination.
+- Asynchronous Gemma formulation finished at step 24, before the new interval's
+  outcome deadline, and the answer-blind rate-masked decoder admitted
+  `T1 i red s yellow r after e suppresses_probe`. At step 308 the post-cutoff
+  interval independently completed as suppressed, became observation 4, and
+  promoted telemetry to `verified_held_out` with 1/1 confirmation. The typed
+  yellow posterior rose from 92.7844% to 97.6319%. Formulation retained zero
+  motor authority; PGNW's pre-existing typed pool selected the intervention.
+- Safety passed with 0 survival failures, critical-hunger seconds, stuck events,
+  or respawns. Guided resource memory loaded 52 regions and encoded all six new
+  pickups, but hunger peaked at 0.429 below its 0.70 gate, so it made 0 queries,
+  recommendations, guidance decisions, or action changes. Documented the passed
+  core smoke and this unexercised resource-authority limitation in
+  `SEALED_CALIBRATED_FORMULATION_SEED161_RESULT_20260817.md`.
+
+## Remote-perception pilot — 2026-08-18
+
+- Began a bounded test of Campbell-style remote-viewing claims as anomalous
+  information access, without treating performance as a consciousness test.
+  Preregistered closed descriptor scoring, prediction-before-reveal commitments,
+  active/ablation/sham controls, 20 feedback trials, and a frozen 100-trial
+  no-feedback reserve in `REMOTE_PERCEPTION_PROTOCOL_20260818.md`. Free-text and
+  generated-image resemblance are explicitly non-scoring to prevent subjective
+  post-hoc matching.
+- Added `remote_perception_lab.py`, which procedurally generated 120 novel target
+  cards with exact color, shape, count, arrangement, texture, and background
+  metadata. Opaque filenames and trial IDs contain no visual attributes. The
+  deck contains 20 training and 100 reserved targets with four-choice chance at
+  0.25. The frozen private-manifest commitment is
+  `afa892ef9334676a857337679d6a34b1d0defc56bf5cd145efb9d04b8d8450e3`;
+  the reserved-image-set commitment is
+  `36a117990a191b0ce26e45779310bd4de84c9078c5a0ae9081067702cb33cb2f`.
+- Added `remote_perception_agent.py`: local Gemma receives only an opaque trial
+  ID, produces seven rapid closed-schema impressions, and a workspace-style
+  weighted consensus commits one descriptor vector. Accuracy-grounded valence
+  updates only the reusable impression-slot weights after reveal. A plumbing
+  sample produced seven valid impressions and exposed a strong ordinary red/
+  circle/solid prior, motivating the registered baselines.
+- Added resumable durable training in `run_remote_perception_training.py`. Each
+  prediction, nonce, SHA-256, raw impression set, and pre-feedback weights are
+  flushed and fsynced before the private manifest is consulted. Reveal and
+  valence update are appended afterward; dangling or reveal-without-commit logs
+  are rejected.
+- Ran feedback trial 1/20. The committed consensus matched 1/6 descriptors and
+  did not rank the real target first. The revealed target was five purple dotted
+  squares in a horizontal arrangement on a dark background. The miss remains in
+  the append-only log with no exclusion or reinterpretation. Eleven new focused
+  tests passed; the full repository suite passed 274/274 in 5.20 seconds. The
+  100-target reserve remains unopened for evaluation, and the active/ablation/
+  sham evaluator will be frozen only after all feedback trials complete.
+- Completed all 20/20 preregistered feedback trials. The durable log contains 20
+  paired commit/reveal records; every trial ID and prediction hash agrees across
+  its pair, and all seven impressions on every trial parsed successfully. This
+  was inference-time calibration, not neural-network training: Gemma's weights
+  were unchanged and only seven scalar impression-slot voting weights adapted.
+- Training-set performance was 4/20 forced-choice top-1 (20.0%) against a 25%
+  chance rate, with 1.15/6 descriptor fields matched on average (five trials at
+  0, ten at 1, two at 2, and three at 3). The target was in the maximum-score
+  tie on 4/20 trials; fractional tie credit was 3.0 total. These feedback-set
+  numbers provide no evidence of anomalous information access and are not the
+  registered confirmatory result. State after trial 20 is frozen in
+  `outputs/remote_perception_training_state_20260818.json`; the 100 reserved
+  targets remain untouched pending a frozen active/ablation/sham evaluator.
+- A pre-evaluation learning check found no top-1 improvement across training:
+  trials 1-10 and 11-20 each scored 2/10. Mean descriptor agreement rose only
+  from 1.0/6 to 1.3/6, too small and noisy to establish that valence calibration
+  learned target-relevant information. Architectural variants therefore remain
+  separate exploratory conditions and must not replace the frozen controls or
+  be credited with improvement before a new untouched evaluation.
+- Froze the confirmatory 100-target evaluator before generating any reserved
+  prediction. Every target receives active, workspace-ablation, and sham
+  conditions (300 commitments total). Each condition gets seven Gemma outputs;
+  active and sham aggregate all seven with the frozen weights, while ablation
+  commits only the first. Per-trial execution order rotates, and the sham uses a
+  fixed +37 target permutation. All 300 predictions must be durably committed
+  before the private target mapping can be opened, and evaluation performs no
+  feedback or parameter updates.
+- Added resumable execution, commitment verification, exact descriptor/rank
+  scoring, one-sided binomial summaries, frozen-state validation, and strict
+  refusal of premature reveals in `run_remote_perception_evaluation.py`. The
+  opaque 100-trial public schedule was frozen at SHA-256
+  `f426fc80fa9c823eecc7726e8d1593ffb5aa8093f2fb004c8025b84d0b6eecd5`.
+  Fourteen focused remote-perception tests passed, followed by the complete
+  repository suite at 277/277 in 5.248 seconds. No reserved evaluation
+  prediction or reveal was run during implementation.
+- Completed the frozen 100-target confirmatory reserve: 600 durable records
+  comprise exactly 300 unique commitments and 300 matching reveals, with all
+  prediction hashes paired and zero malformed Gemma samples. Active workspace
+  aggregation scored 24/100 top-1 (24%, one-sided exact binomial p=0.6289),
+  ablation scored 29/100 (29%, p=0.2075), and the +37 sham assignment scored
+  26/100 (26%, p=0.4465). Active versus paired ablation had 8 active-only and 13
+  ablation-only hits (two-sided exact McNemar p=0.3833).
+- Secondary outcomes were likewise chance-like: active averaged 1.74/6 exact
+  descriptors and rank 2.52, ablation 1.84/6 and rank 2.48, and sham 1.78/6 and
+  rank 2.54. Active target ranks were nearly uniform (24, 24, 28, 24 across
+  ranks 1-4). The preregistered pilot therefore found no evidence of anomalous
+  hidden-target information access and no benefit from the intuition/workspace
+  aggregation over its ablation. This is a valid controlled null result, not a
+  test establishing or refuting consciousness in the agent.
+
+## Verified protective PGNW — 2026-08-19
+
+- Returned to the third-color embodied program after freezing the remote-
+  perception null. Clarified that existing PGNW yellow seeking was epistemic
+  experiment selection, not protective use of a verified rule.
+- Added an opt-in `verified_protective` typed-rule control. It grants no
+  guidance before red is pending and authorizes only a specific after-red
+  suppressor whose formal Bayesian posterior is at least 0.95. Generic-any,
+  null, and subthreshold rules remain authority zero. Once eligible, the rule
+  can request its learned target only through the existing committed PGNW/MPC
+  regret bound and all existing survival, collision, fallback, AIR, resource,
+  and duty-cycle gates.
+- Added an opt-in bounded hazard consequence: each uncancelled delayed probe can
+  add a configured hunger cost; cancellation avoids it. The first protocol uses
+  0.25 at the frozen 60-second deadline. This new programmed consequence tests
+  exploitation and is not reinterpreted as evidence about earlier passive runs.
+- Added telemetry for configured/applied hazard cost and protective rule target,
+  confidence, guidance decisions, and action influence. New regressions prove
+  that protection is inert before red, rejects <0.95 and nonspecific rules,
+  targets learned yellow only after red, applies the uncancelled cost, and avoids
+  it after yellow cancellation. Focused tests passed 77/77; the full repository
+  suite passed 282/282 in 5.286 seconds. Protocol:
+  `VERIFIED_PROTECTIVE_PGNW_SMOKE_PROTOCOL_20260819.md`.
+- Added a short, refusal-safe launcher,
+  `run_verified_protective_smoke_20260819.sh`, for the 180-second seed-162
+  smoke. It loads the read-only 97.6319% seed-161 typed memory, writes a fresh
+  typed run memory and telemetry log, and uses a fresh copy of the prior terrain
+  resource memory. No Unity C# changed, so editor recompilation is unnecessary.
+- The first launcher attempt failed before telemetry/control because it named the
+  older `passive_embodied_conductor` checkpoint where the active systemic router
+  requires `four_context_conductor`. Preserved the startup-created typed-memory
+  copy as a failed-start artifact, corrected the launcher to
+  `checkpoints/four_context_conductor/best.json`, and added a full constructor
+  preflight before retry. No Unity experiment was consumed by the failed start.
+- Completed the corrected 180-second seed-162 protective smoke. One continuous
+  854-record session spanned 179.724 seconds. Red was collected at step 13;
+  verified protective PGNW then targeted visible yellow for ten consecutive
+  frames, issued ten committed-MPC guidance decisions, and changed five MPC
+  selections. Yellow was collected at step 23, 2.144 seconds after red, and
+  cancelled the pending event.
+- The configured 0.25 delayed hunger cost had zero events and zero applied cost;
+  there were also zero probe completions, survival failures, critical-hunger
+  seconds, or respawns. One later stuck event was outside the protective
+  interval. The clean suppression observation raised the formal posterior from
+  97.6319% to 98.0562%. Verdict: physical rule-to-planner plumbing pass with
+  pre-outcome action influence, while comparative benefit still requires the
+  matched passive counterpart documented in
+  `VERIFIED_PROTECTIVE_PGNW_SMOKE_RESULT_20260819.md`.
+- Post-result opportunity audit classified the success as local staged
+  targeting: yellow was already visible at distance 13.65 on frame 0 and at
+  7.67 when red was collected, then fell to 2.30 before the protective pickup.
+  The later step-636 yellow pickup occurred with protection inactive. This smoke
+  does not demonstrate terrain-wide search or resource-memory retrieval for an
+  unseen antidote; those require a distinct color-indexed memory/search test.
+
+## Typed episodic resource memory — 2026-08-19
+
+- Upgraded terrain resource memory to a backward-compatible v2 format that
+  retains separate coarse locations for red mushrooms, blue mushrooms, and
+  yellow flowers while preserving the existing generic food regions. New live
+  pickups automatically encode both the generic location and the matching
+  typed location; legacy v1 memories remain readable but cannot reconstruct
+  historical color identity that was never stored.
+- Added a rule-directed typed query path. It bypasses the ordinary hunger gate
+  only when the already verified protective rule requests a particular feature,
+  returns locations for that feature only, and yields to direct perception as
+  soon as the requested feature becomes visible. Thus storage remains
+  answer-neutral across all three pickup types, while the verified causal rule
+  determines that yellow—not generic food or blue—is currently relevant.
+- Connected unseen typed recall to the existing committed PGNW/MPC path rather
+  than creating a new motor controller. Generic resource guidance is suppressed
+  while PGNW consumes the same memory vector, so the controller does not compete
+  with itself; fallback, stuck, hunger, AIR, regret, and commitment safety gates
+  remain in force. Added telemetry for typed region count, active feature,
+  encodings, queries, recommendations, and protective-memory activity.
+- Added focused persistence, feature-isolation, visible-target handoff, legacy-
+  load, planner-recall, and full ego-integration regressions. The focused suite
+  passed 65/65, Python compilation passed, and the full repository suite passed
+  284/284 in 8.170 seconds. No Unity run was performed. The next experiment must
+  first acquire at least one non-staged yellow location under v2 memory, then
+  restart from a red encounter with that yellow initially outside sensor range;
+  otherwise it would only repeat the seed-162 staged-visibility result.
+- Prepared the refusal-safe 20-minute seed-163 acquisition launcher
+  `run_typed_resource_acquisition_seed163_20260819.sh`. It starts with a fresh
+  v2 resource memory, records all encountered pickup types, keeps resource
+  recall passive so no color is preferentially targeted during acquisition,
+  writes fresh telemetry, and uses `caffeinate` to prevent sleep. The staged
+  spawn yellow must be removed and the scene saved before this run so a later
+  recall test cannot succeed by returning to the deliberately placed example.
+- Completed the seed-163 answer-neutral acquisition run: 5,687 telemetry rows
+  covered 1,199.937 seconds (steps 0--5,686) with a normal bounded stop. The
+  robot collected 35 resources: 5 red, 25 blue, and 5 yellow. The v2 memory
+  persisted 29 typed regions (3 red, 21 blue, 5 yellow) whose reward totals
+  exactly matched the telemetry counters.
+- Three yellow memories were terrain-wide and suitable for unseen recall:
+  approximately `(86.88, -245.77)`, `(116.80, -174.35)`, and
+  `(128.64, -455.79)`. Two additional yellow pickups occurred near spawn at
+  approximately `(-11.25, 2.80)` and `(-12.14, 1.94)`, so a spawn-based recall
+  would remain confounded even though the deliberately placed instance was
+  intended to be removed. The defensible next test starts near the naturally
+  observed red at `(72.43, -82.33)`; its nearest yellow memory is the natural
+  `(116.80, -174.35)` region, about 102 Unity units away and outside the
+  16-unit sensor radius.
+- Acquisition causality remained clean: resource-memory mode was passive for
+  every frame, with zero generic or typed queries, zero recommendations, and
+  zero action influence. Controller safety was adequate for memory collection:
+  zero survival failures, zero respawns, zero critical-hunger frames, maximum
+  hunger 0.662, and seven recovered stuck events. The next run should load this
+  memory read-only-by-copy, activate the verified protective rule after the
+  distant red pickup, and measure pre-visibility memory-guided displacement and
+  eventual yellow acquisition against a matched no-memory control.
+- Prepared `run_typed_resource_recall_seed164_20260819.sh` for the first active
+  recall smoke. It preserves the seed-163 acquisition artifact by copying it,
+  teleports to the natural red region `(72.43, -82.33)`, loads the frozen
+  97.6319% verified yellow-suppression rule, enables bounded committed PGNW over
+  guided typed memory, and allows 240 seconds before the bounded hazard within a
+  300-second run. The preregistered target is the nearest remembered natural
+  yellow at `(116.80, -174.35)`, initially about 102 units away; success requires
+  memory-guided action before yellow becomes visible, not merely eventual pickup.
+- Seed-164 ran the full 299.770 seconds and physically reached the intended
+  natural yellow at `(116.62, -173.90)` after 54.00 seconds, followed by two
+  additional yellow pickups. It is nevertheless an invalid recall trial, not a
+  memory success or failure: diagnostic teleport landed directly on the red
+  collider, so the first recorded row already contained red count 1. That count
+  became the learner's initialization baseline rather than an observed delta.
+- With no registered red-led episode, the verified protective rule never armed:
+  zero protective-rule frames, zero typed-memory queries or recommendations,
+  zero protective-memory frames, and zero PGNW guidance/action influence. The
+  robot's yellow pickup therefore came from ordinary navigation. The retry must
+  teleport several meters short of red so at least one baseline-zero telemetry
+  frame is committed before physical pickup; this instrumentation correction
+  does not alter the acquired memory, verified rule, target, or controller.
+- Added the refusal-safe seed-164 retry launcher with the identical controller
+  seed, frozen discovery input, copied acquisition memory, 240-second deadline,
+  and 300-second bound. Its sole protocol correction is teleporting to
+  `(64.50, -82.33)`, 7.93 units west of the remembered red, so the red transition
+  must occur after a recorded zero-count baseline.
+- The corrected seed-164 retry completed 299.612 seconds with a valid zero-count
+  baseline and red pickup at 3.18 seconds. The 97.6319% verified rule immediately
+  queried the correct unseen yellow memory `(116.80, -174.35)`. Across 140
+  consecutive pre-visibility frames (29.58 seconds), committed PGNW issued 110
+  guidance decisions, changed 58 MPC actions, and reduced target distance from
+  104.33 to 35.68 units: 68.65 units of memory-directed closing with zero yellow-
+  visible frames.
+- The run exposed a clean execution/learning coupling bug. At 32.98 seconds the
+  route crossed a blue mushroom; the scientific episode learner correctly bound
+  blue as the second intervention, but protective execution then incorrectly
+  revoked yellow seeking even though blue does not cancel the pending hazard.
+  The robot later collected the intended yellow at 87.08 seconds under ordinary
+  navigation and cancelled the pending event, with zero hazard cost, survival
+  failures, or respawns. This is a partial long-range recall success—not a full
+  protective retrieval—because memory causally controlled substantial unseen
+  approach but did not retain authority through an irrelevant pickup.
+- Next repair: separate evidence-cleanliness state from already verified rule
+  execution. Blue may contaminate/discard the learning episode, but while the
+  red hazard remains pending it must not terminate the verified request for
+  yellow. Retest this frozen route, then compare against an empty-memory control.
+- Implemented that separation. Protective authority now depends on two grounded
+  facts only: a >=0.95 specific verified suppressor and an unresolved metabolic
+  event in the hidden causal world. The episode learner may independently bind
+  blue or discard contaminated evidence without altering execution. Blue remains
+  edible/rewarding and does not receive a hardcoded avoidance penalty; it simply
+  cannot satisfy the yellow target or cancel the red hazard. Yellow collection
+  or hazard expiry removes the pending need and terminates protection.
+- Prevented observation-isolation behavior from overriding this already verified
+  protective need after an incidental pickup. Added planner and full-ego tests
+  proving that yellow recall persists after blue while the event remains pending
+  and stops when the metabolic need resolves. Python compilation and 67 focused
+  tests passed; the full suite passed 286/286 in 5.506 seconds. Prepared the
+  same-seed, same-start persistent-recall launcher for a single-variable rerun.
+- The persistent-recall rerun passed the full physical loop. On the first cycle,
+  red was collected at 3.16 seconds with the selected yellow memory 104.46 units
+  away and completely outside perception. Typed recall remained active for 180
+  pre-visibility frames, closed the remembered distance to 13.55 units, and
+  caused 67 MPC action changes before yellow entered the 16-unit sensor radius.
+  Direct perception began at 41.53 seconds and yellow was collected at 46.23
+  seconds, cancelling the pending hazard 43.07 seconds after red.
+- Blue was collected en route at 32.38 seconds. Telemetry confirms protective
+  need, verified-rule authority, the same yellow target, and typed-memory control
+  remained active on the frames immediately before, during, and after blue. The
+  brief turn toward blue was therefore a permitted local food detour, not target
+  confusion; the robot resumed yellow approach afterward. Learning evidence was
+  still independently marked contaminated, preserving protocol rigor.
+- A second natural red-led cycle also resolved: red at 240.55 seconds, blue at
+  255.95 seconds while yellow was visible, and yellow at 260.41 seconds. Across
+  the run there were two cancelled hazards, zero applied hunger cost, zero stuck
+  events, zero survival failures, and zero respawns. Verdict: typed episodic
+  memory, verified causal production, PGNW commitment, bounded MPC influence,
+  perceptual handoff, and metabolic resolution now form a functioning embodied
+  protective loop. A matched empty-memory run remains necessary to quantify the
+  benefit over the same controller's unaided terrain trajectory.
+- Prepared the matched seed-164 empty-memory control. It freezes the treatment's
+  seed, corrected teleport, verified rule, metabolic deadline/cost, PGNW/MPC
+  bounds, conductor stack, and 300-second duration. Its sole intended difference
+  is an absent resource-memory file at startup. The controller may still pursue
+  yellow after direct perception and may encode pickups online, but it has no
+  prior yellow coordinate with which to guide the pre-visibility trajectory.
+- Completed the matched empty-memory control with a verified zero-typed-region
+  start, zero typed recommendations, zero protective-memory frames, and zero
+  protective action influence. It nevertheless encountered an unmemorized
+  nearby yellow at `(90.39, -64.44)`: red was collected at 3.20 seconds and the
+  first yellow at 41.75 seconds, a 38.55-second protective latency. The memory
+  treatment's first latency was 43.07 seconds, so the primary any-antidote
+  outcome favored this control by 4.52 seconds (11.7%) in the single pair.
+- The target-matched secondary result strongly favored memory. The treatment
+  reached its preregistered remembered yellow in 43.07 seconds after red, whereas
+  the empty control reached that same `(116.8, -174.35)` region after 92.65
+  seconds: memory saved 49.58 seconds (53.5%). It also produced 67 pre-visibility
+  MPC changes, versus zero in control, and had zero stuck events/59 fallback
+  frames versus three stuck events/295 fallback frames. Both runs survived and
+  cancelled the first hazard without cost.
+- Interpretation: typed memory causally and efficiently retrieves a known target,
+  but this acquisition map was incomplete. Committing to a known target 104 units
+  away excluded a lucky/local discovery of an unknown yellow roughly 25 units
+  from red. This pair does not support a raw first-antidote speed advantage;
+  instead it exposes the next planning problem: arbitrate reliable known-target
+  exploitation against local epistemic search when memory coverage is sparse.
+  Do not tune a distance threshold to this one pair; replicate or preregister an
+  EFE-style utility comparison before changing the controller.
+- Preregistered pair 2 with both start and run order changed: seed 165 begins
+  8.04 units short of the independently acquired red region
+  `(82.94, -181.17)`, whose nearest stored yellow is `(116.80, -174.35)` at
+  34.54 units from red and initially outside the 16-unit sensor radius. To
+  counterbalance pair 1's treatment-first order, pair 2 runs the empty-memory
+  control first and the frozen-memory treatment second. All other controller,
+  verified-rule, metabolic, and duration settings remain fixed.
+- Pair-2 empty-memory control completed with zero initial typed regions, zero
+  typed recommendations, and zero protective-memory frames. Red was collected
+  at 2.96 seconds and an unaided yellow at `(87.67, -246.21)` at 57.52 seconds,
+  giving a 54.56-second red-to-antidote latency. Direct visual guidance occurred
+  only after chance discovery; the run had three stuck events, zero survival
+  failures, one cancelled hazard, and zero applied hazard cost.
+- Prepared the matching seed-165 treatment with the frozen seed-163 acquisition
+  memory restored and every other setting unchanged. This completes the planned
+  second pair; further unaided seeds are deferred unless later replication is
+  scientifically necessary.
+- Seed-165 memory treatment completed successfully. Red was collected at 2.96
+  seconds with the nearest remembered yellow invisible and 36.85 units away.
+  Typed recall remained active for 66 pre-visibility frames, changed 49 MPC
+  actions, and closed to 14.59 units before direct visual handoff. Yellow was
+  collected at 21.92 seconds: 18.96 seconds after red versus 54.56 seconds in the
+  matched empty-memory control, a 35.60-second (65.2%) improvement. The run later
+  completed a second protected red-to-yellow cycle; total outcome was two hazard
+  cancellations, zero metabolic cost, one stuck event, zero survival failures,
+  and zero respawns.
+- Two-pair counterbalanced descriptive summary: treatment latencies were 43.07
+  and 18.96 seconds (mean 31.02); empty controls were 38.55 and 54.56 seconds
+  (mean 46.56). Mean paired reduction was 15.54 seconds, or 33.4% relative to
+  control. Treatment won the first-antidote metric in one of two pairs because
+  pair 1's empty controller luckily found a closer unmemorized yellow. Memory
+  reached its selected known target substantially sooner in both pairs (pair 1:
+  43.07 versus 92.65 seconds; pair 2 control never collected the selected target
+  within the bounded run).
+- This small sample establishes functioning pre-visibility typed recall and a
+  promising descriptive efficiency/reliability effect, not population-level
+  statistical significance. Per user direction, retain episodic memory as the
+  active architecture and stop additional unaided runs for now; chance yellow
+  encounters remain valid opportunistic successes rather than controller errors.
+- Consolidated the milestone in
+  `TYPED_EPISODIC_PROTECTIVE_RECALL_RESULT_20260819.md` and the compact machine-
+  readable `outputs/typed_resource_recall_paired_summary_20260819.json`. Retained
+  the four final paired raw logs locally with recorded SHA-256 hashes. Deleted
+  45 obsolete ignored Unity JSONL/JSONL.GZ recordings after their outcomes had
+  been summarized, reducing `outputs/` from approximately 2.5 GB to 519 MB and
+  reclaiming about 2.0 GB. No code, checkpoints, compact results, Unity assets,
+  frozen memories, or final paired telemetry were removed.

@@ -1,0 +1,87 @@
+{
+  "protocol": {
+    "recordings": [
+      "outputs/unity_shadow/lwall_adapter_multiseed_20260721/seed_11.jsonl",
+      "outputs/unity_shadow/lwall_adapter_multiseed_20260721/seed_23.jsonl",
+      "outputs/unity_shadow/lwall_adapter_multiseed_20260721/seed_37.jsonl",
+      "outputs/unity_shadow/lwall_adapter_multiseed_20260721/seed_53.jsonl",
+      "outputs/unity_shadow/lwall_adapter_multiseed_20260721/seed_71.jsonl"
+    ],
+    "base_checkpoint": "checkpoints/unity_geometry_posttrained/best.pt",
+    "sequence_steps": 24,
+    "future_steps": 12,
+    "whole_recording_group_holdout": true,
+    "labels": "efficient future displacement from successful trajectories"
+  },
+  "extraction": {
+    "episodes_success": 25,
+    "episodes_timeout": 5,
+    "samples": 1498,
+    "successful_episodes_with_samples": 25,
+    "recording_groups_with_samples": 5
+  },
+  "action_counts": {
+    "down_right": 296,
+    "left": 290,
+    "up_right": 382,
+    "down": 85,
+    "right": 54,
+    "up": 89,
+    "up_left": 292,
+    "down_left": 10
+  },
+  "folds": [
+    {
+      "heldout_group": "seed_11",
+      "train_samples": 1316,
+      "heldout_samples": 182,
+      "baseline_accuracy": 0.6483516693115234,
+      "adapter_accuracy": 0.9230769276618958,
+      "loss": 0.5261528066226414
+    },
+    {
+      "heldout_group": "seed_23",
+      "train_samples": 1197,
+      "heldout_samples": 301,
+      "baseline_accuracy": 0.6710963249206543,
+      "adapter_accuracy": 0.930232584476471,
+      "loss": 0.5386929825732583
+    },
+    {
+      "heldout_group": "seed_37",
+      "train_samples": 1037,
+      "heldout_samples": 461,
+      "baseline_accuracy": 0.6963123679161072,
+      "adapter_accuracy": 0.9414316415786743,
+      "loss": 0.5327053736237919
+    },
+    {
+      "heldout_group": "seed_53",
+      "train_samples": 1264,
+      "heldout_samples": 234,
+      "baseline_accuracy": 0.6581196784973145,
+      "adapter_accuracy": 0.9358974099159241,
+      "loss": 0.5337537243962288
+    },
+    {
+      "heldout_group": "seed_71",
+      "train_samples": 1178,
+      "heldout_samples": 320,
+      "baseline_accuracy": 0.690625011920929,
+      "adapter_accuracy": 0.9375,
+      "loss": 0.5346268337023886
+    }
+  ],
+  "baseline_accuracy": 0.6729010105133056,
+  "adapter_accuracy": 0.9336277127265931,
+  "criteria": {
+    "whole_recording_group_cross_validation": true,
+    "adapter_improves_at_least_5_points": true,
+    "adapter_accuracy_at_least_45_percent": true,
+    "base_policy_frozen": true,
+    "activation_scope_lwall_food_hidden_only": true
+  },
+  "accepted": true,
+  "final_training_loss": 0.5222413192192713,
+  "claim_boundary": "The adapter is trained on repeated instances of one Unity L-wall across multiple controller seeds. It is a narrow behavioral correction, not evidence of topology generalization."
+}

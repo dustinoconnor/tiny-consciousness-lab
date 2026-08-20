@@ -1,0 +1,78 @@
+{
+  "recorded_frames": 5541,
+  "duration_seconds": 1193.08,
+  "hunger_gate": 0.7,
+  "pickup_delta": 51,
+  "region_count_start": 15,
+  "region_count_end": 23,
+  "encoding_delta": 51,
+  "query_delta": 657,
+  "recommendation_delta": 4,
+  "recommendation_transitions_observed": 4,
+  "recommendations_approached_passively": 2,
+  "pickups_within_180s_of_recommendation": 4,
+  "pickups_near_recommended_region": 0,
+  "active_recommendation_frames": 657,
+  "eligible_hungry_food_hidden_frames": 704,
+  "active_fraction_when_eligible": 0.9332386363636364,
+  "pickups_after_recommendation_delta": 0,
+  "stale_arrival_delta": 0,
+  "maximum_action_influence": 0,
+  "release_reasons": {
+    "below_hunger_gate": 3758,
+    "passive_recommendation": 657,
+    "visible_food_override": 1079,
+    "post_reward_refractory": 47
+  },
+  "recommendation_outcomes": [
+    {
+      "recommendation": "resource_9_-9",
+      "start_distance": 143.7999957619537,
+      "minimum_distance": 110.82593999683014,
+      "approached_region": true,
+      "pickup_within_horizon": true,
+      "pickup_delay_seconds": 146.06142616271973,
+      "pickup_target_distance": 183.42307422548424,
+      "pickup_near_recommended_region": false
+    },
+    {
+      "recommendation": "resource_11_-10",
+      "start_distance": 130.27351400972262,
+      "minimum_distance": 113.60794725554629,
+      "approached_region": true,
+      "pickup_within_horizon": true,
+      "pickup_delay_seconds": 107.23624277114868,
+      "pickup_target_distance": 179.7821168385394,
+      "pickup_near_recommended_region": false
+    },
+    {
+      "recommendation": "resource_9_-9",
+      "start_distance": 114.83765753285223,
+      "minimum_distance": 114.83765753285223,
+      "approached_region": false,
+      "pickup_within_horizon": true,
+      "pickup_delay_seconds": 68.78633093833923,
+      "pickup_target_distance": 183.42307422548424,
+      "pickup_near_recommended_region": false
+    },
+    {
+      "recommendation": "resource_11_-10",
+      "start_distance": 159.77373996198355,
+      "minimum_distance": 159.77373996198355,
+      "approached_region": false,
+      "pickup_within_horizon": true,
+      "pickup_delay_seconds": 36.507951974868774,
+      "pickup_target_distance": 179.7821168385394,
+      "pickup_near_recommended_region": false
+    }
+  ],
+  "checks": {
+    "memory_encoded_at_least_one_rewarded_region": true,
+    "recommendations_observed_when_testable": true,
+    "passive_causal_separation_preserved": true,
+    "passive_integration_valid": true
+  },
+  "warmup_recording": "outputs/unity_shadow/resource_memory_passive_20260730.jsonl",
+  "evaluation_recording": "outputs/unity_shadow/resource_memory_refractory_20260730.jsonl",
+  "replay_only": true
+}

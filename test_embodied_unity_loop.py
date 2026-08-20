@@ -1,4 +1,8 @@
 import unittest
+import tempfile
+from pathlib import Path
+
+import numpy as np
 
 from embodied_unity_loop import (
     EmbodiedAdaptiveResonanceObserver,
@@ -19,6 +23,7 @@ from embodied_unity_loop import (
     stable_recovery_due,
     trajectory_orbit_metrics,
 )
+from terrain_resource_memory import PassiveTerrainResourceMemory
 
 
 class FakeShadowPolicy:
@@ -52,6 +57,8 @@ class MetabolicObservationTests(unittest.TestCase):
             "mushroom_pickups_total": 0,
             "mushroom_reward_total": 0.0,
             "red_mushroom_pickups_total": 0,
+            "blue_mushroom_pickups_total": 0,
+            "yellow_flower_pickups_total": 0,
             "mushroom_feature": "none",
             "grounded": True,
             "forward_clear": True,
@@ -102,6 +109,85 @@ class MetabolicObservationTests(unittest.TestCase):
             )
         )
         self.assertFalse(ego.causal_probe_due_steps)
+
+    def test_typed_yellow_after_red_cancels_pending_probe(self):
+        ego = EmbodiedFunctionalEgo(
+            hz=1.0,
+            causal_probe_delay_seconds=3.0,
+            causal_probe_cancellation_feature="yellow",
+        )
+        ego.update_from_body(self.body())
+        ego.steps += 1
+        ego.update_from_body(
+            self.body(
+                mushroom_pickups_total=1,
+                mushroom_reward_total=0.35,
+                red_mushroom_pickups_total=1,
+                mushroom_feature="red",
+            )
+        )
+        ego.steps += 1
+        ego.update_from_body(
+            self.body(
+                mushroom_pickups_total=2,
+                mushroom_reward_total=0.70,
+                red_mushroom_pickups_total=1,
+                yellow_flower_pickups_total=1,
+                mushroom_feature="yellow",
+            )
+        )
+        self.assertFalse(ego.causal_probe_due_steps)
+        for _ in range(4):
+            ego.steps += 1
+            ego.update_from_body(
+                self.body(
+                    mushroom_pickups_total=2,
+                    mushroom_reward_total=0.70,
+                    red_mushroom_pickups_total=1,
+                    yellow_flower_pickups_total=1,
+                )
+            )
+        self.assertEqual(ego.causal_probe_events, 0)
+        self.assertEqual(ego.causal_probe_world.cancelled_events, 1)
+
+    def test_typed_yellow_before_red_does_not_cancel_probe(self):
+        ego = EmbodiedFunctionalEgo(
+            hz=1.0,
+            causal_probe_delay_seconds=2.0,
+            causal_probe_cancellation_feature="yellow",
+        )
+        ego.update_from_body(self.body())
+        ego.steps += 1
+        ego.update_from_body(
+            self.body(
+                mushroom_pickups_total=1,
+                mushroom_reward_total=0.35,
+                yellow_flower_pickups_total=1,
+                mushroom_feature="yellow",
+            )
+        )
+        ego.steps += 1
+        ego.update_from_body(
+            self.body(
+                mushroom_pickups_total=2,
+                mushroom_reward_total=0.70,
+                red_mushroom_pickups_total=1,
+                yellow_flower_pickups_total=1,
+                mushroom_feature="red",
+            )
+        )
+        for _ in range(2):
+            ego.steps += 1
+            ego.update_from_body(
+                self.body(
+                    mushroom_pickups_total=2,
+                    mushroom_reward_total=0.70,
+                    red_mushroom_pickups_total=1,
+                    yellow_flower_pickups_total=1,
+                )
+            )
+        self.assertEqual(ego.causal_probe_events, 1)
+        self.assertEqual(ego.causal_probe_world.cancelled_events, 0)
 
     def test_causal_probe_has_zero_workspace_and_navigation_influence(self):
         ego = EmbodiedFunctionalEgo(hz=5.0)
@@ -204,6 +290,140 @@ class MetabolicObservationTests(unittest.TestCase):
             EmbodiedFunctionalEgo(
                 hz=5.0, tiny_scientist_rule_control="pressure_avoidance"
             )
+
+    def test_verified_protective_control_requires_learning_and_committed_pgnw(self):
+        with self.assertRaisesRegex(ValueError, "requires_typed_learning"):
+            EmbodiedFunctionalEgo(
+                hz=5.0,
+                shadow_mpc=True,
+                tiny_scientist_experiment_control="committed",
+                typed_interaction_rule_control="verified_protective",
+            )
+
+    def test_verified_rule_retrieves_unseen_yellow_from_typed_memory(self):
+        ego = EmbodiedFunctionalEgo(
+            hz=1.0,
+            shadow_mpc=True,
+            tiny_scientist_experiment_control="committed",
+            typed_interaction_learning=True,
+            typed_interaction_rule_control="verified_protective",
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            ego.resource_memory = PassiveTerrainResourceMemory(
+                Path(directory) / "memory.json", control_mode="guided"
+            )
+            ego.resource_memory.record_typed_reward("yellow", 30.0, 40.0)
+            ego.typed_interaction_learner.pool.posterior = np.array(
+                [0.97, 0.01, 0.01, 0.01]
+            )
+            ego.update_from_body(self.body(x=0.0, z=0.0))
+            ego.steps += 1
+            ego.update_from_body(
+                self.body(
+                    x=0.0,
+                    z=0.0,
+                    mushroom_pickups_total=1,
+                    mushroom_reward_total=0.35,
+                    red_mushroom_pickups_total=1,
+                    mushroom_feature="red",
+                    yellow_food_visible=False,
+                )
+            )
+
+            self.assertEqual(ego.resource_memory.active_feature, "yellow")
+            self.assertEqual(ego.resource_memory.target, (30.0, 40.0))
+            self.assertTrue(
+                ego.pgnw_experiment_planner.protective_memory_active
+            )
+            self.assertEqual(
+                ego.pgnw_experiment_planner.guidance_vector, (0.6, 0.8)
+            )
+            ego.steps += 1
+            ego.update_from_body(
+                self.body(
+                    x=2.0,
+                    z=0.0,
+                    mushroom_pickups_total=2,
+                    mushroom_reward_total=0.70,
+                    red_mushroom_pickups_total=1,
+                    blue_mushroom_pickups_total=1,
+                    mushroom_feature="blue",
+                    yellow_food_visible=False,
+                )
+            )
+
+            self.assertTrue(ego.causal_probe_world.pending_due_steps)
+            self.assertEqual(
+                ego.typed_interaction_learner.active["second"], "blue"
+            )
+            self.assertEqual(ego.resource_memory.active_feature, "yellow")
+            self.assertTrue(
+                ego.pgnw_experiment_planner.protective_memory_active
+            )
+        with self.assertRaisesRegex(ValueError, "requires_committed_pgnw"):
+            EmbodiedFunctionalEgo(
+                hz=5.0,
+                typed_interaction_learning=True,
+                typed_interaction_rule_control="verified_protective",
+            )
+
+    def test_uncancelled_probe_applies_bounded_hunger_cost(self):
+        ego = EmbodiedFunctionalEgo(
+            hz=1.0,
+            causal_probe_delay_seconds=2.0,
+            causal_probe_cancellation_feature="yellow",
+            causal_probe_hunger_cost=0.25,
+        )
+        ego.update_from_body(self.body())
+        ego.steps += 1
+        ego.update_from_body(self.body(
+            mushroom_pickups_total=1,
+            mushroom_reward_total=0.35,
+            red_mushroom_pickups_total=1,
+        ))
+        hunger_before = ego.hunger
+        for _ in range(ego.causal_probe_delay_ticks):
+            ego.steps += 1
+            ego.update_from_body(self.body(
+                mushroom_pickups_total=1,
+                mushroom_reward_total=0.35,
+                red_mushroom_pickups_total=1,
+            ))
+        self.assertEqual(ego.causal_probe_hunger_cost_events, 1)
+        self.assertAlmostEqual(ego.causal_probe_hunger_cost_total, 0.25)
+        self.assertGreaterEqual(ego.hunger, hunger_before + 0.25)
+
+    def test_yellow_cancellation_avoids_hunger_cost(self):
+        ego = EmbodiedFunctionalEgo(
+            hz=1.0,
+            causal_probe_delay_seconds=3.0,
+            causal_probe_cancellation_feature="yellow",
+            causal_probe_hunger_cost=0.25,
+        )
+        ego.update_from_body(self.body())
+        ego.steps += 1
+        ego.update_from_body(self.body(
+            mushroom_pickups_total=1,
+            mushroom_reward_total=0.35,
+            red_mushroom_pickups_total=1,
+        ))
+        ego.steps += 1
+        ego.update_from_body(self.body(
+            mushroom_pickups_total=2,
+            mushroom_reward_total=0.70,
+            red_mushroom_pickups_total=1,
+            yellow_flower_pickups_total=1,
+        ))
+        for _ in range(ego.causal_probe_delay_ticks):
+            ego.steps += 1
+            ego.update_from_body(self.body(
+                mushroom_pickups_total=2,
+                mushroom_reward_total=0.70,
+                red_mushroom_pickups_total=1,
+                yellow_flower_pickups_total=1,
+            ))
+        self.assertEqual(ego.causal_probe_hunger_cost_events, 0)
+        self.assertEqual(ego.causal_probe_hunger_cost_total, 0.0)
 
     def test_bounded_pgnw_requires_mpc(self):
         with self.assertRaisesRegex(ValueError, "requires_shadow_mpc"):

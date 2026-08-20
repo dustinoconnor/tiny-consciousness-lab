@@ -1,0 +1,272 @@
+{
+  "baseline": {
+    "success_rate": 0.5,
+    "mean_steps": 320.725,
+    "mean_collisions": 0.0,
+    "mean_revisit_ratio": 0.06932070449157061,
+    "by_family": {
+      "utrap": {
+        "success_rate": 0.0,
+        "mean_steps": 450.0,
+        "mean_collisions": 0.0
+      },
+      "ctrap": {
+        "success_rate": 1.0,
+        "mean_steps": 191.45,
+        "mean_collisions": 0.0
+      }
+    }
+  },
+  "memory_reset": {
+    "success_rate": 1.0,
+    "mean_steps": 213.825,
+    "mean_collisions": 0.0,
+    "mean_revisit_ratio": 0.2445024622671766,
+    "by_family": {
+      "utrap": {
+        "success_rate": 1.0,
+        "mean_steps": 276.4,
+        "mean_collisions": 0.0
+      },
+      "ctrap": {
+        "success_rate": 1.0,
+        "mean_steps": 151.25,
+        "mean_collisions": 0.0
+      }
+    }
+  },
+  "existing_course_baseline": {
+    "success_rate": 0.8888888888888888,
+    "mean_steps": 103.08333333333333,
+    "mean_collisions": 0.0,
+    "mean_path_length": 45.356666666666584,
+    "mean_revisit_ratio": 0.1985426052592428,
+    "mean_reversals": 1.3611111111111112,
+    "by_family": {
+      "u_trap": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      },
+      "c_shape": {
+        "success_rate": 0.8333333333333334,
+        "mean_collisions": 0.0
+      },
+      "l_wall": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      },
+      "zigzag_gate": {
+        "success_rate": 0.8333333333333334,
+        "mean_collisions": 0.0
+      },
+      "offset_barriers": {
+        "success_rate": 0.8333333333333334,
+        "mean_collisions": 0.0
+      },
+      "narrow_corridor": {
+        "success_rate": 0.8333333333333334,
+        "mean_collisions": 0.0
+      }
+    }
+  },
+  "candidates": {
+    "readout_only": {
+      "unity_geometry": {
+        "success_rate": 1.0,
+        "mean_steps": 147.45,
+        "mean_collisions": 0.0,
+        "mean_revisit_ratio": 0.013888871478753503,
+        "by_family": {
+          "utrap": {
+            "success_rate": 1.0,
+            "mean_steps": 155.65,
+            "mean_collisions": 0.0
+          },
+          "ctrap": {
+            "success_rate": 1.0,
+            "mean_steps": 139.25,
+            "mean_collisions": 0.0
+          }
+        }
+      },
+      "existing_courses": {
+        "success_rate": 0.9722222222222222,
+        "mean_steps": 71.02777777777777,
+        "mean_collisions": 0.0,
+        "mean_path_length": 31.25222222222221,
+        "mean_revisit_ratio": 0.17527052093039894,
+        "mean_reversals": 0.8611111111111112,
+        "by_family": {
+          "u_trap": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "c_shape": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "l_wall": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "zigzag_gate": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "offset_barriers": {
+            "success_rate": 1.0,
+            "mean_collisions": 0.0
+          },
+          "narrow_corridor": {
+            "success_rate": 0.8333333333333334,
+            "mean_collisions": 0.0
+          }
+        }
+      },
+      "curve": [
+        {
+          "update": 0,
+          "loss": 2.1249444484710693,
+          "success_rate": 0.5,
+          "mean_steps": 280.0,
+          "mean_collisions": 0.0,
+          "mean_revisit_ratio": 0.06366233195501488,
+          "by_family": {
+            "utrap": {
+              "success_rate": 0.0,
+              "mean_steps": 450.0,
+              "mean_collisions": 0.0
+            },
+            "ctrap": {
+              "success_rate": 1.0,
+              "mean_steps": 110.0,
+              "mean_collisions": 0.0
+            }
+          }
+        },
+        {
+          "update": 25,
+          "loss": 1.7842633724212646,
+          "success_rate": 0.625,
+          "mean_steps": 245.125,
+          "mean_collisions": 0.0,
+          "mean_revisit_ratio": 0.04373334699733551,
+          "by_family": {
+            "utrap": {
+              "success_rate": 0.25,
+              "mean_steps": 373.5,
+              "mean_collisions": 0.0
+            },
+            "ctrap": {
+              "success_rate": 1.0,
+              "mean_steps": 116.75,
+              "mean_collisions": 0.0
+            }
+          }
+        },
+        {
+          "update": 50,
+          "loss": 1.9145135879516602,
+          "success_rate": 1.0,
+          "mean_steps": 147.875,
+          "mean_collisions": 0.0,
+          "mean_revisit_ratio": 0.0064447851277907725,
+          "by_family": {
+            "utrap": {
+              "success_rate": 1.0,
+              "mean_steps": 156.0,
+              "mean_collisions": 0.0
+            },
+            "ctrap": {
+              "success_rate": 1.0,
+              "mean_steps": 139.75,
+              "mean_collisions": 0.0
+            }
+          }
+        },
+        {
+          "update": 75,
+          "loss": 2.282522439956665,
+          "success_rate": 1.0,
+          "mean_steps": 150.75,
+          "mean_collisions": 0.0,
+          "mean_revisit_ratio": 0.013100373880752164,
+          "by_family": {
+            "utrap": {
+              "success_rate": 1.0,
+              "mean_steps": 158.0,
+              "mean_collisions": 0.0
+            },
+            "ctrap": {
+              "success_rate": 1.0,
+              "mean_steps": 143.5,
+              "mean_collisions": 0.0
+            }
+          }
+        },
+        {
+          "update": 100,
+          "loss": 1.8923065662384033,
+          "success_rate": 1.0,
+          "mean_steps": 179.5,
+          "mean_collisions": 0.0,
+          "mean_revisit_ratio": 0.015827231799138072,
+          "by_family": {
+            "utrap": {
+              "success_rate": 1.0,
+              "mean_steps": 208.0,
+              "mean_collisions": 0.0
+            },
+            "ctrap": {
+              "success_rate": 1.0,
+              "mean_steps": 151.0,
+              "mean_collisions": 0.0
+            }
+          }
+        },
+        {
+          "update": 125,
+          "loss": 2.35090708732605,
+          "success_rate": 1.0,
+          "mean_steps": 185.125,
+          "mean_collisions": 0.0,
+          "mean_revisit_ratio": 0.024251509563467055,
+          "by_family": {
+            "utrap": {
+              "success_rate": 1.0,
+              "mean_steps": 212.0,
+              "mean_collisions": 0.0
+            },
+            "ctrap": {
+              "success_rate": 1.0,
+              "mean_steps": 158.25,
+              "mean_collisions": 0.0
+            }
+          }
+        },
+        {
+          "update": 149,
+          "loss": 2.1231439113616943,
+          "success_rate": 1.0,
+          "mean_steps": 177.25,
+          "mean_collisions": 0.0,
+          "mean_revisit_ratio": 0.026277729802049024,
+          "by_family": {
+            "utrap": {
+              "success_rate": 1.0,
+              "mean_steps": 213.25,
+              "mean_collisions": 0.0
+            },
+            "ctrap": {
+              "success_rate": 1.0,
+              "mean_steps": 141.25,
+              "mean_collisions": 0.0
+            }
+          }
+        }
+      ]
+    }
+  },
+  "selected": "readout_only",
+  "accepted": true
+}

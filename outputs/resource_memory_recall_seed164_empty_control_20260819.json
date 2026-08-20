@@ -1,0 +1,151 @@
+{
+  "format": "terrain_resource_memory_v2",
+  "cell_size": 12.0,
+  "regions": [
+    {
+      "x": 118.2685,
+      "z": -175.1475,
+      "rewards": 2,
+      "failures": 0
+    },
+    {
+      "x": 122.6427,
+      "z": -186.7345,
+      "rewards": 2,
+      "failures": 0
+    },
+    {
+      "x": 71.8809,
+      "z": -80.4465,
+      "rewards": 1,
+      "failures": 0
+    },
+    {
+      "x": 84.5514,
+      "z": -248.0335,
+      "rewards": 1,
+      "failures": 0
+    },
+    {
+      "x": 90.3866,
+      "z": -64.4374,
+      "rewards": 1,
+      "failures": 0
+    },
+    {
+      "x": 103.048,
+      "z": -71.7948,
+      "rewards": 1,
+      "failures": 0
+    },
+    {
+      "x": 110.0992,
+      "z": -138.8852,
+      "rewards": 1,
+      "failures": 0
+    },
+    {
+      "x": 114.5217,
+      "z": -105.1787,
+      "rewards": 1,
+      "failures": 0
+    },
+    {
+      "x": 119.5196,
+      "z": -119.5361,
+      "rewards": 1,
+      "failures": 0
+    },
+    {
+      "x": 122.1339,
+      "z": -208.4518,
+      "rewards": 1,
+      "failures": 0
+    },
+    {
+      "x": 123.1213,
+      "z": -202.6913,
+      "rewards": 1,
+      "failures": 0
+    }
+  ],
+  "typed_regions": [
+    {
+      "feature": "blue",
+      "x": 122.6427,
+      "z": -186.7345,
+      "rewards": 2,
+      "failures": 0
+    },
+    {
+      "feature": "blue",
+      "x": 103.048,
+      "z": -71.7948,
+      "rewards": 1,
+      "failures": 0
+    },
+    {
+      "feature": "blue",
+      "x": 110.0992,
+      "z": -138.8852,
+      "rewards": 1,
+      "failures": 0
+    },
+    {
+      "feature": "blue",
+      "x": 114.5217,
+      "z": -105.1787,
+      "rewards": 1,
+      "failures": 0
+    },
+    {
+      "feature": "blue",
+      "x": 119.5196,
+      "z": -119.5361,
+      "rewards": 1,
+      "failures": 0
+    },
+    {
+      "feature": "blue",
+      "x": 122.1339,
+      "z": -208.4518,
+      "rewards": 1,
+      "failures": 0
+    },
+    {
+      "feature": "blue",
+      "x": 123.1213,
+      "z": -202.6913,
+      "rewards": 1,
+      "failures": 0
+    },
+    {
+      "feature": "red",
+      "x": 71.8809,
+      "z": -80.4465,
+      "rewards": 1,
+      "failures": 0
+    },
+    {
+      "feature": "yellow",
+      "x": 118.2685,
+      "z": -175.1475,
+      "rewards": 2,
+      "failures": 0
+    },
+    {
+      "feature": "yellow",
+      "x": 84.5514,
+      "z": -248.0335,
+      "rewards": 1,
+      "failures": 0
+    },
+    {
+      "feature": "yellow",
+      "x": 90.3866,
+      "z": -64.4374,
+      "rewards": 1,
+      "failures": 0
+    }
+  ]
+}

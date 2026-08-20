@@ -1,0 +1,47 @@
+{
+  "format": "terrain_resource_memory_v2",
+  "cell_size": 12.0,
+  "regions": [
+    {
+      "x": 86.4245,
+      "z": -246.6675,
+      "rewards": 2,
+      "failures": 0
+    },
+    {
+      "x": 80.9602,
+      "z": -183.4007,
+      "rewards": 1,
+      "failures": 0
+    },
+    {
+      "x": 112.4687,
+      "z": -314.0788,
+      "rewards": 1,
+      "failures": 0
+    }
+  ],
+  "typed_regions": [
+    {
+      "feature": "blue",
+      "x": 112.4687,
+      "z": -314.0788,
+      "rewards": 1,
+      "failures": 0
+    },
+    {
+      "feature": "red",
+      "x": 80.9602,
+      "z": -183.4007,
+      "rewards": 1,
+      "failures": 0
+    },
+    {
+      "feature": "yellow",
+      "x": 86.4245,
+      "z": -246.6675,
+      "rewards": 2,
+      "failures": 0
+    }
+  ]
+}

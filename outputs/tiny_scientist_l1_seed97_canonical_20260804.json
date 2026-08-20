@@ -1,0 +1,107 @@
+{
+  "experiment": "passive GNW-selected embodied metabolic hypothesis",
+  "evidence_interface": "homeostatic_filtered",
+  "hypothesis_contract": "labeled_causal_ir",
+  "evidence_order": "canonical",
+  "adapter": "checkpoints/causal_dsl_l1_lora_v2_20260804",
+  "summary": {
+    "feature_outcomes": {
+      "blue": {
+        "episodes": 29,
+        "isolated_episodes": 19,
+        "mean_pressure_delta": 0.0324,
+        "positive_pressure_fraction": 0.1053,
+        "mean_positive_delay_seconds": 9.663
+      },
+      "red": {
+        "episodes": 4,
+        "isolated_episodes": 2,
+        "mean_pressure_delta": 0.34,
+        "positive_pressure_fraction": 1.0,
+        "mean_positive_delay_seconds": 10.667
+      }
+    },
+    "episode_count": 33,
+    "gnw_broadcast_count": 4,
+    "gnw_broadcast_features": {
+      "blue": 2,
+      "red": 2
+    },
+    "gnw_action_influence": 0
+  },
+  "gnw": {
+    "mode": "passive_scientific_broadcast",
+    "observations": 33,
+    "ignitions": 4,
+    "held": 29,
+    "action_influence": 0,
+    "broadcasts": [
+      {
+        "feature": "blue",
+        "salience": 1.0,
+        "prediction_error": 1.0,
+        "novelty": 1.0,
+        "episode": {
+          "feature": "blue",
+          "pickup_time": 1785857372.381621,
+          "pressure_before": 0.0,
+          "peak_pressure": 0.34,
+          "pressure_delta": 0.34,
+          "peak_delay_seconds": 9.560872077941895,
+          "intervening_pickup": false
+        }
+      },
+      {
+        "feature": "red",
+        "salience": 0.9062740102779492,
+        "prediction_error": 0.9999997651444911,
+        "novelty": 0.7071067811865475,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785857587.505172,
+          "pressure_before": 1.5057401772991007e-07,
+          "peak_pressure": 0.34000007072314475,
+          "pressure_delta": 0.339999920149127,
+          "peak_delay_seconds": 10.610781908035278,
+          "intervening_pickup": false
+        }
+      },
+      {
+        "feature": "red",
+        "salience": 0.8647520861406751,
+        "prediction_error": 0.9999999999999923,
+        "novelty": 0.5773502691896258,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785858048.097594,
+          "pressure_before": 4.880778813961619e-15,
+          "peak_pressure": 0.3400000000000023,
+          "pressure_delta": 0.3399999999999974,
+          "peak_delay_seconds": 10.723609924316406,
+          "intervening_pickup": false
+        }
+      },
+      {
+        "feature": "blue",
+        "salience": 0.7194784231021153,
+        "prediction_error": 0.9553657326861731,
+        "novelty": 0.2182178902359924,
+        "episode": {
+          "feature": "blue",
+          "pickup_time": 1785858092.981674,
+          "pressure_before": 0.03028836265661548,
+          "peak_pressure": 0.3551127117699144,
+          "pressure_delta": 0.3248243491132989,
+          "peak_delay_seconds": 9.764158964157104,
+          "intervening_pickup": false
+        }
+      }
+    ]
+  },
+  "hypothesis": null,
+  "raw_model_output": null,
+  "status": "rejected",
+  "rejection": "tiny_scientist_hypothesis_rejected:tiny_scientist_returned_no_single_labeled_causal_ir; raw=L1 c tiny blue k red e - t 9.663 q 0.8",
+  "model": "google/gemma-3-270m-it",
+  "recording": "outputs/unity_shadow/causal_dsl_l1_unity_transfer_seed97_20260804.jsonl"
+}

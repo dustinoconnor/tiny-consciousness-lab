@@ -1,0 +1,66 @@
+{
+  "recorded_frames": 5601,
+  "duration_seconds": 1192.83,
+  "hunger_gate": 0.7,
+  "pickup_delta": 24,
+  "region_count_start": 23,
+  "region_count_end": 28,
+  "encoding_delta": 24,
+  "query_delta": 236,
+  "recommendation_delta": 3,
+  "recommendation_transitions_observed": 3,
+  "recommendations_approached_passively": 1,
+  "pickups_within_180s_of_recommendation": 3,
+  "pickups_near_recommended_region": 1,
+  "active_recommendation_frames": 236,
+  "eligible_hungry_food_hidden_frames": 392,
+  "active_fraction_when_eligible": 0.6020408163265306,
+  "pickups_after_recommendation_delta": 0,
+  "stale_arrival_delta": 0,
+  "maximum_action_influence": 12,
+  "release_reasons": {
+    "below_hunger_gate": 4657,
+    "visible_food_override": 552,
+    "passive_recommendation": 236,
+    "post_reward_refractory": 156
+  },
+  "recommendation_outcomes": [
+    {
+      "recommendation": "resource_10_-18",
+      "start_distance": 28.95876996962774,
+      "minimum_distance": 28.95876996962774,
+      "approached_region": false,
+      "pickup_within_horizon": true,
+      "pickup_delay_seconds": 34.12814116477966,
+      "pickup_target_distance": 57.25026909958104,
+      "pickup_near_recommended_region": false
+    },
+    {
+      "recommendation": "resource_13_-21",
+      "start_distance": 98.87992062564915,
+      "minimum_distance": 98.87992062564915,
+      "approached_region": false,
+      "pickup_within_horizon": true,
+      "pickup_delay_seconds": 34.29438304901123,
+      "pickup_target_distance": 159.24924793412583,
+      "pickup_near_recommended_region": false
+    },
+    {
+      "recommendation": "resource_24_-28",
+      "start_distance": 79.71805784845968,
+      "minimum_distance": 28.421824117227214,
+      "approached_region": true,
+      "pickup_within_horizon": true,
+      "pickup_delay_seconds": 32.152831077575684,
+      "pickup_target_distance": 4.43343661492413,
+      "pickup_near_recommended_region": true
+    }
+  ],
+  "checks": {
+    "memory_encoded_at_least_one_rewarded_region": true,
+    "recommendations_observed_when_testable": true,
+    "passive_causal_separation_preserved": false,
+    "passive_integration_valid": false
+  },
+  "recording": "outputs/unity_shadow/resource_memory_guided_smoke_20260730.jsonl"
+}

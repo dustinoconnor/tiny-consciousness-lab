@@ -1,0 +1,215 @@
+{
+  "protocol": {
+    "date": "2026-07-19",
+    "sequential_not_randomized": true,
+    "adapter_confidence_gate": 0.7,
+    "base_checkpoint": "checkpoints/starvation_posttrained/best.pt"
+  },
+  "gated_adapter": {
+    "summary": {
+      "episodes": 6,
+      "successes": 3,
+      "timeouts": 3,
+      "collision_seconds": 33.75,
+      "fallback_seconds": 0.0,
+      "adapter_events": 13,
+      "adapter_active_seconds": 17.09
+    },
+    "episodes": [
+      {
+        "episode": 9,
+        "course": "lwall",
+        "outcomes": [
+          "running",
+          "timeout"
+        ],
+        "duration_seconds": 34.78,
+        "adapter_active_seconds": 1.9,
+        "adapter_events": 2,
+        "collision_seconds": 3.16,
+        "fallback_seconds": 0.0
+      },
+      {
+        "episode": 10,
+        "course": "zigzag",
+        "outcomes": [
+          "running",
+          "success"
+        ],
+        "duration_seconds": 16.47,
+        "adapter_active_seconds": 7.38,
+        "adapter_events": 3,
+        "collision_seconds": 1.69,
+        "fallback_seconds": 0.0
+      },
+      {
+        "episode": 11,
+        "course": "offsetbarriers",
+        "outcomes": [
+          "running",
+          "success"
+        ],
+        "duration_seconds": 54.67,
+        "adapter_active_seconds": 1.27,
+        "adapter_events": 2,
+        "collision_seconds": 4.43,
+        "fallback_seconds": 0.0
+      },
+      {
+        "episode": 12,
+        "course": "narrowcorridor",
+        "outcomes": [
+          "running",
+          "success"
+        ],
+        "duration_seconds": 77.41,
+        "adapter_active_seconds": 0.42,
+        "adapter_events": 2,
+        "collision_seconds": 5.7,
+        "fallback_seconds": 0.0
+      },
+      {
+        "episode": 13,
+        "course": "utrap",
+        "outcomes": [
+          "running",
+          "timeout"
+        ],
+        "duration_seconds": 91.81,
+        "adapter_active_seconds": 1.69,
+        "adapter_events": 1,
+        "collision_seconds": 7.38,
+        "fallback_seconds": 0.0
+      },
+      {
+        "episode": 14,
+        "course": "ctrap",
+        "outcomes": [
+          "running",
+          "timeout"
+        ],
+        "duration_seconds": 91.78,
+        "adapter_active_seconds": 4.43,
+        "adapter_events": 3,
+        "collision_seconds": 11.39,
+        "fallback_seconds": 0.0
+      }
+    ]
+  },
+  "frozen_baseline": {
+    "summary": {
+      "episodes": 6,
+      "successes": 3,
+      "timeouts": 3,
+      "collision_seconds": 48.3,
+      "fallback_seconds": 0.0,
+      "adapter_events": 0,
+      "adapter_active_seconds": 0.0
+    },
+    "episodes": [
+      {
+        "episode": 15,
+        "course": "lwall",
+        "outcomes": [
+          "running",
+          "success"
+        ],
+        "duration_seconds": 14.66,
+        "adapter_active_seconds": 0.0,
+        "adapter_events": 0,
+        "collision_seconds": 0.42,
+        "fallback_seconds": 0.0
+      },
+      {
+        "episode": 16,
+        "course": "zigzag",
+        "outcomes": [
+          "running",
+          "success"
+        ],
+        "duration_seconds": 61.13,
+        "adapter_active_seconds": 0.0,
+        "adapter_events": 0,
+        "collision_seconds": 6.75,
+        "fallback_seconds": 0.0
+      },
+      {
+        "episode": 17,
+        "course": "offsetbarriers",
+        "outcomes": [
+          "running",
+          "success"
+        ],
+        "duration_seconds": 78.5,
+        "adapter_active_seconds": 0.0,
+        "adapter_events": 0,
+        "collision_seconds": 4.64,
+        "fallback_seconds": 0.0
+      },
+      {
+        "episode": 18,
+        "course": "narrowcorridor",
+        "outcomes": [
+          "running",
+          "timeout"
+        ],
+        "duration_seconds": 91.8,
+        "adapter_active_seconds": 0.0,
+        "adapter_events": 0,
+        "collision_seconds": 10.97,
+        "fallback_seconds": 0.0
+      },
+      {
+        "episode": 19,
+        "course": "utrap",
+        "outcomes": [
+          "running",
+          "timeout"
+        ],
+        "duration_seconds": 91.95,
+        "adapter_active_seconds": 0.0,
+        "adapter_events": 0,
+        "collision_seconds": 12.02,
+        "fallback_seconds": 0.0
+      },
+      {
+        "episode": 20,
+        "course": "ctrap",
+        "outcomes": [
+          "running",
+          "timeout"
+        ],
+        "duration_seconds": 91.73,
+        "adapter_active_seconds": 0.0,
+        "adapter_events": 0,
+        "collision_seconds": 13.5,
+        "fallback_seconds": 0.0
+      }
+    ]
+  },
+  "verdict": "Promising but not deployment-ready: the gated adapter improved the matched five-course sequence from 2/5 to 3/5 and reduced collisions, while both conditions timed out on U and C traps.",
+  "matched_complete_courses": {
+    "courses": [
+      "zigzag",
+      "offsetbarriers",
+      "narrowcorridor",
+      "utrap",
+      "ctrap"
+    ],
+    "gated_adapter": {
+      "episodes": 5,
+      "successes": 3,
+      "timeouts": 2,
+      "collision_seconds": 30.59,
+      "mean_success_duration_seconds": 49.52
+    },
+    "frozen_baseline": {
+      "episodes": 5,
+      "successes": 2,
+      "timeouts": 3,
+      "collision_seconds": 47.88,
+      "mean_success_duration_seconds": 69.81
+    },
+    "qualification": "Sequential, non-randomized comparison. The initial L-wall episode was excluded because logging began partway through the episode."
+  }
+}

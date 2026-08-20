@@ -1,0 +1,16 @@
+{
+  "format": "tiny_scientist_verified_production_memory_v1",
+  "rules": [
+    {
+      "rule_id": "red_pickup_delayed_pressure_increase_v1",
+      "cause": "red pickup",
+      "effect": "increased internal pressure",
+      "predicted_delay_seconds": 10.464,
+      "authority": 0.0,
+      "control_permissions": [],
+      "status": "verified_shadow_production_memory",
+      "verification_source": "outputs/tiny_scientist_rule_verification_fullstack_summary_20260801.json",
+      "verification_date": "2026-08-01"
+    }
+  ]
+}

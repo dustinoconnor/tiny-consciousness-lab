@@ -1,0 +1,117 @@
+{
+  "protocol": {
+    "run_patterns": [
+      "lwall_adapter_multiseed_20260721/seed_*.jsonl",
+      "lwall_adapter_v2_multiseed_20260721/seed_*.jsonl",
+      "lwall_adapter_v2_commit16_20260721/seed_*.jsonl",
+      "lwall_adapter_v2_softbias_restart_20260721/seed_*.jsonl"
+    ],
+    "window_start": 10,
+    "window_frames": 100,
+    "validation": "leave_one_controller_seed_out",
+    "target": "episode_timeout"
+  },
+  "episodes": 120,
+  "timeouts": 23,
+  "successes": 97,
+  "results": {
+    "raw": {
+      "heldout_seed_auc": 0.5531151949798296,
+      "folds": [
+        {
+          "heldout_seed": 11,
+          "episodes": 24,
+          "timeouts": 4
+        },
+        {
+          "heldout_seed": 23,
+          "episodes": 24,
+          "timeouts": 6
+        },
+        {
+          "heldout_seed": 37,
+          "episodes": 24,
+          "timeouts": 4
+        },
+        {
+          "heldout_seed": 53,
+          "episodes": 24,
+          "timeouts": 3
+        },
+        {
+          "heldout_seed": 71,
+          "episodes": 24,
+          "timeouts": 6
+        }
+      ]
+    },
+    "art_only": {
+      "heldout_seed_auc": 0.5078440161362617,
+      "folds": [
+        {
+          "heldout_seed": 11,
+          "episodes": 24,
+          "timeouts": 4
+        },
+        {
+          "heldout_seed": 23,
+          "episodes": 24,
+          "timeouts": 6
+        },
+        {
+          "heldout_seed": 37,
+          "episodes": 24,
+          "timeouts": 4
+        },
+        {
+          "heldout_seed": 53,
+          "episodes": 24,
+          "timeouts": 3
+        },
+        {
+          "heldout_seed": 71,
+          "episodes": 24,
+          "timeouts": 6
+        }
+      ]
+    },
+    "raw_plus_art": {
+      "heldout_seed_auc": 0.6324518153294487,
+      "folds": [
+        {
+          "heldout_seed": 11,
+          "episodes": 24,
+          "timeouts": 4
+        },
+        {
+          "heldout_seed": 23,
+          "episodes": 24,
+          "timeouts": 6
+        },
+        {
+          "heldout_seed": 37,
+          "episodes": 24,
+          "timeouts": 4
+        },
+        {
+          "heldout_seed": 53,
+          "episodes": 24,
+          "timeouts": 3
+        },
+        {
+          "heldout_seed": 71,
+          "episodes": 24,
+          "timeouts": 6
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "complete_seed_holdout": true,
+    "combined_auc_at_least_0_70": false,
+    "art_adds_at_least_0_03_auc": true,
+    "prospective_window_excludes_outcome": true
+  },
+  "accepted": false,
+  "claim_boundary": "This tests prospective timeout prediction. ART feature utility is correlational; it does not establish that ART dynamics cause recovery or consciousness."
+}

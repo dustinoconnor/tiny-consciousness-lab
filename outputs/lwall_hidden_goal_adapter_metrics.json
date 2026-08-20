@@ -1,0 +1,72 @@
+{
+  "protocol": {
+    "recording": "outputs/unity_shadow/lwall_adapter_collection_20260721.jsonl",
+    "base_checkpoint": "checkpoints/unity_geometry_posttrained/best.pt",
+    "sequence_steps": 24,
+    "future_steps": 12,
+    "whole_episode_holdout": true,
+    "labels": "efficient future displacement from successful trajectories"
+  },
+  "extraction": {
+    "episodes_success": 4,
+    "episodes_timeout": 8,
+    "samples": 340,
+    "successful_episodes_with_samples": 4
+  },
+  "action_counts": {
+    "down_right": 40,
+    "left": 26,
+    "up_left": 112,
+    "up": 27,
+    "up_right": 50,
+    "right": 25,
+    "down": 54,
+    "down_left": 6
+  },
+  "folds": [
+    {
+      "heldout_episode": 1,
+      "train_samples": 258,
+      "heldout_samples": 82,
+      "baseline_accuracy": 0.6707317233085632,
+      "adapter_accuracy": 0.707317054271698,
+      "loss": 0.6299691677093506
+    },
+    {
+      "heldout_episode": 2,
+      "train_samples": 244,
+      "heldout_samples": 96,
+      "baseline_accuracy": 0.5625,
+      "adapter_accuracy": 0.59375,
+      "loss": 0.6880024820566177
+    },
+    {
+      "heldout_episode": 5,
+      "train_samples": 260,
+      "heldout_samples": 80,
+      "baseline_accuracy": 0.550000011920929,
+      "adapter_accuracy": 0.875,
+      "loss": 0.6802753210067749
+    },
+    {
+      "heldout_episode": 10,
+      "train_samples": 258,
+      "heldout_samples": 82,
+      "baseline_accuracy": 0.5243902206420898,
+      "adapter_accuracy": 0.9024389982223511,
+      "loss": 0.6878499984741211
+    }
+  ],
+  "baseline_accuracy": 0.5769054889678955,
+  "adapter_accuracy": 0.7696265131235123,
+  "criteria": {
+    "whole_episode_cross_validation": true,
+    "adapter_improves_at_least_5_points": true,
+    "adapter_accuracy_at_least_45_percent": true,
+    "base_policy_frozen": true,
+    "activation_scope_lwall_food_hidden_only": true
+  },
+  "accepted": true,
+  "final_training_loss": 0.6864826381206512,
+  "claim_boundary": "The adapter is trained on four repeated instances of one Unity L-wall. It is a narrow behavioral correction, not evidence of topology generalization."
+}

@@ -1,0 +1,163 @@
+{
+  "experiment": "GNW-inspired thresholded global access",
+  "seed_count": 12,
+  "steps_per_condition": 21600,
+  "summary": {
+    "framewise_conductor": {
+      "success_rate": 0.9647685185185185,
+      "utility_per_step": 0.782915303642646,
+      "optimal_routing_rate": 0.9829166666666667,
+      "report_action_agreement": 1.0,
+      "global_coordination_rate": 1.0,
+      "handoff_rate": 0.10185185185185185,
+      "unnecessary_handoff_rate": 0.0006944444444444445,
+      "boundary_optimal_routing": 0.9157407407407407,
+      "steady_optimal_routing": 0.9997106481481481,
+      "ignition_rate": 0.0,
+      "mean_gate_entropy_bits": 0.5066076118435394,
+      "mean_bus_overload": 0.0
+    },
+    "gnw_ignition": {
+      "success_rate": 0.8572685185185185,
+      "utility_per_step": 0.4858942385359958,
+      "optimal_routing_rate": 0.6887962962962964,
+      "report_action_agreement": 1.0,
+      "global_coordination_rate": 1.0,
+      "handoff_rate": 0.09944444444444445,
+      "unnecessary_handoff_rate": 0.12430555555555556,
+      "boundary_optimal_routing": 0.005555555555555556,
+      "steady_optimal_routing": 0.8596064814814814,
+      "ignition_rate": 0.1,
+      "mean_gate_entropy_bits": 0.5066076118435394,
+      "mean_bus_overload": 0.0
+    },
+    "gnw_no_persistence": {
+      "success_rate": 0.9224074074074075,
+      "utility_per_step": 0.666700462852916,
+      "optimal_routing_rate": 0.8663888888888889,
+      "report_action_agreement": 1.0,
+      "global_coordination_rate": 1.0,
+      "handoff_rate": 0.09944444444444445,
+      "unnecessary_handoff_rate": 0.03981481481481482,
+      "boundary_optimal_routing": 0.3453703703703704,
+      "steady_optimal_routing": 0.9966435185185185,
+      "ignition_rate": 0.1,
+      "mean_gate_entropy_bits": 0.5066076118435394,
+      "mean_bus_overload": 0.0
+    },
+    "gnw_raw_bus": {
+      "success_rate": 0.79625,
+      "utility_per_step": 0.31596305443903816,
+      "optimal_routing_rate": 0.5015277777777778,
+      "report_action_agreement": 1.0,
+      "global_coordination_rate": 1.0,
+      "handoff_rate": 0.08828703703703704,
+      "unnecessary_handoff_rate": 0.10711805555555555,
+      "boundary_optimal_routing": 0.046296296296296294,
+      "steady_optimal_routing": 0.6153356481481481,
+      "ignition_rate": 0.0888425925925926,
+      "mean_gate_entropy_bits": 0.5066076118435394,
+      "mean_bus_overload": 0.7142857142857143
+    },
+    "gnw_broadcast_lesion": {
+      "success_rate": 0.9647685185185185,
+      "utility_per_step": 0.782915303642646,
+      "optimal_routing_rate": 0.9829166666666667,
+      "report_action_agreement": 1.0,
+      "global_coordination_rate": 0.0,
+      "handoff_rate": 0.10185185185185185,
+      "unnecessary_handoff_rate": 0.0006944444444444445,
+      "boundary_optimal_routing": 0.9157407407407407,
+      "steady_optimal_routing": 0.9997106481481481,
+      "ignition_rate": 0.1,
+      "mean_gate_entropy_bits": 0.5066076118435394,
+      "mean_bus_overload": 0.0
+    },
+    "gnw_broadcast_scramble": {
+      "success_rate": 0.6557407407407407,
+      "utility_per_step": -0.08044903691593266,
+      "optimal_routing_rate": 0.10226851851851852,
+      "report_action_agreement": 0.3335648148148148,
+      "global_coordination_rate": 0.0,
+      "handoff_rate": 0.672962962962963,
+      "unnecessary_handoff_rate": 0.6760416666666667,
+      "boundary_optimal_routing": 0.33078703703703705,
+      "steady_optimal_routing": 0.04513888888888889,
+      "ignition_rate": 0.1,
+      "mean_gate_entropy_bits": 0.5066076118435394,
+      "mean_bus_overload": 0.0
+    }
+  },
+  "paired_seed_contrasts": {
+    "gnw_minus_framewise_utility": {
+      "mean": -0.2970210651066502,
+      "standard_deviation": 0.016424878459893124,
+      "ci95_low": -0.3063143149468719,
+      "ci95_high": -0.28772781526642854,
+      "positive_seeds": 0,
+      "seed_count": 12,
+      "one_sided_sign_test_p": 1.0,
+      "paired_effect_dz": -18.083608096822587
+    },
+    "framewise_minus_gnw_unnecessary_handoffs": {
+      "mean": -0.12361111111111107,
+      "standard_deviation": 0.00240562612162344,
+      "ci95_low": -0.12497222222222218,
+      "ci95_high": -0.12224999999999997,
+      "positive_seeds": 0,
+      "seed_count": 12,
+      "one_sided_sign_test_p": 1.0,
+      "paired_effect_dz": -51.38417395787669
+    },
+    "gnw_minus_no_persistence_utility": {
+      "mean": -0.18080622431692014,
+      "standard_deviation": 0.011741076282686658,
+      "ci95_low": -0.1874493635982575,
+      "ci95_high": -0.17416308503558278,
+      "positive_seeds": 0,
+      "seed_count": 12,
+      "one_sided_sign_test_p": 1.0,
+      "paired_effect_dz": -15.399459126548411
+    },
+    "gnw_minus_raw_bus_utility": {
+      "mean": 0.16993118409695765,
+      "standard_deviation": 0.016218205479030592,
+      "ci95_low": 0.16075487050384848,
+      "ci95_high": 0.1791074976900668,
+      "positive_seeds": 12,
+      "seed_count": 12,
+      "one_sided_sign_test_p": 0.000244140625,
+      "paired_effect_dz": 10.477804361072561
+    },
+    "gnw_minus_broadcast_lesion_coordination": {
+      "mean": 1.0,
+      "standard_deviation": 0.0,
+      "ci95_low": 1.0,
+      "ci95_high": 1.0,
+      "positive_seeds": 12,
+      "seed_count": 12,
+      "one_sided_sign_test_p": 0.000244140625,
+      "paired_effect_dz": 0.0
+    },
+    "gnw_minus_broadcast_scramble_utility": {
+      "mean": 0.5663432754519284,
+      "standard_deviation": 0.03737644011625025,
+      "ci95_low": 0.5451955636447108,
+      "ci95_high": 0.5874909872591461,
+      "positive_seeds": 12,
+      "seed_count": 12,
+      "one_sided_sign_test_p": 0.000244140625,
+      "paired_effect_dz": 15.152413490703143
+    }
+  },
+  "criteria": {
+    "gnw_utility_not_below_framewise": false,
+    "gnw_reduces_unnecessary_handoffs": false,
+    "persistence_has_positive_utility": false,
+    "compressed_bus_beats_raw_overload": true,
+    "broadcast_is_causally_required_for_coordination": true,
+    "correct_broadcast_beats_scrambled_broadcast": true
+  },
+  "all_criteria_pass": false,
+  "claim_boundary": "Passing supports a functional software analogue of limited-capacity global access: thresholded competition, persistent broadcast, and coordinated downstream availability. It does not establish neuronal GNW equivalence or phenomenal consciousness."
+}

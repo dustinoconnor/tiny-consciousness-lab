@@ -1,0 +1,36 @@
+{
+  "completed_episodes": 4,
+  "discarded_episodes": 2,
+  "last_action": "none",
+  "last_outcome": "discarded_contamination",
+  "observations": [
+    {
+      "index": 1,
+      "ordered_action": "red_then_blue",
+      "probe_suppressed": false
+    },
+    {
+      "index": 2,
+      "ordered_action": "red_then_blue",
+      "probe_suppressed": false
+    },
+    {
+      "index": 3,
+      "ordered_action": "red_then_yellow",
+      "probe_suppressed": true
+    },
+    {
+      "index": 4,
+      "ordered_action": "red_then_yellow",
+      "probe_suppressed": true
+    }
+  ],
+  "posterior": {
+    "any_pickup_after_red_suppresses_probe": 0.02077729614285195,
+    "blue_after_red_suppresses_probe": 2.0449780132910776e-05,
+    "no_ordered_suppression": 0.002883738526554998,
+    "yellow_after_red_suppresses_probe": 0.9763185155504601
+  },
+  "updates": 4,
+  "version": 1
+}

@@ -1,0 +1,177 @@
+{
+  "source": "outputs/unity_shadow/dynamics_observer_courses_20260719.jsonl",
+  "frames": 1150,
+  "duration_seconds": 230.0,
+  "courses": {
+    "1": {
+      "course": "utrap",
+      "frames": 156,
+      "success": true,
+      "timeout": false,
+      "friction_frames": 20,
+      "fallback_frames": 0
+    },
+    "2": {
+      "course": "ctrap",
+      "frames": 135,
+      "success": true,
+      "timeout": false,
+      "friction_frames": 10,
+      "fallback_frames": 0
+    },
+    "3": {
+      "course": "lwall",
+      "frames": 448,
+      "success": false,
+      "timeout": true,
+      "friction_frames": 41,
+      "fallback_frames": 0
+    },
+    "4": {
+      "course": "zigzag",
+      "frames": 79,
+      "success": true,
+      "timeout": false,
+      "friction_frames": 8,
+      "fallback_frames": 0
+    },
+    "5": {
+      "course": "offsetbarriers",
+      "frames": 162,
+      "success": true,
+      "timeout": false,
+      "friction_frames": 13,
+      "fallback_frames": 0
+    },
+    "6": {
+      "course": "narrowcorridor",
+      "frames": 61,
+      "success": true,
+      "timeout": false,
+      "friction_frames": 4,
+      "fallback_frames": 0
+    },
+    "7": {
+      "course": "utrap",
+      "frames": 109,
+      "success": false,
+      "timeout": false,
+      "friction_frames": 18,
+      "fallback_frames": 0
+    }
+  },
+  "course_counts": {
+    "utrap": 265,
+    "ctrap": 135,
+    "lwall": 448,
+    "zigzag": 79,
+    "offsetbarriers": 162,
+    "narrowcorridor": 61
+  },
+  "current_friction_rate": 0.09913043478260869,
+  "future_3s_friction_rate": 0.5034782608695653,
+  "current_event_association": {
+    "sync_coherence": {
+      "event_mean": 0.9459136070007466,
+      "control_mean": 0.9505868598434659,
+      "standardized_difference": -0.03423541468714062,
+      "predictive_auc": 0.5325137167242431,
+      "predictive_direction": "higher",
+      "event_frames": 114,
+      "control_frames": 1036
+    },
+    "sync_bus_pressure": {
+      "event_mean": 0.05263157894736842,
+      "control_mean": 0.007722007722007722,
+      "standardized_difference": 0.4122707174494858,
+      "predictive_auc": 0.5224547856126803,
+      "predictive_direction": "higher",
+      "event_frames": 114,
+      "control_frames": 1036
+    },
+    "criticality_score": {
+      "event_mean": 0.9686946435961722,
+      "control_mean": 0.9525097362253621,
+      "standardized_difference": 0.38650517307021054,
+      "predictive_auc": 0.5698198198198198,
+      "predictive_direction": "higher",
+      "event_frames": 114,
+      "control_frames": 1036
+    },
+    "criticality_propagation_ratio": {
+      "event_mean": 0.9941031776714097,
+      "control_mean": 1.0397773184950527,
+      "standardized_difference": -0.7880202576350417,
+      "predictive_auc": 0.7492379597642755,
+      "predictive_direction": "lower",
+      "event_frames": 114,
+      "control_frames": 1036
+    },
+    "criticality_recommended_gain": {
+      "event_mean": 1.1748839705541156,
+      "control_mean": 1.1748268724841804,
+      "standardized_difference": 0.19671386247343867,
+      "predictive_auc": 0.565865677707783,
+      "predictive_direction": "higher",
+      "event_frames": 114,
+      "control_frames": 1036
+    }
+  },
+  "future_3s_prediction": {
+    "sync_coherence": {
+      "event_mean": 0.98007691142481,
+      "control_mean": 0.9197506239596335,
+      "standardized_difference": 0.4531356670344302,
+      "predictive_auc": 0.6280485407233318,
+      "predictive_direction": "higher",
+      "event_frames": 579,
+      "control_frames": 571
+    },
+    "sync_bus_pressure": {
+      "event_mean": 0.017271157167530225,
+      "control_mean": 0.0070052539404553416,
+      "standardized_difference": 0.09363540529254462,
+      "predictive_auc": 0.5051329516135374,
+      "predictive_direction": "higher",
+      "event_frames": 579,
+      "control_frames": 571
+    },
+    "criticality_score": {
+      "event_mean": 0.9521223803529437,
+      "control_mean": 0.9561338316551389,
+      "standardized_difference": -0.09527015922536813,
+      "predictive_auc": 0.5314979326031657,
+      "predictive_direction": "lower",
+      "event_frames": 579,
+      "control_frames": 571
+    },
+    "criticality_propagation_ratio": {
+      "event_mean": 1.0372772132753967,
+      "control_mean": 1.0331936212416122,
+      "standardized_difference": 0.06861600065570407,
+      "predictive_auc": 0.5199162757214716,
+      "predictive_direction": "higher",
+      "event_frames": 579,
+      "control_frames": 571
+    },
+    "criticality_recommended_gain": {
+      "event_mean": 1.1748591020767325,
+      "control_mean": 1.174805590953331,
+      "standardized_difference": 0.1848233581049047,
+      "predictive_auc": 0.5383398516071856,
+      "predictive_direction": "higher",
+      "event_frames": 579,
+      "control_frames": 571
+    }
+  },
+  "binding_ready_rate": 0.06173913043478261,
+  "regime_counts": {
+    "near_critical_proxy": 1146,
+    "supercritical_proxy": 4
+  },
+  "interpretation_rule": {
+    "promising_auc": 0.65,
+    "promising_absolute_standardized_difference": 0.35,
+    "note": "These exploratory thresholds nominate an intervention test; they do not establish causal benefit."
+  }
+}

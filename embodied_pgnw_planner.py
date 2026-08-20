@@ -21,6 +21,7 @@ from pgnw_hypothesis_selection_lab import (
     posterior_after,
     select_ranked,
 )
+from typed_causal_domain import ORDERED_ACTIONS
 
 
 class EmbodiedPGNWExperimentPlanner:
@@ -44,6 +45,8 @@ class EmbodiedPGNWExperimentPlanner:
         isolation_retreat_max_score_regret=0.35,
         hypothesis_proposer=None,
         dynamic_discovery_minimum=4,
+        typed_learner=None,
+        typed_rule_control="passive",
     ):
         if mode not in self.MODES:
             raise ValueError("unsupported_embodied_pgnw_mode")
@@ -72,6 +75,20 @@ class EmbodiedPGNWExperimentPlanner:
         )
         self.tie_order = np.random.default_rng(seed).permutation(len(ACTIONS))
         self.dynamic = mode == "dynamic_committed"
+        self.typed_learner = typed_learner
+        self.typed = typed_learner is not None and typed_learner.enabled
+        if typed_rule_control not in {"passive", "verified_protective"}:
+            raise ValueError("unsupported_typed_rule_control")
+        self.typed_rule_control = str(typed_rule_control)
+        self.protective_rule_active = False
+        self.protective_target_feature = "none"
+        self.protective_rule_confidence = 0.0
+        self.protective_memory_active = False
+        self.protective_need_active = False
+        self.protective_guidance_decisions = 0
+        self.protective_action_influence = 0
+        self.typed_requested_action = "none"
+        self.typed_last_terminal_count = 0
         if self.dynamic and hypothesis_proposer is None:
             raise ValueError("dynamic_pgnw_requires_hypothesis_proposer")
         self.hypothesis_proposer = hypothesis_proposer
@@ -103,6 +120,8 @@ class EmbodiedPGNWExperimentPlanner:
         self.initialized = False
         self.last_pickup_total = 0
         self.last_red_total = 0
+        self.last_blue_total = 0
+        self.last_yellow_total = 0
         self.last_outcome = "none"
         self.last_information_gain = 0.0
         self.experiments_selected = 0
@@ -135,6 +154,8 @@ class EmbodiedPGNWExperimentPlanner:
 
     @property
     def requested_experiment(self):
+        if self.typed:
+            return self.typed_requested_action
         return (
             ACTIONS[self.current_action]
             if self.current_action is not None
@@ -143,17 +164,27 @@ class EmbodiedPGNWExperimentPlanner:
 
     @property
     def map_hypothesis(self):
+        if self.typed:
+            return self.typed_learner.pool.map_hypothesis
         if self.dynamic:
             return self.dynamic_pool.map_hypothesis
         return HYPOTHESES[int(np.argmax(self.posterior))]
 
     @property
     def map_confidence(self):
+        if self.typed:
+            return self.typed_learner.pool.map_confidence
         if self.dynamic:
             return self.dynamic_pool.map_confidence
         return float(np.max(self.posterior))
 
     def select_experiment(self):
+        if self.typed:
+            action, _scores = self.typed_learner.pool.select_experiment()
+            self.typed_requested_action = ORDERED_ACTIONS[action]
+            self.phase = "seeking_red"
+            self.experiments_selected += 1
+            return
         if self.dynamic:
             if self.dynamic_pool.admission_count:
                 self.current_action, _scores = self.dynamic_pool.select_experiment()
@@ -177,6 +208,23 @@ class EmbodiedPGNWExperimentPlanner:
         self.observation_due_step = None
         self.confounded = False
         self.experiments_selected += 1
+
+    def verified_protective_suppressor(self):
+        """Return a learned specific suppressor only above the authority gate."""
+        if not self.typed or self.typed_rule_control != "verified_protective":
+            return None
+        pool = self.typed_learner.pool
+        index = int(np.argmax(pool.posterior))
+        hypothesis = pool.hypotheses[index]
+        confidence = float(pool.posterior[index])
+        self.protective_rule_confidence = confidence
+        if (
+            confidence < 0.95
+            or hypothesis.relation != "after_red"
+            or hypothesis.suppressor not in {"blue", "yellow"}
+        ):
+            return None
+        return hypothesis.suppressor
 
     def _dynamic_summary(self):
         features = {"red": {"deltas": [], "rises": 0}, "blue": {"deltas": [], "rises": 0}}
@@ -256,15 +304,47 @@ class EmbodiedPGNWExperimentPlanner:
         if not matched:
             self.protocol_mismatches += 1
 
-    def update(self, step, signal, pickup_total, red_total):
+    def update(
+        self,
+        step,
+        signal,
+        pickup_total,
+        red_total,
+        blue_total=None,
+        yellow_total=None,
+    ):
         if not self.enabled:
+            return
+        if self.typed:
+            terminal_count = (
+                self.typed_learner.completed_episodes
+                + self.typed_learner.discarded_episodes
+            )
+            if self.typed_learner.active is None:
+                if terminal_count != self.typed_last_terminal_count:
+                    self.typed_last_terminal_count = terminal_count
+                    self.select_experiment()
+                else:
+                    self.phase = "seeking_red"
+            elif self.typed_learner.active["second"] == "none":
+                self.phase = "seeking_second"
+            else:
+                self.phase = "observing_delay"
             return
         self._poll_dynamic_proposal()
         pickup_total = int(pickup_total)
         red_total = int(red_total)
+        blue_total = (
+            max(0, pickup_total - red_total)
+            if blue_total is None
+            else int(blue_total)
+        )
+        yellow_total = 0 if yellow_total is None else int(yellow_total)
         if not self.initialized:
             self.last_pickup_total = pickup_total
             self.last_red_total = red_total
+            self.last_blue_total = blue_total
+            self.last_yellow_total = yellow_total
             self.initialized = True
             if self.requested_experiment == "wait_no_pickup":
                 self.start_observation(2, step, signal)
@@ -272,15 +352,31 @@ class EmbodiedPGNWExperimentPlanner:
 
         pickup_delta = max(0, pickup_total - self.last_pickup_total)
         red_delta = max(0, red_total - self.last_red_total)
-        blue_delta = max(0, pickup_delta - red_delta)
+        blue_delta = max(0, blue_total - self.last_blue_total)
+        yellow_delta = max(0, yellow_total - self.last_yellow_total)
         self.last_pickup_total = pickup_total
         self.last_red_total = red_total
+        self.last_blue_total = blue_total
+        self.last_yellow_total = yellow_total
 
         if self.phase == "waiting_to_observe":
             self.start_observation(2, step, signal)
 
-        if self.phase == "seeking_target" and pickup_delta > 0:
-            if pickup_delta != 1 or red_delta > 1 or blue_delta > 1:
+        if self.phase == "seeking_target" and yellow_delta > 0:
+            # The legacy red/blue planner has no typed yellow action. Treating
+            # every non-red pickup as blue would corrupt both discovery and
+            # held-out evidence, so yellow is an explicit protocol mismatch.
+            self.protocol_mismatches += 1
+            self.experiments_discarded += 1
+            self.last_outcome = "unexpected_yellow"
+            self.select_experiment()
+        elif self.phase == "seeking_target" and pickup_delta > 0:
+            if (
+                pickup_delta != 1
+                or red_delta > 1
+                or blue_delta > 1
+                or red_delta + blue_delta != pickup_delta
+            ):
                 self.start_observation(
                     0 if red_delta else 1,
                     step,
@@ -347,13 +443,22 @@ class EmbodiedPGNWExperimentPlanner:
             self.select_experiment()
             self._poll_dynamic_proposal()
 
-    def update_guidance(self, body_state):
+    def update_guidance(
+        self,
+        body_state,
+        resource_memory=None,
+        protective_need_active=None,
+    ):
         self.guidance_active = False
         self.isolation_active = False
         self.guidance_vector = (0.0, 0.0)
         self.guidance_distance = 0.0
         self.guidance_weight = 0.0
         self.last_effective_guidance_weight = 0.0
+        self.protective_rule_active = False
+        self.protective_target_feature = "none"
+        self.protective_memory_active = False
+        self.protective_need_active = False
         cooling_down = self.commitment_cooldown_remaining_ticks > 0
         if cooling_down:
             self.commitment_cooldown_remaining_ticks -= 1
@@ -362,15 +467,31 @@ class EmbodiedPGNWExperimentPlanner:
             or not isinstance(body_state, dict)
         ):
             return
+        protective_suppressor = self.verified_protective_suppressor()
+        if self.typed_rule_control == "verified_protective":
+            active_episode = self.typed_learner.active if self.typed else None
+            if protective_need_active is None:
+                # Direct planner callers retain the legacy test harness; the
+                # embodied loop supplies the authoritative metabolic state.
+                protective_need_active = active_episode is not None
+            if (
+                protective_suppressor is None
+                or not bool(protective_need_active)
+            ):
+                return
+            self.protective_rule_active = True
+            self.protective_need_active = True
+            self.protective_target_feature = protective_suppressor
         if (
             self.mode in {"committed", "dynamic_committed"}
             and self.phase == "observing_delay"
             and not self.confounded
+            and not self.protective_rule_active
         ):
             repulsion_x = 0.0
             repulsion_z = 0.0
             nearest = math.inf
-            for prefix in ("red", "blue"):
+            for prefix in ("red", "blue", "yellow"):
                 try:
                     visible = bool(body_state.get(f"{prefix}_food_visible", False))
                     distance = max(
@@ -398,9 +519,24 @@ class EmbodiedPGNWExperimentPlanner:
                 self.guidance_distance = nearest
                 self.guidance_weight = self.max_guidance_weight
             return
-        if self.phase != "seeking_target" or self.current_action not in {0, 1}:
-            return
-        prefix = "red" if self.current_action == 0 else "blue"
+        if self.typed:
+            if self.protective_rule_active:
+                prefix = self.protective_target_feature
+            elif self.phase == "seeking_red":
+                prefix = "red"
+            elif self.phase == "seeking_second":
+                if self.typed_requested_action == "red_then_yellow":
+                    prefix = "yellow"
+                elif self.typed_requested_action == "red_then_blue":
+                    prefix = "blue"
+                else:
+                    return
+            else:
+                return
+        else:
+            if self.phase != "seeking_target" or self.current_action not in {0, 1}:
+                return
+            prefix = "red" if self.current_action == 0 else "blue"
         try:
             visible = bool(body_state.get(f"{prefix}_food_visible", False))
             distance = float(body_state.get(f"{prefix}_food_distance", 0.0))
@@ -410,8 +546,20 @@ class EmbodiedPGNWExperimentPlanner:
             return
         length = math.hypot(x, z)
         if not visible or length <= 1e-6:
-            self.commitment_remaining_ticks = 0
-            return
+            if (
+                self.protective_rule_active
+                and resource_memory is not None
+                and bool(getattr(resource_memory, "active", False))
+                and getattr(resource_memory, "active_feature", "none") == prefix
+                and getattr(resource_memory, "target", None) is not None
+            ):
+                x, z = resource_memory.guidance_vector
+                distance = resource_memory.distance
+                length = math.hypot(x, z)
+                self.protective_memory_active = length > 1e-6
+            if length <= 1e-6 or not self.protective_memory_active:
+                self.commitment_remaining_ticks = 0
+                return
         if self.mode in {"committed", "dynamic_committed"}:
             if self.commitment_remaining_ticks <= 0:
                 if cooling_down:
@@ -428,10 +576,14 @@ class EmbodiedPGNWExperimentPlanner:
         self.guidance_vector = (x / length, z / length)
         self.guidance_distance = max(0.0, distance)
         self.guidance_weight = self.max_guidance_weight
+        if self.protective_rule_active:
+            self.protective_guidance_decisions += 1
 
     def audit(self):
         posterior = (
-            self.dynamic_pool.audit()["posterior"]
+            self.typed_learner.pool.audit()["posterior"]
+            if self.typed
+            else self.dynamic_pool.audit()["posterior"]
             if self.dynamic
             else {
                 name: float(value)
@@ -464,6 +616,18 @@ class EmbodiedPGNWExperimentPlanner:
             "experiments_discarded": self.experiments_discarded,
             "protocol_mismatches": self.protocol_mismatches,
             "posterior_updates": self.posterior_updates,
+            "typed_guidance": self.typed,
+            "typed_rule_control": self.typed_rule_control,
+            "protective_rule_active": self.protective_rule_active,
+            "protective_target_feature": self.protective_target_feature,
+            "protective_rule_confidence": self.protective_rule_confidence,
+            "protective_memory_active": self.protective_memory_active,
+            "protective_need_active": self.protective_need_active,
+            "protective_guidance_decisions": self.protective_guidance_decisions,
+            "protective_action_influence": self.protective_action_influence,
+            "typed_learner": (
+                self.typed_learner.audit() if self.typed else {}
+            ),
             "guidance_active": self.guidance_active,
             "guidance_weight": self.guidance_weight,
             "guidance_margin_threshold": self.guidance_margin_threshold,

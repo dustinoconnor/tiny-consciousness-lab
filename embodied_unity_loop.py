@@ -40,6 +40,8 @@ from terrain_escape_teacher import TerrainEscapeTeacher
 from terrain_resource_memory import PassiveTerrainResourceMemory
 from dynamic_hypothesis_pool import LocalL1HypothesisProposer
 from tiny_scientist_production_memory import VerifiedProductionMemory
+from typed_causal_domain import OrderedCausalProbeWorld, PassiveOrderedEpisodeLearner
+from formulate_ordered_interaction import LocalCalibratedOrderedProposer
 
 
 ACTIONS = [
@@ -584,6 +586,9 @@ class ShadowRecorder:
             "blue_food_visible": bool(body_state.get("blue_food_visible", False)),
             "blue_food_distance": body_state.get("blue_food_distance"),
             "blue_food_world": [body_state.get("blue_food_world_x"), body_state.get("blue_food_world_z")],
+            "yellow_food_visible": bool(body_state.get("yellow_food_visible", False)),
+            "yellow_food_distance": body_state.get("yellow_food_distance"),
+            "yellow_food_world": [body_state.get("yellow_food_world_x"), body_state.get("yellow_food_world_z")],
             "food_available_in_radius": int(body_state.get("food_available_in_radius", 0) or 0),
             "food_visible_in_radius": int(body_state.get("food_visible_in_radius", 0) or 0),
             "food_occluded_in_radius": int(body_state.get("food_occluded_in_radius", 0) or 0),
@@ -669,11 +674,31 @@ class ShadowRecorder:
             "red_mushroom_pickups_total": int(
                 body_state.get("red_mushroom_pickups_total", 0) or 0
             ),
+            "blue_mushroom_pickups_total": int(
+                body_state.get("blue_mushroom_pickups_total", 0) or 0
+            ),
+            "yellow_flower_pickups_total": int(
+                body_state.get("yellow_flower_pickups_total", 0) or 0
+            ),
             "mushrooms_eaten": ego.mushrooms_eaten,
             "causal_probe_signal": ego.causal_probe_signal,
             "causal_probe_events": ego.causal_probe_events,
             "causal_probe_pending_events": len(ego.causal_probe_due_steps),
+            "causal_probe_cancelled_events": (
+                ego.causal_probe_world.cancelled_events
+            ),
+            "causal_probe_ambiguous_pickup_frames": (
+                ego.causal_probe_world.ambiguous_pickup_frames
+            ),
             "causal_probe_action_influence": 0,
+            "causal_probe_hunger_cost": ego.causal_probe_hunger_cost,
+            "causal_probe_hunger_cost_events": (
+                ego.causal_probe_hunger_cost_events
+            ),
+            "causal_probe_hunger_cost_total": (
+                ego.causal_probe_hunger_cost_total
+            ),
+            "typed_interaction_learning": ego.typed_interaction_learner.audit(),
             # Read-only aliases keep historical Tiny Scientist analyzers able
             # to consume new recordings without restoring metabolic effects.
             "metabolic_pressure": ego.metabolic_pressure,
@@ -947,9 +972,22 @@ class ShadowRecorder:
             "resource_memory_distance": ego.resource_memory.distance,
             "resource_memory_confidence": ego.resource_memory.confidence,
             "resource_memory_regions": len(ego.resource_memory.entries),
+            "resource_memory_typed_regions": len(
+                ego.resource_memory.typed_entries
+            ),
+            "resource_memory_active_feature": (
+                ego.resource_memory.active_feature
+            ),
             "resource_memory_encodings": ego.resource_memory.encodings,
+            "resource_memory_typed_encodings": (
+                ego.resource_memory.typed_encodings
+            ),
             "resource_memory_queries": ego.resource_memory.queries,
+            "resource_memory_typed_queries": ego.resource_memory.typed_queries,
             "resource_memory_recommendations": ego.resource_memory.recommendations,
+            "resource_memory_typed_recommendations": (
+                ego.resource_memory.typed_recommendations
+            ),
             "resource_memory_recommendation_frames": (
                 ego.resource_memory.recommendation_frames
             ),
@@ -1044,6 +1082,14 @@ class EmbodiedFunctionalEgo:
         tiny_scientist_experiment_isolation_retreat_seconds=2.0,
         tiny_scientist_experiment_isolation_retreat_max_score_regret=0.35,
         tiny_scientist_hypothesis_proposer=None,
+        causal_probe_delay_seconds=10.0,
+        causal_probe_cancellation_feature="none",
+        causal_probe_hunger_cost=0.0,
+        typed_interaction_learning=False,
+        typed_interaction_memory=None,
+        typed_interaction_discovery_memory=None,
+        typed_interaction_hypothesis_proposer=None,
+        typed_interaction_rule_control="passive",
     ):
         self.crosstalk = 0.07
         self.complexity = 0.12
@@ -1103,11 +1149,29 @@ class EmbodiedFunctionalEgo:
         self.last_mushroom_pickup_total = 0
         self.last_mushroom_reward_total = 0.0
         self.last_red_mushroom_pickup_total = 0
+        self.last_blue_mushroom_pickup_total = 0
+        self.last_yellow_flower_pickup_total = 0
         self.last_consumable_feature = "none"
-        self.causal_probe_delay_ticks = max(1, int(round(self.hz * 10.0)))
-        self.causal_probe_due_steps = deque()
+        self.causal_probe_world = OrderedCausalProbeWorld(
+            hz=self.hz,
+            delay_seconds=causal_probe_delay_seconds,
+            cancellation_feature=causal_probe_cancellation_feature,
+        )
+        self.causal_probe_delay_ticks = self.causal_probe_world.delay_ticks
+        self.causal_probe_due_steps = self.causal_probe_world.pending_due_steps
         self.causal_probe_signal = 0.0
         self.causal_probe_events = 0
+        self.causal_probe_hunger_cost = clamp(causal_probe_hunger_cost)
+        self.causal_probe_hunger_cost_events = 0
+        self.causal_probe_hunger_cost_total = 0.0
+        self.typed_interaction_learner = PassiveOrderedEpisodeLearner(
+            hz=self.hz,
+            delay_seconds=causal_probe_delay_seconds,
+            enabled=typed_interaction_learning,
+            memory_path=typed_interaction_memory,
+            discovery_memory_path=typed_interaction_discovery_memory,
+            hypothesis_proposer=typed_interaction_hypothesis_proposer,
+        )
         self.food_feedback_initialized = False
         self.ticks_since_food = 0
         self.food_seek_ticks = 0
@@ -1276,6 +1340,16 @@ class EmbodiedFunctionalEgo:
         self.tiny_scientist_rule_decisions = 0
         self.tiny_scientist_rule_action_influence = 0
         if (
+            typed_interaction_rule_control == "verified_protective"
+            and not typed_interaction_learning
+        ):
+            raise ValueError("verified_protective_requires_typed_learning")
+        if (
+            typed_interaction_rule_control == "verified_protective"
+            and tiny_scientist_experiment_control != "committed"
+        ):
+            raise ValueError("verified_protective_requires_committed_pgnw")
+        if (
             tiny_scientist_experiment_control in {
                 "bounded", "committed", "dynamic_committed"
             }
@@ -1300,6 +1374,12 @@ class EmbodiedFunctionalEgo:
                 tiny_scientist_experiment_isolation_retreat_max_score_regret
             ),
             hypothesis_proposer=tiny_scientist_hypothesis_proposer,
+            typed_learner=(
+                self.typed_interaction_learner
+                if typed_interaction_learning
+                else None
+            ),
+            typed_rule_control=typed_interaction_rule_control,
         )
         self.conductor_control = str(conductor_control)
         if self.conductor_control != "passive" and not conductor_checkpoint:
@@ -2506,6 +2586,7 @@ class EmbodiedFunctionalEgo:
         if (
             resource_memory.control_mode == "guided"
             and resource_memory.active
+            and not self.pgnw_experiment_planner.protective_memory_active
             and not air_controller.active
             and self.shadow_fallback_hold_ticks <= 0
         ):
@@ -2556,7 +2637,11 @@ class EmbodiedFunctionalEgo:
             self.current_stuck,
             self.hunger,
             air_controller.control_mode == "guided" and air_controller.active,
-            resource_memory.control_mode == "guided" and resource_memory.active,
+            (
+                resource_memory.control_mode == "guided"
+                and resource_memory.active
+                and not experiment_planner.protective_memory_active
+            ),
         ):
             guidance = torch.tensor(
                 experiment_planner.guidance_vector,
@@ -2627,6 +2712,8 @@ class EmbodiedFunctionalEgo:
         if experiment_planner.last_effective_guidance_weight > 0.0:
             changed = int(selected != experiment_unguided)
             experiment_planner.action_influence += changed
+            if experiment_planner.protective_rule_active:
+                experiment_planner.protective_action_influence += changed
             if experiment_planner.isolation_active:
                 experiment_planner.isolation_action_influence += changed
                 if experiment_retreat_active:
@@ -2702,8 +2789,31 @@ class EmbodiedFunctionalEgo:
                 self.causal_probe_signal,
                 body_state.get("mushroom_pickups_total", 0) or 0,
                 body_state.get("red_mushroom_pickups_total", 0) or 0,
+                body_state.get("blue_mushroom_pickups_total"),
+                body_state.get("yellow_flower_pickups_total"),
             )
-            self.pgnw_experiment_planner.update_guidance(body_state)
+            experiment_planner = self.pgnw_experiment_planner
+            protective_request = None
+            protective_need_active = bool(
+                self.causal_probe_world.pending_due_steps
+            )
+            if (
+                experiment_planner.typed_rule_control == "verified_protective"
+                and protective_need_active
+            ):
+                protective_request = (
+                    experiment_planner.verified_protective_suppressor()
+                )
+            self.resource_memory.update(
+                body_state,
+                self.hunger,
+                requested_feature=protective_request,
+            )
+            experiment_planner.update_guidance(
+                body_state,
+                resource_memory=self.resource_memory,
+                protective_need_active=protective_need_active,
+            )
         self.ticks_since_food += 1
         food_visible_now = self.food_visible(body_state)
         self.last_body_obstacle_visible = self.obstacle_visible(body_state)
@@ -2980,11 +3090,33 @@ class EmbodiedFunctionalEgo:
                 )
             except (TypeError, ValueError):
                 red_pickup_total = self.last_red_mushroom_pickup_total
+            try:
+                blue_pickup_total = int(
+                    body_state.get(
+                        "blue_mushroom_pickups_total",
+                        max(0, pickup_total - red_pickup_total),
+                    )
+                    or 0
+                )
+            except (TypeError, ValueError):
+                blue_pickup_total = self.last_blue_mushroom_pickup_total
+            try:
+                yellow_pickup_total = int(
+                    body_state.get(
+                        "yellow_flower_pickups_total",
+                        self.last_yellow_flower_pickup_total,
+                    )
+                    or 0
+                )
+            except (TypeError, ValueError):
+                yellow_pickup_total = self.last_yellow_flower_pickup_total
 
             if not self.food_feedback_initialized:
                 self.last_mushroom_pickup_total = pickup_total
                 self.last_mushroom_reward_total = reward_total
                 self.last_red_mushroom_pickup_total = red_pickup_total
+                self.last_blue_mushroom_pickup_total = blue_pickup_total
+                self.last_yellow_flower_pickup_total = yellow_pickup_total
                 self.food_feedback_initialized = True
                 pickup_total = self.last_mushroom_pickup_total
                 reward_total = self.last_mushroom_reward_total
@@ -2993,13 +3125,22 @@ class EmbodiedFunctionalEgo:
                 self.last_mushroom_pickup_total = 0
                 self.last_mushroom_reward_total = 0.0
                 self.last_red_mushroom_pickup_total = 0
+                self.last_blue_mushroom_pickup_total = 0
+                self.last_yellow_flower_pickup_total = 0
                 self.mushrooms_eaten = 0
-                self.causal_probe_due_steps.clear()
+                self.causal_probe_world.reset()
+                self.typed_interaction_learner.reset()
                 self.causal_probe_signal = 0.0
 
             eaten = max(0, pickup_total - self.last_mushroom_pickup_total)
             red_eaten = max(
                 0, red_pickup_total - self.last_red_mushroom_pickup_total
+            )
+            blue_eaten = max(
+                0, blue_pickup_total - self.last_blue_mushroom_pickup_total
+            )
+            yellow_eaten = max(
+                0, yellow_pickup_total - self.last_yellow_flower_pickup_total
             )
             reward = max(0.0, reward_total - self.last_mushroom_reward_total)
             if eaten > 0:
@@ -3016,24 +3157,39 @@ class EmbodiedFunctionalEgo:
                 self.survival_failed = False
                 self.dopamine_food_boost = clamp(self.dopamine_food_boost + reward)
                 self.shadow_last_reward = reward
-            for _ in range(red_eaten):
-                self.causal_probe_due_steps.append(
-                    self.steps + self.causal_probe_delay_ticks
-                )
+            can_start_typed_episode = len(self.causal_probe_due_steps) == 0
+            self.typed_interaction_learner.observe_pickups(
+                self.steps,
+                red=red_eaten,
+                blue=blue_eaten,
+                yellow=yellow_eaten,
+                can_start=can_start_typed_episode,
+            )
+            self.causal_probe_world.register_pickups(
+                self.steps,
+                red=red_eaten,
+                blue=blue_eaten,
+                yellow=yellow_eaten,
+            )
             self.last_mushroom_pickup_total = pickup_total
             self.last_mushroom_reward_total = reward_total
             self.last_red_mushroom_pickup_total = red_pickup_total
+            self.last_blue_mushroom_pickup_total = blue_pickup_total
+            self.last_yellow_flower_pickup_total = yellow_pickup_total
 
-        due = 0
-        while (
-            self.causal_probe_due_steps
-            and self.causal_probe_due_steps[0] <= self.steps
-        ):
-            self.causal_probe_due_steps.popleft()
-            due += 1
+        due = self.causal_probe_world.pop_due(self.steps)
+        self.typed_interaction_learner.observe_deadline(
+            self.steps, observed_probe_events=due
+        )
+        self.typed_interaction_learner.poll_formulation()
         if due:
             self.causal_probe_signal = clamp(self.causal_probe_signal + 0.34 * due)
             self.causal_probe_events += due
+            applied_cost = self.causal_probe_hunger_cost * due
+            if applied_cost > 0.0:
+                self.hunger = clamp(self.hunger + applied_cost)
+                self.causal_probe_hunger_cost_events += due
+                self.causal_probe_hunger_cost_total += applied_cost
 
         self.dopamine_food_boost *= 0.992
         self.dopamine = clamp(self.dopamine + self.dopamine_food_boost)
@@ -3787,7 +3943,8 @@ class EmbodiedFunctionalEgo:
             self.terrain_air_route_controller.control_mode == "guided"
             and self.terrain_air_route_controller.active,
             self.resource_memory.control_mode == "guided"
-            and self.resource_memory.active,
+            and self.resource_memory.active
+            and not experiment_planner.protective_memory_active,
         )
         if isolation_allowed:
             self.foraging_commit_ticks = 0
@@ -4281,6 +4438,18 @@ class EmbodiedFunctionalEgo:
                 self.resource_memory.confidence, 4
             ),
             "resource_memory_regions": len(self.resource_memory.entries),
+            "resource_memory_typed_regions": len(
+                self.resource_memory.typed_entries
+            ),
+            "resource_memory_active_feature": (
+                self.resource_memory.active_feature
+            ),
+            "resource_memory_typed_encodings": (
+                self.resource_memory.typed_encodings
+            ),
+            "resource_memory_typed_recommendations": (
+                self.resource_memory.typed_recommendations
+            ),
             "resource_memory_action_influence": (
                 self.resource_memory.action_influence
             ),
@@ -4462,6 +4631,83 @@ def main():
         help=(
             "Diagnostic initial value for the passive delayed causal signal. "
             "It has zero motor, routing, workspace, or neuromodulatory influence."
+        ),
+    )
+    parser.add_argument(
+        "--causal-probe-delay-seconds",
+        type=float,
+        default=10.0,
+        help=(
+            "Passive red-pickup probe delay. The typed yellow protocol uses "
+            "30 seconds to permit a physical second intervention."
+        ),
+    )
+    parser.add_argument(
+        "--causal-probe-cancellation-feature",
+        choices=["none", "blue", "yellow"],
+        default="none",
+        help=(
+            "Hidden environment transition that cancels one pending red event; "
+            "never exposed to the hypothesis pool or controller."
+        ),
+    )
+    parser.add_argument(
+        "--causal-probe-hunger-cost",
+        type=float,
+        default=0.0,
+        help=(
+            "Bounded hunger increase when an uncancelled delayed probe becomes "
+            "due. Zero preserves the passive-probe protocol."
+        ),
+    )
+    parser.add_argument(
+        "--typed-interaction-learning",
+        action="store_true",
+        help=(
+            "Passively admit uncontaminated red-led ordered episodes and update "
+            "the symmetric candidate pool only at the observation deadline."
+        ),
+    )
+    parser.add_argument(
+        "--typed-interaction-memory",
+        default=None,
+        help=(
+            "Optional JSON memory for carrying accepted typed-interaction "
+            "posteriors across Unity process boundaries."
+        ),
+    )
+    parser.add_argument(
+        "--typed-interaction-discovery-memory",
+        default=None,
+        help=(
+            "Optional read-only discovery checkpoint. It is loaded initially, "
+            "while new episodes are written only to --typed-interaction-memory."
+        ),
+    )
+    parser.add_argument(
+        "--typed-interaction-sealed-discovery",
+        action="store_true",
+        help=(
+            "Require the preregistered three-observation discovery profile, "
+            "a distinct fresh writable memory, and a fresh explicit shadow log."
+        ),
+    )
+    parser.add_argument(
+        "--typed-interaction-formulation",
+        action="store_true",
+        help="Run calibrated Gemma ordered-role formulation asynchronously.",
+    )
+    parser.add_argument(
+        "--typed-interaction-formulation-model",
+        default="google/gemma-3-1b-it",
+    )
+    parser.add_argument(
+        "--typed-interaction-rule-control",
+        choices=["passive", "verified_protective"],
+        default="passive",
+        help=(
+            "Keep learned typed rules passive or let a >=0.95 specific "
+            "after-red suppressor request bounded committed PGNW guidance."
         ),
     )
     parser.add_argument(
@@ -4797,12 +5043,39 @@ def main():
         and not args.tiny_scientist_dynamic_adapter
     ):
         parser.error("dynamic_committed requires --tiny-scientist-dynamic-adapter")
+    if args.typed_interaction_sealed_discovery:
+        from typed_causal_domain import validate_sealed_discovery_memory
+
+        if not args.typed_interaction_formulation or not args.typed_interaction_learning:
+            parser.error("sealed discovery requires learning and formulation")
+        if not args.typed_interaction_discovery_memory or not args.typed_interaction_memory:
+            parser.error("sealed discovery requires separate discovery and run memories")
+        discovery_path = Path(args.typed_interaction_discovery_memory).resolve()
+        run_memory_path = Path(args.typed_interaction_memory).resolve()
+        if discovery_path == run_memory_path:
+            parser.error("sealed discovery input and writable memory must differ")
+        try:
+            validate_sealed_discovery_memory(discovery_path)
+        except (OSError, ValueError, json.JSONDecodeError) as exc:
+            parser.error(f"invalid sealed discovery: {exc}")
+        if run_memory_path.exists():
+            parser.error(f"writable typed memory already exists: {run_memory_path}")
+        if not args.shadow_log:
+            parser.error("sealed discovery requires an explicit fresh --shadow-log")
+        shadow_log_path = Path(args.shadow_log).resolve()
+        if shadow_log_path.exists():
+            parser.error(f"shadow log already exists: {shadow_log_path}")
     hypothesis_proposer = None
     if args.tiny_scientist_experiment_control == "dynamic_committed":
         hypothesis_proposer = LocalL1HypothesisProposer(
             args.tiny_scientist_dynamic_model,
             args.tiny_scientist_dynamic_adapter,
         )
+    typed_interaction_proposer = (
+        LocalCalibratedOrderedProposer(args.typed_interaction_formulation_model)
+        if args.typed_interaction_formulation
+        else None
+    )
 
     link = UnityBodyLink(args.unity_host, args.unity_port, args.listen_port)
     ego = EmbodiedFunctionalEgo(
@@ -4869,6 +5142,18 @@ def main():
             args.tiny_scientist_experiment_isolation_retreat_max_score_regret
         ),
         tiny_scientist_hypothesis_proposer=hypothesis_proposer,
+        causal_probe_delay_seconds=args.causal_probe_delay_seconds,
+        causal_probe_cancellation_feature=(
+            args.causal_probe_cancellation_feature
+        ),
+        causal_probe_hunger_cost=args.causal_probe_hunger_cost,
+        typed_interaction_learning=args.typed_interaction_learning,
+        typed_interaction_memory=args.typed_interaction_memory,
+        typed_interaction_discovery_memory=(
+            args.typed_interaction_discovery_memory
+        ),
+        typed_interaction_hypothesis_proposer=typed_interaction_proposer,
+        typed_interaction_rule_control=args.typed_interaction_rule_control,
     )
     ego.controller_seed = args.seed
     ego.terrain_air_observer = PassiveTerrainAirObserver(args.terrain_air_memory)
@@ -4937,7 +5222,6 @@ def main():
                     diagnostic_teleport = None
                 else:
                     ego.update_from_body(latest_body)
-                    ego.resource_memory.update(latest_body, ego.hunger)
                     ego.update_tiny_scientist_rule_targeting(latest_body)
                     action = ego.choose_action(latest_body)
                     ego.update_shadow_policy(latest_body, action)

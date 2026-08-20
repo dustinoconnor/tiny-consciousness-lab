@@ -1,0 +1,30 @@
+{
+  "format": "terrain_resource_memory_v1",
+  "cell_size": 12.0,
+  "regions": [
+    {
+      "x": -8.5327,
+      "z": 4.3426,
+      "rewards": 3,
+      "failures": 0
+    },
+    {
+      "x": -15.0411,
+      "z": 4.4562,
+      "rewards": 1,
+      "failures": 0
+    },
+    {
+      "x": 51.2796,
+      "z": -123.75,
+      "rewards": 1,
+      "failures": 0
+    },
+    {
+      "x": 55.4827,
+      "z": -107.8567,
+      "rewards": 1,
+      "failures": 0
+    }
+  ]
+}

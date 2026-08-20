@@ -2827,3 +2827,24 @@ is treated as external and is not inferred from these measurements.
   been summarized, reducing `outputs/` from approximately 2.5 GB to 519 MB and
   reclaiming about 2.0 GB. No code, checkpoints, compact results, Unity assets,
   frozen memories, or final paired telemetry were removed.
+- Published the accumulated embodied Tiny Scientist, typed-interaction, and
+  protective-recall milestone to GitHub branch
+  `codex/tiny-scientist-neurosymbolic` as commit `ae034f6`. The publication
+  included 204 bounded code, protocol, checkpoint, and compact-result files;
+  large LoRA caches, raw recordings, the local website tree, and temporary
+  files remained excluded.
+- Began the next adaptive-memory step without tuning against the two recall
+  pairs. Audit found that generic resource recall suppressed a remembered
+  location after an empty arrival, but typed protective recall did not record
+  that counterfactual failure. Typed recall now suppresses an absent requested
+  resource for the existing bounded refractory interval, increments and
+  persists its failure evidence, and immediately falls through to the next
+  matching typed memory when one exists. A pickup-frame guard prevents a newly
+  collected requested resource from being misclassified as stale.
+- Added explicit typed-stale telemetry and three discoverable regression tests:
+  empty typed arrival/failure persistence, same-frame fallback to a second
+  typed location, and pickup-frame non-penalization. The focused planner/memory/
+  embodiment suite passed 70/70; the full Miniforge suite passed 289/289 in
+  7.053 seconds. No Unity run was required for this bookkeeping/controller
+  invariant; the next physical smoke should deliberately remove one remembered
+  yellow and verify abandonment plus fallback to another memory.

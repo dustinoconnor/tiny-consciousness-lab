@@ -997,6 +997,9 @@ class ShadowRecorder:
             "resource_memory_stale_arrivals": (
                 ego.resource_memory.counterfactual_stale_arrivals
             ),
+            "resource_memory_typed_stale_arrivals": (
+                ego.resource_memory.typed_counterfactual_stale_arrivals
+            ),
             "resource_memory_release_reason": ego.resource_memory.release_reason,
             "resource_memory_action_influence": ego.resource_memory.action_influence,
             "resource_memory_control_mode": ego.resource_memory.control_mode,

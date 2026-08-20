@@ -91,6 +91,7 @@ class PassiveTerrainResourceMemory:
         self.recommendation_frames = 0
         self.pickups_after_recommendation = 0
         self.counterfactual_stale_arrivals = 0
+        self.typed_counterfactual_stale_arrivals = 0
         self.action_influence = 0
         self.guidance_decisions = 0
         self.guidance_action_changes = 0
@@ -297,6 +298,7 @@ class PassiveTerrainResourceMemory:
             if remaining > 1
         }
 
+        typed_gains = {feature: 0 for feature in self.TYPED_FEATURES}
         if self.last_pickup_total is None:
             self.last_pickup_total = pickup_total
             self.last_typed_totals = dict(typed_totals)
@@ -309,6 +311,7 @@ class PassiveTerrainResourceMemory:
             }
             for feature in self.TYPED_FEATURES:
                 typed_gained = max(0, typed_totals[feature] - prior.get(feature, 0))
+                typed_gains[feature] = typed_gained
                 if typed_gained:
                     self.record_typed_reward(feature, x, z, typed_gained)
             self.last_typed_totals = dict(typed_totals)
@@ -328,13 +331,37 @@ class PassiveTerrainResourceMemory:
             else None
         )
         if requested_feature is not None:
+            if typed_gains[requested_feature] > 0:
+                self.release("requested_feature_collected")
+                return
             if bool(body_state.get(f"{requested_feature}_food_visible", False)):
                 self.release("requested_feature_visible")
                 return
             self.typed_queries += 1
+            arrived = [
+                (math.hypot(entry.x - x, entry.z - z), key, entry)
+                for key, entry in self.typed_entries.items()
+                if key[0] == requested_feature
+                and self.typed_suppressed_frames.get(key, 0) <= 0
+            ]
+            if arrived:
+                nearest_distance, nearest_key, nearest_entry = min(arrived)
+                if nearest_distance < self.arrival_radius:
+                    self.counterfactual_stale_arrivals += 1
+                    self.typed_counterfactual_stale_arrivals += 1
+                    self.typed_suppressed_frames[nearest_key] = (
+                        self.stale_refractory_frames
+                    )
+                    nearest_entry.failures += 1
+                    self.save()
             selected = self.best_typed_region(requested_feature, x, z)
             if selected is None:
-                self.release("no_typed_memory")
+                reason = (
+                    "typed_arrived_without_visible_resource"
+                    if arrived and nearest_distance < self.arrival_radius
+                    else "no_typed_memory"
+                )
+                self.release(reason)
                 return
             _score, _negative_distance, key, entry = selected
             dx = entry.x - x

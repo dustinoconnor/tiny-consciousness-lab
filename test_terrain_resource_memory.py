@@ -1,4 +1,7 @@
 import json
+import tempfile
+import unittest
+from pathlib import Path
 
 from analyze_resource_memory_unity import summarize
 from terrain_resource_memory import PassiveTerrainResourceMemory
@@ -89,6 +92,82 @@ def test_visible_requested_feature_releases_typed_recall(tmp_path):
 
     assert not memory.active
     assert memory.release_reason == "requested_feature_visible"
+
+
+class TypedStaleMemoryTests(unittest.TestCase):
+    def setUp(self):
+        self.tempdir = tempfile.TemporaryDirectory()
+        self.path = Path(self.tempdir.name) / "memory.json"
+
+    def tearDown(self):
+        self.tempdir.cleanup()
+
+    def test_arrival_suppresses_missing_resource_and_records_failure(self):
+        memory = PassiveTerrainResourceMemory(
+            self.path,
+            hz=1.0,
+            stale_refractory_seconds=3.0,
+        )
+        memory.record_typed_reward("yellow", 30.0, 30.0)
+
+        memory.update(
+            packet(x=30.5, z=30.5),
+            hunger=0.1,
+            requested_feature="yellow",
+        )
+
+        key = ("yellow", 2, 2)
+        self.assertFalse(memory.active)
+        self.assertEqual(
+            memory.release_reason,
+            "typed_arrived_without_visible_resource",
+        )
+        self.assertEqual(memory.typed_counterfactual_stale_arrivals, 1)
+        self.assertEqual(memory.counterfactual_stale_arrivals, 1)
+        self.assertEqual(memory.typed_suppressed_frames[key], 3)
+        self.assertEqual(memory.typed_entries[key].failures, 1)
+        self.assertEqual(
+            json.loads(self.path.read_text())["typed_regions"][0]["failures"],
+            1,
+        )
+
+    def test_stale_arrival_falls_through_to_next_matching_memory(self):
+        memory = PassiveTerrainResourceMemory(self.path)
+        memory.record_typed_reward("yellow", 30.0, 30.0)
+        memory.record_typed_reward("yellow", 60.0, 30.0)
+
+        memory.update(
+            packet(x=30.5, z=30.5),
+            hunger=0.1,
+            requested_feature="yellow",
+        )
+
+        self.assertTrue(memory.active)
+        self.assertEqual(memory.active_feature, "yellow")
+        self.assertEqual(memory.target, (60.0, 30.0))
+        self.assertEqual(memory.typed_counterfactual_stale_arrivals, 1)
+
+    def test_pickup_does_not_mark_freshly_collected_location_stale(self):
+        memory = PassiveTerrainResourceMemory(self.path)
+        memory.record_typed_reward("yellow", 30.0, 30.0)
+        memory.update(
+            packet(x=20.0, z=20.0, pickups=0, yellow=0),
+            hunger=0.1,
+            requested_feature="yellow",
+        )
+
+        memory.update(
+            packet(x=30.0, z=30.0, pickups=1, yellow=1),
+            hunger=0.1,
+            requested_feature="yellow",
+        )
+
+        self.assertFalse(memory.active)
+        self.assertEqual(memory.release_reason, "requested_feature_collected")
+        self.assertEqual(memory.typed_counterfactual_stale_arrivals, 0)
+        self.assertTrue(
+            all(entry.failures == 0 for entry in memory.typed_entries.values())
+        )
 
 
 def test_legacy_untyped_memory_remains_loadable(tmp_path):

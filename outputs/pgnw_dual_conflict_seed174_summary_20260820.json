@@ -1,0 +1,23 @@
+{
+  "date": "2026-08-20",
+  "seed": 174,
+  "duration_seconds": 239.468,
+  "rows": 1138,
+  "first_red_seconds": 2.773,
+  "red_pickup_hunger": 0.934,
+  "first_yellow_seconds": 21.903,
+  "first_blue_seconds": 24.874,
+  "yellow_before_blue_seconds": 2.971,
+  "first_conflict_selected_feature": "blue",
+  "first_conflict_authority_frames": 91,
+  "first_conflict_action_influence": 42,
+  "blue_distance_before_yellow_pickup": 9.453,
+  "yellow_distance_before_yellow_pickup": 2.579,
+  "hazard_cancelled_events": 1,
+  "hazard_cost_events": 0,
+  "stuck_events": 1,
+  "survival_failures": 0,
+  "respawns": 0,
+  "preregistered_result": "partial_mechanism_pass_physical_sequence_fail",
+  "claim_boundary": "The verified blue rule caused pre-pickup MPC changes, but yellow was contacted first and closed the hazard before blue relief could trigger the required authority transfer."
+}

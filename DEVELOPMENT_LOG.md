@@ -3172,3 +3172,23 @@ is treated as external and is not inferred from these measurements.
 - Prepared fresh seed 174 with the same frozen geometry, needs, memories, and
   original 0.30 regret bound. Thus the verified-rescue gate repair is the only
   operative change from seed 172. The physical preregistration is unchanged.
+- Seed 174 completed normally (239.468 seconds, 1,138 rows) and validated the
+  repaired motor path, but did not pass the complete preregistered physical
+  sequence. Red was collected at 2.773 seconds with hunger 0.934. Verified blue
+  immediately held full arbitration authority for 91 frames and changed 42 MPC
+  actions before the first competing pickup, versus zero changes in seeds 172
+  and 173. This confirms that the critical-hunger gate repair made the verified
+  metabolic production behaviorally operative.
+- The fixed start geometry still caused yellow to be contacted first at 21.903
+  seconds. Immediately before contact, the selected blue target was 9.45 m away
+  while a visible yellow was only 2.58 m away. Yellow cancelled the pending
+  hazard; blue followed at 24.874 seconds, 2.971 seconds later. Because the
+  hazard was already closed, the required blue-relief-to-yellow authority
+  transfer was not exercised. One later stuck event recovered, with zero hazard
+  costs, survival failures, or respawns.
+- Verdict: `partial_mechanism_pass_physical_sequence_fail`. Seed 174 establishes
+  causal pre-pickup motor influence from the verified blue rule, but it does not
+  establish successful multi-hypothesis sequencing. A future confirmation must
+  control target geometry so neither pickup lies on the route to the other,
+  preregister that geometry independently of the outcome, and retain the same
+  frozen rules and controller parameters.

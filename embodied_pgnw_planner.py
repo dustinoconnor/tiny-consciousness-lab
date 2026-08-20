@@ -50,6 +50,7 @@ class EmbodiedPGNWExperimentPlanner:
         typed_rule_control="passive",
         multi_hypothesis_arbitration="disabled",
         arbitration_hazard_cost=0.25,
+        metabolic_learner=None,
     ):
         if mode not in self.MODES:
             raise ValueError("unsupported_embodied_pgnw_mode")
@@ -84,7 +85,7 @@ class EmbodiedPGNWExperimentPlanner:
             raise ValueError("unsupported_typed_rule_control")
         self.typed_rule_control = str(typed_rule_control)
         if multi_hypothesis_arbitration not in {
-            "disabled", "passive", "bounded_verified"
+            "disabled", "passive", "bounded_verified", "bounded_dual_verified"
         }:
             raise ValueError("unsupported_multi_hypothesis_arbitration")
         self.multi_hypothesis_arbitration = str(
@@ -93,6 +94,7 @@ class EmbodiedPGNWExperimentPlanner:
         self.arbitration_hazard_cost = max(
             0.0, min(1.0, float(arbitration_hazard_cost))
         )
+        self.metabolic_learner = metabolic_learner
         self.arbitration_active = False
         self.arbitration_selected_feature = "none"
         self.arbitration_selected_score = 0.0
@@ -103,17 +105,26 @@ class EmbodiedPGNWExperimentPlanner:
         self.arbitration_control_frames = 0
         self.arbitration_score_margin = 0.0
         self.arbitration_suppression_probability = 0.0
+        self.arbitration_metabolic_relief_probability = 0.0
+        self.arbitration_hunger_urgency = 0.0
+        self.arbitration_memory_target = None
         self.arbitration_denial_reason = "inactive"
         self.arbitration_min_score_margin = 0.02
         self.arbitration_min_suppression_probability = 0.50
         self.arbitration_action_influence = 0
         if (
-            self.multi_hypothesis_arbitration == "bounded_verified"
+            self.multi_hypothesis_arbitration
+            in {"bounded_verified", "bounded_dual_verified"}
             and self.typed_rule_control != "verified_protective"
         ):
             raise ValueError(
                 "bounded_arbitration_requires_verified_protective"
             )
+        if (
+            self.multi_hypothesis_arbitration == "bounded_dual_verified"
+            and self.metabolic_learner is None
+        ):
+            raise ValueError("dual_arbitration_requires_metabolic_learner")
         self.protective_rule_active = False
         self.protective_target_feature = "none"
         self.protective_rule_confidence = 0.0
@@ -483,6 +494,7 @@ class EmbodiedPGNWExperimentPlanner:
         resource_memory=None,
         protective_need_active=None,
         protective_deadline_remaining_seconds=None,
+        metabolic_need_urgency=0.0,
     ):
         self.guidance_active = False
         self.isolation_active = False
@@ -501,6 +513,11 @@ class EmbodiedPGNWExperimentPlanner:
         self.arbitration_authority = 0.0
         self.arbitration_score_margin = 0.0
         self.arbitration_suppression_probability = 0.0
+        self.arbitration_metabolic_relief_probability = 0.0
+        self.arbitration_hunger_urgency = max(
+            0.0, min(1.0, float(metabolic_need_urgency))
+        )
+        self.arbitration_memory_target = None
         self.arbitration_denial_reason = "inactive"
         cooling_down = self.commitment_cooldown_remaining_ticks > 0
         if cooling_down:
@@ -519,8 +536,13 @@ class EmbodiedPGNWExperimentPlanner:
                 protective_need_active = active_episode is not None
             if (
                 self.multi_hypothesis_arbitration
-                in {"passive", "bounded_verified"}
+                in {"passive", "bounded_verified", "bounded_dual_verified"}
                 and bool(protective_need_active)
+                and (
+                    self.multi_hypothesis_arbitration
+                    != "bounded_dual_verified"
+                    or self.arbitration_hunger_urgency > 0.0
+                )
                 and resource_memory is not None
                 and bool(getattr(resource_memory, "enabled", False))
             ):
@@ -530,6 +552,7 @@ class EmbodiedPGNWExperimentPlanner:
                 except (TypeError, ValueError):
                     position_x = position_z = 0.0
                 candidates = []
+                candidate_targets = {}
                 for feature in ("yellow", "blue"):
                     selected = resource_memory.best_typed_region(
                         feature, position_x, position_z
@@ -544,6 +567,12 @@ class EmbodiedPGNWExperimentPlanner:
                             memory_confidence=float(entry.confidence),
                         )
                     )
+                    if hasattr(entry, "x") and hasattr(entry, "z"):
+                        candidate_targets[feature] = (
+                            float(entry.x),
+                            float(entry.z),
+                            -float(negative_distance),
+                        )
                 if candidates:
                     deadline = protective_deadline_remaining_seconds
                     if deadline is None:
@@ -553,6 +582,13 @@ class EmbodiedPGNWExperimentPlanner:
                         candidates,
                         hazard_cost=self.arbitration_hazard_cost,
                         deadline_remaining=max(0.001, float(deadline)),
+                        metabolic_pool=(
+                            self.metabolic_learner.pool
+                            if self.multi_hypothesis_arbitration
+                            == "bounded_dual_verified"
+                            else None
+                        ),
+                        hunger_urgency=self.arbitration_hunger_urgency,
                     )
                     self.arbitration_active = True
                     self.arbitration_selected_feature = result[
@@ -586,17 +622,49 @@ class EmbodiedPGNWExperimentPlanner:
                         self.arbitration_suppression_probability = float(
                             winner["suppression_probability"]
                         )
+                        self.arbitration_metabolic_relief_probability = float(
+                            winner.get("metabolic_relief_probability", 0.0)
+                        )
                     if self.multi_hypothesis_arbitration == "passive":
                         self.arbitration_denial_reason = "passive_only"
                     elif protective_suppressor is None:
                         self.arbitration_denial_reason = "unverified_production"
                     elif (
+                        self.multi_hypothesis_arbitration
+                        == "bounded_dual_verified"
+                        and (
+                            self.metabolic_learner.status != "verified_held_out"
+                            or self.metabolic_learner.admitted_nutrient
+                            not in {"blue", "yellow"}
+                        )
+                    ):
+                        self.arbitration_denial_reason = "unverified_metabolic_rule"
+                    elif (
+                        self.multi_hypothesis_arbitration
+                        != "bounded_dual_verified"
+                        and
                         self.arbitration_selected_feature
                         != protective_suppressor
                     ):
                         self.arbitration_denial_reason = "verified_disagreement"
+                    elif self.multi_hypothesis_arbitration == "bounded_dual_verified" and (
+                        self.arbitration_selected_feature == protective_suppressor
+                        and self.arbitration_suppression_probability
+                        < self.arbitration_min_suppression_probability
+                        or self.arbitration_selected_feature
+                        == self.metabolic_learner.admitted_nutrient
+                        and self.arbitration_metabolic_relief_probability
+                        < self.arbitration_min_suppression_probability
+                        or self.arbitration_selected_feature
+                        not in {
+                            protective_suppressor,
+                            self.metabolic_learner.admitted_nutrient,
+                        }
+                    ):
+                        self.arbitration_denial_reason = "winner_not_verified"
                     elif (
-                        self.arbitration_suppression_probability
+                        self.multi_hypothesis_arbitration != "bounded_dual_verified"
+                        and self.arbitration_suppression_probability
                         < self.arbitration_min_suppression_probability
                     ):
                         self.arbitration_denial_reason = "low_suppression_probability"
@@ -609,6 +677,9 @@ class EmbodiedPGNWExperimentPlanner:
                         self.arbitration_authority = 1.0
                         self.arbitration_control_frames += 1
                         self.arbitration_denial_reason = "none"
+                        self.arbitration_memory_target = candidate_targets.get(
+                            self.arbitration_selected_feature
+                        )
             if protective_suppressor is None or not bool(protective_need_active):
                 return
             self.protective_rule_active = True
@@ -683,6 +754,21 @@ class EmbodiedPGNWExperimentPlanner:
         length = math.hypot(x, z)
         if not visible or length <= 1e-6:
             if (
+                self.protective_rule_active
+                and self.arbitration_authority > 0.0
+                and self.arbitration_memory_target is not None
+            ):
+                target_x, target_z, distance = self.arbitration_memory_target
+                try:
+                    position_x = float(body_state.get("x", 0.0))
+                    position_z = float(body_state.get("z", 0.0))
+                except (TypeError, ValueError):
+                    position_x = position_z = 0.0
+                x = target_x - position_x
+                z = target_z - position_z
+                length = math.hypot(x, z)
+                self.protective_memory_active = length > 1e-6
+            elif (
                 self.protective_rule_active
                 and resource_memory is not None
                 and bool(getattr(resource_memory, "active", False))
@@ -780,6 +866,10 @@ class EmbodiedPGNWExperimentPlanner:
             "arbitration_suppression_probability": (
                 self.arbitration_suppression_probability
             ),
+            "arbitration_metabolic_relief_probability": (
+                self.arbitration_metabolic_relief_probability
+            ),
+            "arbitration_hunger_urgency": self.arbitration_hunger_urgency,
             "arbitration_denial_reason": self.arbitration_denial_reason,
             "arbitration_min_score_margin": (
                 self.arbitration_min_score_margin

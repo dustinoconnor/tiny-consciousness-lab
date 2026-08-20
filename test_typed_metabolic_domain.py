@@ -1,4 +1,6 @@
 import unittest
+import tempfile
+from pathlib import Path
 
 from typed_metabolic_domain import HeldOutMetabolicRoleLearner, TypedMetabolicRolePool
 
@@ -39,6 +41,26 @@ class TypedMetabolicRoleTests(unittest.TestCase):
     def test_unknown_features_are_rejected(self):
         with self.assertRaisesRegex(ValueError, "unknown_metabolic_feature"):
             TypedMetabolicRolePool().update("purple", True)
+
+    def test_verified_discovery_memory_loads_read_only_into_fresh_output(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "source.json"
+            output = Path(directory) / "output.json"
+            learner = HeldOutMetabolicRoleLearner(memory_path=source)
+            for feature, relieved in (
+                ("red", False), ("yellow", False), ("blue", True),
+                ("blue", True), ("yellow", False), ("blue", True),
+            ):
+                learner.observe(feature, relieved)
+            loaded = HeldOutMetabolicRoleLearner(
+                memory_path=output,
+                discovery_memory_path=source,
+            )
+            self.assertTrue(loaded.memory_loaded)
+            self.assertEqual(loaded.status, "verified_held_out")
+            self.assertEqual(loaded.admitted_nutrient, "blue")
+            self.assertEqual(loaded.pool.updates, 6)
+            self.assertTrue(output.exists())
 
 
 if __name__ == "__main__":

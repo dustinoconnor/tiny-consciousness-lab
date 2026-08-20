@@ -1104,6 +1104,7 @@ class EmbodiedFunctionalEgo:
         pgnw_multi_hypothesis_arbitration="disabled",
         typed_metabolic_role_learning=False,
         typed_metabolic_role_memory=None,
+        typed_metabolic_role_discovery_memory=None,
     ):
         self.crosstalk = 0.07
         self.complexity = 0.12
@@ -1189,6 +1190,7 @@ class EmbodiedFunctionalEgo:
         self.typed_metabolic_role_learning = bool(typed_metabolic_role_learning)
         self.typed_metabolic_role_learner = HeldOutMetabolicRoleLearner(
             memory_path=typed_metabolic_role_memory,
+            discovery_memory_path=typed_metabolic_role_discovery_memory,
         )
         self.food_feedback_initialized = False
         self.ticks_since_food = 0
@@ -1402,6 +1404,7 @@ class EmbodiedFunctionalEgo:
                 pgnw_multi_hypothesis_arbitration
             ),
             arbitration_hazard_cost=causal_probe_hunger_cost,
+            metabolic_learner=self.typed_metabolic_role_learner,
         )
         self.conductor_control = str(conductor_control)
         if self.conductor_control != "passive" and not conductor_checkpoint:
@@ -2849,6 +2852,9 @@ class EmbodiedFunctionalEgo:
                 protective_need_active=protective_need_active,
                 protective_deadline_remaining_seconds=(
                     protective_deadline_remaining_seconds
+                ),
+                metabolic_need_urgency=clamp(
+                    (self.hunger - 0.65) / 0.35
                 ),
             )
         self.ticks_since_food += 1
@@ -4773,7 +4779,9 @@ def main():
     )
     parser.add_argument(
         "--pgnw-multi-hypothesis-arbitration",
-        choices=["disabled", "passive", "bounded_verified"],
+        choices=[
+            "disabled", "passive", "bounded_verified", "bounded_dual_verified"
+        ],
         default="disabled",
         help=(
             "Score all actionable typed causal candidates in PGNW telemetry. "
@@ -4794,6 +4802,11 @@ def main():
         "--typed-metabolic-role-memory",
         default=None,
         help="Fresh JSON output for metabolic-role evidence and verification.",
+    )
+    parser.add_argument(
+        "--typed-metabolic-role-discovery-memory",
+        default=None,
+        help="Read-only held-out verified metabolic-role checkpoint.",
     )
     parser.add_argument(
         "--initial-metabolic-pressure",
@@ -5244,6 +5257,9 @@ def main():
         ),
         typed_metabolic_role_learning=args.typed_metabolic_role_learning,
         typed_metabolic_role_memory=args.typed_metabolic_role_memory,
+        typed_metabolic_role_discovery_memory=(
+            args.typed_metabolic_role_discovery_memory
+        ),
     )
     ego.controller_seed = args.seed
     ego.terrain_air_observer = PassiveTerrainAirObserver(args.terrain_air_memory)

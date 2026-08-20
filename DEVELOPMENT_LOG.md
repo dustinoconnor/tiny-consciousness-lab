@@ -3094,3 +3094,32 @@ is treated as external and is not inferred from these measurements.
   labels remained passive, so real yellow-versus-blue need conflict is the next
   test. Detailed records are in `TYPED_METABOLIC_ROLE_UNITY_RESULT_20260820.md`
   and `outputs/typed_metabolic_role_seed171_summary_20260820.json`.
+
+## Verified yellow-versus-blue PGNW conflict — 2026-08-20
+
+- Added read-only loading of the seed-171 held-out verified metabolic checkpoint
+  into a distinct fresh writable run memory. Invalid posterior mass, mismatched
+  hypotheses, non-verified status, or reuse of the discovery path is rejected.
+- Added `bounded_dual_verified` arbitration. It is eligible only while a verified
+  red hazard is pending and normalized hunger urgency is above zero. Candidate
+  score combines the existing yellow suppression posterior with the independently
+  verified blue relief posterior, memory confidence, route time, hazard value,
+  and hunger urgency. A winning target receives authority only if its own causal
+  production is verified and the common score-margin/safety gates pass.
+- Registered hunger urgency as `clamp((hunger - 0.65) / 0.35)`. Thus critical
+  hunger can make blue outvote yellow while the 240-second hazard deadline is
+  generous; one blue relief should drop urgency below the gate, automatically
+  returning the still-pending hazard to verified yellow protection. Frozen-memory
+  replay at the seed-172 start selected blue at hunger 0.85--0.95 and yellow at
+  hunger <=0.65 without changing either causal posterior.
+- Added direct typed-memory targeting for an arbitration winner, avoiding a
+  hidden dependency on the resource controller's prior yellow request. Focused
+  tests cover verified checkpoint loading and the blue-then-yellow authority
+  transition. The full suite passed 312/312 in 7.138 seconds.
+- Prepared a four-minute seed-172 Unity conflict smoke with initial hunger 0.92,
+  the existing red start, frozen yellow and blue terrain memories, both verified
+  causal productions, and bounded dual authority. Preregistered success requires
+  red to create the pending hazard; dual arbitration to select and physically
+  reach blue first under high hunger; hunger relief to end blue urgency; control
+  to return to yellow; physical yellow cancellation before the deadline; and no
+  survival failure or respawn. Language labels remain absent from scoring.

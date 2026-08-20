@@ -7,6 +7,7 @@ import numpy as np
 from embodied_pgnw_planner import EmbodiedPGNWExperimentPlanner
 from pgnw_hypothesis_selection_lab import HYPOTHESES
 from typed_causal_domain import PassiveOrderedEpisodeLearner
+from typed_metabolic_domain import HeldOutMetabolicRoleLearner
 
 
 class EmbodiedPGNWPlannerTests(unittest.TestCase):
@@ -468,6 +469,62 @@ class EmbodiedPGNWPlannerTests(unittest.TestCase):
             audit["arbitration_suppression_probability"], 0.50
         )
         self.assertEqual(planner.protective_target_feature, "yellow")
+
+    def test_dual_verified_conflict_selects_blue_then_returns_to_yellow(self):
+        protective = PassiveOrderedEpisodeLearner(enabled=True)
+        protective.pool.posterior = np.asarray(
+            [0.9763185, 0.0000204, 0.0207773, 0.0028838]
+        )
+        metabolic = HeldOutMetabolicRoleLearner()
+        for feature, relieved in (
+            ("red", False), ("yellow", False), ("blue", True),
+            ("blue", True), ("yellow", False), ("blue", True),
+        ):
+            metabolic.observe(feature, relieved)
+        planner = EmbodiedPGNWExperimentPlanner(
+            mode="committed",
+            hz=1.0,
+            typed_learner=protective,
+            typed_rule_control="verified_protective",
+            multi_hypothesis_arbitration="bounded_dual_verified",
+            arbitration_hazard_cost=0.25,
+            metabolic_learner=metabolic,
+        )
+        entries = {
+            "yellow": SimpleNamespace(confidence=0.80, x=20.0, z=0.0),
+            "blue": SimpleNamespace(confidence=0.80, x=0.0, z=20.0),
+        }
+        memory = SimpleNamespace(
+            enabled=True, active=True, active_feature="yellow",
+            target=(20.0, 0.0), guidance_vector=(1.0, 0.0), distance=20.0,
+        )
+        memory.best_typed_region = lambda feature, _x, _z: (
+            0.0, -20.0, (feature, 0, 0), entries[feature]
+        )
+        state = {"x": 0.0, "z": 0.0}
+
+        planner.update_guidance(
+            state,
+            resource_memory=memory,
+            protective_need_active=True,
+            protective_deadline_remaining_seconds=240.0,
+            metabolic_need_urgency=0.80,
+        )
+        self.assertEqual(planner.arbitration_selected_feature, "blue")
+        self.assertEqual(planner.arbitration_authority, 1.0)
+        self.assertEqual(planner.protective_target_feature, "blue")
+        self.assertEqual(planner.guidance_vector, (0.0, 1.0))
+
+        planner.update_guidance(
+            state,
+            resource_memory=memory,
+            protective_need_active=True,
+            protective_deadline_remaining_seconds=220.0,
+            metabolic_need_urgency=0.0,
+        )
+        self.assertFalse(planner.arbitration_active)
+        self.assertEqual(planner.protective_target_feature, "yellow")
+        self.assertEqual(planner.guidance_vector, (1.0, 0.0))
 
     def test_bounded_arbitration_abstains_without_verified_production(self):
         learner = PassiveOrderedEpisodeLearner(enabled=True)

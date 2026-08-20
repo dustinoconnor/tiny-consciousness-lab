@@ -100,7 +100,12 @@ class TypedMetabolicRolePool:
 class HeldOutMetabolicRoleLearner:
     """Freeze an admitted rule, then verify it on post-cutoff outcomes."""
 
-    def __init__(self, admission_confidence=0.95, memory_path=None):
+    def __init__(
+        self,
+        admission_confidence=0.95,
+        memory_path=None,
+        discovery_memory_path=None,
+    ):
         self.pool = TypedMetabolicRolePool()
         self.admission_confidence = float(admission_confidence)
         self.observations = []
@@ -114,6 +119,57 @@ class HeldOutMetabolicRoleLearner:
         self.memory_path = (
             Path(memory_path).expanduser().resolve() if memory_path else None
         )
+        self.discovery_memory_path = (
+            Path(discovery_memory_path).expanduser().resolve()
+            if discovery_memory_path else None
+        )
+        if (
+            self.memory_path is not None
+            and self.discovery_memory_path is not None
+            and self.memory_path == self.discovery_memory_path
+        ):
+            raise ValueError("metabolic_discovery_memory_must_be_read_only")
+        self.memory_loaded = False
+        self._load_discovery_memory()
+        if self.memory_loaded:
+            self._save()
+
+    def _load_discovery_memory(self):
+        path = self.discovery_memory_path
+        if path is None or not path.exists():
+            return
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        pool_payload = payload.get("pool", {})
+        posterior = pool_payload.get("posterior", {})
+        names = [item.name for item in self.pool.hypotheses]
+        if set(posterior) != set(names):
+            raise ValueError("metabolic_memory_hypothesis_mismatch")
+        values = np.asarray([posterior[name] for name in names], dtype=np.float64)
+        if (
+            not np.all(np.isfinite(values))
+            or np.any(values < 0.0)
+            or not math.isclose(float(np.sum(values)), 1.0, abs_tol=1e-6)
+        ):
+            raise ValueError("metabolic_memory_invalid_posterior")
+        if payload.get("status") != "verified_held_out":
+            raise ValueError("metabolic_discovery_memory_not_verified")
+        self.pool.posterior = values / float(np.sum(values))
+        self.pool.updates = max(0, int(pool_payload.get("updates", 0)))
+        self.observations = list(payload.get("observations", []))
+        self.status = "verified_held_out"
+        self.admitted_nutrient = str(payload.get("admitted_nutrient", "none"))
+        self.admission_cutoff = max(0, int(payload.get("admission_cutoff", 0)))
+        self.held_out_confirmations = max(
+            0, int(payload.get("held_out_confirmations", 0))
+        )
+        self.held_out_contradictions = max(
+            0, int(payload.get("held_out_contradictions", 0))
+        )
+        self.held_out_positive = max(0, int(payload.get("held_out_positive", 0)))
+        self.held_out_negative = max(0, int(payload.get("held_out_negative", 0)))
+        if self.admitted_nutrient not in FEATURES:
+            raise ValueError("metabolic_memory_invalid_nutrient")
+        self.memory_loaded = True
 
     def observe(self, feature, relieved):
         feature = str(feature).strip().lower()

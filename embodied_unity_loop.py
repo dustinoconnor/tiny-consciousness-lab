@@ -1096,6 +1096,7 @@ class EmbodiedFunctionalEgo:
         typed_interaction_discovery_memory=None,
         typed_interaction_hypothesis_proposer=None,
         typed_interaction_rule_control="passive",
+        pgnw_multi_hypothesis_arbitration="disabled",
     ):
         self.crosstalk = 0.07
         self.complexity = 0.12
@@ -1386,6 +1387,10 @@ class EmbodiedFunctionalEgo:
                 else None
             ),
             typed_rule_control=typed_interaction_rule_control,
+            multi_hypothesis_arbitration=(
+                pgnw_multi_hypothesis_arbitration
+            ),
+            arbitration_hazard_cost=causal_probe_hunger_cost,
         )
         self.conductor_control = str(conductor_control)
         if self.conductor_control != "passive" and not conductor_checkpoint:
@@ -2720,6 +2725,8 @@ class EmbodiedFunctionalEgo:
             experiment_planner.action_influence += changed
             if experiment_planner.protective_rule_active:
                 experiment_planner.protective_action_influence += changed
+            if experiment_planner.arbitration_authority > 0.0:
+                experiment_planner.arbitration_action_influence += changed
             if experiment_planner.isolation_active:
                 experiment_planner.isolation_action_influence += changed
                 if experiment_retreat_active:
@@ -2803,6 +2810,16 @@ class EmbodiedFunctionalEgo:
             protective_need_active = bool(
                 self.causal_probe_world.pending_due_steps
             )
+            protective_deadline_remaining_seconds = None
+            if protective_need_active:
+                protective_deadline_remaining_seconds = max(
+                    0.0,
+                    (
+                        min(self.causal_probe_world.pending_due_steps)
+                        - self.steps
+                    )
+                    / self.hz,
+                )
             if (
                 experiment_planner.typed_rule_control == "verified_protective"
                 and protective_need_active
@@ -2819,6 +2836,9 @@ class EmbodiedFunctionalEgo:
                 body_state,
                 resource_memory=self.resource_memory,
                 protective_need_active=protective_need_active,
+                protective_deadline_remaining_seconds=(
+                    protective_deadline_remaining_seconds
+                ),
             )
         self.ticks_since_food += 1
         food_visible_now = self.food_visible(body_state)
@@ -4717,6 +4737,17 @@ def main():
         ),
     )
     parser.add_argument(
+        "--pgnw-multi-hypothesis-arbitration",
+        choices=["disabled", "passive", "bounded_verified"],
+        default="disabled",
+        help=(
+            "Score all actionable typed causal candidates in PGNW telemetry. "
+            "Passive has zero authority; bounded_verified may own a target "
+            "only when it agrees with a verified production and confidence "
+            "and score-margin gates pass."
+        ),
+    )
+    parser.add_argument(
         "--initial-metabolic-pressure",
         type=float,
         default=None,
@@ -5160,6 +5191,9 @@ def main():
         ),
         typed_interaction_hypothesis_proposer=typed_interaction_proposer,
         typed_interaction_rule_control=args.typed_interaction_rule_control,
+        pgnw_multi_hypothesis_arbitration=(
+            args.pgnw_multi_hypothesis_arbitration
+        ),
     )
     ego.controller_seed = args.seed
     ego.terrain_air_observer = PassiveTerrainAirObserver(args.terrain_air_memory)

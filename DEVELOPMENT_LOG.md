@@ -2953,3 +2953,64 @@ is treated as external and is not inferred from these measurements.
   this is an offline and replay-grounded pass with zero Unity motor authority.
   Next add passive Unity telemetry and compare arbitration recommendations with
   the existing verified-protective controller before considering authority.
+- Added an explicitly passive multi-hypothesis shadow to the embodied PGNW
+  planner. When a red hazard is pending it scores all yellow/blue typed memories
+  from the full live posterior, current memory confidence, route distance, and
+  remaining deadline. Telemetry records the selected feature, complete score
+  terms, evaluation count, and agreement with the existing verified-protective
+  target. Its declared authority is 0.0 and action influence is structurally
+  fixed at zero; the existing verified rule remains the sole PGNW target source.
+- Added CLI flag `--pgnw-multi-hypothesis-arbitration passive`, deadline plumbing
+  from the hidden pending event, and planner/full-ego regressions showing that
+  passive arbitration leaves the original guidance vector and weight unchanged.
+  A boundary test also confirmed that the same posterior selects yellow with a
+  feasible 240-second route but nearer blue with an infeasible 10-second route,
+  demonstrating utility arbitration rather than MAP relabeling. The focused
+  suite passed 75/75 and the full suite passed 299/299 in 6.808 seconds.
+- Prepared a two-minute seed-169 Unity shadow run from the seed-165 red geometry
+  with frozen acquisition memory, the 97%+ verified typed posterior, existing
+  committed protective control, and passive multi-hypothesis telemetry. The
+  preregistered checks are: arbitration activates only after red; it emits both
+  candidate records; passive authority/action influence stay exactly zero; its
+  selected feature agrees with the existing yellow target while the 240-second
+  deadline remains feasible; and controller safety remains bounded.
+- Seed-169 passed the passive Unity manipulation check over its normal
+  119.406-second bound (567 rows). Arbitration began with red at 2.97 seconds,
+  emitted both yellow and blue records for 89 active frames, selected yellow on
+  89/89, and agreed with the existing verified target on 89/89. Authority stayed
+  exactly 0.0 and action influence exactly zero. Initial yellow score was
+  0.079824 versus blue 0.006451. Yellow was collected 18.92 seconds after red;
+  the hazard cancelled with zero cost, stuck events, failures, or respawns.
+- Implemented `bounded_verified` authority as the only active arbitration mode.
+  A winner may own the existing committed PGNW target only when it agrees with
+  the >=0.95 specific verified production, expected suppression is >=0.50, the
+  score advantage is >=0.02, and downstream MPC safety gates continue to pass.
+  Otherwise it abstains with an explicit denial reason. Added telemetry for
+  score margin, suppression probability, authority, control frames, denials,
+  and arbitration-sourced MPC action changes.
+- Prepared the two-minute seed-170 bounded-authority smoke with the same frozen
+  start geometry, posterior, memory, deadline, and controller bounds as the
+  passive manipulation check. Preregistered success requires nonzero bounded
+  arbitration authority/control frames after red, yellow selection with all
+  confidence gates satisfied, arbitration-sourced MPC changes, physical yellow
+  pickup and hazard cancellation, and zero survival failures or respawns.
+- Seed-170 passed every preregistered bounded-authority check over a normal
+  119.385-second run (571 rows). Red was collected at 2.95 seconds. Arbitration
+  selected yellow, cleared every verification gate, and held authority for all
+  90 active frames; its score margin was 0.058344--0.081224 and its expected
+  suppression probability was 0.916019. It produced 58 arbitration-sourced MPC
+  action changes before yellow was physically collected at 21.95 seconds,
+  19.00 seconds after red. The pending hazard cancelled with zero cost events,
+  stuck events, survival failures, or respawns.
+- Verdict: bounded multi-hypothesis authority is operational and safe in this
+  smoke. Because it agreed with the previous verified-protective controller on
+  all 90 frames, this validates authority handoff rather than a superior choice
+  under controller disagreement. The next discriminating milestone needs two
+  independently verified actionable rules capable of recommending different
+  safe targets. Detailed records are in
+  `PGNW_BOUNDED_ARBITRATION_UNITY_RESULT_20260820.md` and
+  `outputs/pgnw_bounded_arbitration_seed170_summary_20260820.json`.
+- Post-run verification passed 77/77 focused arbitration/planner/embodiment
+  regressions and the full suite passed 301/301 in 6.832 seconds. The first
+  attempted test invocation used Apple's bare `python3` and could not import
+  NumPy; rerunning with the project's Miniforge `python` completed cleanly.

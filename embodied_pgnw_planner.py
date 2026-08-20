@@ -21,6 +21,7 @@ from pgnw_hypothesis_selection_lab import (
     posterior_after,
     select_ranked,
 )
+from pgnw_multi_hypothesis_arbitration_lab import CandidateRoute, arbitrate
 from typed_causal_domain import ORDERED_ACTIONS
 
 
@@ -47,6 +48,8 @@ class EmbodiedPGNWExperimentPlanner:
         dynamic_discovery_minimum=4,
         typed_learner=None,
         typed_rule_control="passive",
+        multi_hypothesis_arbitration="disabled",
+        arbitration_hazard_cost=0.25,
     ):
         if mode not in self.MODES:
             raise ValueError("unsupported_embodied_pgnw_mode")
@@ -80,6 +83,37 @@ class EmbodiedPGNWExperimentPlanner:
         if typed_rule_control not in {"passive", "verified_protective"}:
             raise ValueError("unsupported_typed_rule_control")
         self.typed_rule_control = str(typed_rule_control)
+        if multi_hypothesis_arbitration not in {
+            "disabled", "passive", "bounded_verified"
+        }:
+            raise ValueError("unsupported_multi_hypothesis_arbitration")
+        self.multi_hypothesis_arbitration = str(
+            multi_hypothesis_arbitration
+        )
+        self.arbitration_hazard_cost = max(
+            0.0, min(1.0, float(arbitration_hazard_cost))
+        )
+        self.arbitration_active = False
+        self.arbitration_selected_feature = "none"
+        self.arbitration_selected_score = 0.0
+        self.arbitration_records = []
+        self.arbitration_evaluations = 0
+        self.arbitration_agreement_frames = 0
+        self.arbitration_authority = 0.0
+        self.arbitration_control_frames = 0
+        self.arbitration_score_margin = 0.0
+        self.arbitration_suppression_probability = 0.0
+        self.arbitration_denial_reason = "inactive"
+        self.arbitration_min_score_margin = 0.02
+        self.arbitration_min_suppression_probability = 0.50
+        self.arbitration_action_influence = 0
+        if (
+            self.multi_hypothesis_arbitration == "bounded_verified"
+            and self.typed_rule_control != "verified_protective"
+        ):
+            raise ValueError(
+                "bounded_arbitration_requires_verified_protective"
+            )
         self.protective_rule_active = False
         self.protective_target_feature = "none"
         self.protective_rule_confidence = 0.0
@@ -448,6 +482,7 @@ class EmbodiedPGNWExperimentPlanner:
         body_state,
         resource_memory=None,
         protective_need_active=None,
+        protective_deadline_remaining_seconds=None,
     ):
         self.guidance_active = False
         self.isolation_active = False
@@ -459,6 +494,14 @@ class EmbodiedPGNWExperimentPlanner:
         self.protective_target_feature = "none"
         self.protective_memory_active = False
         self.protective_need_active = False
+        self.arbitration_active = False
+        self.arbitration_selected_feature = "none"
+        self.arbitration_selected_score = 0.0
+        self.arbitration_records = []
+        self.arbitration_authority = 0.0
+        self.arbitration_score_margin = 0.0
+        self.arbitration_suppression_probability = 0.0
+        self.arbitration_denial_reason = "inactive"
         cooling_down = self.commitment_cooldown_remaining_ticks > 0
         if cooling_down:
             self.commitment_cooldown_remaining_ticks -= 1
@@ -475,13 +518,106 @@ class EmbodiedPGNWExperimentPlanner:
                 # embodied loop supplies the authoritative metabolic state.
                 protective_need_active = active_episode is not None
             if (
-                protective_suppressor is None
-                or not bool(protective_need_active)
+                self.multi_hypothesis_arbitration
+                in {"passive", "bounded_verified"}
+                and bool(protective_need_active)
+                and resource_memory is not None
+                and bool(getattr(resource_memory, "enabled", False))
             ):
+                try:
+                    position_x = float(body_state.get("x", 0.0))
+                    position_z = float(body_state.get("z", 0.0))
+                except (TypeError, ValueError):
+                    position_x = position_z = 0.0
+                candidates = []
+                for feature in ("yellow", "blue"):
+                    selected = resource_memory.best_typed_region(
+                        feature, position_x, position_z
+                    )
+                    if selected is None:
+                        continue
+                    _score, negative_distance, _key, entry = selected
+                    candidates.append(
+                        CandidateRoute(
+                            feature=feature,
+                            distance=-float(negative_distance),
+                            memory_confidence=float(entry.confidence),
+                        )
+                    )
+                if candidates:
+                    deadline = protective_deadline_remaining_seconds
+                    if deadline is None:
+                        deadline = self.delay_ticks / self.hz
+                    result = arbitrate(
+                        self.typed_learner.pool,
+                        candidates,
+                        hazard_cost=self.arbitration_hazard_cost,
+                        deadline_remaining=max(0.001, float(deadline)),
+                    )
+                    self.arbitration_active = True
+                    self.arbitration_selected_feature = result[
+                        "selected_feature"
+                    ]
+                    self.arbitration_selected_score = float(
+                        result["selected_score"]
+                    )
+                    self.arbitration_records = result["records"]
+                    self.arbitration_evaluations += 1
+                    if self.arbitration_selected_feature == protective_suppressor:
+                        self.arbitration_agreement_frames += 1
+                    eligible = sorted(
+                        (
+                            record for record in result["records"]
+                            if record["eligible"]
+                        ),
+                        key=lambda record: record["score"],
+                        reverse=True,
+                    )
+                    if eligible:
+                        self.arbitration_score_margin = (
+                            math.inf if len(eligible) == 1 else
+                            float(eligible[0]["score"] - eligible[1]["score"])
+                        )
+                        winner = next(
+                            record for record in eligible
+                            if record["candidate"]["feature"]
+                            == self.arbitration_selected_feature
+                        )
+                        self.arbitration_suppression_probability = float(
+                            winner["suppression_probability"]
+                        )
+                    if self.multi_hypothesis_arbitration == "passive":
+                        self.arbitration_denial_reason = "passive_only"
+                    elif protective_suppressor is None:
+                        self.arbitration_denial_reason = "unverified_production"
+                    elif (
+                        self.arbitration_selected_feature
+                        != protective_suppressor
+                    ):
+                        self.arbitration_denial_reason = "verified_disagreement"
+                    elif (
+                        self.arbitration_suppression_probability
+                        < self.arbitration_min_suppression_probability
+                    ):
+                        self.arbitration_denial_reason = "low_suppression_probability"
+                    elif (
+                        self.arbitration_score_margin
+                        < self.arbitration_min_score_margin
+                    ):
+                        self.arbitration_denial_reason = "low_score_margin"
+                    else:
+                        self.arbitration_authority = 1.0
+                        self.arbitration_control_frames += 1
+                        self.arbitration_denial_reason = "none"
+            if protective_suppressor is None or not bool(protective_need_active):
                 return
             self.protective_rule_active = True
             self.protective_need_active = True
             self.protective_target_feature = protective_suppressor
+            if self.arbitration_authority > 0.0:
+                self.protective_target_feature = (
+                    self.arbitration_selected_feature
+                )
         if (
             self.mode in {"committed", "dynamic_committed"}
             and self.phase == "observing_delay"
@@ -625,6 +761,35 @@ class EmbodiedPGNWExperimentPlanner:
             "protective_need_active": self.protective_need_active,
             "protective_guidance_decisions": self.protective_guidance_decisions,
             "protective_action_influence": self.protective_action_influence,
+            "multi_hypothesis_arbitration": (
+                self.multi_hypothesis_arbitration
+            ),
+            "arbitration_active": self.arbitration_active,
+            "arbitration_selected_feature": (
+                self.arbitration_selected_feature
+            ),
+            "arbitration_selected_score": self.arbitration_selected_score,
+            "arbitration_records": self.arbitration_records,
+            "arbitration_evaluations": self.arbitration_evaluations,
+            "arbitration_agreement_frames": (
+                self.arbitration_agreement_frames
+            ),
+            "arbitration_authority": self.arbitration_authority,
+            "arbitration_control_frames": self.arbitration_control_frames,
+            "arbitration_score_margin": self.arbitration_score_margin,
+            "arbitration_suppression_probability": (
+                self.arbitration_suppression_probability
+            ),
+            "arbitration_denial_reason": self.arbitration_denial_reason,
+            "arbitration_min_score_margin": (
+                self.arbitration_min_score_margin
+            ),
+            "arbitration_min_suppression_probability": (
+                self.arbitration_min_suppression_probability
+            ),
+            "arbitration_action_influence": (
+                self.arbitration_action_influence
+            ),
             "typed_learner": (
                 self.typed_learner.audit() if self.typed else {}
             ),

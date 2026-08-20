@@ -367,6 +367,52 @@ class MetabolicObservationTests(unittest.TestCase):
                 typed_interaction_rule_control="verified_protective",
             )
 
+    def test_passive_arbitration_logs_candidates_without_motor_authority(self):
+        ego = EmbodiedFunctionalEgo(
+            hz=1.0,
+            shadow_mpc=True,
+            tiny_scientist_experiment_control="committed",
+            typed_interaction_learning=True,
+            typed_interaction_rule_control="verified_protective",
+            pgnw_multi_hypothesis_arbitration="passive",
+            causal_probe_hunger_cost=0.25,
+            causal_probe_delay_seconds=240.0,
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            ego.resource_memory = PassiveTerrainResourceMemory(
+                Path(directory) / "memory.json", control_mode="guided"
+            )
+            ego.resource_memory.record_typed_reward("yellow", 30.0, 40.0)
+            ego.resource_memory.record_typed_reward("blue", 12.0, 0.0)
+            ego.typed_interaction_learner.pool.posterior = np.array(
+                [0.9763185, 0.0000204, 0.0207773, 0.0028838]
+            )
+            ego.update_from_body(self.body(x=0.0, z=0.0))
+            ego.steps += 1
+            ego.update_from_body(
+                self.body(
+                    x=0.0,
+                    z=0.0,
+                    mushroom_pickups_total=1,
+                    mushroom_reward_total=0.35,
+                    red_mushroom_pickups_total=1,
+                    mushroom_feature="red",
+                    yellow_food_visible=False,
+                )
+            )
+
+            audit = ego.pgnw_experiment_planner.audit()
+            self.assertTrue(audit["arbitration_active"])
+            self.assertEqual(
+                audit["arbitration_selected_feature"], "yellow"
+            )
+            self.assertEqual(len(audit["arbitration_records"]), 2)
+            self.assertEqual(audit["arbitration_authority"], 0.0)
+            self.assertEqual(audit["arbitration_action_influence"], 0)
+            self.assertTrue(
+                ego.pgnw_experiment_planner.protective_memory_active
+            )
+
     def test_uncancelled_probe_applies_bounded_hunger_cost(self):
         ego = EmbodiedFunctionalEgo(
             hz=1.0,

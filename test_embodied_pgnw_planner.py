@@ -359,6 +359,147 @@ class EmbodiedPGNWPlannerTests(unittest.TestCase):
         )
 
         self.assertFalse(planner.protective_rule_active)
+
+    def test_passive_multi_hypothesis_arbitration_has_zero_authority(self):
+        learner = PassiveOrderedEpisodeLearner(enabled=True)
+        learner.pool.posterior = np.asarray(
+            [0.9763185, 0.0000204, 0.0207773, 0.0028838]
+        )
+        planner = EmbodiedPGNWExperimentPlanner(
+            mode="committed",
+            hz=1.0,
+            typed_learner=learner,
+            typed_rule_control="verified_protective",
+            multi_hypothesis_arbitration="passive",
+            arbitration_hazard_cost=0.25,
+        )
+        memory = SimpleNamespace(
+            enabled=True,
+            active=True,
+            active_feature="yellow",
+            target=(30.0, 40.0),
+            guidance_vector=(0.6, 0.8),
+            distance=50.0,
+        )
+        entries = {
+            "yellow": SimpleNamespace(confidence=0.60),
+            "blue": SimpleNamespace(confidence=0.80),
+        }
+        memory.best_typed_region = lambda feature, _x, _z: (
+            (0.0, -36.0, (feature, 0, 0), entries[feature])
+            if feature == "yellow"
+            else (0.0, -12.0, (feature, 0, 0), entries[feature])
+        )
+        baseline = EmbodiedPGNWExperimentPlanner(
+            mode="committed",
+            hz=1.0,
+            typed_learner=learner,
+            typed_rule_control="verified_protective",
+        )
+        baseline.update_guidance(
+            {"x": 0.0, "z": 0.0, "yellow_food_visible": False},
+            resource_memory=memory,
+            protective_need_active=True,
+            protective_deadline_remaining_seconds=240.0,
+        )
+
+        planner.update_guidance(
+            {"x": 0.0, "z": 0.0, "yellow_food_visible": False},
+            resource_memory=memory,
+            protective_need_active=True,
+            protective_deadline_remaining_seconds=240.0,
+        )
+
+        audit = planner.audit()
+        self.assertTrue(audit["arbitration_active"])
+        self.assertEqual(audit["arbitration_selected_feature"], "yellow")
+        self.assertEqual(audit["arbitration_authority"], 0.0)
+        self.assertEqual(audit["arbitration_action_influence"], 0)
+        self.assertTrue(planner.guidance_active)
+        self.assertEqual(planner.guidance_vector, (0.6, 0.8))
+        self.assertEqual(planner.guidance_vector, baseline.guidance_vector)
+        self.assertEqual(planner.guidance_weight, baseline.guidance_weight)
+
+    def test_bounded_arbitration_requires_and_uses_verified_agreement(self):
+        learner = PassiveOrderedEpisodeLearner(enabled=True)
+        learner.pool.posterior = np.asarray(
+            [0.9763185, 0.0000204, 0.0207773, 0.0028838]
+        )
+        planner = EmbodiedPGNWExperimentPlanner(
+            mode="committed",
+            hz=1.0,
+            typed_learner=learner,
+            typed_rule_control="verified_protective",
+            multi_hypothesis_arbitration="bounded_verified",
+            arbitration_hazard_cost=0.25,
+        )
+        memory = SimpleNamespace(
+            enabled=True,
+            active=True,
+            active_feature="yellow",
+            target=(30.0, 40.0),
+            guidance_vector=(0.6, 0.8),
+            distance=50.0,
+        )
+        entries = {
+            "yellow": SimpleNamespace(confidence=0.60),
+            "blue": SimpleNamespace(confidence=0.60),
+        }
+        memory.best_typed_region = lambda feature, _x, _z: (
+            (0.0, -36.0, (feature, 0, 0), entries[feature])
+            if feature == "yellow"
+            else (0.0, -12.0, (feature, 0, 0), entries[feature])
+        )
+
+        planner.update_guidance(
+            {"x": 0.0, "z": 0.0, "yellow_food_visible": False},
+            resource_memory=memory,
+            protective_need_active=True,
+            protective_deadline_remaining_seconds=240.0,
+        )
+
+        audit = planner.audit()
+        self.assertEqual(audit["arbitration_selected_feature"], "yellow")
+        self.assertEqual(audit["arbitration_authority"], 1.0)
+        self.assertEqual(audit["arbitration_denial_reason"], "none")
+        self.assertEqual(audit["arbitration_control_frames"], 1)
+        self.assertGreater(audit["arbitration_score_margin"], 0.02)
+        self.assertGreater(
+            audit["arbitration_suppression_probability"], 0.50
+        )
+        self.assertEqual(planner.protective_target_feature, "yellow")
+
+    def test_bounded_arbitration_abstains_without_verified_production(self):
+        learner = PassiveOrderedEpisodeLearner(enabled=True)
+        planner = EmbodiedPGNWExperimentPlanner(
+            mode="committed",
+            hz=1.0,
+            typed_learner=learner,
+            typed_rule_control="verified_protective",
+            multi_hypothesis_arbitration="bounded_verified",
+        )
+        entries = {
+            "yellow": SimpleNamespace(confidence=0.60),
+            "blue": SimpleNamespace(confidence=0.60),
+        }
+        memory = SimpleNamespace(enabled=True)
+        memory.best_typed_region = lambda feature, _x, _z: (
+            0.0, -12.0, (feature, 0, 0), entries[feature]
+        )
+
+        planner.update_guidance(
+            {"x": 0.0, "z": 0.0},
+            resource_memory=memory,
+            protective_need_active=True,
+            protective_deadline_remaining_seconds=240.0,
+        )
+
+        audit = planner.audit()
+        self.assertTrue(audit["arbitration_active"])
+        self.assertEqual(audit["arbitration_authority"], 0.0)
+        self.assertEqual(
+            audit["arbitration_denial_reason"], "unverified_production"
+        )
         self.assertFalse(planner.guidance_active)
 
     def test_unverified_or_nonspecific_rule_cannot_gain_protective_authority(self):

@@ -72,6 +72,23 @@ class PGNWMultiHypothesisArbitrationTests(unittest.TestCase):
             - metrics["route_cost"],
         )
 
+    def test_deadline_can_change_choice_without_changing_posterior(self):
+        pool = pool_with_posterior((0.9763185, 0.0000204, 0.0207773, 0.0028838))
+        candidates = [
+            CandidateRoute("yellow", 50.0, 0.60),
+            CandidateRoute("blue", 12.0, 0.60),
+        ]
+
+        long_deadline = arbitrate(
+            pool, candidates, deadline_remaining=240.0
+        )
+        short_deadline = arbitrate(
+            pool, candidates, deadline_remaining=10.0
+        )
+
+        self.assertEqual(long_deadline["selected_feature"], "yellow")
+        self.assertEqual(short_deadline["selected_feature"], "blue")
+
     def test_registered_matrix_balances_identity_distance_and_order(self):
         cases = counterbalanced_matrix()
 

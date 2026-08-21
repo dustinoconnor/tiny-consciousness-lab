@@ -3210,3 +3210,21 @@ is treated as external and is not inferred from these measurements.
   MPC influence before blue and after its hunger relief, cancellation of the
   same pending hazard, and no cost, survival failure, or respawn. Symbolic
   authority alone remains insufficient.
+- Seed 175 completed normally (89.927 seconds, 429 rows) but failed the physical
+  sequence. Red arrived at 2.519 seconds with hunger 0.933. Verified blue won
+  immediately with full authority and changed nine MPC decisions, yet yellow
+  was collected first at 5.481 seconds; blue followed at 8.835. The same order
+  repeated after a second red. There were zero costs, stuck events, survival
+  failures, or respawns.
+- The controlled fork rules out the seed-174 route-overlap explanation. At red,
+  blue was 9.03 m away and yellow 8.57 m away. Blue guidance required a strong
+  leftward turn, but the 0.30 constrained selector continued forward. At step
+  20, blue was nearly directly left at 7.58 m while yellow was 4.30 m ahead/right,
+  and the selected action remained forward. Verdict:
+  `motor_authority_calibration_fail`; blue selection was causally operative but
+  insufficient to realize its target.
+- Preregistered seed 176 as a single-parameter calibration on the identical
+  saved scene and memories: max-score regret 0.30 -> 0.45. This is the value
+  attempted in seed 173 but never exercised because its upstream hunger gate
+  blocked motor guidance. The 45-second bound covers the first fork episode;
+  the complete physical success criterion remains unchanged.

@@ -1,0 +1,23 @@
+{
+  "date": "2026-08-21",
+  "controller_seed": 175,
+  "experiment": "matched_replay",
+  "duration_seconds": 44.375,
+  "rows": 212,
+  "first_red_seconds": 2.515,
+  "red_pickup_hunger": 0.933,
+  "first_blue_seconds": 4.624,
+  "blue_relief_hunger": 0.603,
+  "first_yellow_seconds": 7.609,
+  "blue_before_yellow_seconds": 2.985,
+  "authority_switch_before_blue_seconds": 0.0,
+  "blue_pre_pickup_action_influence": 0,
+  "yellow_post_blue_action_influence": 6,
+  "hazard_cancelled_events": 1,
+  "hazard_cost_events": 0,
+  "stuck_events": 0,
+  "survival_failures": 0,
+  "respawns": 0,
+  "preregistered_result": "physical_and_transfer_pass_conjunction_fail",
+  "claim_boundary": "The safe sequence and pickup-bound transfer replicated, but the live Unity trajectory was not deterministically reproduced by controller seed and blue did not change the unguided MPC action."
+}

@@ -3288,3 +3288,20 @@ is treated as external and is not inferred from these measurements.
   relief, nonzero yellow post-blue influence, hazard cancellation, and safety.
   Any pass establishes mechanistic conjunction on this replay only; fresh
   counterbalanced replication remains necessary for generalization.
+- The matched replay completed normally (44.375 seconds, 212 rows) and again
+  achieved red at 2.515 seconds, blue at 4.624, and yellow at 7.609. Blue relief
+  and the transfer to yellow occurred on the same frame; yellow changed six MPC
+  actions and cancelled the hazard. There were zero costs, stuck events,
+  survival failures, or respawns.
+- Blue again produced zero counterfactual MPC action changes. Reusing controller
+  seed 175 therefore did not reproduce the original seed-175 nine-change live
+  trajectory: Python seed does not fully determine the asynchronous Unity
+  physics/telemetry rollout. Verdict: `physical_and_transfer_pass_conjunction_fail`.
+  The physical and timing repair replicated, but the desired influence
+  conjunction did not.
+- Do not search additional seeds for a convenient nonzero conjunction. That
+  would select on the outcome. The next defensible causal assay is a
+  preregistered multi-run active-versus-passive comparison on the frozen fork,
+  with blue-first rate, pickup timing, and safety as outcomes. Individual active
+  runs need not change an action when their unguided counterfactual already
+  agrees with the verified blue target.

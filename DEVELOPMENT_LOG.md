@@ -3192,3 +3192,21 @@ is treated as external and is not inferred from these measurements.
   control target geometry so neither pickup lies on the route to the other,
   preregister that geometry independently of the outcome, and retain the same
   frozen rules and controller parameters.
+
+## Geometry-controlled dual-conflict confirmation — 2026-08-21
+
+- The user arranged a saved spawn-area fork with red at `(-5.62, 4.53)`, blue
+  at `(-12.0, 6.918891)`, and yellow at `(-1.06, 9.86)` in X/Z. Independent
+  scene inspection confirmed matched red-to-target distances (6.81 m blue and
+  7.01 m yellow), 11.33 m target separation, and an approximately 110-degree
+  fork. The saved scene hash is frozen in the seed-175 launcher.
+- Added an answer-blind resource fixture with only those blue and yellow
+  coordinates, equal one-observation confidence, and no causal outcomes. This
+  prevents older scattered terrain memories from silently selecting a different
+  target. Seed 175 starts from the saved pose without diagnostic teleportation.
+- Preregistered a 90-second confirmation with the same held-out verified rules,
+  arbitration calculation, 0.30 MPC regret bound, critical hunger, controller,
+  and safety gates. A pass requires physical red -> blue -> yellow order, causal
+  MPC influence before blue and after its hunger relief, cancellation of the
+  same pending hazard, and no cost, survival failure, or respawn. Symbolic
+  authority alone remains insufficient.

@@ -5,14 +5,14 @@
   "typed_regions": [
     {
       "feature": "blue",
-      "x": -3.5,
+      "x": 3.5,
       "z": 5.43,
       "rewards": 1,
       "failures": 0
     },
     {
       "feature": "yellow",
-      "x": 3.5,
+      "x": -3.5,
       "z": 5.43,
       "rewards": 1,
       "failures": 0

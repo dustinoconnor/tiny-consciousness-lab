@@ -5,18 +5,33 @@ cd "${0:A:h}"
 
 trial_id="${1:-}"
 case "$trial_id" in
-  cbl1) layout="calibration_blue_left"; controller_seed=185 ;;
-  cbl2) layout="calibration_blue_left"; controller_seed=186 ;;
+  cbl1r)
+    layout="calibration_blue_left"; controller_seed=185
+    scene_sha="9a05ffe2a692428a15480761a04e077e77d8c9ad15ee366379674a5ea58bffe6"
+    source_resource="pgnw_counterbalanced_calibration_blue_left_resource_fixture_20260821.json"
+    ;;
+  cyl1)
+    layout="calibration_yellow_left"; controller_seed=185
+    scene_sha="7fcdfab55c16260638f1f5812a7b8ade563ec5c126c976a4274c25ed815a3897"
+    source_resource="pgnw_counterbalanced_calibration_yellow_left_resource_fixture_20260821.json"
+    ;;
+  cyl2)
+    layout="calibration_yellow_left"; controller_seed=186
+    scene_sha="7fcdfab55c16260638f1f5812a7b8ade563ec5c126c976a4274c25ed815a3897"
+    source_resource="pgnw_counterbalanced_calibration_yellow_left_resource_fixture_20260821.json"
+    ;;
+  cbl2)
+    layout="calibration_blue_left"; controller_seed=186
+    scene_sha="9a05ffe2a692428a15480761a04e077e77d8c9ad15ee366379674a5ea58bffe6"
+    source_resource="pgnw_counterbalanced_calibration_blue_left_resource_fixture_20260821.json"
+    ;;
   *)
-    print -u2 "Usage: $0 {cbl1|cbl2}"
-    print -u2 "Yellow-left trials remain sealed until that saved layout is frozen."
+    print -u2 "Usage: $0 {cbl1r|cyl1|cyl2|cbl2}"
     exit 2
     ;;
 esac
 
 scene_file="/Users/dustinoconnor/My project/Assets/Scenes/ChallengeTerrain.unity"
-scene_sha="47eb2f83ea2bf75759251177a6494196fff0452264f92775caccf7887cb16816"
-source_resource="pgnw_counterbalanced_calibration_blue_left_resource_fixture_20260821.json"
 source_metabolic="outputs/typed_metabolic_role_seed171_20260820.json"
 stem="pgnw_counterbalanced_${trial_id}_seed${controller_seed}_20260821"
 run_resource="outputs/resource_memory_${stem}.json"

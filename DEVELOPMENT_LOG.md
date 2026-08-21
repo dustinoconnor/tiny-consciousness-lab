@@ -3392,3 +3392,48 @@ is treated as external and is not inferred from these measurements.
   fresh output guards, unchanged causal/metabolic memories, guided resource
   recall, and zero-authority dual arbitration. CYL remains unavailable until its
   mirrored scene and coordinates are separately saved and frozen.
+- Rejected the first CBL1 launch as a geometry calibration failure before using
+  its resource choice. Red pickup total was already 1 on telemetry frame zero,
+  confirming the user's visual observation that the robot overlapped or consumed
+  red before Python established the measured episode. The subsequent yellow and
+  blue order is not counted. Preserved all output rather than replacing it.
+- Revised calibration geometry only, as permitted by the preregistered gate:
+  red moves from 3.0 m to 5.0 m forward, while the mirrored blue/yellow branches
+  move from 6.5 m forward +/-2.5 m lateral to 9.0 m forward +/-3.5 m lateral.
+  Reserved geometry remains unchanged and untested. The corrected trial will use
+  a distinct output ID and must begin with all pickup totals at zero.
+- Applied, validated, and saved corrected CBL geometry: red is 5.000 m away;
+  blue and yellow are each 9.657 m away with 0.0000 m mismatch. Frozen scene
+  SHA-256 is `9a05ffe2a692428a15480761a04e077e77d8c9ad15ee366379674a5ea58bffe6`.
+  Updated the matching resource fixture to blue `(-3.50, 5.43)` and yellow
+  `(3.50, 5.43)`. Renamed the corrected first trial `CBL1R` so the rejected CBL1
+  recording remains intact and cannot be silently overwritten.
+- Corrected CBL1R passed its setup gate: frame zero had red/blue/yellow totals
+  0/0/0; red was collected at 0.850 seconds, yellow at 4.451, and blue at 6.356.
+  The 19.789-second run had zero stuck events. This is one valid passive
+  yellow-first observation with blue on the left; it is calibration evidence,
+  not a reserved active-versus-passive result.
+- Applied, validated, and saved the corrected calibration-yellow-left mirror.
+  Red remains 5.000 m away and both branches 9.657 m away with 0.0000 m mismatch.
+  Frozen CYL scene SHA-256 is
+  `7fcdfab55c16260638f1f5812a7b8ade563ec5c126c976a4274c25ed815a3897`;
+  its equal-evidence fixture places blue at `(3.50, 5.43)` and yellow at
+  `(-3.50, 5.43)`. Extended the fail-closed launcher for CYL1/CYL2 without
+  altering the already observed CBL1R result.
+- Completed the corrected passive calibration in frozen order CBL1R, CYL1,
+  CYL2, CBL2. All four began at 0/0/0 pickups, acquired red first, acquired both
+  branches, and had zero stuck events or respawns. Blue was first after red in
+  both yellow-left trials; yellow was first in both blue-left trials. Aggregate
+  color choice is therefore exactly balanced at blue 2/4 and yellow 2/4, while
+  the right branch was selected 4/4.
+- Calibration verdict: `color_balance_pass_original_side_gate_fail`. The
+  previous uniform-blue confound is removed, but the preregistered prohibition
+  on a deterministic side fails. No active effect is claimed and no reserved
+  run has been opened. Recorded the exact matrix in
+  `PGNW_COUNTERBALANCED_FORK_CALIBRATION_RESULT_20260821.md` and a machine summary
+  in `outputs/pgnw_counterbalanced_fork_calibration_summary_20260821.json`.
+- A defensible continuation must be chosen before reserved evaluation: either
+  redesign calibration geometry under the original strict gate, or publish an
+  explicit pre-reserved amendment treating side as a blocked nuisance factor.
+  The amended version would require active/passive pairs within every seed and
+  layout, equal mirror representation, and within-layout discordance reporting.

@@ -3375,3 +3375,9 @@ is treated as external and is not inferred from these measurements.
   counterbalanced active-versus-passive comparison. Missing pickups count as
   failures, outcomes cannot be replaced, and active motor influence is required
   before any added-PGNW causal benefit is claimed.
+- Applied the calibration-blue-left layout relative to the robot's current saved
+  spawn rather than assuming world origin. Unity validation reported red at
+  exactly 3.000 m and both blue and yellow at 6.964 m, with 0.0000 m branch
+  mismatch. The scene remained unsaved pending a visual accessibility check.
+  Updated the editor tool to Unity 6's non-deprecated object-query overloads
+  after its first successful compile exposed two API warnings.

@@ -45,7 +45,7 @@ public static class PGNWCounterbalancedForkTools
     [MenuItem("Tiny Consciousness/Food/PGNW Fork/Validate Current Layout")]
     public static void ValidateCurrentLayout()
     {
-        RobotUdpBridge bridge = UnityEngine.Object.FindFirstObjectByType<RobotUdpBridge>();
+        RobotUdpBridge bridge = UnityEngine.Object.FindAnyObjectByType<RobotUdpBridge>();
         GameObject root = GameObject.Find(RootName);
         if (bridge == null || root == null)
         {
@@ -92,7 +92,7 @@ public static class PGNWCounterbalancedForkTools
             return;
         }
 
-        RobotUdpBridge bridge = UnityEngine.Object.FindFirstObjectByType<RobotUdpBridge>();
+        RobotUdpBridge bridge = UnityEngine.Object.FindAnyObjectByType<RobotUdpBridge>();
         Terrain terrain = Terrain.activeTerrain;
         if (bridge == null || terrain == null)
         {
@@ -200,8 +200,7 @@ public static class PGNWCounterbalancedForkTools
         FoodMushroom best = null;
         float bestDistance = MaximumBindingDistance;
         foreach (FoodMushroom food in UnityEngine.Object.FindObjectsByType<FoodMushroom>(
-            FindObjectsInactive.Exclude,
-            FindObjectsSortMode.None
+            FindObjectsInactive.Exclude
         ))
         {
             if (food.ObservableFeature != feature || IsScattered(food.transform))
@@ -248,4 +247,3 @@ public static class PGNWCounterbalancedForkTools
         return Mathf.Sqrt(x * x + z * z);
     }
 }
-

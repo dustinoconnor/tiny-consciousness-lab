@@ -3276,3 +3276,15 @@ is treated as external and is not inferred from these measurements.
   `pickup_bound_transfer_pass_complete_causal_influence_incomplete`. The repair
   is confirmed, but this one run does not satisfy the additional requirement
   that both causal productions independently alter motor actions.
+- Preregistered a targeted matched replay of controller seed 175. This is not a
+  fresh held-out seed: it deliberately reuses the stochastic trajectory where
+  original 0.30-bound blue guidance changed nine MPC decisions but failed to
+  reach blue first. The replay combines the 0.45 bound that produced physical
+  success in seed 176 with pickup-bound retention confirmed in seed 177.
+- The 45-second replay retains the frozen fork, equal-confidence coordinates,
+  verified memories, needs, scoring, effects, and safety gates. A conjunction
+  pass requires nonzero blue pre-pickup influence, physical red -> blue -> yellow
+  order, no pre-pickup transfer away from blue, transfer only on/after measured
+  relief, nonzero yellow post-blue influence, hazard cancellation, and safety.
+  Any pass establishes mechanistic conjunction on this replay only; fresh
+  counterbalanced replication remains necessary for generalization.

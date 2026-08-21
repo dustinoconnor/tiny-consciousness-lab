@@ -3228,3 +3228,21 @@ is treated as external and is not inferred from these measurements.
   attempted in seed 173 but never exercised because its upstream hunger gate
   blocked motor guidance. The 45-second bound covers the first fork episode;
   the complete physical success criterion remains unchanged.
+- Seed 176 completed normally (44.908 seconds, 215 rows) and achieved the safe
+  physical order for the first time: red at 2.516 seconds, blue at 4.621, and
+  yellow at 7.585. Blue relief reduced hunger to 0.603; verified yellow then
+  changed seven MPC actions and cancelled the same hazard. There were zero
+  costs, stuck events, survival failures, or respawns.
+- The strict preregistration nevertheless failed. Blue held full verified
+  authority for nine frames but produced zero counterfactual action changes
+  because the unguided MPC path was already aligned. More importantly,
+  arbitration switched to yellow at 4.409 seconds, 0.212 seconds before the
+  physical blue pickup and relief. The typed resource-memory selector drops a
+  candidate inside its generic four-meter arrival radius, so proximity—not the
+  registered metabolic outcome—caused that transfer.
+- Verdict: `physical_sequence_pass_causal_preregistration_fail`. Across seeds
+  175 and 176, blue has separately shown verified selection, causal MPC influence,
+  and physical precedence over yellow, but no single run yet demonstrates the
+  full causal chain with a strictly post-relief transfer. The next narrow repair
+  is to retain a visible, selected arbitration target until pickup confirmation
+  instead of treating memory-radius arrival as completion.

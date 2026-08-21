@@ -3348,3 +3348,30 @@ is treated as external and is not inferred from these measurements.
   defensible assay is a separately calibrated, counterbalanced layout set where
   passive behavior is not already uniformly blue, followed by one untouched
   active-versus-passive evaluation.
+- Clarified the requested passive-code cleanup boundary. The passive PGNW
+  arbitration condition remains because it is the required zero-authority
+  causal control. Removed the obsolete live synchrony and criticality proxy
+  observer instead: deleted `EmbodiedDynamicsObserver`, its per-step update,
+  Python/Unity telemetry fields, HUD lines, dedicated analyzer, and four tests.
+  This changes no AIR, ART, GNW, conductor, PGNW, MPC, causal learner, metabolic
+  learner, or resource-memory control path. Standalone historical criticality
+  labs remain reproducible but are not instantiated by the embodied runtime.
+- Applied the Unity telemetry cleanup to both the repository mirror and the live
+  project at `/Users/dustinoconnor/My project`. Python compilation passed, no
+  removed field remains referenced in either bridge, and the reduced full suite
+  passes 311/311 in 5.313 seconds. Unity was running in the background but had
+  not refreshed its Editor log, so live C# import remains to be confirmed when
+  the editor next receives focus; no Unity trial should start before that check.
+- Added `PGNWCounterbalancedForkTools.cs` to the repository mirror and live
+  Unity project. Its four menu actions bind only the nearest standalone
+  spawn-area red/blue/yellow pickups, preserve scattered populations, and
+  construct equal-distance mirrored blue/yellow branches for calibration and
+  separately reserved layouts. A validator enforces <=0.01 m branch-distance
+  mismatch and reports exact distances before the scene is saved.
+- Preregistered the staged design in
+  `PGNW_COUNTERBALANCED_FORK_PROTOCOL_20260821.md`. Passive-only calibration must
+  first show that neither color nor side remains deterministic. Only then may
+  the differently sized and rotated reserved layouts be opened for a paired,
+  counterbalanced active-versus-passive comparison. Missing pickups count as
+  failures, outcomes cannot be replaced, and active motor influence is required
+  before any added-PGNW causal benefit is claimed.

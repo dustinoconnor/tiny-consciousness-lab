@@ -401,75 +401,6 @@ class UnityBodyLink:
                 continue
 
 
-class EmbodiedDynamicsObserver:
-    """Passive temporal-coordination and criticality proxies for live telemetry."""
-
-    def __init__(self, hz, modules=6, bus_capacity=3, window_seconds=2.0):
-        self.hz = max(float(hz), 0.1)
-        self.modules = int(modules)
-        self.bus_capacity = max(1, int(bus_capacity))
-        self.window_ticks = max(4, int(round(self.hz * window_seconds)))
-        self.tick = 0
-        self.previous = None
-        self.last_event_ticks = [0] * self.modules
-        self.previous_event_count = 0
-        self.propagation_ratio = 1.0
-        self.coherence = 0.0
-        self.active_modules = 0
-        self.bus_pressure = 0.0
-        self.criticality_score = 1.0
-        self.criticality_regime = "near_critical_proxy"
-        self.recommended_gain = 1.16
-        self.binding_ready = False
-
-    def update(self, values, observed_noise):
-        values = [clamp(float(value)) for value in values]
-        if len(values) != self.modules:
-            raise ValueError("observer_module_count_mismatch")
-        if self.previous is None:
-            changed = [True] * self.modules
-        else:
-            changed = [abs(value - old) >= 0.06 for value, old in zip(values, self.previous)]
-        for index, event in enumerate(changed):
-            if event:
-                self.last_event_ticks[index] = self.tick
-
-        vectors_x = 0.0
-        vectors_y = 0.0
-        total_weight = 0.0
-        active = 0
-        for index, event_tick in enumerate(self.last_event_ticks):
-            age = self.tick - event_tick
-            recency = math.exp(-age / self.window_ticks)
-            weight = recency * (0.25 + 0.75 * values[index])
-            if recency >= 0.25:
-                active += 1
-            phase = 2.0 * math.pi * ((event_tick % self.window_ticks) / self.window_ticks)
-            vectors_x += weight * math.cos(phase)
-            vectors_y += weight * math.sin(phase)
-            total_weight += weight
-        self.coherence = clamp(math.hypot(vectors_x, vectors_y) / max(total_weight, 1e-8))
-        self.active_modules = active
-        self.bus_pressure = clamp(max(0, active - self.bus_capacity) / self.bus_capacity)
-
-        event_count = sum(changed)
-        instantaneous_ratio = (event_count + 0.5) / (self.previous_event_count + 0.5)
-        instantaneous_ratio = clamp(instantaneous_ratio, 0.20, 2.0)
-        self.propagation_ratio = 0.86 * self.propagation_ratio + 0.14 * instantaneous_ratio
-        self.criticality_score = clamp(math.exp(-abs(math.log(max(self.propagation_ratio, 1e-6)))))
-        if self.propagation_ratio < 0.80:
-            self.criticality_regime = "subcritical_proxy"
-        elif self.propagation_ratio > 1.20:
-            self.criticality_regime = "supercritical_proxy"
-        else:
-            self.criticality_regime = "near_critical_proxy"
-        self.recommended_gain = 1.16 + 0.17 * clamp(float(observed_noise))
-        self.binding_ready = self.coherence >= 0.70 and active >= 2 and self.bus_pressure <= 0.67
-        self.previous = values
-        self.previous_event_count = event_count
-        self.tick += 1
-
-
 class EmbodiedAdaptiveResonanceObserver:
     """Passive Fuzzy-ART category learning over embodied telemetry."""
 
@@ -857,16 +788,6 @@ class ShadowRecorder:
             "systemic_router_recurrent_release_streak": (
                 ego.systemic_router.recurrent_release_streak
             ),
-            "sync_observer_mode": "passive",
-            "sync_coherence": ego.dynamics_observer.coherence,
-            "sync_active_modules": ego.dynamics_observer.active_modules,
-            "sync_bus_pressure": ego.dynamics_observer.bus_pressure,
-            "sync_binding_ready": ego.dynamics_observer.binding_ready,
-            "criticality_observer_mode": "passive_proxy",
-            "criticality_propagation_ratio": ego.dynamics_observer.propagation_ratio,
-            "criticality_score": ego.dynamics_observer.criticality_score,
-            "criticality_regime": ego.dynamics_observer.criticality_regime,
-            "criticality_recommended_gain": ego.dynamics_observer.recommended_gain,
             "art_observer_mode": "passive_fuzzy_art",
             "art_category": ego.art_observer.category,
             "art_category_label": ego.art_observer.category_label,
@@ -1344,7 +1265,6 @@ class EmbodiedFunctionalEgo:
         self.trap_course_successes = 0
         self.trap_course_failures = 0
         self.trap_course_outcome = "inactive"
-        self.dynamics_observer = EmbodiedDynamicsObserver(self.hz)
         self.art_observer = EmbodiedAdaptiveResonanceObserver()
         self.terrain_air_observer = PassiveTerrainAirObserver()
         self.terrain_air_route_controller = TerrainAirRouteController()
@@ -2978,32 +2898,7 @@ class EmbodiedFunctionalEgo:
         self.update_affect(metrics, body_state)
         self.update_workspace(body_state)
         self.update_survival_monitor(body_state)
-        self.update_dynamics_observer(body_state)
         self.update_art_observer(body_state)
-
-    def update_dynamics_observer(self, body_state):
-        rays = body_state.get("directional_rays", []) if isinstance(body_state, dict) else []
-        obstacle_signal = 0.0
-        if isinstance(rays, list) and rays:
-            try:
-                obstacle_signal = 1.0 - min(clamp(float(value)) for value in rays)
-            except (TypeError, ValueError):
-                obstacle_signal = 0.0
-        values = [
-            obstacle_signal,
-            1.0 if self.food_visible(body_state) else 0.0,
-            clamp(0.5 * (self.valence + 1.0)),
-            self.arousal,
-            self.local_trap_pressure(body_state),
-            self.workspace_packet["confidence"],
-        ]
-        observed_noise = clamp(
-            0.42 * self.noise_injection
-            + 0.24 * self.delusion_index
-            + 0.22 * self.prediction_error
-            + 0.12 * self.calcium_gate
-        )
-        self.dynamics_observer.update(values, observed_noise)
 
     def update_art_observer(self, body_state):
         if not isinstance(body_state, dict):
@@ -4560,16 +4455,6 @@ class EmbodiedFunctionalEgo:
             "pgnw_experiment_action_influence": (
                 self.pgnw_experiment_planner.action_influence
             ),
-            "sync_observer_mode": "passive",
-            "sync_coherence": round(self.dynamics_observer.coherence, 4),
-            "sync_active_modules": self.dynamics_observer.active_modules,
-            "sync_bus_pressure": round(self.dynamics_observer.bus_pressure, 4),
-            "sync_binding_ready": self.dynamics_observer.binding_ready,
-            "criticality_observer_mode": "passive_proxy",
-            "criticality_propagation_ratio": round(self.dynamics_observer.propagation_ratio, 4),
-            "criticality_score": round(self.dynamics_observer.criticality_score, 4),
-            "criticality_regime": self.dynamics_observer.criticality_regime,
-            "criticality_recommended_gain": round(self.dynamics_observer.recommended_gain, 4),
             "art_observer_mode": "passive_fuzzy_art",
             "art_category": self.art_observer.category,
             "art_category_label": self.art_observer.category_label,

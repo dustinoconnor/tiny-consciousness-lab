@@ -143,16 +143,6 @@ public class RobotUdpBridge : MonoBehaviour
     private float lastHiddenGoalAdapterConfidence;
     private int lastHiddenGoalAdapterEvents;
     private float lastFoodSensorRadius = 16f;
-    private string lastSyncObserverMode = "passive";
-    private float lastSyncCoherence;
-    private int lastSyncActiveModules;
-    private float lastSyncBusPressure;
-    private bool lastSyncBindingReady;
-    private string lastCriticalityObserverMode = "passive_proxy";
-    private float lastCriticalityPropagationRatio = 1f;
-    private float lastCriticalityScore = 1f;
-    private string lastCriticalityRegime = "near_critical_proxy";
-    private float lastCriticalityRecommendedGain = 1.16f;
     private string lastArtObserverMode = "passive_fuzzy_art";
     private string lastArtCategory = "unassigned";
     private string lastArtCategoryLabel = "unlearned";
@@ -278,16 +268,6 @@ public class RobotUdpBridge : MonoBehaviour
         public float hidden_goal_adapter_confidence;
         public int hidden_goal_adapter_events;
         public float food_sensor_radius;
-        public string sync_observer_mode;
-        public float sync_coherence;
-        public int sync_active_modules;
-        public float sync_bus_pressure;
-        public bool sync_binding_ready;
-        public string criticality_observer_mode;
-        public float criticality_propagation_ratio;
-        public float criticality_score;
-        public string criticality_regime;
-        public float criticality_recommended_gain;
         public string art_observer_mode;
         public string art_category;
         public string art_category_label;
@@ -714,16 +694,6 @@ public class RobotUdpBridge : MonoBehaviour
         lastHiddenGoalAdapterAction = string.IsNullOrWhiteSpace(command.hidden_goal_adapter_action) ? "none" : command.hidden_goal_adapter_action;
         lastHiddenGoalAdapterConfidence = command.hidden_goal_adapter_confidence;
         lastHiddenGoalAdapterEvents = command.hidden_goal_adapter_events;
-        lastSyncObserverMode = string.IsNullOrWhiteSpace(command.sync_observer_mode) ? "passive" : command.sync_observer_mode;
-        lastSyncCoherence = command.sync_coherence;
-        lastSyncActiveModules = command.sync_active_modules;
-        lastSyncBusPressure = command.sync_bus_pressure;
-        lastSyncBindingReady = command.sync_binding_ready;
-        lastCriticalityObserverMode = string.IsNullOrWhiteSpace(command.criticality_observer_mode) ? "passive_proxy" : command.criticality_observer_mode;
-        lastCriticalityPropagationRatio = command.criticality_propagation_ratio;
-        lastCriticalityScore = command.criticality_score;
-        lastCriticalityRegime = string.IsNullOrWhiteSpace(command.criticality_regime) ? "near_critical_proxy" : command.criticality_regime;
-        lastCriticalityRecommendedGain = command.criticality_recommended_gain;
         lastArtObserverMode = string.IsNullOrWhiteSpace(command.art_observer_mode) ? "passive_fuzzy_art" : command.art_observer_mode;
         lastArtCategory = string.IsNullOrWhiteSpace(command.art_category) ? "unassigned" : command.art_category;
         lastArtCategoryLabel = string.IsNullOrWhiteSpace(command.art_category_label) ? "unlearned" : command.art_category_label;
@@ -1241,8 +1211,6 @@ public class RobotUdpBridge : MonoBehaviour
             $"Shadow Agreement: {lastShadowAgreement:0.00}  entropy {lastShadowEntropy:0.00}\n" +
             $"Body-Clear Actions: {lastShadowBodySafeActions}/8\n" +
             $"Learned Control Frames: {lastShadowTakeoverSteps}\n" +
-            $"Synchrony Observer ({lastSyncObserverMode.ToUpperInvariant()}): coherence {lastSyncCoherence:0.00}  modules {lastSyncActiveModules}/6  bus {lastSyncBusPressure:0.00}  bind {(lastSyncBindingReady ? "ready" : "no")}\n" +
-            $"Criticality Observer ({lastCriticalityObserverMode.ToUpperInvariant()}): {lastCriticalityRegime}  ratio {lastCriticalityPropagationRatio:0.00}  score {lastCriticalityScore:0.00}  suggested g {lastCriticalityRecommendedGain:0.00}\n" +
             $"ART (PASSIVE): {lastArtCategory} {lastArtCategoryLabel}/{lastArtEvidenceLabel}  M{lastArtMatch:0.00}  {(lastArtUnknown ? "UNKNOWN" : lastArtNovel ? "NOVEL" : lastArtResonance ? "RESONANT" : "SEARCH")}  R{lastArtMismatchResets}/{lastArtMismatchResetsTotal} C{lastArtCategoryCount} S{lastArtCategorySwitches}\n" +
             $"Course: {lastTrapCourse} #{lastTrapEpisode}  {lastTrapOutcome}  Wins {lastTrapSuccesses} / Timeouts {lastTrapFailures}\n" +
             $"Workspace: {lastWorkspaceProblem} / {lastWorkspaceStrategy} ({lastWorkspaceConfidence:0.00})\n" +

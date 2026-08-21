@@ -6,7 +6,6 @@ import numpy as np
 
 from embodied_unity_loop import (
     EmbodiedAdaptiveResonanceObserver,
-    EmbodiedDynamicsObserver,
     EmbodiedFunctionalEgo,
     art_route_selection_score,
     art_route_context,
@@ -783,25 +782,6 @@ class ShadowEpisodeBoundaryTests(unittest.TestCase):
         ego.synchronize_shadow_episode(packet)
         self.assertFalse(ego.synchronize_shadow_episode(packet))
         self.assertEqual(ego.shadow_episode_resets, 0)
-
-
-class EmbodiedDynamicsObserverTests(unittest.TestCase):
-    def test_simultaneous_module_events_have_high_coherence(self):
-        observer = EmbodiedDynamicsObserver(5.0)
-        observer.update([0.8] * 6, 0.0)
-        self.assertGreater(observer.coherence, 0.95)
-        self.assertEqual(observer.active_modules, 6)
-
-    def test_observer_is_telemetry_only_and_recommends_bounded_gain(self):
-        observer = EmbodiedDynamicsObserver(5.0)
-        for index in range(12):
-            values = [0.9 if module == index % 6 else 0.1 for module in range(6)]
-            observer.update(values, 1.0)
-        self.assertGreaterEqual(observer.recommended_gain, 1.16)
-        self.assertLessEqual(observer.recommended_gain, 1.33)
-        self.assertIn(observer.criticality_regime, {
-            "subcritical_proxy", "near_critical_proxy", "supercritical_proxy"
-        })
 
 
 class EmbodiedAdaptiveResonanceObserverTests(unittest.TestCase):

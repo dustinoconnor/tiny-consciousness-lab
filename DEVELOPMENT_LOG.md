@@ -3305,3 +3305,20 @@ is treated as external and is not inferred from these measurements.
   with blue-first rate, pickup timing, and safety as outcomes. Individual active
   runs need not change an action when their unguided counterfactual already
   agrees with the verified blue target.
+- Preregistered a small active-versus-passive dual-arbitration pilot with four
+  trials per condition, paired seeds 181--184, 20-second bounds, and
+  counterbalanced order `A1 P1 P2 A2 A3 P3 P4 A4`. Active uses
+  `bounded_dual_verified`; passive preserves scoring and verified yellow
+  protection but gives dual arbitration zero authority. All other scene,
+  memory, need, controller, and safety inputs are frozen.
+- The primary outcome is blue as the first blue/yellow pickup after red; missing
+  or tied pickups count against blue-first rather than being excluded. A frozen
+  analyzer reports the two-sided Fisher exact result plus timing, full sequence,
+  influence, cancellation, and safety outcomes. Four trials per arm is the
+  smallest balanced design where 4/4 versus 0/4 yields two-sided `p=0.028571`;
+  weaker results remain descriptive pilot evidence. No trial replacement or
+  tuning is allowed before all eight terminate.
+- Added focused checks for the frozen Fisher calculation, including the perfect
+  4/4-versus-0/4 split and an equal-rate null table. Both pass; the complete
+  Python suite passes 315/315 in 7.419 seconds. All eight output sets are fresh,
+  and the launcher refuses a changed Unity scene or an attempted append.

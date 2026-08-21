@@ -35,6 +35,14 @@ Run passive dual-arbitration telemetry only on both calibration layouts. The
 purpose is to reject a geometry that remains deterministically blue, not to
 estimate an active effect. Use paired seeds and balance which color is left.
 
+The frozen calibration order is `CBL1, CYL1, CYL2, CBL2`, where CBL means blue
+left and CYL means yellow left. CBL1/CYL1 use controller seed 185 and
+CYL2/CBL2 use seed 186. Each run is bounded to 20 seconds and Unity Play mode is
+stopped and restarted between runs. The saved CBL scene SHA-256 is
+`47eb2f83ea2bf75759251177a6494196fff0452264f92775caccf7887cb16816`.
+The CYL hash is sealed until that mirror layout is applied, visually checked,
+and saved. Its resource-memory coordinates must be frozen at the same time.
+
 The calibration geometry is acceptable only if:
 
 - both mirror assignments complete red followed by at least one competing

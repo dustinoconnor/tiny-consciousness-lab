@@ -3381,3 +3381,14 @@ is treated as external and is not inferred from these measurements.
   mismatch. The scene remained unsaved pending a visual accessibility check.
   Updated the editor tool to Unity 6's non-deprecated object-query overloads
   after its first successful compile exposed two API warnings.
+- Saved and froze calibration-blue-left at scene SHA-256
+  `47eb2f83ea2bf75759251177a6494196fff0452264f92775caccf7887cb16816`.
+  The fork's saved world coordinates are blue `(-2.50, 2.93)` and yellow
+  `(2.50, 2.93)`; created a matching equal-evidence resource fixture so PGNW
+  does not follow the obsolete pre-counterbalance coordinates.
+- Froze passive calibration order `CBL1, CYL1, CYL2, CBL2` with paired seeds
+  185 and 186 and 20-second bounds. Added a fail-closed launcher for the two CBL
+  trials using the explicit Miniforge Python interpreter, scene-hash validation,
+  fresh output guards, unchanged causal/metabolic memories, guided resource
+  recall, and zero-authority dual arbitration. CYL remains unavailable until its
+  mirrored scene and coordinates are separately saved and frozen.

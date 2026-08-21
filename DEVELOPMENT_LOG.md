@@ -3437,3 +3437,38 @@ is treated as external and is not inferred from these measurements.
   explicit pre-reserved amendment treating side as a blocked nuisance factor.
   The amended version would require active/passive pairs within every seed and
   layout, equal mirror representation, and within-layout discordance reporting.
+- Chose and documented the side-blocked continuation before opening any reserved
+  layout in `PGNW_RESERVED_SIDE_BLOCKED_AMENDMENT_20260821.md`. The frozen
+  eight-run order pairs active/passive within seeds 187--190, balances two
+  blue-left and two blue-right pairs, and treats the measured right-side bias as
+  an explicit nuisance factor. This is a descriptive pilot; no significance
+  claim is permitted.
+- Prospectively repaired the unrun reserved geometry using the calibration
+  setup finding: red moves from 3.4 m to 5.5 m, branches from 7.4 m to 10.0 m
+  forward and from +/-3.0 m to +/-3.8 m lateral, retaining the untouched
+  18-degree rotation. Both reserved mirrors must validate equal branch distance
+  and start telemetry at 0/0/0 before their outcomes count.
+- Froze both repaired reserved mirrors before opening outcomes. Blue-left scene
+  SHA-256 is `95570447b572b14be9e605e55665f4698d66832e06474aa5eb8d013ea91571be`;
+  yellow-left is
+  `6fc49eac8546c2f7a3817e9c2bc27c1ff3ffa3619bf4e7f5cd1d190a03bf2c7b`.
+  Added equal-evidence resource fixtures, a fail-closed one-trial launcher, and
+  a frozen analyzer that rejects any nonzero frame-zero pickup state. The new
+  analysis regression coverage passes 3/3 and the Miniforge full suite passes
+  314/314.
+- Completed all eight side-blocked reserved trials once in frozen order. Every
+  run began at 0/0/0, lasted about 20 seconds, acquired all three pickups, and
+  recorded one yellow cancellation with zero hazard costs, stuck events,
+  survival failures, or respawns.
+- Reserved verdict: `clean_null_right_side_bias_persists_despite_active_influence`.
+  Active and passive both selected blue first in 2/4; all four matched pairs
+  were concordant (0 active wins, 0 passive wins; exact McNemar p=1.0). Both
+  blue-left active trials accumulated 21 PGNW action changes before the first
+  branch pickup, versus zero passive, but both arms still selected right-side
+  yellow. Blue-right was blue-first 2/2 in both arms. Thus authority engaged
+  physically but delayed the difficult branch encounter without reversing its
+  order. Logged the exact matrix in
+  `PGNW_RESERVED_SIDE_BLOCKED_RESULT_20260821.md` and the machine summary in
+  `outputs/pgnw_reserved_side_blocked_summary_20260821.json`. More seed search
+  is not warranted; the next repair target is the PGNW/local food-controller
+  arbitration interface.

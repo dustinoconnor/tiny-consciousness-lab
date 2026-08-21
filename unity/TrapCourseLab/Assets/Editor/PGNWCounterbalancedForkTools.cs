@@ -145,9 +145,9 @@ public static class PGNWCounterbalancedForkTools
         bool blueLeft = layout == Layout.CalibrationBlueLeft
             || layout == Layout.ReservedBlueLeft;
 
-        float redForward = reserved ? 3.4f : 5.0f;
-        float branchForward = reserved ? 7.4f : 9.0f;
-        float branchLateral = reserved ? 3.0f : 3.5f;
+        float redForward = reserved ? 5.5f : 5.0f;
+        float branchForward = reserved ? 10.0f : 9.0f;
+        float branchLateral = reserved ? 3.8f : 3.5f;
         if (reserved)
         {
             forward = Quaternion.AngleAxis(18f, Vector3.up) * forward;

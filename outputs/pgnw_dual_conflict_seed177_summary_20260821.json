@@ -1,0 +1,23 @@
+{
+  "date": "2026-08-21",
+  "seed": 177,
+  "duration_seconds": 44.702,
+  "rows": 213,
+  "first_red_seconds": 2.524,
+  "red_pickup_hunger": 0.933,
+  "last_pre_blue_visible_distance": 3.49,
+  "first_blue_seconds": 4.627,
+  "blue_relief_hunger": 0.603,
+  "first_yellow_seconds": 7.619,
+  "blue_before_yellow_seconds": 2.992,
+  "authority_switch_before_blue_seconds": 0.0,
+  "blue_pre_pickup_action_influence": 0,
+  "yellow_post_blue_action_influence": 6,
+  "hazard_cancelled_events": 1,
+  "hazard_cost_events": 0,
+  "stuck_events": 0,
+  "survival_failures": 0,
+  "respawns": 0,
+  "preregistered_result": "pickup_bound_transfer_pass_complete_causal_influence_incomplete",
+  "claim_boundary": "Pickup-bound transfer and the safe physical sequence passed, but blue matched the unguided MPC actions and therefore supplied no counterfactual action change on this seed."
+}

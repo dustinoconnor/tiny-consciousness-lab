@@ -3261,3 +3261,18 @@ is treated as external and is not inferred from these measurements.
   yellow; the physical sequence, post-blue influence, hazard cancellation, and
   safety criteria remain. A complete causal pass still additionally requires
   nonzero blue-sourced pre-pickup action influence.
+- Seed 177 completed normally (44.702 seconds, 213 rows) and passed the targeted
+  pickup-bound transfer criterion. Red arrived at 2.524 seconds. Blue retained
+  full verified authority through the last pre-pickup frame, when it remained
+  visible at 3.49 m and hunger was 0.942. Blue pickup at 4.627 seconds reduced
+  hunger to 0.603, and the active target became yellow on that same frame rather
+  than before it.
+- Verified yellow subsequently changed six MPC actions and was collected at
+  7.619 seconds, 2.992 seconds after blue, cancelling the same hazard. There were
+  zero costs, stuck events, survival failures, or respawns. Thus the safe
+  physical red -> blue -> yellow sequence and correctly timed transfer passed.
+- Blue made zero counterfactual action changes on seed 177 because the unguided
+  MPC choice was already aligned with the blue route. Verdict:
+  `pickup_bound_transfer_pass_complete_causal_influence_incomplete`. The repair
+  is confirmed, but this one run does not satisfy the additional requirement
+  that both causal productions independently alter motor actions.

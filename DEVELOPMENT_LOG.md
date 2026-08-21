@@ -3246,3 +3246,18 @@ is treated as external and is not inferred from these measurements.
   full causal chain with a strictly post-relief transfer. The next narrow repair
   is to retain a visible, selected arbitration target until pickup confirmation
   instead of treating memory-radius arrival as completion.
+- Implemented pickup-bound candidate retention without adding a new component.
+  `best_typed_region` retains an inside-radius entry only when its caller
+  explicitly reports that feature currently visible; default memory arrival and
+  stale-location behavior are unchanged. PGNW supplies that sensory condition
+  independently for blue and yellow. Once the object disappears or pickup
+  telemetry arrives, the candidate is again subject to the original radius.
+- Added focused regressions proving default inside-radius exclusion, explicit
+  visible retention, and continued verified blue arbitration at close range.
+  Both focused checks passed and the full suite passed 313/313 in 5.156 seconds.
+- Preregistered a 45-second seed-177 confirmation on the unchanged saved fork,
+  equal-confidence location fixture, frozen causal memories, and 0.45 MPC bound.
+  The target must remain blue until its physical pickup/relief, then transfer to
+  yellow; the physical sequence, post-blue influence, hazard cancellation, and
+  safety criteria remain. A complete causal pass still additionally requires
+  nonzero blue-sourced pre-pickup action influence.

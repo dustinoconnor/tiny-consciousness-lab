@@ -251,13 +251,19 @@ class PassiveTerrainResourceMemory:
             return None
         return max(candidates, key=lambda item: (item[0], item[1]))
 
-    def best_typed_region(self, feature, x, z):
+    def best_typed_region(
+        self,
+        feature,
+        x,
+        z,
+        retain_arrived=False,
+    ):
         candidates = []
         for key, entry in self.typed_entries.items():
             if key[0] != feature or self.typed_suppressed_frames.get(key, 0) > 0:
                 continue
             distance = math.hypot(entry.x - x, entry.z - z)
-            if distance < self.arrival_radius:
+            if distance < self.arrival_radius and not bool(retain_arrived):
                 continue
             score = entry.confidence - self.distance_penalty * distance
             candidates.append((score, -distance, key, entry))

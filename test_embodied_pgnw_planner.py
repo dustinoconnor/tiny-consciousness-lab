@@ -386,7 +386,7 @@ class EmbodiedPGNWPlannerTests(unittest.TestCase):
             "yellow": SimpleNamespace(confidence=0.60),
             "blue": SimpleNamespace(confidence=0.80),
         }
-        memory.best_typed_region = lambda feature, _x, _z: (
+        memory.best_typed_region = lambda feature, _x, _z, **_options: (
             (0.0, -36.0, (feature, 0, 0), entries[feature])
             if feature == "yellow"
             else (0.0, -12.0, (feature, 0, 0), entries[feature])
@@ -446,7 +446,7 @@ class EmbodiedPGNWPlannerTests(unittest.TestCase):
             "yellow": SimpleNamespace(confidence=0.60),
             "blue": SimpleNamespace(confidence=0.60),
         }
-        memory.best_typed_region = lambda feature, _x, _z: (
+        memory.best_typed_region = lambda feature, _x, _z, **_options: (
             (0.0, -36.0, (feature, 0, 0), entries[feature])
             if feature == "yellow"
             else (0.0, -12.0, (feature, 0, 0), entries[feature])
@@ -498,7 +498,7 @@ class EmbodiedPGNWPlannerTests(unittest.TestCase):
             enabled=True, active=True, active_feature="yellow",
             target=(20.0, 0.0), guidance_vector=(1.0, 0.0), distance=20.0,
         )
-        memory.best_typed_region = lambda feature, _x, _z: (
+        memory.best_typed_region = lambda feature, _x, _z, **_options: (
             0.0, -20.0, (feature, 0, 0), entries[feature]
         )
         state = {"x": 0.0, "z": 0.0}
@@ -526,6 +526,56 @@ class EmbodiedPGNWPlannerTests(unittest.TestCase):
         self.assertEqual(planner.protective_target_feature, "yellow")
         self.assertEqual(planner.guidance_vector, (1.0, 0.0))
 
+    def test_visible_blue_remains_candidate_inside_memory_arrival_radius(self):
+        protective = PassiveOrderedEpisodeLearner(enabled=True)
+        protective.pool.posterior = np.asarray(
+            [0.9763185, 0.0000204, 0.0207773, 0.0028838]
+        )
+        metabolic = HeldOutMetabolicRoleLearner()
+        for feature, relieved in (
+            ("red", False), ("yellow", False), ("blue", True),
+            ("blue", True), ("yellow", False), ("blue", True),
+        ):
+            metabolic.observe(feature, relieved)
+        planner = EmbodiedPGNWExperimentPlanner(
+            mode="committed",
+            hz=1.0,
+            typed_learner=protective,
+            typed_rule_control="verified_protective",
+            multi_hypothesis_arbitration="bounded_dual_verified",
+            arbitration_hazard_cost=0.25,
+            metabolic_learner=metabolic,
+        )
+        entries = {
+            "yellow": SimpleNamespace(confidence=0.80, x=20.0, z=0.0),
+            "blue": SimpleNamespace(confidence=0.80, x=2.0, z=0.0),
+        }
+        memory = SimpleNamespace(enabled=True)
+
+        def best_typed(feature, _x, _z, retain_arrived=False):
+            if feature == "blue" and not retain_arrived:
+                return None
+            distance = 2.0 if feature == "blue" else 20.0
+            return 0.0, -distance, (feature, 0, 0), entries[feature]
+
+        memory.best_typed_region = best_typed
+        planner.update_guidance(
+            {
+                "x": 0.0,
+                "z": 0.0,
+                "blue_food_visible": True,
+            },
+            resource_memory=memory,
+            protective_need_active=True,
+            protective_deadline_remaining_seconds=240.0,
+            metabolic_need_urgency=0.80,
+        )
+
+        self.assertEqual(planner.arbitration_selected_feature, "blue")
+        self.assertEqual(planner.arbitration_authority, 1.0)
+        self.assertEqual(planner.protective_target_feature, "blue")
+
+
     def test_bounded_arbitration_abstains_without_verified_production(self):
         learner = PassiveOrderedEpisodeLearner(enabled=True)
         planner = EmbodiedPGNWExperimentPlanner(
@@ -540,7 +590,7 @@ class EmbodiedPGNWPlannerTests(unittest.TestCase):
             "blue": SimpleNamespace(confidence=0.60),
         }
         memory = SimpleNamespace(enabled=True)
-        memory.best_typed_region = lambda feature, _x, _z: (
+        memory.best_typed_region = lambda feature, _x, _z, **_options: (
             0.0, -12.0, (feature, 0, 0), entries[feature]
         )
 

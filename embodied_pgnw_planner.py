@@ -555,7 +555,15 @@ class EmbodiedPGNWExperimentPlanner:
                 candidate_targets = {}
                 for feature in ("yellow", "blue"):
                     selected = resource_memory.best_typed_region(
-                        feature, position_x, position_z
+                        feature,
+                        position_x,
+                        position_z,
+                        retain_arrived=bool(
+                            body_state.get(
+                                f"{feature}_food_visible",
+                                False,
+                            )
+                        ),
                     )
                     if selected is None:
                         continue

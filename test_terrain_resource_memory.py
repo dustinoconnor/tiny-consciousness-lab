@@ -94,6 +94,23 @@ def test_visible_requested_feature_releases_typed_recall(tmp_path):
     assert memory.release_reason == "requested_feature_visible"
 
 
+def test_visible_typed_candidate_can_be_retained_inside_arrival_radius(tmp_path):
+    memory = PassiveTerrainResourceMemory(tmp_path / "memory.json")
+    memory.record_typed_reward("blue", 2.0, 0.0)
+
+    assert memory.best_typed_region("blue", 0.0, 0.0) is None
+    retained = memory.best_typed_region(
+        "blue",
+        0.0,
+        0.0,
+        retain_arrived=True,
+    )
+
+    assert retained is not None
+    assert retained[3].x == 2.0
+    assert retained[3].z == 0.0
+
+
 class TypedStaleMemoryTests(unittest.TestCase):
     def setUp(self):
         self.tempdir = tempfile.TemporaryDirectory()

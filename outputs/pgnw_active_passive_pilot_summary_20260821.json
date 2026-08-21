@@ -1,0 +1,43 @@
+{
+  "trial_order": ["a1", "p1", "p2", "a2", "a3", "p3", "p4", "a4"],
+  "primary": {
+    "active_blue_first": 4,
+    "active_total": 4,
+    "passive_blue_first": 4,
+    "passive_total": 4,
+    "absolute_rate_difference": 0.0,
+    "fisher_exact_two_sided_p": 1.0
+  },
+  "active_means_seconds": {
+    "red": 2.541250,
+    "blue": 4.663095,
+    "yellow": 7.661266
+  },
+  "passive_means_seconds": {
+    "red": 2.522312,
+    "blue": 4.643359,
+    "yellow": 7.637730
+  },
+  "active_totals": {
+    "complete_red_blue_yellow": 4,
+    "blue_action_influence": 0,
+    "yellow_action_influence": 26,
+    "hazard_cancelled_events": 4,
+    "hazard_cost_events": 0,
+    "stuck_events": 0,
+    "survival_failures": 0,
+    "respawns": 0
+  },
+  "passive_totals": {
+    "complete_red_blue_yellow": 4,
+    "blue_action_influence": 0,
+    "yellow_action_influence": 26,
+    "hazard_cancelled_events": 4,
+    "hazard_cost_events": 0,
+    "stuck_events": 0,
+    "survival_failures": 0,
+    "respawns": 0
+  },
+  "verdict": "clean_null_nondiscriminating_fork",
+  "claim_boundary": "The passive baseline already chose blue first in every trial, so this frozen geometry cannot establish an added benefit from active dual-rule PGNW authority."
+}

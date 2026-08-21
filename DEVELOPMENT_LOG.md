@@ -3322,3 +3322,29 @@ is treated as external and is not inferred from these measurements.
   4/4-versus-0/4 split and an equal-rate null table. Both pass; the complete
   Python suite passes 315/315 in 7.419 seconds. All eight output sets are fresh,
   and the launcher refuses a changed Unity scene or an attempted append.
+- Completed the frozen eight-trial active-versus-passive pilot in its
+  preregistered order. Active and passive both produced blue-first after red in
+  4/4 trials, for an absolute rate difference of 0.0 and two-sided Fisher exact
+  `p=1.0`. Every run completed red -> blue -> yellow, cancelled one hazard, and
+  had zero costs, stuck events, survival failures, or respawns.
+- Blue arbitration produced zero counterfactual MPC action changes in all four
+  active trials. Mean red/blue/yellow pickup times were 2.541/4.663/7.661
+  seconds active and 2.522/4.643/7.638 seconds passive. Yellow influence totaled
+  26 action changes in each arm.
+- Verdict: `clean_null_nondiscriminating_fork`. The passive controller already
+  deterministically favored blue on this layout, leaving no observable choice
+  advantage for active dual-rule authority. This does not establish that PGNW
+  authority is generally ineffective; it establishes that this particular fork
+  cannot measure its added benefit. Do not search more seeds on the same layout.
+- Operational deviation: the first A2 command stopped before Python imported
+  the experiment because it resolved an interpreter without NumPy. No telemetry
+  or behavioral outcome was generated. Its copied fixture was archived under
+  `tmp/failed_pgnw_pilot_launches/`, Unity was reset, and the intended A2 trial
+  was launched once with the correct environment. No outcome-based replacement
+  occurred.
+- Recorded the full matrix and claim boundary in
+  `PGNW_ACTIVE_PASSIVE_PILOT_RESULT_20260821.md` and the compact machine-readable
+  result in `outputs/pgnw_active_passive_pilot_summary_20260821.json`. The next
+  defensible assay is a separately calibrated, counterbalanced layout set where
+  passive behavior is not already uniformly blue, followed by one untouched
+  active-versus-passive evaluation.

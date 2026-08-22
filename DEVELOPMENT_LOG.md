@@ -3472,3 +3472,70 @@ is treated as external and is not inferred from these measurements.
   `outputs/pgnw_reserved_side_blocked_summary_20260821.json`. More seed search
   is not warranted; the next repair target is the PGNW/local food-controller
   arbitration interface.
+- Began a theory-derived indicator audit extension for RPT-2 and HOT-4. Frozen
+  `RPT2_HOT4_PERCEPTUAL_INTELLIGENCE_PROTOCOL_20260822.md` before generating any
+  reserved outcomes. The matched four-condition benchmark requires recurrent
+  organized perception and a sparse/smooth quality bottleneck to improve a
+  two-object crossing-and-occlusion task on seeds 3301--3308. Mechanism lesions,
+  explicit improvement thresholds, answer-blind quality targets, and a strict
+  no-consciousness claim boundary are preregistered. Implementation and
+  development use only seeds 3101--3202.
+- Initial development-only audit (600 episodes per training seed, 350 per
+  validation seed) found that recurrence learned the binding task (`rpt2` mean
+  validation accuracy 0.9036 versus flat 0.6629), while all initial HOT-4
+  variants collapsed to chance near 0.502. No reserved seed was generated.
+  Reduced quality-reconstruction, geometry, and sparsity loss weights and gave
+  bottleneck biases a small positive initialization to prevent dead ReLU units;
+  this is development-split repair, not held-out tuning.
+- A second development pass still left HOT-4 at chance because the first design
+  forced all identity and trajectory information through a qualities-only
+  bottleneck. That tested destructive compression, not the registered idea.
+  Repaired the matched architecture so every condition's action head receives
+  the scene state, equal-size bottleneck, and need vector; HOT-4 remains an
+  answer-blind auxiliary representation that can shape, but cannot erase, the
+  recurrent identity state. Documented this clarification before reserved use.
+- Development diagnostics then isolated a numerical defect in the smoothness
+  loss: normalizing by a near-zero collapsed-code distance created an
+  unbounded gradient that overwhelmed even the direct action path. Added a
+  detached 0.25 scale floor. This changes numerical stability only and was
+  made while all reserved seeds remained unopened.
+- After numerical repair, development accuracy recovered above chance but the
+  simultaneous quality objective still interfered with acquiring the base
+  tracking task. Froze a two-stage, equal-budget curriculum: all models first
+  learn action; HOT-4 auxiliary losses activate halfway through 40 epochs, and
+  HOT-4 checkpoint selection begins only after activation. Reduced auxiliary
+  weights accordingly. This final development repair precedes any reserved
+  generation.
+- Audited capacity matching before the reserved run. The original 40-unit flat
+  network had 6,998 parameters versus 13,558 recurrent, contradicting the
+  protocol's matched-capacity wording. Increased only the flat hidden width to
+  59 units (13,629 parameters), a 0.52% difference, and added a regression test
+  enforcing less than 1% mismatch. Reserved data remained unopened.
+- Froze reserved implementation SHA-256
+  `670b95f77fe4743fcdd553a3d739144adb690b6624ab171a840df64140ca7bd3`
+  after 5/5 focused tests passed. Final development validation (seeds
+  3201--3202) was flat 0.6075, RPT-2 0.8825, HOT-4 0.5689, combined 0.8375,
+  and permuted-control 0.8729. These calibration values were recorded before
+  opening seeds 3301--3308; no further architecture or threshold changes are
+  allowed for the reserved evaluation.
+- Opened the frozen RPT-2/HOT-4 reserved evaluation once across four training
+  initializations and eight untouched seeds (32 matched evaluations per
+  condition). Combined RPT-2+HOT-4 achieved the highest absolute accuracy at
+  0.9438, versus RPT-2 0.9338, flat 0.9114, and HOT-4 0.9108.
+- All prospective positive decisions failed. RPT-2 improved over flat by only
+  0.0224 versus the required 0.05, although shuffling temporal order caused a
+  large 0.3876 accuracy loss and therefore confirmed causal recurrence use.
+  The identity-binding linear probe stayed near chance (0.4901). Combined
+  HOT-4 quality-distance correlation was only 0.2213 versus 0.70, correct
+  supervision beat the permuted target by 0.1545 versus 0.20, and HOT-4 added
+  only 0.0101 accuracy versus the required 0.03. Its 0.4156 active-coordinate
+  fraction did pass the sparsity bound. The combined model added only 0.0101
+  over the best single mechanism, with no validation tax.
+- Verdict: causal temporal processing is present, but the benchmark did not
+  establish RPT-2 organized identity representation, HOT-4 smooth quality-space
+  intelligence, or a combined intelligence gain. Do not integrate these
+  components into Unity. Recorded the full analysis in
+  `RPT2_HOT4_PERCEPTUAL_INTELLIGENCE_RESULT_20260822.md` and raw frozen metrics
+  in `outputs/rpt2_hot4_perceptual_intelligence_20260822.json`. A new assay
+  would need to remove the flat shortcut and use object-centric states before
+  any further reserved test.

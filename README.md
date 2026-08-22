@@ -24,6 +24,16 @@ for making questions about recurrent systems visible:
 This is a compact functional research architecture, not evidence of phenomenal
 consciousness, open-ended general intelligence, or biological equivalence.
 
+An August 2026 theory-derived indicator audit tested organized recurrent
+perception (RPT-2) and a sparse/smooth quality space (HOT-4) on a frozen
+crossing-and-occlusion benchmark. Ordered recurrence was causally necessary:
+time shuffling reduced accuracy by 38.76 percentage points. Nevertheless,
+RPT-2 improved over a parameter-matched flat control by only 2.24 points, the
+identity probe remained near chance, and HOT-4 added only 1.01 points with weak
+quality geometry (`rho=0.221`). The combined model was best absolutely at
+94.38%, but no preregistered positive decision passed. These components were
+not promoted into the Unity controller.
+
 > **Defensible synthesis:** The repository is a reproducible, multi-theory
 > experimental suite for engineered access-consciousness mechanisms. It
 > demonstrates causally active temporal binding, distributed spatial-temporal

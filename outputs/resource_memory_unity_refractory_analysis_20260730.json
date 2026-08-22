@@ -1,0 +1,45 @@
+{
+  "recorded_frames": 5541,
+  "duration_seconds": 1193.08,
+  "pickup_delta": 51,
+  "region_count_start": 15,
+  "region_count_end": 23,
+  "encoding_delta": 51,
+  "query_delta": 807,
+  "recommendation_delta": 1,
+  "recommendation_transitions_observed": 1,
+  "recommendations_approached_passively": 1,
+  "pickups_within_180s_of_recommendation": 1,
+  "pickups_near_recommended_region": 0,
+  "active_recommendation_frames": 807,
+  "eligible_hungry_food_hidden_frames": 894,
+  "active_fraction_when_eligible": 0.9026845637583892,
+  "pickups_after_recommendation_delta": 0,
+  "stale_arrival_delta": 0,
+  "maximum_action_influence": 0,
+  "release_reasons": {
+    "below_hunger_gate": 3568,
+    "passive_recommendation": 807,
+    "visible_food_override": 1079,
+    "post_reward_refractory": 87
+  },
+  "recommendation_outcomes": [
+    {
+      "recommendation": "resource_10_-16",
+      "start_distance": 239.0833101261262,
+      "minimum_distance": 180.75202871397642,
+      "approached_region": true,
+      "pickup_within_horizon": true,
+      "pickup_delay_seconds": 177.9476819038391,
+      "pickup_target_distance": 243.39164745547654,
+      "pickup_near_recommended_region": false
+    }
+  ],
+  "checks": {
+    "memory_encoded_at_least_one_rewarded_region": true,
+    "recommendations_observed_when_testable": true,
+    "passive_causal_separation_preserved": true,
+    "passive_integration_valid": true
+  },
+  "recording": "outputs/unity_shadow/resource_memory_refractory_20260730.jsonl"
+}

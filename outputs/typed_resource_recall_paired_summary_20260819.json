@@ -1,0 +1,36 @@
+{
+  "protocol": "typed_episodic_protective_recall_v1",
+  "date": "2026-08-19",
+  "verified_rule": {
+    "name": "yellow_after_red_suppresses_probe",
+    "posterior": 0.9763185155504601
+  },
+  "pairs": [
+    {
+      "seed": 164,
+      "order": ["memory", "empty_control"],
+      "memory_latency_seconds": 43.07,
+      "control_latency_seconds": 38.55,
+      "paired_control_minus_memory_seconds": -4.52,
+      "memory_previsibility_frames": 180,
+      "memory_previsibility_action_changes": 67
+    },
+    {
+      "seed": 165,
+      "order": ["empty_control", "memory"],
+      "memory_latency_seconds": 18.96,
+      "control_latency_seconds": 54.56,
+      "paired_control_minus_memory_seconds": 35.60,
+      "memory_previsibility_frames": 66,
+      "memory_previsibility_action_changes": 49
+    }
+  ],
+  "descriptive_summary": {
+    "pair_count": 2,
+    "memory_mean_latency_seconds": 31.02,
+    "control_mean_latency_seconds": 46.56,
+    "mean_paired_reduction_seconds": 15.54,
+    "relative_mean_reduction": 0.334
+  },
+  "claim_boundary": "descriptive_two_pair_result_not_population_significance"
+}

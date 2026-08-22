@@ -1,0 +1,42 @@
+{
+  "date": "2026-08-01",
+  "recording": "outputs/unity_shadow/red_blue_tiny_scientist_20260731.jsonl",
+  "evidence_interface": "homeostatic_filtered",
+  "hypothesis_contract": "freeform_compiled_falsifier",
+  "formal_layer_policy": {
+    "model_selects": [
+      "proposed_cause",
+      "comparison",
+      "predicted_effect",
+      "delay_seconds"
+    ],
+    "compiler_derives": [
+      "same-cause action_to_retest",
+      "logical contradiction of predicted_effect"
+    ],
+    "rule_authority_before_embodied_verification": 0.0
+  },
+  "cells": {
+    "gemma_3_270m": {
+      "artifact": "outputs/tiny_scientist_neurosymbolic_270m_20260801.json",
+      "status": "rejected",
+      "reason": "model did not bind exactly one observed feature as the proposed cause"
+    },
+    "gemma_3_1b": {
+      "artifact": "outputs/tiny_scientist_neurosymbolic_1b_20260801.json",
+      "status": "accepted_unverified",
+      "hypothesis": {
+        "proposed_cause": "red",
+        "comparison": "blue",
+        "predicted_effect": "increased internal pressure",
+        "delay_seconds": 10.464,
+        "confidence": 0.95,
+        "compiled_falsifier": "Matched red pickups do not precede an increase in internal pressure at the predicted delay.",
+        "authority": 0.0
+      },
+      "model_falsifier_was_ignored": true
+    }
+  },
+  "conclusion": "The 1B-plus-formal-compiler system formed a structurally and semantically valid proposed hypothesis from the frozen evidence. This is not yet a verified causal rule, a Rule Commit, or evidence that the unaided language model completed the full abductive-verification loop.",
+  "next_gate": "Run a pre-registered held-out or intervention Unity trial that can falsify the red-to-delayed-pressure prediction before promoting the rule beyond proposed_unverified."
+}

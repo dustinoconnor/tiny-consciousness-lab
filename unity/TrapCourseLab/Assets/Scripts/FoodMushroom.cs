@@ -4,10 +4,18 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class FoodMushroom : MonoBehaviour
 {
+    public enum ObservableProfile
+    {
+        Blue = 0,
+        Red = 1,
+        Yellow = 2,
+    }
+
     private const float DefaultDopamineReward = 0.35f;
 
     [SerializeField, Range(0f, 1f)] private float dopamineReward = 0.35f;
     [SerializeField] private float respawnSeconds = 45f;
+    [SerializeField] private ObservableProfile observableProfile = ObservableProfile.Blue;
 
     private Collider pickupCollider;
     private Rigidbody body;
@@ -16,6 +24,21 @@ public class FoodMushroom : MonoBehaviour
     private bool available = true;
 
     public bool IsAvailable => available;
+    public string ObservableFeature
+    {
+        get
+        {
+            switch (observableProfile)
+            {
+                case ObservableProfile.Red:
+                    return "red";
+                case ObservableProfile.Yellow:
+                    return "yellow";
+                default:
+                    return "blue";
+            }
+        }
+    }
 
     private void Awake()
     {
@@ -46,7 +69,10 @@ public class FoodMushroom : MonoBehaviour
             return;
         }
 
-        bridge.RegisterMushroomPickup(dopamineReward > 0f ? dopamineReward : DefaultDopamineReward);
+        bridge.RegisterMushroomPickup(
+            dopamineReward > 0f ? dopamineReward : DefaultDopamineReward,
+            ObservableFeature
+        );
         TrapCourseSpawner course = GetComponentInParent<TrapCourseSpawner>();
         if (course != null)
         {
@@ -61,6 +87,21 @@ public class FoodMushroom : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
+    }
+
+    public void ConfigureObservableProfile(ObservableProfile profile)
+    {
+        observableProfile = profile;
+    }
+
+    public void ResetForExperiment()
+    {
+        if (!gameObject.activeSelf)
+        {
+            gameObject.SetActive(true);
+        }
+        respawnAt = -1f;
+        SetAvailable(true);
     }
 
     private void SetAvailable(bool available)

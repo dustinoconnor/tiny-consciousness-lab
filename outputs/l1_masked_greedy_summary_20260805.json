@@ -1,0 +1,52 @@
+{
+  "experiment": "l1_masked_greedy_efficiency_audit",
+  "protocol": "L1_MASKED_GREEDY_PROTOCOL_20260805.md",
+  "model": "google/gemma-3-1b-it",
+  "adapter": "checkpoints/causal_dsl_l1_lora_1b_20260804",
+  "adapter_or_prompt_changed": false,
+  "smoke": {
+    "seed": 310,
+    "examples": 8,
+    "greedy_correct": 8,
+    "masked_greedy_correct": 8,
+    "greedy_elapsed_seconds": 10.472,
+    "masked_greedy_elapsed_seconds": 10.019
+  },
+  "frozen_audit": {
+    "seed": 309,
+    "examples": 128,
+    "greedy_correct": 123,
+    "greedy_accuracy": 0.9609375,
+    "masked_greedy_correct": 128,
+    "masked_greedy_accuracy": 1.0,
+    "accuracy_difference_points": 3.90625,
+    "paired": {
+      "both_correct": 123,
+      "greedy_only_correct": 0,
+      "masked_greedy_only_correct": 5,
+      "both_wrong": 0
+    },
+    "exact_two_sided_mcnemar_p": 0.0625,
+    "greedy_syntax_valid": 127,
+    "greedy_mean_visible_tokens": 184.34375,
+    "masked_greedy_mean_visible_tokens": 184.328125,
+    "visible_token_change_percent": -0.008476012883540385,
+    "greedy_elapsed_seconds": 160.323,
+    "masked_greedy_elapsed_seconds": 164.412,
+    "elapsed_change_percent": 2.5504762261185254,
+    "repaired_failures": {
+      "repeated_cause_as_comparison": 4,
+      "invalid_numeric_serialization": 1,
+      "regressions": 0
+    }
+  },
+  "interpretation": {
+    "supported": "On one preregistered new-seed audit, the symmetric finite-state mask repaired every observed L1 role-binding and serialization failure with no regression and negligible visible-token change.",
+    "efficiency": "One-beam masked greedy avoided the earlier four-beam repair's approximately 61 percent latency penalty; its measured overhead was 2.55 percent on this run.",
+    "boundary": "The five discordant pairs give an exact two-sided McNemar p-value of 0.0625. Independent replication and a matched JSON control remain required before claiming general reliability parity or an end-to-end cost improvement."
+  },
+  "artifacts": [
+    "outputs/l1_masked_greedy_smoke_seed310_20260805.json",
+    "outputs/l1_masked_greedy_seed309_20260805.json"
+  ]
+}

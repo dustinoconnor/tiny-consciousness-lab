@@ -1,0 +1,120 @@
+{
+  "source": "outputs/unity_shadow/terrain_endurance_20260720.jsonl",
+  "sessions_detected": 1,
+  "analyzed_session": 1,
+  "frames": 253062,
+  "duration_hours": 14.935,
+  "sample_rate_hz": 4.707,
+  "foraging": {
+    "pickups": 4283,
+    "pickups_per_hour": 286.78,
+    "food_visible_percent": 26.98,
+    "max_hunger": 1.0,
+    "max_seconds_since_food": 273.6,
+    "median_pickup_interval_seconds": 3.0,
+    "p95_pickup_interval_seconds": 62.89,
+    "max_pickup_interval_seconds": 290.56,
+    "longest_pickup_gap": {
+      "seconds": 290.56,
+      "start_hours": 8.87,
+      "end_hours": 8.951,
+      "start_position": [
+        272.71,
+        -6.33,
+        -388.65
+      ],
+      "end_position": [
+        348.12,
+        11.71,
+        -278.79
+      ],
+      "diagnostics": {
+        "frames": 1369,
+        "path_distance_meters": 789.4,
+        "net_displacement_meters": 133.3,
+        "x_range": [
+          267.9,
+          348.1
+        ],
+        "z_range": [
+          -414.0,
+          -278.8
+        ],
+        "unique_10m_cells": 39,
+        "food_visible_seconds": 21.4,
+        "stuck_seconds": 37.8,
+        "collision_seconds": 59.4,
+        "mpc_mode_seconds": {
+          "adaptive_stochastic": 111.4,
+          "recurrent": 98.7,
+          "critical_targeting": 80.4
+        },
+        "active_action_frames": {
+          "down_left": 256,
+          "left": 216,
+          "avoid_obstacle": 195,
+          "right": 178,
+          "up_left": 144,
+          "down_right": 125,
+          "up": 88,
+          "down": 80,
+          "up_right": 63,
+          "seek_food": 23,
+          "idle": 1
+        }
+      }
+    },
+    "seconds_at_hunger_0_70": 1051.3,
+    "seconds_at_hunger_0_92": 552.2,
+    "radius_seconds": {
+      "7.0": 3.2,
+      "16.0": 52711.6,
+      "22.0": 499.1,
+      "28.0": 552.2
+    }
+  },
+  "reliability": {
+    "survival_failures": 0,
+    "failure_events": [],
+    "stuck_events": 74,
+    "stuck_seconds": 616.6,
+    "max_wedge_seconds": 8.8,
+    "max_trap_accumulation_seconds": 23.6,
+    "unstuck_respawns": 0,
+    "respawn_events": [],
+    "respawn_like_position_jumps": 6,
+    "fallback_seconds": 438.7,
+    "collision_seconds": 2873.5,
+    "blocked_seconds": 0.0,
+    "handoff_events": 16,
+    "final_generation": 17
+  },
+  "control": {
+    "takeover_percent": 99.15,
+    "mpc_mode_seconds": {
+      "adaptive_stochastic": 33477.4,
+      "recurrent": 19830.1,
+      "critical_targeting": 458.5
+    },
+    "mpc_horizon_seconds": {
+      "0": 19830.1,
+      "4": 4966.3,
+      "6": 28969.6
+    },
+    "active_action_frames": {
+      "seek_food": 64833,
+      "avoid_obstacle": 45955,
+      "down": 29237,
+      "down_right": 22228,
+      "right": 18719,
+      "down_left": 17219,
+      "left": 16328,
+      "up": 15589,
+      "up_right": 12872,
+      "up_left": 9879,
+      "idle": 203
+    },
+    "shadow_action_change_percent": 12.88,
+    "distance_meters_excluding_respawns": 157502.9
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "date": "2026-08-21",
+  "seed": 176,
+  "duration_seconds": 44.908,
+  "rows": 215,
+  "first_red_seconds": 2.516,
+  "red_pickup_hunger": 0.933,
+  "blue_to_yellow_authority_switch_seconds": 4.409,
+  "first_blue_seconds": 4.621,
+  "first_yellow_seconds": 7.585,
+  "blue_before_yellow_seconds": 2.964,
+  "authority_switch_before_blue_seconds": 0.212,
+  "blue_authority_frames": 9,
+  "blue_pre_pickup_action_influence": 0,
+  "yellow_post_blue_action_influence": 7,
+  "hazard_cancelled_events": 1,
+  "hazard_cost_events": 0,
+  "stuck_events": 0,
+  "survival_failures": 0,
+  "respawns": 0,
+  "preregistered_result": "physical_sequence_pass_causal_preregistration_fail",
+  "claim_boundary": "The safe red-blue-yellow order occurred, but blue did not change the already-aligned MPC action and candidate arrival switched authority to yellow before measured blue relief."
+}

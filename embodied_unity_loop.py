@@ -24,11 +24,25 @@ from collections import deque
 from pathlib import Path
 
 from embodied_conductor import PassiveEmbodiedConductor
+from embodied_pgnw_planner import EmbodiedPGNWExperimentPlanner
+from embodied_systemic_conductor import (
+    BoundedExecutiveRouter,
+    PassiveAdaptiveIgnitionGate,
+    PassiveSystemicConductor,
+)
 from terrain_air_observer import PassiveTerrainAirObserver
 from terrain_air_route_controller import (
     TerrainAirRouteController,
+    context_vector,
     score_margin_ambiguity,
 )
+from terrain_escape_teacher import TerrainEscapeTeacher
+from terrain_resource_memory import PassiveTerrainResourceMemory
+from dynamic_hypothesis_pool import LocalL1HypothesisProposer
+from tiny_scientist_production_memory import VerifiedProductionMemory
+from typed_causal_domain import OrderedCausalProbeWorld, PassiveOrderedEpisodeLearner
+from typed_metabolic_domain import HeldOutMetabolicRoleLearner
+from formulate_ordered_interaction import LocalCalibratedOrderedProposer
 
 
 ACTIONS = [
@@ -192,6 +206,49 @@ def conductor_gate_allows(
     )
 
 
+def pgnw_experiment_guidance_allowed(
+    mode,
+    guidance_active,
+    fallback_active,
+    stuck,
+    hunger,
+    air_guided,
+    resource_guided,
+    verified_metabolic_rescue=False,
+):
+    """Keep scientific requests subordinate to survival and route controllers."""
+    return bool(
+        mode in {"bounded", "committed", "dynamic_committed"}
+        and guidance_active
+        and not fallback_active
+        and not stuck
+        and (
+            float(hunger) < 0.92
+            or bool(verified_metabolic_rescue)
+        )
+        and not air_guided
+        and not resource_guided
+    )
+
+
+def pgnw_constrained_target_action(scores, alignments, max_score_regret):
+    """Choose target alignment only among finite actions near the MPC optimum."""
+    values = [float(value) for value in scores]
+    target = [float(value) for value in alignments]
+    finite = [index for index, value in enumerate(values) if math.isfinite(value)]
+    if not finite or len(values) != len(target):
+        return None
+    best = max(values[index] for index in finite)
+    regret = max(0.0, float(max_score_regret))
+    admissible = [
+        index for index in finite if values[index] >= best - regret
+    ]
+    return max(
+        admissible,
+        key=lambda index: (target[index], values[index], -index),
+    )
+
+
 def art_route_context(body_state):
     """Return the normalized egocentric geometry used for route resonance."""
     raw = body_state.get("directional_rays", []) if isinstance(body_state, dict) else []
@@ -216,9 +273,23 @@ def sigmoid(x):
     return 1.0 / (1.0 + math.exp(-x))
 
 
-def stable_recovery_due(physics_wedge_ticks, trap_accumulation_ticks, threshold_ticks):
-    """Return true when either independent recovery detector reaches threshold."""
-    return physics_wedge_ticks >= threshold_ticks or trap_accumulation_ticks >= threshold_ticks
+def stable_recovery_due(
+    physics_wedge_ticks,
+    trap_accumulation_ticks,
+    threshold_ticks,
+    sustained_orbit=False,
+):
+    """Return true when any independent recovery detector identifies perseveration."""
+    return (
+        physics_wedge_ticks >= threshold_ticks
+        or trap_accumulation_ticks >= threshold_ticks
+        or bool(sustained_orbit)
+    )
+
+
+def orbit_teacher_due(sustained_orbit, route_active=False, route_pending=False):
+    """Give episodic guidance one bounded attempt before invoking the teacher."""
+    return bool(sustained_orbit) and not (bool(route_active) or bool(route_pending))
 
 
 def trajectory_orbit_metrics(samples, min_path=14.0, max_efficiency=0.22, min_evidence=0.06):
@@ -328,75 +399,6 @@ class UnityBodyLink:
                 latest = json.loads(data.decode("utf-8"))
             except json.JSONDecodeError:
                 continue
-
-
-class EmbodiedDynamicsObserver:
-    """Passive temporal-coordination and criticality proxies for live telemetry."""
-
-    def __init__(self, hz, modules=6, bus_capacity=3, window_seconds=2.0):
-        self.hz = max(float(hz), 0.1)
-        self.modules = int(modules)
-        self.bus_capacity = max(1, int(bus_capacity))
-        self.window_ticks = max(4, int(round(self.hz * window_seconds)))
-        self.tick = 0
-        self.previous = None
-        self.last_event_ticks = [0] * self.modules
-        self.previous_event_count = 0
-        self.propagation_ratio = 1.0
-        self.coherence = 0.0
-        self.active_modules = 0
-        self.bus_pressure = 0.0
-        self.criticality_score = 1.0
-        self.criticality_regime = "near_critical_proxy"
-        self.recommended_gain = 1.16
-        self.binding_ready = False
-
-    def update(self, values, observed_noise):
-        values = [clamp(float(value)) for value in values]
-        if len(values) != self.modules:
-            raise ValueError("observer_module_count_mismatch")
-        if self.previous is None:
-            changed = [True] * self.modules
-        else:
-            changed = [abs(value - old) >= 0.06 for value, old in zip(values, self.previous)]
-        for index, event in enumerate(changed):
-            if event:
-                self.last_event_ticks[index] = self.tick
-
-        vectors_x = 0.0
-        vectors_y = 0.0
-        total_weight = 0.0
-        active = 0
-        for index, event_tick in enumerate(self.last_event_ticks):
-            age = self.tick - event_tick
-            recency = math.exp(-age / self.window_ticks)
-            weight = recency * (0.25 + 0.75 * values[index])
-            if recency >= 0.25:
-                active += 1
-            phase = 2.0 * math.pi * ((event_tick % self.window_ticks) / self.window_ticks)
-            vectors_x += weight * math.cos(phase)
-            vectors_y += weight * math.sin(phase)
-            total_weight += weight
-        self.coherence = clamp(math.hypot(vectors_x, vectors_y) / max(total_weight, 1e-8))
-        self.active_modules = active
-        self.bus_pressure = clamp(max(0, active - self.bus_capacity) / self.bus_capacity)
-
-        event_count = sum(changed)
-        instantaneous_ratio = (event_count + 0.5) / (self.previous_event_count + 0.5)
-        instantaneous_ratio = clamp(instantaneous_ratio, 0.20, 2.0)
-        self.propagation_ratio = 0.86 * self.propagation_ratio + 0.14 * instantaneous_ratio
-        self.criticality_score = clamp(math.exp(-abs(math.log(max(self.propagation_ratio, 1e-6)))))
-        if self.propagation_ratio < 0.80:
-            self.criticality_regime = "subcritical_proxy"
-        elif self.propagation_ratio > 1.20:
-            self.criticality_regime = "supercritical_proxy"
-        else:
-            self.criticality_regime = "near_critical_proxy"
-        self.recommended_gain = 1.16 + 0.17 * clamp(float(observed_noise))
-        self.binding_ready = self.coherence >= 0.70 and active >= 2 and self.bus_pressure <= 0.67
-        self.previous = values
-        self.previous_event_count = event_count
-        self.tick += 1
 
 
 class EmbodiedAdaptiveResonanceObserver:
@@ -511,8 +513,18 @@ class ShadowRecorder:
             "rays": body_state.get("directional_rays"),
             "body_clearance": body_state.get("directional_body_clearance"),
             "food_visible": bool(body_state.get("food_visible", False)),
+            "food_feature": str(body_state.get("food_feature", "none")),
             "food_distance": body_state.get("food_distance"),
             "food_world": [body_state.get("food_world_x"), body_state.get("food_world_z")],
+            "red_food_visible": bool(body_state.get("red_food_visible", False)),
+            "red_food_distance": body_state.get("red_food_distance"),
+            "red_food_world": [body_state.get("red_food_world_x"), body_state.get("red_food_world_z")],
+            "blue_food_visible": bool(body_state.get("blue_food_visible", False)),
+            "blue_food_distance": body_state.get("blue_food_distance"),
+            "blue_food_world": [body_state.get("blue_food_world_x"), body_state.get("blue_food_world_z")],
+            "yellow_food_visible": bool(body_state.get("yellow_food_visible", False)),
+            "yellow_food_distance": body_state.get("yellow_food_distance"),
+            "yellow_food_world": [body_state.get("yellow_food_world_x"), body_state.get("yellow_food_world_z")],
             "food_available_in_radius": int(body_state.get("food_available_in_radius", 0) or 0),
             "food_visible_in_radius": int(body_state.get("food_visible_in_radius", 0) or 0),
             "food_occluded_in_radius": int(body_state.get("food_occluded_in_radius", 0) or 0),
@@ -594,7 +606,54 @@ class ShadowRecorder:
             "trap_outcome": body_state.get("trap_outcome", "inactive"),
             "mushroom_pickups_total": body_state.get("mushroom_pickups_total", 0),
             "mushroom_reward_total": body_state.get("mushroom_reward_total", 0.0),
+            "mushroom_feature": str(body_state.get("mushroom_feature", "none")),
+            "red_mushroom_pickups_total": int(
+                body_state.get("red_mushroom_pickups_total", 0) or 0
+            ),
+            "blue_mushroom_pickups_total": int(
+                body_state.get("blue_mushroom_pickups_total", 0) or 0
+            ),
+            "yellow_flower_pickups_total": int(
+                body_state.get("yellow_flower_pickups_total", 0) or 0
+            ),
             "mushrooms_eaten": ego.mushrooms_eaten,
+            "causal_probe_signal": ego.causal_probe_signal,
+            "causal_probe_events": ego.causal_probe_events,
+            "causal_probe_pending_events": len(ego.causal_probe_due_steps),
+            "causal_probe_cancelled_events": (
+                ego.causal_probe_world.cancelled_events
+            ),
+            "causal_probe_ambiguous_pickup_frames": (
+                ego.causal_probe_world.ambiguous_pickup_frames
+            ),
+            "causal_probe_action_influence": 0,
+            "causal_probe_hunger_cost": ego.causal_probe_hunger_cost,
+            "causal_probe_hunger_cost_events": (
+                ego.causal_probe_hunger_cost_events
+            ),
+            "causal_probe_hunger_cost_total": (
+                ego.causal_probe_hunger_cost_total
+            ),
+            "typed_interaction_learning": ego.typed_interaction_learner.audit(),
+            "typed_metabolic_role_learning": {
+                "enabled": ego.typed_metabolic_role_learning,
+                **ego.typed_metabolic_role_learner.audit(),
+            },
+            # Read-only aliases keep historical Tiny Scientist analyzers able
+            # to consume new recordings without restoring metabolic effects.
+            "metabolic_pressure": ego.metabolic_pressure,
+            "metabolic_challenge_events": ego.metabolic_challenge_events,
+            "metabolic_pending_challenges": len(ego.metabolic_challenge_due_steps),
+            "tiny_scientist_memory": ego.tiny_scientist_memory.audit(),
+            "tiny_scientist_rule_control": ego.tiny_scientist_rule_control,
+            "tiny_scientist_rule_active": ego.tiny_scientist_rule_active,
+            "tiny_scientist_rule_target_feature": ego.tiny_scientist_rule_target_feature,
+            "tiny_scientist_rule_predicted_pressure_risk": ego.tiny_scientist_rule_predicted_pressure_risk,
+            "tiny_scientist_rule_red_utility": ego.tiny_scientist_rule_red_utility,
+            "tiny_scientist_rule_blue_utility": ego.tiny_scientist_rule_blue_utility,
+            "tiny_scientist_rule_guidance_weight": ego.tiny_scientist_rule_guidance_weight,
+            "tiny_scientist_rule_action_influence": ego.tiny_scientist_rule_action_influence,
+            "pgnw_experiment": ego.pgnw_experiment_planner.audit(),
             "conductor_observer_mode": (
                 (
                     "live_bounded_familiar_hidden_goal"
@@ -626,16 +685,109 @@ class ShadowRecorder:
             "conductor_gate_decisions": ego.conductor_gate_decisions,
             "conductor_gate_denials": ego.conductor_gate_denials,
             "conductor_q_values": ego.conductor_observer.q_values,
-            "sync_observer_mode": "passive",
-            "sync_coherence": ego.dynamics_observer.coherence,
-            "sync_active_modules": ego.dynamics_observer.active_modules,
-            "sync_bus_pressure": ego.dynamics_observer.bus_pressure,
-            "sync_binding_ready": ego.dynamics_observer.binding_ready,
-            "criticality_observer_mode": "passive_proxy",
-            "criticality_propagation_ratio": ego.dynamics_observer.propagation_ratio,
-            "criticality_score": ego.dynamics_observer.criticality_score,
-            "criticality_regime": ego.dynamics_observer.criticality_regime,
-            "criticality_recommended_gain": ego.dynamics_observer.recommended_gain,
+            "systemic_conductor_mode": (
+                (
+                    "bounded_recurrent_mpc"
+                    if ego.systemic_router.mode != "passive"
+                    else "passive_frozen_checkpoint"
+                )
+                if ego.systemic_conductor.enabled
+                else "disabled"
+            ),
+            "systemic_conductor_features": ego.systemic_conductor.features,
+            "systemic_conductor_scores": ego.systemic_conductor.scores,
+            "systemic_conductor_probabilities": (
+                ego.systemic_conductor.probabilities
+            ),
+            "systemic_conductor_raw_probabilities": (
+                ego.systemic_conductor.raw_probabilities
+            ),
+            "systemic_conductor_raw_recommendation": (
+                ego.systemic_conductor.raw_recommendation
+            ),
+            "systemic_conductor_recommendation": (
+                ego.systemic_conductor.recommendation
+            ),
+            "systemic_conductor_confidence": ego.systemic_conductor.confidence,
+            "systemic_conductor_entropy_bits": ego.systemic_conductor.entropy,
+            "systemic_conductor_proxy_context": (
+                ego.systemic_conductor.proxy_context
+            ),
+            "systemic_conductor_proxy_optimal": (
+                ego.systemic_conductor.proxy_optimal
+            ),
+            "systemic_conductor_agreement": ego.systemic_conductor.agreement,
+            "systemic_conductor_agreement_rate": (
+                ego.systemic_conductor.agreement_rate
+            ),
+            "systemic_conductor_observations": (
+                ego.systemic_conductor.observations
+            ),
+            "systemic_conductor_action_influence": (
+                ego.systemic_conductor.action_influence
+            ),
+            "adaptive_gnw_mode": (
+                ego.adaptive_gnw_control
+            ),
+            "adaptive_gnw_active_specialist": (
+                ego.adaptive_gnw_gate.active_specialist
+            ),
+            "adaptive_gnw_challenger": (
+                ego.adaptive_gnw_gate.challenger_specialist
+            ),
+            "adaptive_gnw_challenger_streak": (
+                ego.adaptive_gnw_gate.challenger_streak
+            ),
+            "adaptive_gnw_broadcast_age": (
+                ego.adaptive_gnw_gate.broadcast_age
+            ),
+            "adaptive_gnw_event": ego.adaptive_gnw_gate.last_event,
+            "adaptive_gnw_ignition": ego.adaptive_gnw_gate.last_ignition,
+            "adaptive_gnw_confidence": ego.adaptive_gnw_gate.confidence,
+            "adaptive_gnw_margin": ego.adaptive_gnw_gate.margin,
+            "adaptive_gnw_agreement": ego.adaptive_gnw_gate.agreement,
+            "adaptive_gnw_agreement_rate": (
+                ego.adaptive_gnw_gate.agreement_rate
+            ),
+            "adaptive_gnw_ignitions": ego.adaptive_gnw_gate.ignitions,
+            "adaptive_gnw_releases": ego.adaptive_gnw_gate.releases,
+            "adaptive_gnw_held_challenges": (
+                ego.adaptive_gnw_gate.held_challenges
+            ),
+            "adaptive_gnw_action_influence": (
+                ego.adaptive_gnw_gate.action_influence
+            ),
+            "adaptive_gnw_recommendation_substitutions": (
+                ego.adaptive_gnw_gate.recommendation_substitutions
+            ),
+            "systemic_router_active_specialist": (
+                ego.systemic_router.active_specialist
+            ),
+            "systemic_router_baseline_specialist": (
+                ego.systemic_router.last_baseline_specialist
+            ),
+            "systemic_router_reason": ego.systemic_router.last_reason,
+            "systemic_router_handoffs": ego.systemic_router.handoffs,
+            "systemic_router_decisions": ego.systemic_router.decisions,
+            "systemic_router_denials": ego.systemic_router.denials,
+            "systemic_router_safety_overrides": (
+                ego.systemic_router.safety_overrides
+            ),
+            "systemic_router_influence_frames": (
+                ego.systemic_router.influence_frames
+            ),
+            "systemic_router_chatter_events": (
+                ego.systemic_router.chatter_events
+            ),
+            "systemic_router_hold_seconds": (
+                ego.systemic_router.hold_ticks / ego.hz
+            ),
+            "systemic_router_mpc_latch_seconds": (
+                ego.systemic_router.mandatory_latch_ticks / ego.hz
+            ),
+            "systemic_router_recurrent_release_streak": (
+                ego.systemic_router.recurrent_release_streak
+            ),
             "art_observer_mode": "passive_fuzzy_art",
             "art_category": ego.art_observer.category,
             "art_category_label": ego.art_observer.category_label,
@@ -664,9 +816,13 @@ class ShadowRecorder:
             "terrain_air_action_influence": ego.terrain_air_observer.action_influence,
             "terrain_air_route_mode": ego.terrain_air_route_controller.control_mode,
             "terrain_air_route_active": ego.terrain_air_route_controller.active,
+            "terrain_air_route_pending": ego.terrain_air_route_controller.pending,
             "terrain_air_route_recommendation": ego.terrain_air_route_controller.recommendation,
             "terrain_air_route_reason": ego.terrain_air_route_controller.reason,
             "terrain_air_route_match": ego.terrain_air_route_controller.match,
+            "terrain_air_route_vigilance": (
+                ego.terrain_air_route_controller.effective_vigilance
+            ),
             "terrain_air_route_index": ego.terrain_air_route_controller.route_index,
             "terrain_air_route_count": ego.terrain_air_route_controller.route_count,
             "terrain_air_route_distance": ego.terrain_air_route_controller.route_distance,
@@ -675,6 +831,12 @@ class ShadowRecorder:
             ),
             "terrain_air_route_recommendations": ego.terrain_air_route_controller.recommendations,
             "terrain_air_route_interventions": ego.terrain_air_route_controller.interventions,
+            "terrain_air_route_authorized_activations": (
+                ego.terrain_air_route_controller.authorized_activations
+            ),
+            "terrain_air_route_authorization_denials": (
+                ego.terrain_air_route_controller.authorization_denials
+            ),
             "terrain_air_route_releases": ego.terrain_air_route_controller.releases,
             "terrain_air_route_release_reason": ego.terrain_air_route_controller.release_reason,
             "terrain_air_route_sensor_vetoes": ego.terrain_air_route_controller.sensor_vetoes,
@@ -688,6 +850,27 @@ class ShadowRecorder:
             ),
             "terrain_air_route_guidance_action_changes": (
                 ego.terrain_air_route_controller.guidance_action_changes
+            ),
+            "escape_teacher_enabled": (
+                ego.terrain_air_route_controller.teacher_memory_path is not None
+            ),
+            "escape_teacher_active": ego.escape_teacher.active,
+            "escape_teacher_action": ego.escape_teacher.action_name,
+            "escape_teacher_elapsed_seconds": (
+                ego.escape_teacher.elapsed_ticks / ego.hz
+            ),
+            "escape_teacher_displacement": ego.escape_teacher.displacement,
+            "escape_teacher_efficiency": ego.escape_teacher.efficiency,
+            "escape_teacher_events": ego.escape_teacher.events,
+            "escape_teacher_successes": ego.escape_teacher.successes,
+            "escape_teacher_failures": ego.escape_teacher.failures,
+            "escape_teacher_safety_reselections": (
+                ego.escape_teacher.safety_reselections
+            ),
+            "escape_teacher_last_outcome": ego.escape_teacher.last_outcome,
+            "escape_teacher_last_route_id": ego.escape_teacher.last_route_id,
+            "escape_teacher_memory_routes": len(
+                ego.terrain_air_route_controller.teacher_route_payloads
             ),
             "terrain_air_route_unguided_action": (
                 ego.terrain_air_route_controller.last_unguided_action
@@ -703,6 +886,76 @@ class ShadowRecorder:
             ),
             "terrain_air_route_effective_guidance_weight": (
                 ego.terrain_air_route_controller.last_effective_guidance_weight
+            ),
+            "resource_memory_enabled": ego.resource_memory.enabled,
+            "resource_memory_hunger_gate": ego.resource_memory.hunger_gate,
+            "resource_memory_active": ego.resource_memory.active,
+            "resource_memory_recommendation": ego.resource_memory.recommendation,
+            "resource_memory_target": (
+                list(ego.resource_memory.target)
+                if ego.resource_memory.target is not None
+                else None
+            ),
+            "resource_memory_guidance_vector": list(
+                ego.resource_memory.guidance_vector
+            ),
+            "resource_memory_distance": ego.resource_memory.distance,
+            "resource_memory_confidence": ego.resource_memory.confidence,
+            "resource_memory_regions": len(ego.resource_memory.entries),
+            "resource_memory_typed_regions": len(
+                ego.resource_memory.typed_entries
+            ),
+            "resource_memory_active_feature": (
+                ego.resource_memory.active_feature
+            ),
+            "resource_memory_encodings": ego.resource_memory.encodings,
+            "resource_memory_typed_encodings": (
+                ego.resource_memory.typed_encodings
+            ),
+            "resource_memory_queries": ego.resource_memory.queries,
+            "resource_memory_typed_queries": ego.resource_memory.typed_queries,
+            "resource_memory_recommendations": ego.resource_memory.recommendations,
+            "resource_memory_typed_recommendations": (
+                ego.resource_memory.typed_recommendations
+            ),
+            "resource_memory_recommendation_frames": (
+                ego.resource_memory.recommendation_frames
+            ),
+            "resource_memory_pickups_after_recommendation": (
+                ego.resource_memory.pickups_after_recommendation
+            ),
+            "resource_memory_stale_arrivals": (
+                ego.resource_memory.counterfactual_stale_arrivals
+            ),
+            "resource_memory_typed_stale_arrivals": (
+                ego.resource_memory.typed_counterfactual_stale_arrivals
+            ),
+            "resource_memory_typed_arrival_radius": (
+                ego.resource_memory.typed_arrival_radius
+            ),
+            "resource_memory_release_reason": ego.resource_memory.release_reason,
+            "resource_memory_action_influence": ego.resource_memory.action_influence,
+            "resource_memory_control_mode": ego.resource_memory.control_mode,
+            "resource_memory_guidance_decisions": (
+                ego.resource_memory.guidance_decisions
+            ),
+            "resource_memory_guidance_action_changes": (
+                ego.resource_memory.guidance_action_changes
+            ),
+            "resource_memory_unguided_action": (
+                ego.resource_memory.last_unguided_action
+            ),
+            "resource_memory_guided_action": (
+                ego.resource_memory.last_guided_action
+            ),
+            "resource_memory_unguided_margin": (
+                ego.resource_memory.last_unguided_margin
+            ),
+            "resource_memory_margin_ambiguity": (
+                ego.resource_memory.last_margin_ambiguity
+            ),
+            "resource_memory_effective_guidance_weight": (
+                ego.resource_memory.last_effective_guidance_weight
             ),
         }
         self.handle.write(json.dumps(row, separators=(",", ":")) + "\n")
@@ -749,6 +1002,34 @@ class EmbodiedFunctionalEgo:
         passive_conductor=False,
         conductor_checkpoint=None,
         conductor_control="passive",
+        systemic_conductor_checkpoint=None,
+        systemic_conductor_control="passive",
+        systemic_conductor_confidence=0.55,
+        adaptive_gnw_passive=False,
+        adaptive_gnw_control="disabled",
+        tiny_scientist_rule_control="passive",
+        tiny_scientist_experiment_control="disabled",
+        tiny_scientist_experiment_seed=0,
+        tiny_scientist_experiment_guidance_weight=0.03,
+        tiny_scientist_experiment_guidance_margin=0.08,
+        tiny_scientist_experiment_commit_seconds=3.0,
+        tiny_scientist_experiment_commit_cooldown_seconds=2.0,
+        tiny_scientist_experiment_max_score_regret=0.18,
+        tiny_scientist_experiment_isolation_retreat_seconds=2.0,
+        tiny_scientist_experiment_isolation_retreat_max_score_regret=0.35,
+        tiny_scientist_hypothesis_proposer=None,
+        causal_probe_delay_seconds=10.0,
+        causal_probe_cancellation_feature="none",
+        causal_probe_hunger_cost=0.0,
+        typed_interaction_learning=False,
+        typed_interaction_memory=None,
+        typed_interaction_discovery_memory=None,
+        typed_interaction_hypothesis_proposer=None,
+        typed_interaction_rule_control="passive",
+        pgnw_multi_hypothesis_arbitration="disabled",
+        typed_metabolic_role_learning=False,
+        typed_metabolic_role_memory=None,
+        typed_metabolic_role_discovery_memory=None,
     ):
         self.crosstalk = 0.07
         self.complexity = 0.12
@@ -807,6 +1088,35 @@ class EmbodiedFunctionalEgo:
         self.mushrooms_eaten = 0
         self.last_mushroom_pickup_total = 0
         self.last_mushroom_reward_total = 0.0
+        self.last_red_mushroom_pickup_total = 0
+        self.last_blue_mushroom_pickup_total = 0
+        self.last_yellow_flower_pickup_total = 0
+        self.last_consumable_feature = "none"
+        self.causal_probe_world = OrderedCausalProbeWorld(
+            hz=self.hz,
+            delay_seconds=causal_probe_delay_seconds,
+            cancellation_feature=causal_probe_cancellation_feature,
+        )
+        self.causal_probe_delay_ticks = self.causal_probe_world.delay_ticks
+        self.causal_probe_due_steps = self.causal_probe_world.pending_due_steps
+        self.causal_probe_signal = 0.0
+        self.causal_probe_events = 0
+        self.causal_probe_hunger_cost = clamp(causal_probe_hunger_cost)
+        self.causal_probe_hunger_cost_events = 0
+        self.causal_probe_hunger_cost_total = 0.0
+        self.typed_interaction_learner = PassiveOrderedEpisodeLearner(
+            hz=self.hz,
+            delay_seconds=causal_probe_delay_seconds,
+            enabled=typed_interaction_learning,
+            memory_path=typed_interaction_memory,
+            discovery_memory_path=typed_interaction_discovery_memory,
+            hypothesis_proposer=typed_interaction_hypothesis_proposer,
+        )
+        self.typed_metabolic_role_learning = bool(typed_metabolic_role_learning)
+        self.typed_metabolic_role_learner = HeldOutMetabolicRoleLearner(
+            memory_path=typed_metabolic_role_memory,
+            discovery_memory_path=typed_metabolic_role_discovery_memory,
+        )
         self.food_feedback_initialized = False
         self.ticks_since_food = 0
         self.food_seek_ticks = 0
@@ -907,6 +1217,7 @@ class EmbodiedFunctionalEgo:
         self.orbit_path = 0.0
         self.orbit_net = 0.0
         self.orbit_efficiency = 1.0
+        self.escape_teacher = TerrainEscapeTeacher(hz=self.hz)
         self.hidden_goal_adapter = None
         self.hidden_goal_adapter_type = "none"
         self.hidden_goal_adapter_temporal_steps = 1
@@ -954,10 +1265,71 @@ class EmbodiedFunctionalEgo:
         self.trap_course_successes = 0
         self.trap_course_failures = 0
         self.trap_course_outcome = "inactive"
-        self.dynamics_observer = EmbodiedDynamicsObserver(self.hz)
         self.art_observer = EmbodiedAdaptiveResonanceObserver()
         self.terrain_air_observer = PassiveTerrainAirObserver()
         self.terrain_air_route_controller = TerrainAirRouteController()
+        self.resource_memory = PassiveTerrainResourceMemory()
+        self.tiny_scientist_memory = VerifiedProductionMemory()
+        if tiny_scientist_rule_control != "passive":
+            raise ValueError("tiny_scientist_rule_control_is_passive_only")
+        self.tiny_scientist_rule_control = tiny_scientist_rule_control
+        self.tiny_scientist_rule_active = False
+        self.tiny_scientist_rule_target_feature = "none"
+        self.tiny_scientist_rule_predicted_pressure_risk = 0.0
+        self.tiny_scientist_rule_guidance_vector = (0.0, 0.0)
+        self.tiny_scientist_rule_red_vector = (0.0, 0.0)
+        self.tiny_scientist_rule_red_utility = 0.0
+        self.tiny_scientist_rule_blue_utility = 0.0
+        self.tiny_scientist_rule_guidance_weight = 0.0
+        self.tiny_scientist_rule_decisions = 0
+        self.tiny_scientist_rule_action_influence = 0
+        if (
+            typed_interaction_rule_control == "verified_protective"
+            and not typed_interaction_learning
+        ):
+            raise ValueError("verified_protective_requires_typed_learning")
+        if (
+            typed_interaction_rule_control == "verified_protective"
+            and tiny_scientist_experiment_control != "committed"
+        ):
+            raise ValueError("verified_protective_requires_committed_pgnw")
+        if (
+            tiny_scientist_experiment_control in {
+                "bounded", "committed", "dynamic_committed"
+            }
+            and not self.shadow_mpc
+        ):
+            raise ValueError("bounded_pgnw_experiment_requires_shadow_mpc")
+        self.pgnw_experiment_planner = EmbodiedPGNWExperimentPlanner(
+            mode=tiny_scientist_experiment_control,
+            hz=self.hz,
+            seed=tiny_scientist_experiment_seed,
+            max_guidance_weight=tiny_scientist_experiment_guidance_weight,
+            guidance_margin_threshold=tiny_scientist_experiment_guidance_margin,
+            commitment_seconds=tiny_scientist_experiment_commit_seconds,
+            commitment_cooldown_seconds=(
+                tiny_scientist_experiment_commit_cooldown_seconds
+            ),
+            max_score_regret=tiny_scientist_experiment_max_score_regret,
+            isolation_retreat_seconds=(
+                tiny_scientist_experiment_isolation_retreat_seconds
+            ),
+            isolation_retreat_max_score_regret=(
+                tiny_scientist_experiment_isolation_retreat_max_score_regret
+            ),
+            hypothesis_proposer=tiny_scientist_hypothesis_proposer,
+            typed_learner=(
+                self.typed_interaction_learner
+                if typed_interaction_learning
+                else None
+            ),
+            typed_rule_control=typed_interaction_rule_control,
+            multi_hypothesis_arbitration=(
+                pgnw_multi_hypothesis_arbitration
+            ),
+            arbitration_hazard_cost=causal_probe_hunger_cost,
+            metabolic_learner=self.typed_metabolic_role_learner,
+        )
         self.conductor_control = str(conductor_control)
         if self.conductor_control != "passive" and not conductor_checkpoint:
             raise ValueError("live_conductor_requires_checkpoint")
@@ -971,12 +1343,81 @@ class EmbodiedFunctionalEgo:
             enabled=passive_conductor or self.conductor_control != "passive",
             checkpoint=conductor_checkpoint,
         )
+        self.systemic_conductor = PassiveSystemicConductor(
+            checkpoint=systemic_conductor_checkpoint,
+        )
+        self.adaptive_gnw_control = str(adaptive_gnw_control)
+        if adaptive_gnw_passive and self.adaptive_gnw_control == "disabled":
+            self.adaptive_gnw_control = "passive"
+        if self.adaptive_gnw_control not in {"disabled", "passive", "bounded"}:
+            raise ValueError("unsupported_adaptive_gnw_control")
+        if (
+            self.adaptive_gnw_control != "disabled"
+            and not systemic_conductor_checkpoint
+        ):
+            raise ValueError("adaptive_gnw_passive_requires_systemic_checkpoint")
+        if (
+            self.adaptive_gnw_control == "bounded"
+            and systemic_conductor_control == "passive"
+        ):
+            raise ValueError("bounded_adaptive_gnw_requires_active_router")
+        self.adaptive_gnw_gate = PassiveAdaptiveIgnitionGate(
+            enabled=self.adaptive_gnw_control != "disabled",
+        )
+        if (
+            systemic_conductor_control != "passive"
+            and not systemic_conductor_checkpoint
+        ):
+            raise ValueError("active_systemic_conductor_requires_checkpoint")
+        if systemic_conductor_control != "passive" and not self.shadow_mpc:
+            raise ValueError("active_systemic_conductor_requires_shadow_mpc")
+        self.systemic_router = BoundedExecutiveRouter(
+            mode=systemic_conductor_control,
+            hz=self.hz,
+            confidence_threshold=systemic_conductor_confidence,
+        )
         if shadow_checkpoint:
             self.enable_shadow_policy(shadow_checkpoint)
         if orbit_exit_adapter:
             self.enable_orbit_adapter(orbit_exit_adapter)
         if hidden_goal_adapter:
             self.enable_hidden_goal_adapter(hidden_goal_adapter)
+
+    @property
+    def metabolic_pressure(self):
+        """Deprecated read/write alias for passive causal-probe telemetry."""
+        return self.causal_probe_signal
+
+    @metabolic_pressure.setter
+    def metabolic_pressure(self, value):
+        self.causal_probe_signal = clamp(value)
+
+    @property
+    def metabolic_challenge_delay_ticks(self):
+        return self.causal_probe_delay_ticks
+
+    @property
+    def metabolic_challenge_due_steps(self):
+        return self.causal_probe_due_steps
+
+    @property
+    def metabolic_challenge_events(self):
+        return self.causal_probe_events
+
+    def systemic_executive_signal(self):
+        if (
+            self.adaptive_gnw_control == "bounded"
+            and self.adaptive_gnw_gate.active_specialist
+            in {"recurrent", "episodic", "predictive", "fallback"}
+        ):
+            return (
+                self.adaptive_gnw_gate.active_specialist,
+                self.adaptive_gnw_gate.confidence,
+            )
+        return (
+            self.systemic_conductor.recommendation,
+            self.systemic_conductor.confidence,
+        )
 
     def enable_shadow_policy(self, checkpoint_path):
         try:
@@ -1218,6 +1659,9 @@ class EmbodiedFunctionalEgo:
         self.orbit_adapter_selected = None
         self.orbit_adapter_start_position = None
         self.orbit_adapter_displacement = 0.0
+        escape_teacher = getattr(self, "escape_teacher", None)
+        if escape_teacher is not None:
+            escape_teacher.reset("episode_reset")
         self.hidden_goal_adapter_active = False
         self.hidden_goal_adapter_action = "none"
         self.hidden_goal_adapter_confidence = 0.0
@@ -1244,6 +1688,12 @@ class EmbodiedFunctionalEgo:
         )
         if terrain_air_route_controller is not None:
             terrain_air_route_controller.reset("episode_reset")
+        systemic_router = getattr(self, "systemic_router", None)
+        if systemic_router is not None:
+            systemic_router.reset()
+        adaptive_gnw_gate = getattr(self, "adaptive_gnw_gate", None)
+        if adaptive_gnw_gate is not None:
+            adaptive_gnw_gate.reset()
         self.shadow_episode_resets += 1
 
     def synchronize_shadow_episode(self, body_state):
@@ -1362,6 +1812,10 @@ class EmbodiedFunctionalEgo:
                 SHADOW_VECTORS,
                 body_clearance,
                 fallback_active=self.shadow_fallback_hold_ticks > 0,
+                episodic_authorized=self.systemic_router.authorizes_episodic(
+                    self.systemic_conductor.recommendation,
+                    self.systemic_conductor.confidence,
+                ),
             )
 
         previous = [0.0] * 8
@@ -1394,6 +1848,10 @@ class EmbodiedFunctionalEgo:
                         self.terrain_air_route_controller.control_mode == "guided"
                         and self.terrain_air_route_controller.active
                     )
+                    or (
+                        self.resource_memory.control_mode == "guided"
+                        and self.resource_memory.active
+                    )
                 )
             else:
                 mpc_needed = food_visible > 0.0
@@ -1404,8 +1862,28 @@ class EmbodiedFunctionalEgo:
                 )
             else:
                 self.shadow_mpc_hold_ticks = max(0, self.shadow_mpc_hold_ticks - 1)
-            self.shadow_mpc_engaged = self.shadow_mpc and (
+            baseline_mpc_engaged = self.shadow_mpc and (
                 mpc_needed or self.shadow_mpc_hold_ticks > 0
+            )
+            executive_recommendation, executive_confidence = (
+                self.systemic_executive_signal()
+            )
+            if (
+                self.adaptive_gnw_control == "bounded"
+                and executive_recommendation
+                != self.systemic_conductor.recommendation
+            ):
+                self.adaptive_gnw_gate.recommendation_substitutions += 1
+            routed_mpc_engaged = self.systemic_router.select_mpc(
+                executive_recommendation,
+                executive_confidence,
+                baseline_mpc_engaged,
+                mandatory_mpc=self.shadow_mpc and mpc_needed,
+                fallback_active=self.shadow_fallback_hold_ticks > 0,
+            )
+            self.shadow_mpc_engaged = self.shadow_mpc and routed_mpc_engaged
+            self.systemic_conductor.action_influence = (
+                self.systemic_router.influence_frames
             )
             if self.shadow_mpc_engaged:
                 selected, self.shadow_mpc_score = self.select_mpc_action(
@@ -1707,6 +2185,57 @@ class EmbodiedFunctionalEgo:
             if air_route_selected is not None:
                 selected = air_route_selected
                 self.shadow_mpc_mode = "terrain_air_bounded_route"
+            teacher_enabled = (
+                self.terrain_air_route_controller.enabled
+                and self.terrain_air_route_controller.teacher_memory_path is not None
+                and self.shadow_control == "terrain"
+                and course_label in {None, "", "natural_terrain"}
+            )
+            if self.escape_teacher.active and self.shadow_fallback_hold_ticks > 0:
+                self.escape_teacher.reset("stable_fallback")
+            if (
+                teacher_enabled
+                and not self.escape_teacher.active
+                and orbit_detected
+                and self.terrain_air_route_controller.recommendation == "no_resonance"
+                and not self.terrain_air_route_controller.active
+                and not self.terrain_air_route_controller.pending
+                and self.shadow_fallback_hold_ticks <= 0
+            ):
+                prototype = context_vector(
+                    body_state,
+                    self.hunger,
+                    self.orbit_path,
+                    self.orbit_efficiency,
+                    self.physics_wedge_ticks / self.hz,
+                    self.trap_accumulation_ticks / self.hz,
+                )
+                if prototype is not None:
+                    self.escape_teacher.start(
+                        body_state,
+                        prototype,
+                        SHADOW_ACTIONS,
+                        rays,
+                        body_clearance,
+                    )
+            if self.escape_teacher.active:
+                previous_successes = self.escape_teacher.successes
+                teacher_selected = self.escape_teacher.update(
+                    body_state,
+                    SHADOW_ACTIONS,
+                    rays,
+                    body_clearance,
+                    self.terrain_air_route_controller,
+                )
+                if self.escape_teacher.successes > previous_successes:
+                    self.orbit_history.clear()
+                    self.orbit_path = 0.0
+                    self.orbit_net = 0.0
+                    self.orbit_efficiency = 1.0
+                    orbit_detected = False
+                if teacher_selected is not None:
+                    selected = teacher_selected
+                    self.shadow_mpc_mode = "escape_teacher"
         if self.shadow_previous_position is not None and self.shadow_previous_proposal in SHADOW_VECTORS:
             dx = position[0] - self.shadow_previous_position[0]
             dz = position[1] - self.shadow_previous_position[1]
@@ -1793,10 +2322,16 @@ class EmbodiedFunctionalEgo:
             and course_label in {None, "", "natural_terrain"}
         )
         fallback_threshold = int(round(self.hz * 8.0))
+        route_controller = self.terrain_air_route_controller
         if stable_recovery_due(
             self.physics_wedge_ticks,
             self.trap_accumulation_ticks,
             fallback_threshold,
+            sustained_orbit=orbit_teacher_due(
+                orbit_detected,
+                route_active=route_controller.active or self.escape_teacher.active,
+                route_pending=route_controller.pending,
+            ),
         ) and self.shadow_fallback_hold_ticks <= 0:
             self.shadow_fallback_hold_ticks = max(1, int(round(self.hz * 12.0)))
             self.breakout_plan.clear()
@@ -1993,7 +2528,167 @@ class EmbodiedFunctionalEgo:
                     air_controller.guidance_decisions += 1
                     guidance_applied = True
                     self.shadow_mpc_mode = "terrain_air_guided_mpc"
-        selected = int(torch.argmax(risk_adjusted).item())
+        resource_memory = self.resource_memory
+        resource_memory.last_effective_guidance_weight = 0.0
+        resource_memory.last_margin_ambiguity = 0.0
+        resource_unguided = int(torch.argmax(risk_adjusted).item())
+        if (
+            resource_memory.control_mode == "guided"
+            and resource_memory.active
+            and not self.pgnw_experiment_planner.protective_memory_active
+            and not air_controller.active
+            and self.shadow_fallback_hold_ticks <= 0
+        ):
+            finite_scores = risk_adjusted[torch.isfinite(risk_adjusted)]
+            if len(finite_scores) >= 2:
+                top_scores = torch.topk(finite_scores, 2).values
+                margin = float((top_scores[0] - top_scores[1]).item())
+            else:
+                margin = math.inf
+            ambiguity = score_margin_ambiguity(
+                margin,
+                resource_memory.guidance_margin_threshold,
+            )
+            pressure = clamp(
+                (self.hunger - resource_memory.hunger_gate)
+                / max(1e-6, 1.0 - resource_memory.hunger_gate)
+            )
+            effective_weight = (
+                resource_memory.max_guidance_weight
+                * resource_memory.confidence
+                * (0.30 + 0.70 * pressure)
+                * ambiguity
+            )
+            resource_memory.last_unguided_margin = margin
+            resource_memory.last_margin_ambiguity = ambiguity
+            resource_memory.last_effective_guidance_weight = effective_weight
+            if effective_weight > 0.0:
+                guidance = torch.tensor(
+                    resource_memory.guidance_vector,
+                    dtype=move_tensor.dtype,
+                )
+                guidance_length = torch.linalg.vector_norm(guidance)
+                if float(guidance_length.item()) > 1e-6:
+                    guidance /= guidance_length
+                    risk_adjusted += effective_weight * (move_tensor @ guidance)
+                    resource_memory.action_influence += 1
+                    resource_memory.guidance_decisions += 1
+                    self.shadow_mpc_mode = "resource_memory_guided_mpc"
+        experiment_planner = self.pgnw_experiment_planner
+        experiment_planner.last_effective_guidance_weight = 0.0
+        experiment_unguided = int(torch.argmax(risk_adjusted).item())
+        experiment_committed_selected = None
+        experiment_retreat_active = False
+        if pgnw_experiment_guidance_allowed(
+            experiment_planner.mode,
+            experiment_planner.guidance_active,
+            self.shadow_fallback_hold_ticks > 0,
+            self.current_stuck,
+            self.hunger,
+            air_controller.control_mode == "guided" and air_controller.active,
+            (
+                resource_memory.control_mode == "guided"
+                and resource_memory.active
+                and not experiment_planner.protective_memory_active
+            ),
+            (
+                experiment_planner.multi_hypothesis_arbitration
+                == "bounded_dual_verified"
+                and experiment_planner.arbitration_authority > 0.0
+                and experiment_planner.metabolic_learner is not None
+                and experiment_planner.metabolic_learner.status
+                == "verified_held_out"
+                and experiment_planner.arbitration_selected_feature
+                == experiment_planner.metabolic_learner.admitted_nutrient
+            ),
+        ):
+            guidance = torch.tensor(
+                experiment_planner.guidance_vector,
+                dtype=move_tensor.dtype,
+            )
+            guidance_length = torch.linalg.vector_norm(guidance)
+            if float(guidance_length.item()) > 1e-6:
+                guidance /= guidance_length
+                target_alignment = move_tensor @ guidance
+                if experiment_planner.mode in {"committed", "dynamic_committed"}:
+                    experiment_regret = experiment_planner.max_score_regret
+                    if (
+                        experiment_planner.isolation_active
+                        and experiment_planner.isolation_retreat_remaining_ticks > 0
+                    ):
+                        experiment_retreat_active = True
+                        experiment_regret = (
+                            experiment_planner.isolation_retreat_max_score_regret
+                        )
+                    experiment_committed_selected = (
+                        pgnw_constrained_target_action(
+                            risk_adjusted.detach().tolist(),
+                            target_alignment.detach().tolist(),
+                            experiment_regret,
+                        )
+                    )
+                    if experiment_committed_selected is not None:
+                        experiment_planner.last_effective_guidance_weight = (
+                            experiment_regret
+                        )
+                        experiment_planner.guidance_decisions += 1
+                        if experiment_planner.isolation_active:
+                            experiment_planner.isolation_decisions += 1
+                            if experiment_retreat_active:
+                                experiment_planner.isolation_retreat_decisions += 1
+                                experiment_planner.isolation_retreat_remaining_ticks -= 1
+                            self.shadow_mpc_mode = "pgnw_isolation_mpc"
+                        else:
+                            self.shadow_mpc_mode = "pgnw_committed_mpc"
+                else:
+                    finite_scores = risk_adjusted[torch.isfinite(risk_adjusted)]
+                    if len(finite_scores) >= 2:
+                        top_scores = torch.topk(finite_scores, 2).values
+                        margin = float((top_scores[0] - top_scores[1]).item())
+                    else:
+                        margin = math.inf
+                    ambiguity = score_margin_ambiguity(
+                        margin,
+                        experiment_planner.guidance_margin_threshold,
+                    )
+                    effective_weight = (
+                        experiment_planner.guidance_weight * ambiguity
+                    )
+                    if effective_weight > 0.0:
+                        risk_adjusted += effective_weight * (
+                            target_alignment
+                        )
+                        experiment_planner.last_effective_guidance_weight = (
+                            effective_weight
+                        )
+                        experiment_planner.guidance_decisions += 1
+                        self.shadow_mpc_mode = "pgnw_experiment_guided_mpc"
+        selected = (
+            experiment_committed_selected
+            if experiment_committed_selected is not None
+            else int(torch.argmax(risk_adjusted).item())
+        )
+        if experiment_planner.last_effective_guidance_weight > 0.0:
+            changed = int(selected != experiment_unguided)
+            experiment_planner.action_influence += changed
+            if experiment_planner.protective_rule_active:
+                experiment_planner.protective_action_influence += changed
+            if experiment_planner.arbitration_authority > 0.0:
+                experiment_planner.arbitration_action_influence += changed
+            if experiment_planner.isolation_active:
+                experiment_planner.isolation_action_influence += changed
+                if experiment_retreat_active:
+                    experiment_planner.isolation_retreat_action_influence += (
+                        changed
+                    )
+        resource_memory.last_unguided_action = SHADOW_ACTIONS[
+            resource_unguided
+        ]
+        resource_memory.last_guided_action = SHADOW_ACTIONS[selected]
+        if resource_memory.last_effective_guidance_weight > 0.0:
+            resource_memory.guidance_action_changes += int(
+                selected != resource_unguided
+            )
         if guidance_applied:
             air_controller.last_unguided_action = SHADOW_ACTIONS[unguided_selected]
             air_controller.last_guided_action = SHADOW_ACTIONS[selected]
@@ -2049,6 +2744,53 @@ class EmbodiedFunctionalEgo:
             self.trap_course_outcome = body_state.get("trap_outcome", self.trap_course_outcome)
         self.apply_control_overrides(body_state)
         self.apply_food_feedback(body_state)
+        if isinstance(body_state, dict):
+            self.pgnw_experiment_planner.update(
+                self.steps,
+                self.causal_probe_signal,
+                body_state.get("mushroom_pickups_total", 0) or 0,
+                body_state.get("red_mushroom_pickups_total", 0) or 0,
+                body_state.get("blue_mushroom_pickups_total"),
+                body_state.get("yellow_flower_pickups_total"),
+            )
+            experiment_planner = self.pgnw_experiment_planner
+            protective_request = None
+            protective_need_active = bool(
+                self.causal_probe_world.pending_due_steps
+            )
+            protective_deadline_remaining_seconds = None
+            if protective_need_active:
+                protective_deadline_remaining_seconds = max(
+                    0.0,
+                    (
+                        min(self.causal_probe_world.pending_due_steps)
+                        - self.steps
+                    )
+                    / self.hz,
+                )
+            if (
+                experiment_planner.typed_rule_control == "verified_protective"
+                and protective_need_active
+            ):
+                protective_request = (
+                    experiment_planner.verified_protective_suppressor()
+                )
+            self.resource_memory.update(
+                body_state,
+                self.hunger,
+                requested_feature=protective_request,
+            )
+            experiment_planner.update_guidance(
+                body_state,
+                resource_memory=self.resource_memory,
+                protective_need_active=protective_need_active,
+                protective_deadline_remaining_seconds=(
+                    protective_deadline_remaining_seconds
+                ),
+                metabolic_need_urgency=clamp(
+                    (self.hunger - 0.65) / 0.35
+                ),
+            )
         self.ticks_since_food += 1
         food_visible_now = self.food_visible(body_state)
         self.last_body_obstacle_visible = self.obstacle_visible(body_state)
@@ -2156,32 +2898,7 @@ class EmbodiedFunctionalEgo:
         self.update_affect(metrics, body_state)
         self.update_workspace(body_state)
         self.update_survival_monitor(body_state)
-        self.update_dynamics_observer(body_state)
         self.update_art_observer(body_state)
-
-    def update_dynamics_observer(self, body_state):
-        rays = body_state.get("directional_rays", []) if isinstance(body_state, dict) else []
-        obstacle_signal = 0.0
-        if isinstance(rays, list) and rays:
-            try:
-                obstacle_signal = 1.0 - min(clamp(float(value)) for value in rays)
-            except (TypeError, ValueError):
-                obstacle_signal = 0.0
-        values = [
-            obstacle_signal,
-            1.0 if self.food_visible(body_state) else 0.0,
-            clamp(0.5 * (self.valence + 1.0)),
-            self.arousal,
-            self.local_trap_pressure(body_state),
-            self.workspace_packet["confidence"],
-        ]
-        observed_noise = clamp(
-            0.42 * self.noise_injection
-            + 0.24 * self.delusion_index
-            + 0.22 * self.prediction_error
-            + 0.12 * self.calcium_gate
-        )
-        self.dynamics_observer.update(values, observed_noise)
 
     def update_art_observer(self, body_state):
         if not isinstance(body_state, dict):
@@ -2266,8 +2983,46 @@ class EmbodiedFunctionalEgo:
             }
         )
 
+    def update_systemic_conductor(self, body_state):
+        if not self.systemic_conductor.enabled or not self.shadow_ready:
+            return
+        self.systemic_conductor.observe(
+            {
+                "food_visible": self.food_visible(body_state),
+                "blocked": bool(body_state.get("blocked", False)),
+                "body_collision": bool(
+                    body_state.get("horizontal_collision", False)
+                ),
+                "stuck": self.current_stuck,
+                "physics_wedge_seconds": self.physics_wedge_ticks / self.hz,
+                "trap_accumulation_seconds": self.trap_accumulation_ticks / self.hz,
+                "fallback_active": self.shadow_fallback_hold_ticks > 0,
+                "hidden_goal_active": self.hidden_goal_adapter_active,
+                "terrain_air_route_active": self.terrain_air_route_controller.active,
+                "terrain_air_route_pending": self.terrain_air_route_controller.pending,
+                "terrain_air_route_match": self.terrain_air_route_controller.match,
+                "terrain_air_resonance": self.terrain_air_observer.resonance,
+                "terrain_air_confidence": self.terrain_air_observer.confidence,
+                "orbit_path": self.orbit_path,
+                "orbit_efficiency": self.orbit_efficiency,
+                "trap_pressure": self.local_trap_pressure(body_state),
+                "art_match": self.art_observer.match,
+                "art_resonance": self.art_observer.resonance,
+                "art_novel": self.art_observer.novel,
+                "directional_rays": body_state.get("directional_rays", []),
+                "directional_body_clearance": body_state.get(
+                    "directional_body_clearance", []
+                ),
+            }
+        )
+        self.adaptive_gnw_gate.observe(
+            self.systemic_conductor.raw_probabilities,
+            self.systemic_conductor.proxy_optimal,
+        )
+
     def apply_food_feedback(self, body_state):
         self.shadow_last_reward = 0.0
+        self.causal_probe_signal = clamp(self.causal_probe_signal * 0.985)
         if isinstance(body_state, dict):
             try:
                 pickup_total = int(body_state.get("mushroom_pickups_total", body_state.get("ate_mushroom", 0)))
@@ -2277,10 +3032,43 @@ class EmbodiedFunctionalEgo:
                 reward_total = float(body_state.get("mushroom_reward_total", body_state.get("mushroom_reward", 0.0)))
             except (TypeError, ValueError):
                 reward_total = self.last_mushroom_reward_total
+            try:
+                red_pickup_total = int(
+                    body_state.get(
+                        "red_mushroom_pickups_total",
+                        self.last_red_mushroom_pickup_total,
+                    )
+                    or 0
+                )
+            except (TypeError, ValueError):
+                red_pickup_total = self.last_red_mushroom_pickup_total
+            try:
+                blue_pickup_total = int(
+                    body_state.get(
+                        "blue_mushroom_pickups_total",
+                        max(0, pickup_total - red_pickup_total),
+                    )
+                    or 0
+                )
+            except (TypeError, ValueError):
+                blue_pickup_total = self.last_blue_mushroom_pickup_total
+            try:
+                yellow_pickup_total = int(
+                    body_state.get(
+                        "yellow_flower_pickups_total",
+                        self.last_yellow_flower_pickup_total,
+                    )
+                    or 0
+                )
+            except (TypeError, ValueError):
+                yellow_pickup_total = self.last_yellow_flower_pickup_total
 
             if not self.food_feedback_initialized:
                 self.last_mushroom_pickup_total = pickup_total
                 self.last_mushroom_reward_total = reward_total
+                self.last_red_mushroom_pickup_total = red_pickup_total
+                self.last_blue_mushroom_pickup_total = blue_pickup_total
+                self.last_yellow_flower_pickup_total = yellow_pickup_total
                 self.food_feedback_initialized = True
                 pickup_total = self.last_mushroom_pickup_total
                 reward_total = self.last_mushroom_reward_total
@@ -2288,23 +3076,96 @@ class EmbodiedFunctionalEgo:
             if pickup_total < self.last_mushroom_pickup_total or reward_total < self.last_mushroom_reward_total:
                 self.last_mushroom_pickup_total = 0
                 self.last_mushroom_reward_total = 0.0
+                self.last_red_mushroom_pickup_total = 0
+                self.last_blue_mushroom_pickup_total = 0
+                self.last_yellow_flower_pickup_total = 0
                 self.mushrooms_eaten = 0
+                self.causal_probe_world.reset()
+                self.typed_interaction_learner.reset()
+                self.causal_probe_signal = 0.0
 
             eaten = max(0, pickup_total - self.last_mushroom_pickup_total)
+            red_eaten = max(
+                0, red_pickup_total - self.last_red_mushroom_pickup_total
+            )
+            blue_eaten = max(
+                0, blue_pickup_total - self.last_blue_mushroom_pickup_total
+            )
+            yellow_eaten = max(
+                0, yellow_pickup_total - self.last_yellow_flower_pickup_total
+            )
             reward = max(0.0, reward_total - self.last_mushroom_reward_total)
             if eaten > 0:
+                self.last_consumable_feature = str(
+                    body_state.get("mushroom_feature", "unknown") or "unknown"
+                )
                 if reward <= 0.0:
                     reward = 0.35 * eaten
                 self.mushrooms_eaten += eaten
-                self.hunger = clamp(self.hunger - 0.34 * eaten)
-                self.ticks_since_food = 0
-                self.critical_hunger_ticks = 0
-                self.forage_lapse_ticks = 0
-                self.survival_failed = False
+                hunger_before_pickup = self.hunger
+                nutritional_eaten = (
+                    blue_eaten
+                    if self.typed_metabolic_role_learning
+                    else eaten
+                )
+                self.hunger = clamp(
+                    self.hunger - 0.34 * nutritional_eaten
+                )
+                if nutritional_eaten > 0:
+                    self.ticks_since_food = 0
+                    self.critical_hunger_ticks = 0
+                    self.forage_lapse_ticks = 0
+                    self.survival_failed = False
                 self.dopamine_food_boost = clamp(self.dopamine_food_boost + reward)
                 self.shadow_last_reward = reward
+                if (
+                    self.typed_metabolic_role_learning
+                    and eaten == 1
+                    and red_eaten + blue_eaten + yellow_eaten == 1
+                    and hunger_before_pickup > 1e-6
+                ):
+                    feature = (
+                        "red" if red_eaten else
+                        "blue" if blue_eaten else
+                        "yellow"
+                    )
+                    self.typed_metabolic_role_learner.observe(
+                        feature,
+                        self.hunger < hunger_before_pickup - 1e-6,
+                    )
+            can_start_typed_episode = len(self.causal_probe_due_steps) == 0
+            self.typed_interaction_learner.observe_pickups(
+                self.steps,
+                red=red_eaten,
+                blue=blue_eaten,
+                yellow=yellow_eaten,
+                can_start=can_start_typed_episode,
+            )
+            self.causal_probe_world.register_pickups(
+                self.steps,
+                red=red_eaten,
+                blue=blue_eaten,
+                yellow=yellow_eaten,
+            )
             self.last_mushroom_pickup_total = pickup_total
             self.last_mushroom_reward_total = reward_total
+            self.last_red_mushroom_pickup_total = red_pickup_total
+            self.last_blue_mushroom_pickup_total = blue_pickup_total
+            self.last_yellow_flower_pickup_total = yellow_pickup_total
+
+        due = self.causal_probe_world.pop_due(self.steps)
+        self.typed_interaction_learner.observe_deadline(
+            self.steps, observed_probe_events=due
+        )
+        self.typed_interaction_learner.poll_formulation()
+        if due:
+            self.causal_probe_signal = clamp(self.causal_probe_signal + 0.34 * due)
+            self.causal_probe_events += due
+            applied_cost = self.causal_probe_hunger_cost * due
+            if applied_cost > 0.0:
+                self.hunger = clamp(self.hunger + applied_cost)
+                self.causal_probe_hunger_cost_events += due
+                self.causal_probe_hunger_cost_total += applied_cost
 
         self.dopamine_food_boost *= 0.992
         self.dopamine = clamp(self.dopamine + self.dopamine_food_boost)
@@ -2317,6 +3178,17 @@ class EmbodiedFunctionalEgo:
             "feeling": "calm_positive_valence",
             "confidence": 0.0,
         }
+
+    def update_tiny_scientist_rule_targeting(self, body_state):
+        """Keep verified rules observational; they cannot target or steer."""
+        self.tiny_scientist_rule_active = False
+        self.tiny_scientist_rule_target_feature = "none"
+        self.tiny_scientist_rule_predicted_pressure_risk = 0.0
+        self.tiny_scientist_rule_guidance_vector = (0.0, 0.0)
+        self.tiny_scientist_rule_red_vector = (0.0, 0.0)
+        self.tiny_scientist_rule_red_utility = 0.0
+        self.tiny_scientist_rule_blue_utility = 0.0
+        self.tiny_scientist_rule_guidance_weight = 0.0
 
     def apply_control_overrides(self, body_state):
         controls = {}
@@ -3037,7 +3909,23 @@ class EmbodiedFunctionalEgo:
         food_action = None
         hunger_anchor = self.hunger > (0.58 if self.workspace_unreliable else 0.72)
         foraging_committed = self.foraging_commit_ticks > 0
-        if trap_pressure < (0.62 if hunger_anchor else 0.35):
+        experiment_planner = self.pgnw_experiment_planner
+        isolation_allowed = pgnw_experiment_guidance_allowed(
+            experiment_planner.mode,
+            experiment_planner.isolation_active,
+            self.shadow_fallback_hold_ticks > 0,
+            self.current_stuck,
+            self.hunger,
+            self.terrain_air_route_controller.control_mode == "guided"
+            and self.terrain_air_route_controller.active,
+            self.resource_memory.control_mode == "guided"
+            and self.resource_memory.active
+            and not experiment_planner.protective_memory_active,
+        )
+        if isolation_allowed:
+            self.foraging_commit_ticks = 0
+            experiment_planner.isolation_food_suppression_frames += 1
+        elif trap_pressure < (0.62 if hunger_anchor else 0.35):
             food_action = self.choose_food_action(body_state)
         try:
             food_distance = float(body_state.get("food_distance", 999.0))
@@ -3381,6 +4269,24 @@ class EmbodiedFunctionalEgo:
             "orbit_path": round(self.orbit_path, 3),
             "orbit_net": round(self.orbit_net, 3),
             "orbit_efficiency": round(self.orbit_efficiency, 4),
+            "escape_teacher_active": self.escape_teacher.active,
+            "escape_teacher_action": self.escape_teacher.action_name,
+            "escape_teacher_elapsed_seconds": round(
+                self.escape_teacher.elapsed_ticks / self.hz, 2
+            ),
+            "escape_teacher_displacement": round(
+                self.escape_teacher.displacement, 3
+            ),
+            "escape_teacher_efficiency": round(
+                self.escape_teacher.efficiency, 4
+            ),
+            "escape_teacher_events": self.escape_teacher.events,
+            "escape_teacher_successes": self.escape_teacher.successes,
+            "escape_teacher_failures": self.escape_teacher.failures,
+            "escape_teacher_last_outcome": self.escape_teacher.last_outcome,
+            "escape_teacher_memory_routes": len(
+                self.terrain_air_route_controller.teacher_route_payloads
+            ),
             "hidden_goal_adapter_enabled": self.hidden_goal_adapter_enabled,
             "hidden_goal_adapter_type": self.hidden_goal_adapter_type,
             "hidden_goal_adapter_active": self.hidden_goal_adapter_active,
@@ -3442,16 +4348,113 @@ class EmbodiedFunctionalEgo:
             "conductor_gate_frames": self.conductor_gate_frames,
             "conductor_gate_decisions": self.conductor_gate_decisions,
             "conductor_gate_denials": self.conductor_gate_denials,
-            "sync_observer_mode": "passive",
-            "sync_coherence": round(self.dynamics_observer.coherence, 4),
-            "sync_active_modules": self.dynamics_observer.active_modules,
-            "sync_bus_pressure": round(self.dynamics_observer.bus_pressure, 4),
-            "sync_binding_ready": self.dynamics_observer.binding_ready,
-            "criticality_observer_mode": "passive_proxy",
-            "criticality_propagation_ratio": round(self.dynamics_observer.propagation_ratio, 4),
-            "criticality_score": round(self.dynamics_observer.criticality_score, 4),
-            "criticality_regime": self.dynamics_observer.criticality_regime,
-            "criticality_recommended_gain": round(self.dynamics_observer.recommended_gain, 4),
+            "systemic_conductor_mode": (
+                (
+                    "bounded_recurrent_mpc"
+                    if self.systemic_router.mode != "passive"
+                    else "passive_frozen_checkpoint"
+                )
+                if self.systemic_conductor.enabled
+                else "disabled"
+            ),
+            "systemic_conductor_recommendation": (
+                self.systemic_conductor.recommendation
+            ),
+            "systemic_conductor_confidence": round(
+                self.systemic_conductor.confidence, 4
+            ),
+            "systemic_conductor_entropy_bits": round(
+                self.systemic_conductor.entropy, 4
+            ),
+            "systemic_conductor_proxy_context": (
+                self.systemic_conductor.proxy_context
+            ),
+            "systemic_conductor_proxy_optimal": (
+                self.systemic_conductor.proxy_optimal
+            ),
+            "systemic_conductor_agreement": self.systemic_conductor.agreement,
+            "systemic_conductor_agreement_rate": round(
+                self.systemic_conductor.agreement_rate, 4
+            ),
+            "systemic_conductor_observations": (
+                self.systemic_conductor.observations
+            ),
+            "systemic_conductor_action_influence": (
+                self.systemic_conductor.action_influence
+            ),
+            "systemic_router_active_specialist": (
+                self.systemic_router.active_specialist
+            ),
+            "systemic_router_reason": self.systemic_router.last_reason,
+            "systemic_router_handoffs": self.systemic_router.handoffs,
+            "systemic_router_safety_overrides": (
+                self.systemic_router.safety_overrides
+            ),
+            "systemic_router_influence_frames": (
+                self.systemic_router.influence_frames
+            ),
+            "systemic_router_chatter_events": (
+                self.systemic_router.chatter_events
+            ),
+            "systemic_router_mpc_latch_seconds": round(
+                self.systemic_router.mandatory_latch_ticks / self.hz, 2
+            ),
+            "systemic_router_recurrent_release_streak": (
+                self.systemic_router.recurrent_release_streak
+            ),
+            "resource_memory_mode": (
+                f"{self.resource_memory.control_mode}_coordinate_recall"
+                if self.resource_memory.enabled
+                else "disabled"
+            ),
+            "resource_memory_active": self.resource_memory.active,
+            "resource_memory_recommendation": self.resource_memory.recommendation,
+            "resource_memory_distance": round(self.resource_memory.distance, 3),
+            "resource_memory_confidence": round(
+                self.resource_memory.confidence, 4
+            ),
+            "resource_memory_regions": len(self.resource_memory.entries),
+            "resource_memory_typed_regions": len(
+                self.resource_memory.typed_entries
+            ),
+            "resource_memory_active_feature": (
+                self.resource_memory.active_feature
+            ),
+            "resource_memory_typed_encodings": (
+                self.resource_memory.typed_encodings
+            ),
+            "resource_memory_typed_recommendations": (
+                self.resource_memory.typed_recommendations
+            ),
+            "resource_memory_action_influence": (
+                self.resource_memory.action_influence
+            ),
+            "pgnw_experiment_mode": self.pgnw_experiment_planner.mode,
+            "pgnw_experiment_request": (
+                self.pgnw_experiment_planner.requested_experiment
+            ),
+            "pgnw_experiment_phase": self.pgnw_experiment_planner.phase,
+            "pgnw_experiment_map_hypothesis": (
+                self.pgnw_experiment_planner.map_hypothesis
+            ),
+            "pgnw_experiment_map_confidence": round(
+                self.pgnw_experiment_planner.map_confidence, 4
+            ),
+            "pgnw_experiment_last_outcome": (
+                self.pgnw_experiment_planner.last_outcome
+            ),
+            "pgnw_experiment_completed": (
+                self.pgnw_experiment_planner.experiments_completed
+            ),
+            "pgnw_experiment_discarded": (
+                self.pgnw_experiment_planner.experiments_discarded
+            ),
+            "pgnw_experiment_guidance_weight": (
+                self.pgnw_experiment_planner.last_effective_guidance_weight
+            ),
+            "pgnw_experiment_action_influence": (
+                self.pgnw_experiment_planner.action_influence
+            ),
             "art_observer_mode": "passive_fuzzy_art",
             "art_category": self.art_observer.category,
             "art_category_label": self.art_observer.category_label,
@@ -3531,10 +4534,17 @@ class EmbodiedFunctionalEgo:
             f"takeover={int(self.shadow_takeover)} "
             f"conductor={self.conductor_observer.recommendation}:{self.conductor_observer.confidence:.2f}/"
             f"{self.conductor_observer.active_specialist} "
+            f"systemic={self.systemic_conductor.recommendation}:"
+            f"{self.systemic_conductor.confidence:.2f}/"
+            f"{self.systemic_conductor.proxy_context}->"
+            f"{self.systemic_router.active_specialist} "
             f"art={self.art_observer.category}:{self.art_observer.category_label}:{self.art_observer.match:.2f} "
             f"air={self.terrain_air_observer.recalled_action}:"
             f"{self.terrain_air_observer.confidence:.2f}/"
             f"{self.terrain_air_observer.agreement_rate:.2f} "
+            f"science={self.pgnw_experiment_planner.requested_experiment}:"
+            f"{self.pgnw_experiment_planner.phase}:"
+            f"{self.pgnw_experiment_planner.map_confidence:.2f} "
             f"recent={len(self.recent_failures):02d} {body}"
         )
 
@@ -3579,6 +4589,131 @@ def main():
         type=float,
         default=None,
         help="Diagnostic initial hunger override in the normalized 0..1 range.",
+    )
+    parser.add_argument(
+        "--initial-causal-probe-signal",
+        type=float,
+        default=None,
+        help=(
+            "Diagnostic initial value for the passive delayed causal signal. "
+            "It has zero motor, routing, workspace, or neuromodulatory influence."
+        ),
+    )
+    parser.add_argument(
+        "--causal-probe-delay-seconds",
+        type=float,
+        default=10.0,
+        help=(
+            "Passive red-pickup probe delay. The typed yellow protocol uses "
+            "30 seconds to permit a physical second intervention."
+        ),
+    )
+    parser.add_argument(
+        "--causal-probe-cancellation-feature",
+        choices=["none", "blue", "yellow"],
+        default="none",
+        help=(
+            "Hidden environment transition that cancels one pending red event; "
+            "never exposed to the hypothesis pool or controller."
+        ),
+    )
+    parser.add_argument(
+        "--causal-probe-hunger-cost",
+        type=float,
+        default=0.0,
+        help=(
+            "Bounded hunger increase when an uncancelled delayed probe becomes "
+            "due. Zero preserves the passive-probe protocol."
+        ),
+    )
+    parser.add_argument(
+        "--typed-interaction-learning",
+        action="store_true",
+        help=(
+            "Passively admit uncontaminated red-led ordered episodes and update "
+            "the symmetric candidate pool only at the observation deadline."
+        ),
+    )
+    parser.add_argument(
+        "--typed-interaction-memory",
+        default=None,
+        help=(
+            "Optional JSON memory for carrying accepted typed-interaction "
+            "posteriors across Unity process boundaries."
+        ),
+    )
+    parser.add_argument(
+        "--typed-interaction-discovery-memory",
+        default=None,
+        help=(
+            "Optional read-only discovery checkpoint. It is loaded initially, "
+            "while new episodes are written only to --typed-interaction-memory."
+        ),
+    )
+    parser.add_argument(
+        "--typed-interaction-sealed-discovery",
+        action="store_true",
+        help=(
+            "Require the preregistered three-observation discovery profile, "
+            "a distinct fresh writable memory, and a fresh explicit shadow log."
+        ),
+    )
+    parser.add_argument(
+        "--typed-interaction-formulation",
+        action="store_true",
+        help="Run calibrated Gemma ordered-role formulation asynchronously.",
+    )
+    parser.add_argument(
+        "--typed-interaction-formulation-model",
+        default="google/gemma-3-1b-it",
+    )
+    parser.add_argument(
+        "--typed-interaction-rule-control",
+        choices=["passive", "verified_protective"],
+        default="passive",
+        help=(
+            "Keep learned typed rules passive or let a >=0.95 specific "
+            "after-red suppressor request bounded committed PGNW guidance."
+        ),
+    )
+    parser.add_argument(
+        "--pgnw-multi-hypothesis-arbitration",
+        choices=[
+            "disabled", "passive", "bounded_verified", "bounded_dual_verified"
+        ],
+        default="disabled",
+        help=(
+            "Score all actionable typed causal candidates in PGNW telemetry. "
+            "Passive has zero authority; bounded_verified may own a target "
+            "only when it agrees with a verified production and confidence "
+            "and score-margin gates pass."
+        ),
+    )
+    parser.add_argument(
+        "--typed-metabolic-role-learning",
+        action="store_true",
+        help=(
+            "Experimental hidden world in which only blue immediately relieves "
+            "hunger; learn nutrient identity from unambiguous pickup deltas."
+        ),
+    )
+    parser.add_argument(
+        "--typed-metabolic-role-memory",
+        default=None,
+        help="Fresh JSON output for metabolic-role evidence and verification.",
+    )
+    parser.add_argument(
+        "--typed-metabolic-role-discovery-memory",
+        default=None,
+        help="Read-only held-out verified metabolic-role checkpoint.",
+    )
+    parser.add_argument(
+        "--initial-metabolic-pressure",
+        type=float,
+        default=None,
+        help=(
+            "Deprecated alias for --initial-causal-probe-signal."
+        ),
     )
     parser.add_argument(
         "--diagnostic-teleport",
@@ -3684,6 +4819,46 @@ def main():
         ),
     )
     parser.add_argument(
+        "--systemic-conductor-checkpoint",
+        default=None,
+        help=(
+            "Load the frozen four-context Bunge-style systemic conductor."
+        ),
+    )
+    parser.add_argument(
+        "--systemic-conductor-control",
+        choices=["passive", "recurrent_mpc", "recurrent_mpc_air"],
+        default="passive",
+        help=(
+            "Keep recommendations passive or allow bounded recurrent/MPC "
+            "executive timing. The conductor never emits motor actions."
+        ),
+    )
+    parser.add_argument(
+        "--systemic-conductor-confidence",
+        type=float,
+        default=0.55,
+        help="Minimum recommendation margin for bounded executive routing.",
+    )
+    parser.add_argument(
+        "--adaptive-gnw-passive",
+        action="store_true",
+        help=(
+            "Observe the reward-calibrated adaptive GNW ignition gate without "
+            "allowing it to influence routing or motor control."
+        ),
+    )
+    parser.add_argument(
+        "--adaptive-gnw-control",
+        choices=["disabled", "passive", "bounded"],
+        default="disabled",
+        help=(
+            "Disable adaptive GNW, observe it passively, or let its broadcast "
+            "feed the bounded systemic router. Motor actions remain owned by "
+            "the recurrent/MPC specialists and stable fallback."
+        ),
+    )
+    parser.add_argument(
         "--terrain-air-memory",
         default=None,
         help=(
@@ -3729,6 +4904,126 @@ def main():
             "smaller margins receive a bounded tie-breaking prior."
         ),
     )
+    parser.add_argument(
+        "--terrain-air-teacher-memory",
+        default=None,
+        help=(
+            "Persist quality-gated deterministic escape demonstrations in a "
+            "separate ART route memory. Omit to disable the escape teacher."
+        ),
+    )
+    parser.add_argument(
+        "--terrain-resource-memory",
+        default=None,
+        help=(
+            "Persist rewarded Unity resource regions and emit hunger-gated "
+            "passive recommendations. Recommendations cannot affect actions."
+        ),
+    )
+    parser.add_argument(
+        "--terrain-resource-hunger-gate",
+        type=float,
+        default=0.70,
+        help="Minimum hunger required for passive resource-memory retrieval.",
+    )
+    parser.add_argument(
+        "--terrain-resource-control",
+        choices=["passive", "guided"],
+        default="passive",
+        help=(
+            "Keep resource recall passive or add a small uncertainty-gated "
+            "heading prior inside collision-masked MPC."
+        ),
+    )
+    parser.add_argument(
+        "--terrain-resource-max-guidance-weight",
+        type=float,
+        default=0.03,
+        help="Maximum resource-memory bonus applied to grounded MPC scores.",
+    )
+    parser.add_argument(
+        "--tiny-scientist-production-memory",
+        default=None,
+        help=(
+            "Load verified Tiny Scientist rules for passive audit telemetry only. "
+            "This option has zero motor, routing, and MPC influence."
+        ),
+    )
+    parser.add_argument(
+        "--tiny-scientist-rule-control",
+        choices=["passive"],
+        default="passive",
+        help=(
+            "Keep committed Tiny Scientist rules read-only with zero motor, "
+            "routing, workspace, and MPC influence."
+        ),
+    )
+    parser.add_argument(
+        "--tiny-scientist-experiment-control",
+        choices=[
+            "disabled", "passive", "bounded", "committed", "dynamic_committed"
+        ],
+        default="disabled",
+        help=(
+            "Let PGNW select red, blue, or no-pickup observations. Passive "
+            "logs requests only; bounded adds a capped uncertainty-gated MPC "
+            "preference; committed chooses target alignment only within a "
+            "safety-filtered MPC regret bound; dynamic_committed first admits "
+            "a Gemma-proposed L1 hypothesis from discovery evidence."
+        ),
+    )
+    parser.add_argument(
+        "--tiny-scientist-dynamic-model",
+        default="google/gemma-3-1b-it",
+        help="Local base model used only by dynamic_committed proposal generation.",
+    )
+    parser.add_argument(
+        "--tiny-scientist-dynamic-adapter",
+        default=None,
+        help="L1 LoRA adapter required by dynamic_committed proposal generation.",
+    )
+    parser.add_argument(
+        "--tiny-scientist-experiment-guidance-weight",
+        type=float,
+        default=0.03,
+        help="Maximum PGNW experiment preference added to ambiguous MPC scores.",
+    )
+    parser.add_argument(
+        "--tiny-scientist-experiment-guidance-margin",
+        type=float,
+        default=0.08,
+        help="MPC score-margin range in which PGNW experiment guidance may act.",
+    )
+    parser.add_argument(
+        "--tiny-scientist-experiment-commit-seconds",
+        type=float,
+        default=3.0,
+        help="Maximum duration of each constrained PGNW target commitment.",
+    )
+    parser.add_argument(
+        "--tiny-scientist-experiment-commit-cooldown-seconds",
+        type=float,
+        default=2.0,
+        help="Cooldown before PGNW may recommit to a still-visible target.",
+    )
+    parser.add_argument(
+        "--tiny-scientist-experiment-max-score-regret",
+        type=float,
+        default=0.18,
+        help="Largest MPC-score loss admitted for target-aligned commitment.",
+    )
+    parser.add_argument(
+        "--tiny-scientist-experiment-isolation-retreat-seconds",
+        type=float,
+        default=2.0,
+        help="Brief post-pickup interval allowed stronger safe food repulsion.",
+    )
+    parser.add_argument(
+        "--tiny-scientist-experiment-isolation-retreat-max-score-regret",
+        type=float,
+        default=0.35,
+        help="Collision-safe MPC regret bound during immediate post-pickup retreat.",
+    )
     args = parser.parse_args()
 
     random.seed(args.seed)
@@ -3739,6 +5034,45 @@ def main():
             torch.manual_seed(args.seed)
         except ImportError:
             pass
+
+    if (
+        args.tiny_scientist_experiment_control == "dynamic_committed"
+        and not args.tiny_scientist_dynamic_adapter
+    ):
+        parser.error("dynamic_committed requires --tiny-scientist-dynamic-adapter")
+    if args.typed_interaction_sealed_discovery:
+        from typed_causal_domain import validate_sealed_discovery_memory
+
+        if not args.typed_interaction_formulation or not args.typed_interaction_learning:
+            parser.error("sealed discovery requires learning and formulation")
+        if not args.typed_interaction_discovery_memory or not args.typed_interaction_memory:
+            parser.error("sealed discovery requires separate discovery and run memories")
+        discovery_path = Path(args.typed_interaction_discovery_memory).resolve()
+        run_memory_path = Path(args.typed_interaction_memory).resolve()
+        if discovery_path == run_memory_path:
+            parser.error("sealed discovery input and writable memory must differ")
+        try:
+            validate_sealed_discovery_memory(discovery_path)
+        except (OSError, ValueError, json.JSONDecodeError) as exc:
+            parser.error(f"invalid sealed discovery: {exc}")
+        if run_memory_path.exists():
+            parser.error(f"writable typed memory already exists: {run_memory_path}")
+        if not args.shadow_log:
+            parser.error("sealed discovery requires an explicit fresh --shadow-log")
+        shadow_log_path = Path(args.shadow_log).resolve()
+        if shadow_log_path.exists():
+            parser.error(f"shadow log already exists: {shadow_log_path}")
+    hypothesis_proposer = None
+    if args.tiny_scientist_experiment_control == "dynamic_committed":
+        hypothesis_proposer = LocalL1HypothesisProposer(
+            args.tiny_scientist_dynamic_model,
+            args.tiny_scientist_dynamic_adapter,
+        )
+    typed_interaction_proposer = (
+        LocalCalibratedOrderedProposer(args.typed_interaction_formulation_model)
+        if args.typed_interaction_formulation
+        else None
+    )
 
     link = UnityBodyLink(args.unity_host, args.unity_port, args.listen_port)
     ego = EmbodiedFunctionalEgo(
@@ -3773,6 +5107,58 @@ def main():
         passive_conductor=args.passive_conductor,
         conductor_checkpoint=args.conductor_checkpoint,
         conductor_control=args.conductor_control,
+        systemic_conductor_checkpoint=args.systemic_conductor_checkpoint,
+        systemic_conductor_control=args.systemic_conductor_control,
+        systemic_conductor_confidence=args.systemic_conductor_confidence,
+        adaptive_gnw_passive=args.adaptive_gnw_passive,
+        adaptive_gnw_control=args.adaptive_gnw_control,
+        tiny_scientist_rule_control=args.tiny_scientist_rule_control,
+        tiny_scientist_experiment_control=(
+            args.tiny_scientist_experiment_control
+        ),
+        tiny_scientist_experiment_seed=args.seed,
+        tiny_scientist_experiment_guidance_weight=(
+            args.tiny_scientist_experiment_guidance_weight
+        ),
+        tiny_scientist_experiment_guidance_margin=(
+            args.tiny_scientist_experiment_guidance_margin
+        ),
+        tiny_scientist_experiment_commit_seconds=(
+            args.tiny_scientist_experiment_commit_seconds
+        ),
+        tiny_scientist_experiment_commit_cooldown_seconds=(
+            args.tiny_scientist_experiment_commit_cooldown_seconds
+        ),
+        tiny_scientist_experiment_max_score_regret=(
+            args.tiny_scientist_experiment_max_score_regret
+        ),
+        tiny_scientist_experiment_isolation_retreat_seconds=(
+            args.tiny_scientist_experiment_isolation_retreat_seconds
+        ),
+        tiny_scientist_experiment_isolation_retreat_max_score_regret=(
+            args.tiny_scientist_experiment_isolation_retreat_max_score_regret
+        ),
+        tiny_scientist_hypothesis_proposer=hypothesis_proposer,
+        causal_probe_delay_seconds=args.causal_probe_delay_seconds,
+        causal_probe_cancellation_feature=(
+            args.causal_probe_cancellation_feature
+        ),
+        causal_probe_hunger_cost=args.causal_probe_hunger_cost,
+        typed_interaction_learning=args.typed_interaction_learning,
+        typed_interaction_memory=args.typed_interaction_memory,
+        typed_interaction_discovery_memory=(
+            args.typed_interaction_discovery_memory
+        ),
+        typed_interaction_hypothesis_proposer=typed_interaction_proposer,
+        typed_interaction_rule_control=args.typed_interaction_rule_control,
+        pgnw_multi_hypothesis_arbitration=(
+            args.pgnw_multi_hypothesis_arbitration
+        ),
+        typed_metabolic_role_learning=args.typed_metabolic_role_learning,
+        typed_metabolic_role_memory=args.typed_metabolic_role_memory,
+        typed_metabolic_role_discovery_memory=(
+            args.typed_metabolic_role_discovery_memory
+        ),
     )
     ego.controller_seed = args.seed
     ego.terrain_air_observer = PassiveTerrainAirObserver(args.terrain_air_memory)
@@ -3783,9 +5169,25 @@ def main():
         max_control_seconds=args.terrain_air_route_seconds,
         max_guidance_weight=args.terrain_air_max_guidance_weight,
         guidance_margin_threshold=args.terrain_air_guidance_margin,
+        teacher_memory=args.terrain_air_teacher_memory,
+    )
+    ego.resource_memory = PassiveTerrainResourceMemory(
+        args.terrain_resource_memory,
+        hunger_gate=args.terrain_resource_hunger_gate,
+        hz=args.hz,
+        control_mode=args.terrain_resource_control,
+        max_guidance_weight=args.terrain_resource_max_guidance_weight,
+    )
+    ego.tiny_scientist_memory = VerifiedProductionMemory(
+        args.tiny_scientist_production_memory
     )
     if args.initial_hunger is not None:
         ego.hunger = clamp(args.initial_hunger)
+    initial_probe = args.initial_causal_probe_signal
+    if initial_probe is None:
+        initial_probe = args.initial_metabolic_pressure
+    if initial_probe is not None:
+        ego.causal_probe_signal = clamp(initial_probe)
     delay = 1.0 / max(args.hz, 0.1)
     started = time.time()
     latest_body = None
@@ -3825,12 +5227,14 @@ def main():
                     diagnostic_teleport = None
                 else:
                     ego.update_from_body(latest_body)
+                    ego.update_tiny_scientist_rule_targeting(latest_body)
                     action = ego.choose_action(latest_body)
                     ego.update_shadow_policy(latest_body, action)
                     ego.terrain_air_observer.update(
                         latest_body, ego.hunger, ego.shadow_action
                     )
                     ego.update_conductor_observer(latest_body)
+                    ego.update_systemic_conductor(latest_body)
                     if recorder is not None:
                         recorder.write(ego, latest_body, action)
                     last_payload = ego.command_payload(action)

@@ -1,0 +1,52 @@
+{
+  "date": "2026-08-01",
+  "recording": "outputs/unity_shadow/red_blue_rule_verification_scattered_20260801.jsonl",
+  "hypothesis_under_test": {
+    "cause": "red pickup",
+    "effect": "increased internal pressure",
+    "predicted_delay_seconds": 10.464,
+    "authority_during_test": 0.0
+  },
+  "run": {
+    "seed": 92,
+    "frames": 5713,
+    "duration_seconds": 1199.979,
+    "total_pickups": 24,
+    "red_visible_frames": 23,
+    "red_visible_segments": 1,
+    "red_pickups": 1,
+    "counter_resets": 0,
+    "survival_failures": 1,
+    "survival_failure_reason": "persistent_physics_wedge",
+    "unstuck_respawns": 1
+  },
+  "evidence": {
+    "blue": {
+      "episodes": 23,
+      "isolated_episodes": 15,
+      "mean_pressure_delta": -0.0001,
+      "positive_pressure_fraction": 0.0
+    },
+    "red": {
+      "episodes": 1,
+      "isolated_episodes": 1,
+      "mean_pressure_delta": 0.34,
+      "positive_pressure_fraction": 1.0,
+      "mean_positive_delay_seconds": 10.416
+    }
+  },
+  "passive_scientific_gnw": {
+    "red_broadcasts": 1,
+    "action_influence": 0
+  },
+  "preregistered_eligibility": {
+    "minimum_isolated_red": 2,
+    "observed_isolated_red": 1,
+    "red_eligible": false,
+    "minimum_isolated_blue": 6,
+    "observed_isolated_blue": 15,
+    "blue_eligible": true
+  },
+  "verdict": "supportive_but_inconclusive_insufficient_red_replication",
+  "interpretation": "The single prospective isolated red episode matched the proposed effect magnitude and latency, and the blue controls remained negative. Because the pre-registered trial required two isolated red episodes, this is supporting evidence but not a verification pass or Rule Commit."
+}

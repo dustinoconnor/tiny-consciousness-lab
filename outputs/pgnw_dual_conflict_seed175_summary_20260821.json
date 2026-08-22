@@ -1,0 +1,21 @@
+{
+  "date": "2026-08-21",
+  "seed": 175,
+  "duration_seconds": 89.927,
+  "rows": 429,
+  "first_red_seconds": 2.519,
+  "red_pickup_hunger": 0.933,
+  "first_yellow_seconds": 5.481,
+  "first_blue_seconds": 8.835,
+  "yellow_before_blue_seconds": 3.354,
+  "first_conflict_selected_feature": "blue",
+  "first_conflict_authority_frames": 14,
+  "first_conflict_action_influence": 9,
+  "hazard_cancelled_events": 2,
+  "hazard_cost_events": 0,
+  "stuck_events": 0,
+  "survival_failures": 0,
+  "respawns": 0,
+  "preregistered_result": "motor_authority_calibration_fail",
+  "claim_boundary": "Verified blue selection changed MPC decisions, but the 0.30 score-regret constraint did not admit the leftward turn needed to reach blue before the visible yellow."
+}

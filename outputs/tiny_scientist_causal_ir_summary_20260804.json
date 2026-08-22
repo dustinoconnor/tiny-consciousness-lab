@@ -1,0 +1,77 @@
+{
+  "date": "2026-08-04",
+  "experiment": "agent_native_causal_representation_benchmark_v1",
+  "verdict": "token_reduction_without_success_preservation",
+  "claim_boundary": "No inference-cost-per-success improvement is established because every compact-IR condition had zero accepted hypotheses.",
+  "recording": "outputs/unity_shadow/red_blue_tiny_scientist_20260731.jsonl",
+  "models": [
+    "google/gemma-3-270m-it",
+    "google/gemma-3-1b-it"
+  ],
+  "controls": {
+    "evidence_interface": "homeostatic_filtered",
+    "evidence_orders": [
+      "canonical",
+      "reversed"
+    ],
+    "same_canonical_semantic_verifier": true,
+    "same_formal_falsifier_compiler": true,
+    "authority": 0.0
+  },
+  "static_token_result": {
+    "compact_json_output_tokens": 39,
+    "c1_output_tokens": 17,
+    "output_token_reduction_percent": 56.41,
+    "json_chat_prompt_tokens": 249,
+    "c1_chat_prompt_tokens": 152,
+    "prompt_token_reduction_percent": 38.96
+  },
+  "live_results": {
+    "gemma_270m_free": {
+      "json_accepted": "0/2",
+      "c1_accepted": "0/2",
+      "json_mean_retry_adjusted_tokens_per_trial": 760.0,
+      "c1_mean_retry_adjusted_tokens_per_trial": 441.0,
+      "c1_token_reduction_percent": 41.97
+    },
+    "gemma_1b_free": {
+      "json_accepted": "0/2",
+      "c1_accepted": "0/2",
+      "json_mean_retry_adjusted_tokens_per_trial": 743.0,
+      "c1_mean_retry_adjusted_tokens_per_trial": 414.5,
+      "c1_token_reduction_percent": 44.21
+    },
+    "gemma_1b_one_example_free": {
+      "json_accepted": "1/2",
+      "c1_accepted": "0/2",
+      "interpretation": "The single negative example introduced direction and copying bias and is not a valid efficiency win."
+    },
+    "gemma_1b_balanced_examples_constrained": {
+      "json_accepted": "1/2",
+      "c1_accepted": "0/2",
+      "json_mean_tokens_per_trial": 415.0,
+      "c1_mean_tokens_per_trial": 254.0,
+      "interpretation": "C1 remained semantically order-sensitive despite guaranteed syntax."
+    },
+    "gemma_1b_dependency_ordered_c2_constrained": {
+      "json_accepted": "0/2",
+      "c2_accepted": "0/2",
+      "json_mean_tokens_per_trial": 288.0,
+      "c2_mean_tokens_per_trial": 167.5,
+      "c2_token_reduction_percent": 41.84,
+      "interpretation": "C2 selected red and pressure increase in canonical order but selected zero latency; reversed order selected the wrong effect."
+    }
+  },
+  "publication_assessment": {
+    "positive_50_percent_cost_claim_supported": false,
+    "representation_failure_result_is_preliminary": true,
+    "next_required_test": "Train or adapter-tune the compact grammar on held-out synthetic causal tables, freeze it before evaluation, and report success-at-budget across multiple unseen causal relations rather than retuning on the red/blue recording."
+  },
+  "artifacts": [
+    "outputs/tiny_scientist_causal_ir_benchmark_270m_20260804.json",
+    "outputs/tiny_scientist_causal_ir_benchmark_1b_20260804.json",
+    "outputs/tiny_scientist_causal_ir_scaffolded_1b_20260804.json",
+    "outputs/tiny_scientist_causal_ir_balanced_constrained_1b_20260804.json",
+    "outputs/tiny_scientist_causal_ir_v2_constrained_1b_20260804.json"
+  ]
+}

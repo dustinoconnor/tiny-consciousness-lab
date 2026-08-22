@@ -75,6 +75,10 @@ public class RobotUdpBridge : MonoBehaviour
     private float lastMushroomReward;
     private int totalMushroomPickups;
     private float totalMushroomReward;
+    private string pendingMushroomFeature = "none";
+    private int totalRedMushroomPickups;
+    private int totalBlueMushroomPickups;
+    private int totalYellowFlowerPickups;
     private float lastDopamineFoodBoost;
     private int lastMushroomsEaten;
     private bool lastFoodVisible;
@@ -98,6 +102,7 @@ public class RobotUdpBridge : MonoBehaviour
     private string lastHeadingAction = "up";
     private int lastHeadingTicks;
     private float lastPhysicsWedgeSeconds;
+    private float lastTrapAccumulationSeconds;
     private int lastUnstuckRespawns;
     private string lastWorkspaceIntent = "continue_heading";
     private string lastWorkspaceProblem = "none";
@@ -124,7 +129,32 @@ public class RobotUdpBridge : MonoBehaviour
     private int lastShadowMpcUncertaintyStops;
     private int lastShadowMpcPlanningFrames;
     private int lastShadowMpcCriticalFrames;
+    private bool lastOrbitAdapterEnabled;
+    private bool lastOrbitAdapterActive;
+    private string lastOrbitAdapterAction = "none";
+    private float lastOrbitAdapterConfidence;
+    private int lastOrbitAdapterEvents;
+    private float lastOrbitPath;
+    private float lastOrbitNet;
+    private float lastOrbitEfficiency = 1f;
+    private bool lastHiddenGoalAdapterEnabled;
+    private bool lastHiddenGoalAdapterActive;
+    private string lastHiddenGoalAdapterAction = "none";
+    private float lastHiddenGoalAdapterConfidence;
+    private int lastHiddenGoalAdapterEvents;
     private float lastFoodSensorRadius = 16f;
+    private string lastArtObserverMode = "passive_fuzzy_art";
+    private string lastArtCategory = "unassigned";
+    private string lastArtCategoryLabel = "unlearned";
+    private string lastArtEvidenceLabel = "unobserved";
+    private float lastArtMatch;
+    private bool lastArtResonance;
+    private bool lastArtNovel;
+    private bool lastArtUnknown;
+    private int lastArtMismatchResets;
+    private int lastArtMismatchResetsTotal;
+    private int lastArtCategoryCount;
+    private int lastArtCategorySwitches;
     private bool hasAiMoveTarget;
     private bool desiredAiRun;
     private Vector2 desiredAiMove;
@@ -191,6 +221,7 @@ public class RobotUdpBridge : MonoBehaviour
         public string heading_action;
         public int heading_ticks;
         public float physics_wedge_seconds;
+        public float trap_accumulation_seconds;
         public int unstuck_respawns;
         public int escape_ticks;
         public int stuck_events;
@@ -211,6 +242,7 @@ public class RobotUdpBridge : MonoBehaviour
         public bool shadow_takeover;
         public float shadow_world_x;
         public float shadow_world_z;
+        public bool shadow_continuous;
         public int shadow_takeover_steps;
         public int shadow_body_safe_actions;
         public bool shadow_mpc;
@@ -222,8 +254,34 @@ public class RobotUdpBridge : MonoBehaviour
         public int shadow_mpc_uncertainty_stops;
         public int shadow_mpc_planning_frames;
         public int shadow_mpc_critical_frames;
+        public bool orbit_adapter_enabled;
+        public bool orbit_adapter_active;
+        public string orbit_adapter_action;
+        public float orbit_adapter_confidence;
+        public int orbit_adapter_events;
+        public float orbit_path;
+        public float orbit_net;
+        public float orbit_efficiency;
+        public bool hidden_goal_adapter_enabled;
+        public bool hidden_goal_adapter_active;
+        public string hidden_goal_adapter_action;
+        public float hidden_goal_adapter_confidence;
+        public int hidden_goal_adapter_events;
         public float food_sensor_radius;
+        public string art_observer_mode;
+        public string art_category;
+        public string art_category_label;
+        public string art_evidence_label;
+        public float art_match;
+        public bool art_resonance;
+        public bool art_novel;
+        public bool art_unknown;
+        public int art_mismatch_resets;
+        public int art_mismatch_resets_total;
+        public int art_category_count;
+        public int art_category_switches;
         public string trap_course;
+        public string trap_course_variant;
         public int trap_episode;
         public int trap_successes;
         public int trap_failures;
@@ -264,6 +322,10 @@ public class RobotUdpBridge : MonoBehaviour
         public float mushroom_reward;
         public int mushroom_pickups_total;
         public float mushroom_reward_total;
+        public string mushroom_feature;
+        public int red_mushroom_pickups_total;
+        public int blue_mushroom_pickups_total;
+        public int yellow_flower_pickups_total;
         public bool food_visible;
         public float food_distance;
         public float food_dir_x;
@@ -276,9 +338,23 @@ public class RobotUdpBridge : MonoBehaviour
         public int food_visible_in_radius;
         public int food_occluded_in_radius;
         public float nearest_available_food_distance;
+        public string food_feature;
+        public bool red_food_visible;
+        public float red_food_distance;
+        public float red_food_world_x;
+        public float red_food_world_z;
+        public bool blue_food_visible;
+        public float blue_food_distance;
+        public float blue_food_world_x;
+        public float blue_food_world_z;
+        public bool yellow_food_visible;
+        public float yellow_food_distance;
+        public float yellow_food_world_x;
+        public float yellow_food_world_z;
         public float[] directional_rays;
         public float[] directional_body_clearance;
         public string trap_course;
+        public string trap_course_variant;
         public int trap_episode;
         public int trap_successes;
         public int trap_failures;
@@ -336,6 +412,10 @@ public class RobotUdpBridge : MonoBehaviour
         lastMushroomReward = 0f;
         totalMushroomPickups = 0;
         totalMushroomReward = 0f;
+        pendingMushroomFeature = "none";
+        totalRedMushroomPickups = 0;
+        totalBlueMushroomPickups = 0;
+        totalYellowFlowerPickups = 0;
         lastDopamineFoodBoost = 0f;
         lastMushroomsEaten = 0;
         lastFoodVisible = false;
@@ -403,12 +483,21 @@ public class RobotUdpBridge : MonoBehaviour
         {
             Vector3 shadowWorld = new Vector3(command.shadow_world_x, 0f, command.shadow_world_z);
             Vector2 shadowInput = WorldDirectionToCameraInput(shadowWorld.normalized);
+            if (command.shadow_continuous)
+            {
+                shadowInput *= Mathf.Clamp01(shadowWorld.magnitude);
+            }
             command.move_x = shadowInput.x;
             command.move_z = shadowInput.y;
         }
 
         string action = string.IsNullOrWhiteSpace(command.action) ? VectorToAction(command.move_x, command.move_z) : command.action;
         string mode = string.IsNullOrWhiteSpace(command.mode) ? "wake" : command.mode;
+        if (string.Equals(action, "experiment_reset", StringComparison.OrdinalIgnoreCase))
+        {
+            ResetTerrainExperiment();
+            return;
+        }
         if (string.Equals(action, "diagnostic_teleport", StringComparison.OrdinalIgnoreCase))
         {
             Vector3 destination = new Vector3(command.teleport_x, 0f, command.teleport_z);
@@ -565,6 +654,7 @@ public class RobotUdpBridge : MonoBehaviour
         lastHeadingAction = string.IsNullOrWhiteSpace(command.heading_action) ? lastHeadingAction : command.heading_action;
         lastHeadingTicks = command.heading_ticks;
         lastPhysicsWedgeSeconds = command.physics_wedge_seconds;
+        lastTrapAccumulationSeconds = command.trap_accumulation_seconds;
         lastUnstuckRespawns = command.unstuck_respawns;
         lastWorkspaceIntent = string.IsNullOrWhiteSpace(command.workspace_intent) ? lastWorkspaceIntent : command.workspace_intent;
         lastWorkspaceProblem = string.IsNullOrWhiteSpace(command.workspace_problem) ? lastWorkspaceProblem : command.workspace_problem;
@@ -591,6 +681,31 @@ public class RobotUdpBridge : MonoBehaviour
         lastShadowMpcUncertaintyStops = command.shadow_mpc_uncertainty_stops;
         lastShadowMpcPlanningFrames = command.shadow_mpc_planning_frames;
         lastShadowMpcCriticalFrames = command.shadow_mpc_critical_frames;
+        lastOrbitAdapterEnabled = command.orbit_adapter_enabled;
+        lastOrbitAdapterActive = command.orbit_adapter_active;
+        lastOrbitAdapterAction = string.IsNullOrWhiteSpace(command.orbit_adapter_action) ? "none" : command.orbit_adapter_action;
+        lastOrbitAdapterConfidence = command.orbit_adapter_confidence;
+        lastOrbitAdapterEvents = command.orbit_adapter_events;
+        lastOrbitPath = command.orbit_path;
+        lastOrbitNet = command.orbit_net;
+        lastOrbitEfficiency = command.orbit_efficiency;
+        lastHiddenGoalAdapterEnabled = command.hidden_goal_adapter_enabled;
+        lastHiddenGoalAdapterActive = command.hidden_goal_adapter_active;
+        lastHiddenGoalAdapterAction = string.IsNullOrWhiteSpace(command.hidden_goal_adapter_action) ? "none" : command.hidden_goal_adapter_action;
+        lastHiddenGoalAdapterConfidence = command.hidden_goal_adapter_confidence;
+        lastHiddenGoalAdapterEvents = command.hidden_goal_adapter_events;
+        lastArtObserverMode = string.IsNullOrWhiteSpace(command.art_observer_mode) ? "passive_fuzzy_art" : command.art_observer_mode;
+        lastArtCategory = string.IsNullOrWhiteSpace(command.art_category) ? "unassigned" : command.art_category;
+        lastArtCategoryLabel = string.IsNullOrWhiteSpace(command.art_category_label) ? "unlearned" : command.art_category_label;
+        lastArtEvidenceLabel = string.IsNullOrWhiteSpace(command.art_evidence_label) ? "unobserved" : command.art_evidence_label;
+        lastArtMatch = command.art_match;
+        lastArtResonance = command.art_resonance;
+        lastArtNovel = command.art_novel;
+        lastArtUnknown = command.art_unknown;
+        lastArtMismatchResets = command.art_mismatch_resets;
+        lastArtMismatchResetsTotal = command.art_mismatch_resets_total;
+        lastArtCategoryCount = command.art_category_count;
+        lastArtCategorySwitches = command.art_category_switches;
         if (command.food_sensor_radius > 0f)
         {
             lastFoodSensorRadius = command.food_sensor_radius;
@@ -665,6 +780,9 @@ public class RobotUdpBridge : MonoBehaviour
         bool rightClear = IsClear(transform.right);
         ObstacleSensor nearestObstacle = SenseForwardObstacle();
         FoodSensor nearestFood = SenseNearestFood();
+        FoodSensor nearestRedFood = SenseNearestFoodFeature("red");
+        FoodSensor nearestBlueFood = SenseNearestFoodFeature("blue");
+        FoodSensor nearestYellowFood = SenseNearestFoodFeature("yellow");
         lastFoodVisible = nearestFood.visible;
         lastFoodDistance = nearestFood.distance;
         lastObstacleVisible = nearestObstacle.visible;
@@ -706,6 +824,10 @@ public class RobotUdpBridge : MonoBehaviour
             mushroom_reward = pendingMushroomReward,
             mushroom_pickups_total = totalMushroomPickups,
             mushroom_reward_total = totalMushroomReward,
+            mushroom_feature = pendingMushroomFeature,
+            red_mushroom_pickups_total = totalRedMushroomPickups,
+            blue_mushroom_pickups_total = totalBlueMushroomPickups,
+            yellow_flower_pickups_total = totalYellowFlowerPickups,
             food_visible = nearestFood.visible,
             food_distance = nearestFood.distance,
             food_dir_x = nearestFood.direction.x,
@@ -718,9 +840,23 @@ public class RobotUdpBridge : MonoBehaviour
             food_visible_in_radius = lastVisibleFoodWithinRadius,
             food_occluded_in_radius = lastOccludedFoodWithinRadius,
             nearest_available_food_distance = lastNearestAvailableFoodDistance,
+            food_feature = nearestFood.feature,
+            red_food_visible = nearestRedFood.visible,
+            red_food_distance = nearestRedFood.distance,
+            red_food_world_x = nearestRedFood.worldDirection.x,
+            red_food_world_z = nearestRedFood.worldDirection.z,
+            blue_food_visible = nearestBlueFood.visible,
+            blue_food_distance = nearestBlueFood.distance,
+            blue_food_world_x = nearestBlueFood.worldDirection.x,
+            blue_food_world_z = nearestBlueFood.worldDirection.z,
+            yellow_food_visible = nearestYellowFood.visible,
+            yellow_food_distance = nearestYellowFood.distance,
+            yellow_food_world_x = nearestYellowFood.worldDirection.x,
+            yellow_food_world_z = nearestYellowFood.worldDirection.z,
             directional_rays = SenseDirectionalRays(),
             directional_body_clearance = SenseDirectionalBodyClearance(),
             trap_course = TrapCourseSpawner.CurrentCourseLabel,
+            trap_course_variant = TrapCourseSpawner.CurrentCourseVariant,
             trap_episode = TrapCourseSpawner.CurrentEpisode,
             trap_successes = TrapCourseSpawner.CourseSuccesses,
             trap_failures = TrapCourseSpawner.CourseFailures,
@@ -741,14 +877,35 @@ public class RobotUdpBridge : MonoBehaviour
         lastMushroomReward = pendingMushroomReward;
         pendingMushroomPickups = 0;
         pendingMushroomReward = 0f;
+        pendingMushroomFeature = "none";
     }
 
     public void RegisterMushroomPickup(float dopamineReward)
+    {
+        RegisterMushroomPickup(dopamineReward, "blue");
+    }
+
+    public void RegisterMushroomPickup(float dopamineReward, string observableFeature)
     {
         pendingMushroomPickups += 1;
         pendingMushroomReward = Mathf.Clamp01(pendingMushroomReward + dopamineReward);
         totalMushroomPickups += 1;
         totalMushroomReward += Mathf.Max(0f, dopamineReward);
+        pendingMushroomFeature = string.IsNullOrWhiteSpace(observableFeature)
+            ? "unknown"
+            : observableFeature.Trim().ToLowerInvariant();
+        if (pendingMushroomFeature == "red")
+        {
+            totalRedMushroomPickups += 1;
+        }
+        else if (pendingMushroomFeature == "blue")
+        {
+            totalBlueMushroomPickups += 1;
+        }
+        else if (pendingMushroomFeature == "yellow")
+        {
+            totalYellowFlowerPickups += 1;
+        }
     }
 
     public void SetSpawnPoint(Vector3 position, Quaternion rotation)
@@ -777,6 +934,29 @@ public class RobotUdpBridge : MonoBehaviour
         }
     }
 
+    private void ResetTerrainExperiment()
+    {
+        hasAiMoveTarget = false;
+        desiredAiMove = Vector2.zero;
+        smoothedAiMove = Vector2.zero;
+        aiMoveVelocity = Vector2.zero;
+        desiredAiRun = false;
+        ResetFoodTelemetry();
+        FoodMushroom[] foods = FindObjectsByType<FoodMushroom>(FindObjectsInactive.Include);
+        foreach (FoodMushroom food in foods)
+        {
+            food.ResetForExperiment();
+        }
+        spawnPosition = terrainSpawnPosition;
+        spawnRotation = terrainSpawnRotation;
+        controller.Respawn(spawnPosition, spawnRotation);
+        controller.SetAiCommand("idle", "wake");
+        lastAction = "experiment_reset";
+        lastMode = "wake";
+        lastSleepRemaining = 0;
+        Debug.Log($"RobotUdpBridge reset terrain experiment with {foods.Length} mushrooms.");
+    }
+
     private struct FoodSensor
     {
         public bool visible;
@@ -784,6 +964,7 @@ public class RobotUdpBridge : MonoBehaviour
         public Vector3 direction;
         public Vector2 moveInput;
         public Vector3 worldDirection;
+        public string feature;
     }
 
     private struct ObstacleSensor
@@ -837,7 +1018,7 @@ public class RobotUdpBridge : MonoBehaviour
 
     private FoodSensor SenseNearestFood()
     {
-        FoodSensor result = new FoodSensor { visible = false, distance = 0f, direction = Vector3.zero, moveInput = Vector2.zero, worldDirection = Vector3.zero };
+        FoodSensor result = new FoodSensor { visible = false, distance = 0f, direction = Vector3.zero, moveInput = Vector2.zero, worldDirection = Vector3.zero, feature = "none" };
         FoodMushroom[] foods = FindObjectsByType<FoodMushroom>(FindObjectsInactive.Exclude);
         float sensingRadius = TrapCourseSpawner.IsActive
             ? Mathf.Clamp(lastFoodSensorRadius, 7f, 13f)
@@ -885,7 +1066,7 @@ public class RobotUdpBridge : MonoBehaviour
             float lockedDistance = lockedOffset.magnitude;
             if (lockedDistance > 0.001f && lockedDistance <= sensingRadius + 2f && HasFoodLineOfSight(lockedFoodTarget, lockedDistance))
             {
-                return BuildFoodSensor(lockedOffset.normalized, lockedDistance);
+                return BuildFoodSensor(lockedOffset.normalized, lockedDistance, lockedFoodTarget);
             }
         }
 
@@ -916,9 +1097,37 @@ public class RobotUdpBridge : MonoBehaviour
 
         if (bestDistance < sensingRadius)
         {
-            result = BuildFoodSensor(bestDirection, bestDistance);
+            result = BuildFoodSensor(bestDirection, bestDistance, lockedFoodTarget);
         }
 
+        return result;
+    }
+
+    private FoodSensor SenseNearestFoodFeature(string feature)
+    {
+        FoodSensor result = new FoodSensor { visible = false, distance = 0f, direction = Vector3.zero, moveInput = Vector2.zero, worldDirection = Vector3.zero, feature = feature };
+        FoodMushroom[] foods = FindObjectsByType<FoodMushroom>(FindObjectsInactive.Exclude);
+        float sensingRadius = TrapCourseSpawner.IsActive
+            ? Mathf.Clamp(lastFoodSensorRadius, 7f, 13f)
+            : Mathf.Clamp(lastFoodSensorRadius, foodSensorRadius, 28f);
+        float bestDistance = sensingRadius;
+        Vector3 origin = transform.position;
+        foreach (FoodMushroom food in foods)
+        {
+            if (!TrapCourseSpawner.IsRelevantFood(food) || !food.isActiveAndEnabled || !food.IsAvailable || food.ObservableFeature != feature)
+            {
+                continue;
+            }
+            Vector3 offset = food.transform.position - origin;
+            offset.y = 0f;
+            float distance = offset.magnitude;
+            if (distance <= 0.001f || distance > bestDistance || !HasFoodLineOfSight(food, distance))
+            {
+                continue;
+            }
+            bestDistance = distance;
+            result = BuildFoodSensor(offset.normalized, distance, food);
+        }
         return result;
     }
 
@@ -947,7 +1156,7 @@ public class RobotUdpBridge : MonoBehaviour
         return horizontalDistance <= 7f || !TrapCourseSpawner.IsActive;
     }
 
-    private FoodSensor BuildFoodSensor(Vector3 worldDirection, float distance)
+    private FoodSensor BuildFoodSensor(Vector3 worldDirection, float distance, FoodMushroom food)
     {
         FoodSensor result = new FoodSensor
         {
@@ -955,7 +1164,8 @@ public class RobotUdpBridge : MonoBehaviour
             distance = distance,
             direction = transform.InverseTransformDirection(worldDirection),
             moveInput = WorldDirectionToCameraInput(worldDirection),
-            worldDirection = worldDirection
+            worldDirection = worldDirection,
+            feature = food != null ? food.ObservableFeature : "unknown"
         };
         result.direction.y = 0f;
         return result;
@@ -996,9 +1206,12 @@ public class RobotUdpBridge : MonoBehaviour
             $"Motor Control: {(lastShadowTakeover ? (lastAction == "gru_course" ? "GRU COURSE" : lastAction == "gru_terrain" ? "GRU TERRAIN" : "GRU FOOD") : "STABLE CONTROLLER")}  action {lastAction}\n" +
             $"GRU Shadow ({(lastShadowTakeover ? "ACTIVE" : "PASSIVE")}): {shadowState}  confidence {lastShadowConfidence:0.00}\n" +
             $"MPC: {(lastShadowMpc ? lastShadowMpcMode.ToUpperInvariant() : "OFF")}  H{lastShadowMpcHorizon} D{lastShadowMpcDepth:0.0} U{lastShadowMpcUncertaintyStops}  score {lastShadowMpcScore:+0.00;-0.00;0.00}\n" +
+            $"Orbit Exit: {(!lastOrbitAdapterEnabled ? "OFF" : lastOrbitAdapterActive ? $"ACTIVE {lastOrbitAdapterAction} {lastOrbitAdapterConfidence:0.00}" : "ARMED")}  events {lastOrbitAdapterEvents}  efficiency {lastOrbitEfficiency:0.00}\n" +
+            $"Hidden Goal: {(!lastHiddenGoalAdapterEnabled ? "OFF" : lastHiddenGoalAdapterActive ? $"ACTIVE {lastHiddenGoalAdapterAction} {lastHiddenGoalAdapterConfidence:0.00}" : "ARMED")}  frames {lastHiddenGoalAdapterEvents}\n" +
             $"Shadow Agreement: {lastShadowAgreement:0.00}  entropy {lastShadowEntropy:0.00}\n" +
             $"Body-Clear Actions: {lastShadowBodySafeActions}/8\n" +
             $"Learned Control Frames: {lastShadowTakeoverSteps}\n" +
+            $"ART (PASSIVE): {lastArtCategory} {lastArtCategoryLabel}/{lastArtEvidenceLabel}  M{lastArtMatch:0.00}  {(lastArtUnknown ? "UNKNOWN" : lastArtNovel ? "NOVEL" : lastArtResonance ? "RESONANT" : "SEARCH")}  R{lastArtMismatchResets}/{lastArtMismatchResetsTotal} C{lastArtCategoryCount} S{lastArtCategorySwitches}\n" +
             $"Course: {lastTrapCourse} #{lastTrapEpisode}  {lastTrapOutcome}  Wins {lastTrapSuccesses} / Timeouts {lastTrapFailures}\n" +
             $"Workspace: {lastWorkspaceProblem} / {lastWorkspaceStrategy} ({lastWorkspaceConfidence:0.00})\n" +
             $"Workspace Feeling: {lastWorkspaceFeeling}  Promotions: {lastWorkspacePromotions}\n" +
@@ -1013,7 +1226,7 @@ public class RobotUdpBridge : MonoBehaviour
             $"Grounding Events: reality {lastRealityGateBrakes}  meta {lastMetaMonitorBrakes}  hunger-anchor {lastHungerAnchorSteps}\n" +
             $"Sensory Focus: {lastSensoryFocus:0.00}  events {lastSensoryFocusEvents}\n" +
             $"Contact Probe: {lastContactProbeSeconds:0.0}s\n" +
-            $"Physics Wedge: {lastPhysicsWedgeSeconds:0.0}s  Respawns: {lastUnstuckRespawns}\n" +
+            $"Physics Wedge: {lastPhysicsWedgeSeconds:0.0}s  Trap Accum: {lastTrapAccumulationSeconds:0.0}s  Respawns: {lastUnstuckRespawns}\n" +
             $"False Reports: food {lastFalseFoodReports}  trap {lastFalseTrapReports}\n" +
             $"Mushroom Reward: last {lastMushroomReward:0.00}  total {totalMushroomReward:0.00}\n" +
             $"Food Sensor: {(lastFoodVisible ? "visible" : "none")}  Distance: {lastFoodDistance:0.0}\n" +

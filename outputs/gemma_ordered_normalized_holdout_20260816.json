@@ -1,0 +1,652 @@
+{
+  "conditions": [
+    {
+      "calibrated_gains": {
+        "role_0": -0.5510081052780151,
+        "role_1": -0.4260082244873047
+      },
+      "calibrated_margin": 0.12499988079071045,
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=2|episodes=3; role_1|initiator=red|relation=before|suppressed=1|episodes=4",
+      "confidence": 0.5312093436875466,
+      "correct": false,
+      "count_regime": "two_of_three_vs_one_of_four",
+      "held_out_correct": 0,
+      "held_out_episodes": 2,
+      "raw_records": [
+        {
+          "episodes": 3,
+          "first": "red",
+          "second": "blue",
+          "suppressed": 2,
+          "surface_form": "first_before_second"
+        },
+        {
+          "episodes": 4,
+          "first": "red",
+          "second": "yellow",
+          "suppressed": 1,
+          "surface_form": "first_before_second"
+        }
+      ],
+      "record_order": "forward",
+      "role_mapping": {
+        "blue": "role_0",
+        "yellow": "role_1"
+      },
+      "selected_color": "yellow",
+      "selected_role": "role_1",
+      "suppressor_assignment": "blue",
+      "surface_form": "first_before_second"
+    },
+    {
+      "calibrated_gains": {
+        "role_0": -0.5510081052780151,
+        "role_1": -0.4260082244873047
+      },
+      "calibrated_margin": 0.12499988079071045,
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=2|episodes=3; role_1|initiator=red|relation=before|suppressed=1|episodes=4",
+      "confidence": 0.5312093436875466,
+      "correct": false,
+      "count_regime": "two_of_three_vs_one_of_four",
+      "held_out_correct": 0,
+      "held_out_episodes": 2,
+      "raw_records": [
+        {
+          "episodes": 3,
+          "first": "red",
+          "second": "blue",
+          "suppressed": 2,
+          "surface_form": "second_follows_first"
+        },
+        {
+          "episodes": 4,
+          "first": "red",
+          "second": "yellow",
+          "suppressed": 1,
+          "surface_form": "second_follows_first"
+        }
+      ],
+      "record_order": "forward",
+      "role_mapping": {
+        "blue": "role_0",
+        "yellow": "role_1"
+      },
+      "selected_color": "yellow",
+      "selected_role": "role_1",
+      "suppressor_assignment": "blue",
+      "surface_form": "second_follows_first"
+    },
+    {
+      "calibrated_gains": {
+        "role_0": -0.5510081052780151,
+        "role_1": -0.4260082244873047
+      },
+      "calibrated_margin": 0.12499988079071045,
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=2|episodes=3; role_1|initiator=red|relation=before|suppressed=1|episodes=4",
+      "confidence": 0.5312093436875466,
+      "correct": false,
+      "count_regime": "two_of_three_vs_one_of_four",
+      "held_out_correct": 0,
+      "held_out_episodes": 2,
+      "raw_records": [
+        {
+          "episodes": 4,
+          "first": "red",
+          "second": "yellow",
+          "suppressed": 1,
+          "surface_form": "first_before_second"
+        },
+        {
+          "episodes": 3,
+          "first": "red",
+          "second": "blue",
+          "suppressed": 2,
+          "surface_form": "first_before_second"
+        }
+      ],
+      "record_order": "reverse",
+      "role_mapping": {
+        "blue": "role_0",
+        "yellow": "role_1"
+      },
+      "selected_color": "yellow",
+      "selected_role": "role_1",
+      "suppressor_assignment": "blue",
+      "surface_form": "first_before_second"
+    },
+    {
+      "calibrated_gains": {
+        "role_0": -0.5510081052780151,
+        "role_1": -0.4260082244873047
+      },
+      "calibrated_margin": 0.12499988079071045,
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=2|episodes=3; role_1|initiator=red|relation=before|suppressed=1|episodes=4",
+      "confidence": 0.5312093436875466,
+      "correct": false,
+      "count_regime": "two_of_three_vs_one_of_four",
+      "held_out_correct": 0,
+      "held_out_episodes": 2,
+      "raw_records": [
+        {
+          "episodes": 4,
+          "first": "red",
+          "second": "yellow",
+          "suppressed": 1,
+          "surface_form": "second_follows_first"
+        },
+        {
+          "episodes": 3,
+          "first": "red",
+          "second": "blue",
+          "suppressed": 2,
+          "surface_form": "second_follows_first"
+        }
+      ],
+      "record_order": "reverse",
+      "role_mapping": {
+        "blue": "role_0",
+        "yellow": "role_1"
+      },
+      "selected_color": "yellow",
+      "selected_role": "role_1",
+      "suppressor_assignment": "blue",
+      "surface_form": "second_follows_first"
+    },
+    {
+      "calibrated_gains": {
+        "role_0": -0.2891618013381958,
+        "role_1": -0.25791168212890625
+      },
+      "calibrated_margin": 0.03125011920928955,
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=3|episodes=5; role_1|initiator=red|relation=before|suppressed=0|episodes=4",
+      "confidence": 0.507811894074252,
+      "correct": false,
+      "count_regime": "three_of_five_vs_zero_of_four",
+      "held_out_correct": 0,
+      "held_out_episodes": 2,
+      "raw_records": [
+        {
+          "episodes": 5,
+          "first": "red",
+          "second": "blue",
+          "suppressed": 3,
+          "surface_form": "first_before_second"
+        },
+        {
+          "episodes": 4,
+          "first": "red",
+          "second": "yellow",
+          "suppressed": 0,
+          "surface_form": "first_before_second"
+        }
+      ],
+      "record_order": "forward",
+      "role_mapping": {
+        "blue": "role_0",
+        "yellow": "role_1"
+      },
+      "selected_color": "yellow",
+      "selected_role": "role_1",
+      "suppressor_assignment": "blue",
+      "surface_form": "first_before_second"
+    },
+    {
+      "calibrated_gains": {
+        "role_0": -0.2891618013381958,
+        "role_1": -0.25791168212890625
+      },
+      "calibrated_margin": 0.03125011920928955,
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=3|episodes=5; role_1|initiator=red|relation=before|suppressed=0|episodes=4",
+      "confidence": 0.507811894074252,
+      "correct": false,
+      "count_regime": "three_of_five_vs_zero_of_four",
+      "held_out_correct": 0,
+      "held_out_episodes": 2,
+      "raw_records": [
+        {
+          "episodes": 5,
+          "first": "red",
+          "second": "blue",
+          "suppressed": 3,
+          "surface_form": "second_follows_first"
+        },
+        {
+          "episodes": 4,
+          "first": "red",
+          "second": "yellow",
+          "suppressed": 0,
+          "surface_form": "second_follows_first"
+        }
+      ],
+      "record_order": "forward",
+      "role_mapping": {
+        "blue": "role_0",
+        "yellow": "role_1"
+      },
+      "selected_color": "yellow",
+      "selected_role": "role_1",
+      "suppressor_assignment": "blue",
+      "surface_form": "second_follows_first"
+    },
+    {
+      "calibrated_gains": {
+        "role_0": -0.2891618013381958,
+        "role_1": -0.25791168212890625
+      },
+      "calibrated_margin": 0.03125011920928955,
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=3|episodes=5; role_1|initiator=red|relation=before|suppressed=0|episodes=4",
+      "confidence": 0.507811894074252,
+      "correct": false,
+      "count_regime": "three_of_five_vs_zero_of_four",
+      "held_out_correct": 0,
+      "held_out_episodes": 2,
+      "raw_records": [
+        {
+          "episodes": 4,
+          "first": "red",
+          "second": "yellow",
+          "suppressed": 0,
+          "surface_form": "first_before_second"
+        },
+        {
+          "episodes": 5,
+          "first": "red",
+          "second": "blue",
+          "suppressed": 3,
+          "surface_form": "first_before_second"
+        }
+      ],
+      "record_order": "reverse",
+      "role_mapping": {
+        "blue": "role_0",
+        "yellow": "role_1"
+      },
+      "selected_color": "yellow",
+      "selected_role": "role_1",
+      "suppressor_assignment": "blue",
+      "surface_form": "first_before_second"
+    },
+    {
+      "calibrated_gains": {
+        "role_0": -0.2891618013381958,
+        "role_1": -0.25791168212890625
+      },
+      "calibrated_margin": 0.03125011920928955,
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=3|episodes=5; role_1|initiator=red|relation=before|suppressed=0|episodes=4",
+      "confidence": 0.507811894074252,
+      "correct": false,
+      "count_regime": "three_of_five_vs_zero_of_four",
+      "held_out_correct": 0,
+      "held_out_episodes": 2,
+      "raw_records": [
+        {
+          "episodes": 4,
+          "first": "red",
+          "second": "yellow",
+          "suppressed": 0,
+          "surface_form": "second_follows_first"
+        },
+        {
+          "episodes": 5,
+          "first": "red",
+          "second": "blue",
+          "suppressed": 3,
+          "surface_form": "second_follows_first"
+        }
+      ],
+      "record_order": "reverse",
+      "role_mapping": {
+        "blue": "role_0",
+        "yellow": "role_1"
+      },
+      "selected_color": "yellow",
+      "selected_role": "role_1",
+      "suppressor_assignment": "blue",
+      "surface_form": "second_follows_first"
+    },
+    {
+      "calibrated_gains": {
+        "role_0": -0.5919220447540283,
+        "role_1": -0.3419218063354492
+      },
+      "calibrated_margin": 0.2500002384185791,
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=1|episodes=4; role_1|initiator=red|relation=before|suppressed=2|episodes=3",
+      "confidence": 0.5621765595687355,
+      "correct": true,
+      "count_regime": "two_of_three_vs_one_of_four",
+      "held_out_correct": 2,
+      "held_out_episodes": 2,
+      "raw_records": [
+        {
+          "episodes": 4,
+          "first": "red",
+          "second": "blue",
+          "suppressed": 1,
+          "surface_form": "first_before_second"
+        },
+        {
+          "episodes": 3,
+          "first": "red",
+          "second": "yellow",
+          "suppressed": 2,
+          "surface_form": "first_before_second"
+        }
+      ],
+      "record_order": "forward",
+      "role_mapping": {
+        "blue": "role_0",
+        "yellow": "role_1"
+      },
+      "selected_color": "yellow",
+      "selected_role": "role_1",
+      "suppressor_assignment": "yellow",
+      "surface_form": "first_before_second"
+    },
+    {
+      "calibrated_gains": {
+        "role_0": -0.5919220447540283,
+        "role_1": -0.3419218063354492
+      },
+      "calibrated_margin": 0.2500002384185791,
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=1|episodes=4; role_1|initiator=red|relation=before|suppressed=2|episodes=3",
+      "confidence": 0.5621765595687355,
+      "correct": true,
+      "count_regime": "two_of_three_vs_one_of_four",
+      "held_out_correct": 2,
+      "held_out_episodes": 2,
+      "raw_records": [
+        {
+          "episodes": 4,
+          "first": "red",
+          "second": "blue",
+          "suppressed": 1,
+          "surface_form": "second_follows_first"
+        },
+        {
+          "episodes": 3,
+          "first": "red",
+          "second": "yellow",
+          "suppressed": 2,
+          "surface_form": "second_follows_first"
+        }
+      ],
+      "record_order": "forward",
+      "role_mapping": {
+        "blue": "role_0",
+        "yellow": "role_1"
+      },
+      "selected_color": "yellow",
+      "selected_role": "role_1",
+      "suppressor_assignment": "yellow",
+      "surface_form": "second_follows_first"
+    },
+    {
+      "calibrated_gains": {
+        "role_0": -0.5919220447540283,
+        "role_1": -0.3419218063354492
+      },
+      "calibrated_margin": 0.2500002384185791,
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=1|episodes=4; role_1|initiator=red|relation=before|suppressed=2|episodes=3",
+      "confidence": 0.5621765595687355,
+      "correct": true,
+      "count_regime": "two_of_three_vs_one_of_four",
+      "held_out_correct": 2,
+      "held_out_episodes": 2,
+      "raw_records": [
+        {
+          "episodes": 3,
+          "first": "red",
+          "second": "yellow",
+          "suppressed": 2,
+          "surface_form": "first_before_second"
+        },
+        {
+          "episodes": 4,
+          "first": "red",
+          "second": "blue",
+          "suppressed": 1,
+          "surface_form": "first_before_second"
+        }
+      ],
+      "record_order": "reverse",
+      "role_mapping": {
+        "blue": "role_0",
+        "yellow": "role_1"
+      },
+      "selected_color": "yellow",
+      "selected_role": "role_1",
+      "suppressor_assignment": "yellow",
+      "surface_form": "first_before_second"
+    },
+    {
+      "calibrated_gains": {
+        "role_0": -0.5919220447540283,
+        "role_1": -0.3419218063354492
+      },
+      "calibrated_margin": 0.2500002384185791,
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=1|episodes=4; role_1|initiator=red|relation=before|suppressed=2|episodes=3",
+      "confidence": 0.5621765595687355,
+      "correct": true,
+      "count_regime": "two_of_three_vs_one_of_four",
+      "held_out_correct": 2,
+      "held_out_episodes": 2,
+      "raw_records": [
+        {
+          "episodes": 3,
+          "first": "red",
+          "second": "yellow",
+          "suppressed": 2,
+          "surface_form": "second_follows_first"
+        },
+        {
+          "episodes": 4,
+          "first": "red",
+          "second": "blue",
+          "suppressed": 1,
+          "surface_form": "second_follows_first"
+        }
+      ],
+      "record_order": "reverse",
+      "role_mapping": {
+        "blue": "role_0",
+        "yellow": "role_1"
+      },
+      "selected_color": "yellow",
+      "selected_role": "role_1",
+      "suppressor_assignment": "yellow",
+      "surface_form": "second_follows_first"
+    },
+    {
+      "calibrated_gains": {
+        "role_0": -0.5191946029663086,
+        "role_1": -0.4254446029663086
+      },
+      "calibrated_margin": 0.09375,
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=0|episodes=4; role_1|initiator=red|relation=before|suppressed=3|episodes=5",
+      "confidence": 0.523420348936324,
+      "correct": true,
+      "count_regime": "three_of_five_vs_zero_of_four",
+      "held_out_correct": 2,
+      "held_out_episodes": 2,
+      "raw_records": [
+        {
+          "episodes": 4,
+          "first": "red",
+          "second": "blue",
+          "suppressed": 0,
+          "surface_form": "first_before_second"
+        },
+        {
+          "episodes": 5,
+          "first": "red",
+          "second": "yellow",
+          "suppressed": 3,
+          "surface_form": "first_before_second"
+        }
+      ],
+      "record_order": "forward",
+      "role_mapping": {
+        "blue": "role_0",
+        "yellow": "role_1"
+      },
+      "selected_color": "yellow",
+      "selected_role": "role_1",
+      "suppressor_assignment": "yellow",
+      "surface_form": "first_before_second"
+    },
+    {
+      "calibrated_gains": {
+        "role_0": -0.5191946029663086,
+        "role_1": -0.4254446029663086
+      },
+      "calibrated_margin": 0.09375,
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=0|episodes=4; role_1|initiator=red|relation=before|suppressed=3|episodes=5",
+      "confidence": 0.523420348936324,
+      "correct": true,
+      "count_regime": "three_of_five_vs_zero_of_four",
+      "held_out_correct": 2,
+      "held_out_episodes": 2,
+      "raw_records": [
+        {
+          "episodes": 4,
+          "first": "red",
+          "second": "blue",
+          "suppressed": 0,
+          "surface_form": "second_follows_first"
+        },
+        {
+          "episodes": 5,
+          "first": "red",
+          "second": "yellow",
+          "suppressed": 3,
+          "surface_form": "second_follows_first"
+        }
+      ],
+      "record_order": "forward",
+      "role_mapping": {
+        "blue": "role_0",
+        "yellow": "role_1"
+      },
+      "selected_color": "yellow",
+      "selected_role": "role_1",
+      "suppressor_assignment": "yellow",
+      "surface_form": "second_follows_first"
+    },
+    {
+      "calibrated_gains": {
+        "role_0": -0.5191946029663086,
+        "role_1": -0.4254446029663086
+      },
+      "calibrated_margin": 0.09375,
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=0|episodes=4; role_1|initiator=red|relation=before|suppressed=3|episodes=5",
+      "confidence": 0.523420348936324,
+      "correct": true,
+      "count_regime": "three_of_five_vs_zero_of_four",
+      "held_out_correct": 2,
+      "held_out_episodes": 2,
+      "raw_records": [
+        {
+          "episodes": 5,
+          "first": "red",
+          "second": "yellow",
+          "suppressed": 3,
+          "surface_form": "first_before_second"
+        },
+        {
+          "episodes": 4,
+          "first": "red",
+          "second": "blue",
+          "suppressed": 0,
+          "surface_form": "first_before_second"
+        }
+      ],
+      "record_order": "reverse",
+      "role_mapping": {
+        "blue": "role_0",
+        "yellow": "role_1"
+      },
+      "selected_color": "yellow",
+      "selected_role": "role_1",
+      "suppressor_assignment": "yellow",
+      "surface_form": "first_before_second"
+    },
+    {
+      "calibrated_gains": {
+        "role_0": -0.5191946029663086,
+        "role_1": -0.4254446029663086
+      },
+      "calibrated_margin": 0.09375,
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=0|episodes=4; role_1|initiator=red|relation=before|suppressed=3|episodes=5",
+      "confidence": 0.523420348936324,
+      "correct": true,
+      "count_regime": "three_of_five_vs_zero_of_four",
+      "held_out_correct": 2,
+      "held_out_episodes": 2,
+      "raw_records": [
+        {
+          "episodes": 5,
+          "first": "red",
+          "second": "yellow",
+          "suppressed": 3,
+          "surface_form": "second_follows_first"
+        },
+        {
+          "episodes": 4,
+          "first": "red",
+          "second": "blue",
+          "suppressed": 0,
+          "surface_form": "second_follows_first"
+        }
+      ],
+      "record_order": "reverse",
+      "role_mapping": {
+        "blue": "role_0",
+        "yellow": "role_1"
+      },
+      "selected_color": "yellow",
+      "selected_role": "role_1",
+      "suppressor_assignment": "yellow",
+      "surface_form": "second_follows_first"
+    }
+  ],
+  "fresh_holdout_design": {
+    "conditions": 16,
+    "count_regimes": [
+      "two_of_three_vs_one_of_four",
+      "three_of_five_vs_zero_of_four"
+    ],
+    "record_orders": [
+      "forward",
+      "reverse"
+    ],
+    "suppressor_assignments": [
+      "blue",
+      "yellow"
+    ],
+    "surface_forms": [
+      "first_before_second",
+      "second_follows_first"
+    ]
+  },
+  "model": "google/gemma-3-1b-it",
+  "neutral_scores": {
+    "role_0": -1.3039023876190186,
+    "role_1": -4.241402626037598
+  },
+  "normalization": {
+    "feature_roles": "lexically_sorted_grounded_features_to_role_0_role_1",
+    "outcomes_used_to_assign_roles": false,
+    "record_order": "sorted_by_anonymous_role",
+    "surface_form_used_by_decoder": false,
+    "temporal_relation": "initiator=red|relation=before"
+  },
+  "summary": {
+    "accuracy": 0.5,
+    "correct": 8,
+    "held_out_correct": 16,
+    "held_out_total": 32,
+    "minimum_margin": 0.03125011920928955,
+    "total": 16,
+    "unique_canonical_prompts": 4
+  }
+}

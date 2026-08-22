@@ -1,0 +1,107 @@
+{
+  "admitted": true,
+  "candidate_scores": [
+    {
+      "mean_log_probability": -2.562819004058838,
+      "proposal": {
+        "confidence": 0.28400659786945676,
+        "initiator": "red",
+        "observed_effect": "suppresses_probe",
+        "relation": "after",
+        "second_action": "blue"
+      }
+    },
+    {
+      "mean_log_probability": -2.5923848152160645,
+      "proposal": {
+        "confidence": 0.5,
+        "initiator": "red",
+        "observed_effect": "does_not_suppress_probe",
+        "relation": "after",
+        "second_action": "blue"
+      }
+    },
+    {
+      "mean_log_probability": -2.8033385276794434,
+      "proposal": {
+        "confidence": 0.5,
+        "initiator": "red",
+        "observed_effect": "suppresses_probe",
+        "relation": "after",
+        "second_action": "yellow"
+      }
+    },
+    {
+      "mean_log_probability": -2.8320605754852295,
+      "proposal": {
+        "confidence": 0.5,
+        "initiator": "red",
+        "observed_effect": "does_not_suppress_probe",
+        "relation": "after",
+        "second_action": "yellow"
+      }
+    }
+  ],
+  "compiled": {
+    "admitted_after_observation": 3,
+    "confidence": 0.28400659786945676,
+    "dsl": "T1 i red s blue r after e suppresses_probe",
+    "initiator": "red",
+    "observed_effect": "suppresses_probe",
+    "relation": "after",
+    "second_action": "blue"
+  },
+  "decoder": "grounded_score",
+  "discovery_cutoff": 3,
+  "discovery_logs": [
+    "outputs/unity_shadow/typed_yellow_guided_seed157_20260815.jsonl",
+    "outputs/unity_shadow/typed_yellow_guided_seed158_20260815.jsonl"
+  ],
+  "discovery_observations": [
+    {
+      "index": 1,
+      "ordered_action": "red_then_blue",
+      "probe_suppressed": false
+    },
+    {
+      "index": 2,
+      "ordered_action": "red_then_blue",
+      "probe_suppressed": false
+    },
+    {
+      "index": 3,
+      "ordered_action": "red_then_yellow",
+      "probe_suppressed": true
+    }
+  ],
+  "discovery_summary": {
+    "red_then_blue": {
+      "episodes": 2,
+      "not_suppressed": 2,
+      "suppressed": 0
+    },
+    "red_then_yellow": {
+      "episodes": 1,
+      "not_suppressed": 0,
+      "suppressed": 1
+    }
+  },
+  "held_out": {
+    "accuracy": null,
+    "correct": 0,
+    "episodes": 0
+  },
+  "held_out_logs": [
+    "outputs/unity_shadow/typed_yellow_guided_seed159_20260815.jsonl"
+  ],
+  "model": "google/gemma-3-1b-it",
+  "prompt_contains_hidden_identity": false,
+  "proposal": {
+    "confidence": 0.28400659786945676,
+    "initiator": "red",
+    "observed_effect": "suppresses_probe",
+    "relation": "after",
+    "second_action": "blue"
+  },
+  "raw_generation": "{\"initiator\":\"red\",\"second_action\":\"blue\",\"relation\":\"after\",\"observed_effect\":\"suppresses_probe\",\"confidence\":0.5}"
+}

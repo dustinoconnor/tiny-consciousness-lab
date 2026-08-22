@@ -151,6 +151,19 @@ def generate_layout(family, layout_seed):
         blocked |= rectangle(left, bottom, 1, depth)
         start = (left + 2, bottom + depth // 2)
         food = (min(SIZE - 2, left + width + 2), bottom + depth // 2)
+    elif family == "c_back_goal":
+        # Unity's harder C course: the opening is on the right, but the hidden
+        # goal is behind the closed left wall. The policy must first move away
+        # from reward, leave the enclosure, then route around its exterior.
+        width = int(rng.integers(6, 9))
+        depth = int(rng.integers(6, 9))
+        left = (SIZE - width) // 2
+        bottom = (SIZE - depth) // 2
+        blocked |= rectangle(left, bottom, width, 1)
+        blocked |= rectangle(left, bottom + depth - 1, width, 1)
+        blocked |= rectangle(left, bottom, 1, depth)
+        start = (left + 2, bottom + depth // 2)
+        food = (max(1, left - 2), bottom + depth // 2)
     elif family == "zigzag_gate":
         blocked |= rectangle(3, 1, 1, 11)
         blocked |= rectangle(7, 3, 1, 11)

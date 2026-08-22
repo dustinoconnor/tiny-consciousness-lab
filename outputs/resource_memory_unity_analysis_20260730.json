@@ -1,0 +1,175 @@
+{
+  "recorded_frames": 8426,
+  "duration_seconds": 1793.12,
+  "pickup_delta": 35,
+  "region_count_start": 0,
+  "region_count_end": 15,
+  "encoding_delta": 35,
+  "query_delta": 1449,
+  "recommendation_delta": 14,
+  "recommendation_transitions_observed": 14,
+  "recommendations_approached_passively": 8,
+  "pickups_within_180s_of_recommendation": 12,
+  "pickups_near_recommended_region": 4,
+  "active_recommendation_frames": 1449,
+  "eligible_hungry_food_hidden_frames": 1666,
+  "active_fraction_when_eligible": 0.8697478991596639,
+  "pickups_after_recommendation_delta": 0,
+  "stale_arrival_delta": 0,
+  "maximum_action_influence": 0,
+  "release_reasons": {
+    "below_hunger_gate": 5956,
+    "no_memory": 217,
+    "visible_food_override": 804,
+    "passive_recommendation": 1449
+  },
+  "recommendation_outcomes": [
+    {
+      "recommendation": "resource_10_-17",
+      "start_distance": 38.522794220406034,
+      "minimum_distance": 25.100684063520287,
+      "approached_region": true,
+      "pickup_within_horizon": true,
+      "pickup_delay_seconds": 65.64123797416687,
+      "pickup_target_distance": 5.5294021865616365,
+      "pickup_near_recommended_region": true
+    },
+    {
+      "recommendation": "resource_10_-16",
+      "start_distance": 22.468020851064487,
+      "minimum_distance": 16.08110913906347,
+      "approached_region": true,
+      "pickup_within_horizon": true,
+      "pickup_delay_seconds": 17.87004280090332,
+      "pickup_target_distance": 36.10346546410273,
+      "pickup_near_recommended_region": false
+    },
+    {
+      "recommendation": "resource_10_-16",
+      "start_distance": 54.53066857851211,
+      "minimum_distance": 32.77890840825011,
+      "approached_region": true,
+      "pickup_within_horizon": true,
+      "pickup_delay_seconds": 56.162739992141724,
+      "pickup_target_distance": 73.50926490097187,
+      "pickup_near_recommended_region": false
+    },
+    {
+      "recommendation": "resource_10_-16",
+      "start_distance": 117.8219427395556,
+      "minimum_distance": 117.8219427395556,
+      "approached_region": false,
+      "pickup_within_horizon": true,
+      "pickup_delay_seconds": 55.39123892784119,
+      "pickup_target_distance": 227.1153755048404,
+      "pickup_near_recommended_region": false
+    },
+    {
+      "recommendation": "resource_10_-16",
+      "start_distance": 270.67344733221734,
+      "minimum_distance": 270.67344733221734,
+      "approached_region": false,
+      "pickup_within_horizon": true,
+      "pickup_delay_seconds": 35.225138902664185,
+      "pickup_target_distance": 277.64659508805335,
+      "pickup_near_recommended_region": false
+    },
+    {
+      "recommendation": "resource_10_-16",
+      "start_distance": 286.4160188129253,
+      "minimum_distance": 285.53932724908196,
+      "approached_region": false,
+      "pickup_within_horizon": true,
+      "pickup_delay_seconds": 5.531806945800781,
+      "pickup_target_distance": 277.64659508805335,
+      "pickup_near_recommended_region": false
+    },
+    {
+      "recommendation": "resource_10_-16",
+      "start_distance": 286.16650534958774,
+      "minimum_distance": 286.16650534958774,
+      "approached_region": false,
+      "pickup_within_horizon": true,
+      "pickup_delay_seconds": 4.464091062545776,
+      "pickup_target_distance": 277.64659508805335,
+      "pickup_near_recommended_region": false
+    },
+    {
+      "recommendation": "resource_29_-29",
+      "start_distance": 17.70329899110037,
+      "minimum_distance": 17.70329899110037,
+      "approached_region": false,
+      "pickup_within_horizon": true,
+      "pickup_delay_seconds": 62.904313802719116,
+      "pickup_target_distance": 0.8736490380102102,
+      "pickup_near_recommended_region": true
+    },
+    {
+      "recommendation": "resource_10_-16",
+      "start_distance": 270.19494308334896,
+      "minimum_distance": 253.54597022535503,
+      "approached_region": true,
+      "pickup_within_horizon": true,
+      "pickup_delay_seconds": 41.23043870925903,
+      "pickup_target_distance": 276.78442026019263,
+      "pickup_near_recommended_region": false
+    },
+    {
+      "recommendation": "resource_29_-29",
+      "start_distance": 27.72046507094702,
+      "minimum_distance": 19.73297453141498,
+      "approached_region": true,
+      "pickup_within_horizon": true,
+      "pickup_delay_seconds": 38.25115180015564,
+      "pickup_target_distance": 0.8736490380102102,
+      "pickup_near_recommended_region": true
+    },
+    {
+      "recommendation": "resource_10_-16",
+      "start_distance": 264.60266586989746,
+      "minimum_distance": 253.54597022535503,
+      "approached_region": true,
+      "pickup_within_horizon": true,
+      "pickup_delay_seconds": 37.388126850128174,
+      "pickup_target_distance": 276.78442026019263,
+      "pickup_near_recommended_region": false
+    },
+    {
+      "recommendation": "resource_29_-29",
+      "start_distance": 31.203473159577502,
+      "minimum_distance": 19.73297453141498,
+      "approached_region": true,
+      "pickup_within_horizon": true,
+      "pickup_delay_seconds": 26.736770629882812,
+      "pickup_target_distance": 0.8736490380102102,
+      "pickup_near_recommended_region": true
+    },
+    {
+      "recommendation": "resource_29_-29",
+      "start_distance": 27.67588126820092,
+      "minimum_distance": 27.67588126820092,
+      "approached_region": false,
+      "pickup_within_horizon": false,
+      "pickup_delay_seconds": null,
+      "pickup_target_distance": null,
+      "pickup_near_recommended_region": false
+    },
+    {
+      "recommendation": "resource_10_-16",
+      "start_distance": 223.2445330536301,
+      "minimum_distance": 204.1511376222765,
+      "approached_region": true,
+      "pickup_within_horizon": false,
+      "pickup_delay_seconds": null,
+      "pickup_target_distance": null,
+      "pickup_near_recommended_region": false
+    }
+  ],
+  "checks": {
+    "memory_encoded_at_least_one_rewarded_region": true,
+    "recommendations_observed_when_testable": true,
+    "passive_causal_separation_preserved": true,
+    "passive_integration_valid": true
+  },
+  "recording": "outputs/unity_shadow/resource_memory_passive_20260730.jsonl"
+}

@@ -1,0 +1,74 @@
+{
+  "date": "2026-08-01",
+  "recording": "outputs/unity_shadow/red_blue_rule_verification_fullstack_20260801.jsonl",
+  "hypothesis_under_test": {
+    "cause": "red pickup",
+    "effect": "increased internal pressure",
+    "predicted_delay_seconds": 10.464,
+    "authority_during_test": 0.0
+  },
+  "run": {
+    "seed": 92,
+    "frames": 5551,
+    "duration_seconds": 1199.858,
+    "total_pickups": 30,
+    "red_pickups": 10,
+    "red_visible_frames": 194,
+    "red_visible_segments": 10,
+    "survival_failures": 0,
+    "unstuck_respawns": 0,
+    "stuck_events": 1
+  },
+  "evidence": {
+    "blue": {
+      "episodes": 20,
+      "isolated_episodes": 15,
+      "mean_pressure_delta": -0.015,
+      "positive_pressure_fraction": 0.0
+    },
+    "red": {
+      "episodes": 10,
+      "isolated_episodes": 10,
+      "mean_pressure_delta": 0.3373,
+      "positive_pressure_fraction": 1.0,
+      "mean_positive_delay_seconds": 10.89,
+      "pressure_delta_range": [0.3256, 0.34],
+      "delay_seconds_range": [10.731, 10.963],
+      "counterexamples": 0
+    }
+  },
+  "preregistered_criteria": {
+    "minimum_isolated_red": {"required": 2, "observed": 10, "passed": true},
+    "minimum_isolated_blue": {"required": 6, "observed": 15, "passed": true},
+    "all_red_positive": {"required": true, "observed": true, "passed": true},
+    "mean_red_pressure_delta_at_least_0_30": {"observed": 0.3373, "passed": true},
+    "mean_red_delay_between_9_and_11_seconds": {"observed": 10.89, "passed": true},
+    "blue_positive_fraction_at_most_0_10": {"observed": 0.0, "passed": true},
+    "no_red_counterexample": {"observed": true, "passed": true}
+  },
+  "passive_scientific_gnw": {
+    "red_broadcasts": 9,
+    "action_influence": 0
+  },
+  "restored_stack_activity": {
+    "mpc_engaged_frames": 4127,
+    "orbit_adapter_active_frames": 296,
+    "orbit_adapter_events": 19,
+    "systemic_conductor_observations": 5551,
+    "systemic_action_influence_frames": 324,
+    "systemic_router_handoffs": 192,
+    "systemic_router_safety_overrides": 1433,
+    "adaptive_gnw_ignitions": 107,
+    "adaptive_gnw_recommendation_substitutions": 50,
+    "adaptive_gnw_direct_action_influence": 0,
+    "air_route_interventions": 21,
+    "air_route_action_influence_frames": 71,
+    "air_guidance_action_changes": 7,
+    "resource_memory_action_influence_frames": 3,
+    "resource_guidance_action_changes": 0
+  },
+  "verdict": "preregistered_verification_pass",
+  "rule_status": "eligible_for_verified_shadow_production_memory",
+  "current_rule_authority": 0.0,
+  "interpretation": "All registered metabolic criteria passed prospectively. The result verifies the Tiny Scientist system's red-to-delayed-pressure candidate within this synthetic Unity implementation. It does not establish unaided LLM abduction, autonomous intervention design, or a natural-world causal discovery. The full navigation stack and larger/red-height-corrected population changed together, so their individual contributions to exposure cannot be isolated by this run."
+}

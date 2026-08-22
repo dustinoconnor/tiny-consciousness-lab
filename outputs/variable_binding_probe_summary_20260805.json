@@ -1,0 +1,50 @@
+{
+  "experiment": "frozen_gemma_1b_variable_binding_probe_summary",
+  "date": "2026-08-05",
+  "registered_primary": {
+    "cases": 32,
+    "frozen_l1_failures": 7,
+    "cause_row_probe_peak_hidden_state_index": 4,
+    "cause_row_probe_peak_accuracy": 1.0,
+    "cause_row_probe_final_accuracy": 0.84375,
+    "max_layer_corrected_permutation_pvalue": 0.009900990099009901,
+    "ranked_attention_block_zero_based": 17,
+    "ranked_attention_head_zero_based": 0,
+    "discovery_mean_target_minus_control_attention": 0.5836123866694314,
+    "confirmation_baseline_cause_margin": 10.375779310862223,
+    "confirmation_ranked_head_ablated_cause_margin": 7.623562230004205,
+    "confirmation_control_head_ablated_cause_margin": 11.967178927527534,
+    "registered_causal_gate_passed": true
+  },
+  "post_registered_comparison_audit": {
+    "status": "secondary_added_after_primary_cause_probe_result",
+    "comparison_row_probe_peak_hidden_state_index": 11,
+    "comparison_row_probe_peak_accuracy": 1.0,
+    "comparison_row_probe_final_accuracy": 0.8125,
+    "max_layer_corrected_permutation_pvalue": 0.009900990099009901,
+    "ranked_attention_block_zero_based": 17,
+    "ranked_attention_head_zero_based": 0,
+    "discovery_mean_comparison_minus_cause_attention": 0.3389077676194055,
+    "confirmation_baseline_comparison_margin": 14.091324753231472,
+    "confirmation_ranked_head_ablated_comparison_margin": 8.761622693803576,
+    "confirmation_control_head_ablated_comparison_margin": 16.021318276723225,
+    "comparison_ablation_gate_passed": true
+  },
+  "failure_decomposition": {
+    "true_cause_control_binding_failures": 4,
+    "serialization_or_grammar_failures_with_correct_roles": 3,
+    "binding_failure_pattern": "gold_cause_repeated_as_gold_comparison_instead_of_silver",
+    "binding_failures_with_negative_comparison_margin": 4,
+    "successful_cases_with_negative_comparison_margin": 0,
+    "comparison_failure_auc_from_negative_margin": 0.7028571428571428,
+    "mean_comparison_margin_failures": 5.9703369140625,
+    "mean_comparison_margin_successes": 16.137920722961425
+  },
+  "interpretation": "Causal-role information is linearly decodable through the middle residual stream and declines late. Block 17 head 0 causally contributes to first-token cause and comparison selection. The compact-format reliability tax comprises both a localized comparison-binding failure and independent serialization errors.",
+  "claim_boundary": "This identifies a contributing head in one frozen adapter and assay, not a complete variable-binding circuit, a universal Gemma mechanism, or proof that late-layer decodability decline causes every generation error.",
+  "artifacts": [
+    "outputs/variable_binding_probe_1b_20260805.json",
+    "outputs/variable_binding_probe_1b_role_audit_20260805.json",
+    "outputs/variable_binding_probe_1b_role_audit_20260805.npz"
+  ]
+}

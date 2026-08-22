@@ -1,0 +1,18 @@
+{
+  "valid_trials": 4,
+  "rejected_setup_trials": 1,
+  "blue_first": 2,
+  "yellow_first": 2,
+  "right_first": 4,
+  "left_first": 0,
+  "complete_red_and_both_branches": 4,
+  "stuck_events": 0,
+  "respawns": 0,
+  "verdict": "color_balance_pass_original_side_gate_fail",
+  "trials": [
+    {"id": "cbl1r", "seed": 185, "blue_side": "left", "first_after_red": "yellow", "red_seconds": 0.850, "yellow_seconds": 4.451, "blue_seconds": 6.356},
+    {"id": "cyl1", "seed": 185, "blue_side": "right", "first_after_red": "blue", "red_seconds": 0.887, "blue_seconds": 2.722, "yellow_seconds": 5.593},
+    {"id": "cyl2", "seed": 186, "blue_side": "right", "first_after_red": "blue", "red_seconds": 1.045, "blue_seconds": 2.934, "yellow_seconds": 5.772},
+    {"id": "cbl2", "seed": 186, "blue_side": "left", "first_after_red": "yellow", "red_seconds": 1.048, "yellow_seconds": 4.406, "blue_seconds": 6.513}
+  ]
+}

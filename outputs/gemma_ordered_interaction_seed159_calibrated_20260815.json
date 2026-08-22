@@ -1,0 +1,83 @@
+{
+  "admitted": true,
+  "candidate_scores": {
+    "neutral_calibration_question": "Observed evidence: red then blue: 0 of 1 suppressed; red then yellow: 0 of 1 suppressed. Which observed second-action token has the higher suppression rate? Answer with exactly one token from: blue, yellow.\nAnswer:",
+    "question": "Observed evidence: red then blue: 0 of 2 suppressed; red then yellow: 1 of 1 suppressed. Which observed second-action token has the higher suppression rate? Answer with exactly one token from: blue, yellow.\nAnswer:",
+    "scores": [
+      {
+        "calibrated_evidence_gain": 0.30741775035858154,
+        "choice": "yellow",
+        "evidence_mean_log_probability": -1.3455135822296143,
+        "neutral_mean_log_probability": -1.6529313325881958
+      },
+      {
+        "calibrated_evidence_gain": -0.19258224964141846,
+        "choice": "blue",
+        "evidence_mean_log_probability": -1.1580135822296143,
+        "neutral_mean_log_probability": -0.9654313325881958
+      }
+    ]
+  },
+  "compiled": {
+    "admitted_after_observation": 3,
+    "confidence": 0.6224593312018546,
+    "dsl": "T1 i red s yellow r after e suppresses_probe",
+    "initiator": "red",
+    "observed_effect": "suppresses_probe",
+    "relation": "after",
+    "second_action": "yellow"
+  },
+  "decoder": "suppressor_slot",
+  "discovery_cutoff": 3,
+  "discovery_logs": [
+    "outputs/unity_shadow/typed_yellow_guided_seed157_20260815.jsonl",
+    "outputs/unity_shadow/typed_yellow_guided_seed158_20260815.jsonl"
+  ],
+  "discovery_observations": [
+    {
+      "index": 1,
+      "ordered_action": "red_then_blue",
+      "probe_suppressed": false
+    },
+    {
+      "index": 2,
+      "ordered_action": "red_then_blue",
+      "probe_suppressed": false
+    },
+    {
+      "index": 3,
+      "ordered_action": "red_then_yellow",
+      "probe_suppressed": true
+    }
+  ],
+  "discovery_summary": {
+    "red_then_blue": {
+      "episodes": 2,
+      "not_suppressed": 2,
+      "suppressed": 0
+    },
+    "red_then_yellow": {
+      "episodes": 1,
+      "not_suppressed": 0,
+      "suppressed": 1
+    }
+  },
+  "held_out": {
+    "accuracy": 1.0,
+    "correct": 2,
+    "episodes": 2
+  },
+  "held_out_logs": [
+    "outputs/unity_shadow/typed_yellow_guided_seed159_20260815.jsonl"
+  ],
+  "model": "google/gemma-3-1b-it",
+  "prompt_contains_hidden_identity": false,
+  "proposal": {
+    "confidence": 0.6224593312018546,
+    "initiator": "red",
+    "observed_effect": "suppresses_probe",
+    "relation": "after",
+    "second_action": "yellow"
+  },
+  "raw_generation": "yellow"
+}

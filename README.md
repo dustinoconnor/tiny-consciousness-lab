@@ -24,6 +24,16 @@ for making questions about recurrent systems visible:
 This is a compact functional research architecture, not evidence of phenomenal
 consciousness, open-ended general intelligence, or biological equivalence.
 
+An August 2026 theory-derived indicator audit tested organized recurrent
+perception (RPT-2) and a sparse/smooth quality space (HOT-4) on a frozen
+crossing-and-occlusion benchmark. Ordered recurrence was causally necessary:
+time shuffling reduced accuracy by 38.76 percentage points. Nevertheless,
+RPT-2 improved over a parameter-matched flat control by only 2.24 points, the
+identity probe remained near chance, and HOT-4 added only 1.01 points with weak
+quality geometry (`rho=0.221`). The combined model was best absolutely at
+94.38%, but no preregistered positive decision passed. These components were
+not promoted into the Unity controller.
+
 > **Defensible synthesis:** The repository is a reproducible, multi-theory
 > experimental suite for engineered access-consciousness mechanisms. It
 > demonstrates causally active temporal binding, distributed spatial-temporal
@@ -142,6 +152,28 @@ Python-only and is not yet calibrated for live Unity control. The next tests
 are continuous Unity handoffs and attention-gated terrain episodic encoding.
 
 ![Four-context adaptive conductor, routing, lesions, and boundary entropy](outputs/four_context_conductor_summary.png)
+
+### Bunge-Inspired Systemic Emergence
+
+`bunge_systemic_emergence_lab.py` asks whether useful mixed-context capability
+is a property of the causally organized whole rather than any component alone.
+Across 20 seeds and 48,000 matched held-out steps, the intact system reached
+**96.5% success** and **0.782 utility per step**, versus 76.5% success and
+0.155 utility for the best isolated specialist. It beat that specialist on all
+20 paired seeds (`p = 9.54e-7`, one-sided sign test).
+
+An equal-component static control reached 0.062 utility. Scrambling input,
+output, or both connection sets while retaining all components erased most of
+the intact advantage. Targeted lesions selectively damaged their matching
+contexts: recurrent/clear terrain, ART/hidden goals, MPC/visible targets, and
+fallback/wedges.
+
+This supports Bunge-style **functional systemic synergy** in a synthetic
+benchmark. It does not demonstrate phenomenal consciousness, biological CNS
+equivalence, open-ended emergence, or transfer of the complete organization
+into Unity. Publication is deferred until embodiment validation.
+
+![Bunge-inspired whole/component, connection-scrambling, and lesion controls](outputs/bunge_systemic_emergence_summary.png)
 
 ### Attention-Gated Episodic Encoding
 
@@ -2946,6 +2978,66 @@ functional ego state -> Unity body action -> body/world feedback -> fatigue upda
 The next embodied step is to add real survival pressure: water, energy, novelty,
 or safe-place seeking.
 
+## Neuro-Symbolic Tiny Scientist Verification
+
+The Tiny Scientist is a bounded causal-hypothesis component layered over the
+Unity telemetry path. It is not a free-running language agent. During discovery
+it has no motor authority: a passive analyzer converts food-pickup episodes into
+grounded red/blue outcome summaries; Gemma 3 1B selects a causal candidate;
+the formal layer binds the retest action to that one selected cause and derives
+the contradictory outcome. The candidate remains at authority 0.0 until a new
+embodied recording tests it.
+
+The pre-registered full-stack verification recording produced 10 isolated red
+pickups and 15 isolated blue controls. Every red pickup preceded a positive
+internal-pressure response (mean delta +0.3373) with mean latency 10.890
+seconds; no blue control had a positive response and no red counterexample
+occurred. The rule therefore passed the registered synthetic-Unity verification
+gate and is eligible only for future passive shadow production memory.
+
+That original verification is a system-level result: Gemma selected the candidate from grounded
+episode summaries, code performed exact falsifier binding, and Unity supplied
+the prospective verification. It does not show unaided LLM abduction,
+autonomous experiment selection, natural-world causal discovery, sentience, or
+unbounded permission to change MPC/GNW weights.
+
+The later typed-interaction program added a yellow flower and learned the
+ordered relation `yellow after red suppresses the delayed probe`. Only the
+specific rule above 0.95 posterior can request bounded protective authority.
+Typed episodic memory stores red, blue, and yellow coordinates symmetrically;
+the verified rule selects yellow while a real synthetic metabolic event remains
+pending. PGNW then supplies a committed soft target to MPC while collision,
+stuck, fallback, AIR, hunger, and score-regret gates retain priority. Blue
+remains edible and cannot satisfy or erase the yellow objective.
+
+Two counterbalanced Unity pairs tested initially invisible yellow recall from
+two red starts. Memory changed 67 and 49 MPC actions before visual contact.
+Red-to-yellow latency averaged **31.02 seconds with memory** versus **46.56
+seconds with empty memory**, a descriptive 15.54-second (33.4%) reduction. One
+empty control luckily encountered a closer unknown flower, so memory won the
+first-antidote metric in only one of two pairs; it reached its selected known
+target much sooner in both. This establishes functional causal production,
+typed recall, pre-visibility action influence, visual handoff, and metabolic
+resolution. With `n=2`, it is not a population-level speed claim. See
+`TYPED_EPISODIC_PROTECTIVE_RECALL_RESULT_20260819.md` for the audit boundary.
+
+Compact artifacts are committed under:
+
+- `outputs/tiny_scientist_2x2_summary_20260801.json` — model-size and evidence-interface audit
+- `outputs/tiny_scientist_neurosymbolic_summary_20260801.json` — formal-falsifier result
+- `outputs/tiny_scientist_rule_verification_fullstack_summary_20260801.json` — preregistered prospective verification pass
+
+Raw Unity JSONL recordings remain ignored because of their size. Recreate the
+analysis with:
+
+```zsh
+python3 tiny_scientist.py \
+  outputs/unity_shadow/red_blue_rule_verification_fullstack_20260801.jsonl \
+  --backend none \
+  --evidence-interface homeostatic_filtered \
+  --output outputs/tiny_scientist_rule_verification_fullstack_evidence_20260801.json
+```
+
 ## Explainer Video Angle
 
 This project could be turned into a short narrated explainer:
@@ -3074,6 +3166,7 @@ python biological_control_lab.py
 python unified_functional_ego_lab.py
 python cortical_conductor_lab.py
 python four_context_conductor_lab.py
+python bunge_systemic_emergence_lab.py
 python attended_episodic_encoding_lab.py
 ./embodied_unity_loop.py --sleep-seconds 60
 ```
@@ -3121,6 +3214,7 @@ outputs/
 - `unified_functional_ego_lab.py` - combined hierarchy, neuromodulation, causal credit, fatigue, repair, and sleep stack
 - `cortical_conductor_lab.py` - Bach-inspired learned specialist routing and protocol-memory lesions
 - `four_context_conductor_lab.py` - noisy four-context arbitration, static baselines, gate entropy, and targeted branch lesions
+- `bunge_systemic_emergence_lab.py` - whole/component, connection-scrambling, and targeted-lesion systemic controls
 - `attended_episodic_encoding_lab.py` - AIR-inspired equal-capacity attention, scrambling, and feature-lesion benchmark
 - `terrain_air_memory_lab.py` - offline passive Unity terrain packet encoding and retrieval evaluation
 - `TERRAIN_EPISODIC_MEMORY_PLAN.md` - Garden of Eden preservation and AIR-guided terrain-memory protocol
@@ -3170,6 +3264,7 @@ outputs/
 - `outputs/unified_functional_ego_metrics.json` - combined functional-ego stack metrics and traces
 - `outputs/cortical_conductor_metrics.json` - three-specialist protocol conductor metrics
 - `outputs/four_context_conductor_metrics.json` - four-context adaptive arbitration and branch-lesion metrics
+- `outputs/bunge_systemic_emergence_metrics.json` - local systemic synergy, scrambling, and lesion metrics pending embodiment validation
 - `outputs/unity_critical_hunger_reanchoring_metrics.json` - matched terrain failure reproduction and repair
 
 ## Next Steps

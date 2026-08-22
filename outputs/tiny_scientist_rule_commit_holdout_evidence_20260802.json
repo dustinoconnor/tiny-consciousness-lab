@@ -1,0 +1,194 @@
+{
+  "experiment": "passive GNW-selected embodied metabolic hypothesis",
+  "evidence_interface": "original",
+  "hypothesis_contract": "freeform",
+  "evidence_order": "canonical",
+  "summary": {
+    "feature_outcomes": {
+      "blue": {
+        "episodes": 18,
+        "isolated_episodes": 11,
+        "mean_pressure_delta": -0.0125,
+        "positive_pressure_fraction": 0.0,
+        "mean_positive_delay_seconds": null
+      },
+      "red": {
+        "episodes": 13,
+        "isolated_episodes": 13,
+        "mean_pressure_delta": 0.3302,
+        "positive_pressure_fraction": 1.0,
+        "mean_positive_delay_seconds": 10.723
+      }
+    },
+    "episode_count": 31,
+    "gnw_broadcast_count": 10,
+    "gnw_broadcast_features": {
+      "red": 10
+    },
+    "gnw_action_influence": 0
+  },
+  "gnw": {
+    "mode": "passive_scientific_broadcast",
+    "observations": 31,
+    "ignitions": 10,
+    "held": 21,
+    "action_influence": 0,
+    "broadcasts": [
+      {
+        "feature": "red",
+        "salience": 1.0,
+        "prediction_error": 1.0,
+        "novelty": 1.0,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785676685.7456079,
+          "pressure_before": 0.0,
+          "peak_pressure": 0.34,
+          "pressure_delta": 0.34,
+          "peak_delay_seconds": 10.775516271591187,
+          "intervening_pickup": false
+        }
+      },
+      {
+        "feature": "red",
+        "salience": 0.9062741652595934,
+        "prediction_error": 0.9999999930586737,
+        "novelty": 0.7071067811865475,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785676953.268924,
+          "pressure_before": 4.4503251712815725e-09,
+          "peak_pressure": 0.34000000209027426,
+          "pressure_delta": 0.3399999976399491,
+          "peak_delay_seconds": 10.585397958755493,
+          "intervening_pickup": false
+        }
+      },
+      {
+        "feature": "red",
+        "salience": 0.8293402065967008,
+        "prediction_error": 0.9843238332304423,
+        "novelty": 0.5,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785677037.4740832,
+          "pressure_before": 0.010050534583944814,
+          "peak_pressure": 0.34472063788229523,
+          "pressure_delta": 0.3346701032983504,
+          "peak_delay_seconds": 10.699801683425903,
+          "intervening_pickup": false
+        }
+      },
+      {
+        "feature": "red",
+        "salience": 0.8190007579113963,
+        "prediction_error": 0.9939594225756023,
+        "novelty": 0.4472135954999579,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785677111.925247,
+          "pressure_before": 0.00387282383527596,
+          "peak_pressure": 0.3418190275109808,
+          "pressure_delta": 0.3379462036757048,
+          "peak_delay_seconds": 10.94930100440979,
+          "intervening_pickup": false
+        }
+      },
+      {
+        "feature": "red",
+        "salience": 0.8019677420127865,
+        "prediction_error": 0.9872474839181623,
+        "novelty": 0.4082482904638631,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785677175.345485,
+          "pressure_before": 0.008176080657786841,
+          "peak_pressure": 0.34384022518996205,
+          "pressure_delta": 0.3356641445321752,
+          "peak_delay_seconds": 10.760775089263916,
+          "intervening_pickup": false
+        }
+      },
+      {
+        "feature": "red",
+        "salience": 0.7980104822229467,
+        "prediction_error": 0.9956791924411674,
+        "novelty": 0.3779644730092272,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785677254.2965472,
+          "pressure_before": 0.002770219686929383,
+          "peak_pressure": 0.34130114511692633,
+          "pressure_delta": 0.33853092542999697,
+          "peak_delay_seconds": 10.74714970588684,
+          "intervening_pickup": false
+        }
+      },
+      {
+        "feature": "red",
+        "salience": 0.7858585874755644,
+        "prediction_error": 0.9988116482483789,
+        "novelty": 0.3333333333333333,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785677406.1961899,
+          "pressure_before": 0.0007618935517293676,
+          "peak_pressure": 0.3403578539561782,
+          "pressure_delta": 0.33959596040444884,
+          "peak_delay_seconds": 10.726166009902954,
+          "intervening_pickup": false
+        }
+      },
+      {
+        "feature": "red",
+        "salience": 0.7776530589662817,
+        "prediction_error": 0.9947943732954315,
+        "novelty": 0.31622776601683794,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785677482.226186,
+          "pressure_before": 0.0033375079504113503,
+          "peak_pressure": 0.3415675948708581,
+          "pressure_delta": 0.33823008692044676,
+          "peak_delay_seconds": 10.779107093811035,
+          "intervening_pickup": false
+        }
+      },
+      {
+        "feature": "red",
+        "salience": 0.7737361237061633,
+        "prediction_error": 0.9959595491783513,
+        "novelty": 0.30151134457776363,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785677562.001858,
+          "pressure_before": 0.002590473252464391,
+          "peak_pressure": 0.3412167199731038,
+          "pressure_delta": 0.33862624672063946,
+          "peak_delay_seconds": 10.772416114807129,
+          "intervening_pickup": false
+        }
+      },
+      {
+        "feature": "red",
+        "salience": 0.7540803383264068,
+        "prediction_error": 0.9784239807799558,
+        "novelty": 0.2773500981126146,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785677667.292301,
+          "pressure_before": 0.013833134754347292,
+          "peak_pressure": 0.3464972882195323,
+          "pressure_delta": 0.332664153465185,
+          "peak_delay_seconds": 10.69905400276184,
+          "intervening_pickup": false
+        }
+      }
+    ]
+  },
+  "hypothesis": null,
+  "raw_model_output": null,
+  "status": "evidence_only",
+  "model": "google/gemma-3-270m-it",
+  "recording": "outputs/unity_shadow/red_blue_rule_commit_holdout_20260802.jsonl"
+}

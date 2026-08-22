@@ -1,0 +1,75 @@
+{
+  "experiment": "passive GNW-selected embodied metabolic hypothesis",
+  "evidence_interface": "homeostatic_filtered",
+  "hypothesis_contract": "freeform_compiled_falsifier",
+  "evidence_order": "canonical",
+  "summary": {
+    "feature_outcomes": {
+      "blue": {
+        "episodes": 14,
+        "isolated_episodes": 11,
+        "mean_pressure_delta": -0.0,
+        "positive_pressure_fraction": 0.0,
+        "mean_positive_delay_seconds": null
+      },
+      "red": {
+        "episodes": 2,
+        "isolated_episodes": 2,
+        "mean_pressure_delta": 0.34,
+        "positive_pressure_fraction": 1.0,
+        "mean_positive_delay_seconds": 10.464
+      }
+    },
+    "episode_count": 16,
+    "gnw_broadcast_count": 2,
+    "gnw_broadcast_features": {
+      "red": 2
+    },
+    "gnw_action_influence": 0
+  },
+  "gnw": {
+    "mode": "passive_scientific_broadcast",
+    "observations": 16,
+    "ignitions": 2,
+    "held": 14,
+    "action_influence": 0,
+    "broadcasts": [
+      {
+        "feature": "red",
+        "salience": 1.0,
+        "prediction_error": 1.0,
+        "novelty": 1.0,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785512964.629469,
+          "pressure_before": 0.0,
+          "peak_pressure": 0.34,
+          "pressure_delta": 0.34,
+          "peak_delay_seconds": 10.418278217315674,
+          "intervening_pickup": false
+        }
+      },
+      {
+        "feature": "red",
+        "salience": 0.9062741699796951,
+        "prediction_error": 0.9999999999999999,
+        "novelty": 0.7071067811865475,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785513483.156574,
+          "pressure_before": 5.1617196904368404e-17,
+          "peak_pressure": 0.34,
+          "pressure_delta": 0.33999999999999997,
+          "peak_delay_seconds": 10.50950002670288,
+          "intervening_pickup": false
+        }
+      }
+    ]
+  },
+  "hypothesis": null,
+  "raw_model_output": null,
+  "status": "rejected",
+  "rejection": "tiny_scientist_hypothesis_rejected:tiny_scientist_compiler_requires_single_bound_cause; raw=```json\n{\n  \"condition\": \"tiny_scientist_compiler_requires_single_bound_cause:\",\n  \"proposed_cause\": \"the condition and proposed cause must name an observed feature.\",\n  \"predicted_effect\": \"the direction of change in internal pressure.\",\n  \"delay_seconds\": \"the delay seconds.\",\n  \"comparison\": \"the observed feature blue: 11 isolated episodes; mean internal-pressure change -0.0; positive-pressure fraction 0.0; mean delay after pickup None seconds.\",\n  \"falsifier\": \"correlation is not verification.\",\n  \"confidence\": 0.99\n}\n```",
+  "model": "google/gemma-3-270m-it",
+  "recording": "outputs/unity_shadow/red_blue_tiny_scientist_20260731.jsonl"
+}

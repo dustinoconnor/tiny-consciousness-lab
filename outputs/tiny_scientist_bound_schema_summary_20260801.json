@@ -1,0 +1,51 @@
+{
+  "experiment": "non-leaking single-binding and grammar-constrained hypothesis schema",
+  "recording": "outputs/unity_shadow/red_blue_tiny_scientist_20260731.jsonl",
+  "evidence_interface": "homeostatic_filtered",
+  "formal_contract": {
+    "single_generated_binding": "target_cause",
+    "comparison": "must be a distinct observed feature",
+    "falsifier_action": "compiled as an exact reference to target_cause",
+    "contradictory_outcome": "compiled as the logical inverse of observed_effect",
+    "candidate_space": "symmetric across both colors, all three effect directions, and both available delays",
+    "authority": 0.0
+  },
+  "post_validation_generation": [
+    {
+      "model": "google/gemma-3-270m-it",
+      "status": "rejected",
+      "reason": "invented a non-feature target_cause"
+    },
+    {
+      "model": "google/gemma-3-1b-it",
+      "status": "rejected",
+      "reason": "used positive-pressure fraction rather than an observed feature as target_cause"
+    }
+  ],
+  "grammar_constrained_generation": [
+    {
+      "model": "google/gemma-3-270m-it",
+      "status": "rejected",
+      "selection": {
+        "target_cause": "blue",
+        "comparison_feature": "red",
+        "observed_effect": "no_pressure_change",
+        "latency_seconds": 10.464
+      },
+      "reason": "causal direction reversed"
+    },
+    {
+      "model": "google/gemma-3-1b-it",
+      "status": "rejected",
+      "selection": {
+        "target_cause": "blue",
+        "comparison_feature": "red",
+        "observed_effect": "pressure_decrease",
+        "latency_seconds": 10.464
+      },
+      "reason": "causal direction reversed"
+    }
+  ],
+  "result": "schema enforcement fixed structural validity but not causal selection",
+  "next_validity_check": "counterbalance red/blue evidence order to test first-item positional bias before attributing failure solely to model capacity"
+}

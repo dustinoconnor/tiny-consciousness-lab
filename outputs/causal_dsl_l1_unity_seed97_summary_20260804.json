@@ -1,0 +1,73 @@
+{
+  "date": "2026-08-04",
+  "experiment": "frozen_270m_l1_embodied_transfer_seed97",
+  "recording": "outputs/unity_shadow/causal_dsl_l1_unity_transfer_seed97_20260804.jsonl",
+  "collection": {
+    "frames": 5557,
+    "duration_seconds": 1188.739,
+    "pickups": 33,
+    "red_pickups": 4,
+    "survival_failures": 0,
+    "unstuck_respawns": 0,
+    "stuck_events": 2,
+    "production_memory_authority": 0.0,
+    "production_memory_action_influence": 0,
+    "rule_control": "passive"
+  },
+  "evidence_bug_found": {
+    "description": "The previous isolation flag rejected only later pickups. Two blue pickups 0.870 and 1.068 seconds after red pickups inherited the delayed red pressure rise but were incorrectly counted as isolated blue responses.",
+    "fix": "A pickup is now confounded when another pickup occurs within the assay window before or after it.",
+    "regression_test_added": true
+  },
+  "corrected_bidirectional_evidence": {
+    "red": {
+      "episodes": 4,
+      "isolated_episodes": 1,
+      "mean_pressure_delta": 0.34,
+      "positive_pressure_fraction": 1.0,
+      "mean_positive_delay_seconds": 10.724
+    },
+    "blue": {
+      "episodes": 29,
+      "isolated_episodes": 10,
+      "mean_pressure_delta": -0.0046,
+      "positive_pressure_fraction": 0.0,
+      "mean_positive_delay_seconds": null
+    }
+  },
+  "eligibility": {
+    "minimum_isolated_red": 2,
+    "observed_isolated_red": 1,
+    "verdict": "inconclusive_insufficient_bidirectionally_isolated_red_exposure"
+  },
+  "frozen_adapter_diagnostic": {
+    "l1_270m": {
+      "canonical": "rejected_malformed_and_wrong_direction",
+      "reversed": "accepted_red_blue_pressure_increase_10.724_seconds",
+      "order_robust": false
+    },
+    "json_270m_control": {
+      "canonical": "rejected_wrong_direction",
+      "reversed": "rejected_wrong_cause_and_direction",
+      "order_robust": false
+    }
+  },
+  "historical_bidirectional_isolation_audit": {
+    "fullstack_verification_20260801": {
+      "isolated_red": 10,
+      "isolated_blue": 12,
+      "criteria_still_pass": true
+    },
+    "passive_rule_commit_holdout_20260802": {
+      "isolated_red": 13,
+      "isolated_blue": 7,
+      "criteria_still_pass": true
+    },
+    "original_tiny_scientist_20260731": {
+      "isolated_red": 2,
+      "isolated_blue": 8,
+      "criteria_still_pass": true
+    }
+  },
+  "claim_boundary": "Seed 97 is a clean negative/inconclusive embodied-transfer run. It exposes and repairs an evidence-confounding bug but cannot count as a successful L1 Unity transfer because red exposure is insufficient and the adapter remains evidence-order sensitive."
+}

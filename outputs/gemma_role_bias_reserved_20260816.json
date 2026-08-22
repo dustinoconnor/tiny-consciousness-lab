@@ -1,0 +1,517 @@
+{
+  "calibration_sha256": "4e5b75819920a9fa81f8f5791c310eaabbecef95f2d5b7f9e760eaf1898fc64c",
+  "conditions": [
+    {
+      "bias_corrected_gains": {
+        "role_0": -0.046467847207894195,
+        "role_1": -0.2385257084934032,
+        "role_2": -0.2385257084934032
+      },
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=5|episodes=8; role_1|initiator=red|relation=before|suppressed=1|episodes=6; role_2|initiator=red|relation=before|suppressed=1|episodes=6",
+      "confidence": 0.547867418345728,
+      "correct": true,
+      "correct_role": "role_0",
+      "grounded_labels": [
+        "cobalt",
+        "saffron",
+        "umber"
+      ],
+      "neutral_adjusted_gains": {
+        "role_0": -0.7724552154541016,
+        "role_1": -0.8974554538726807,
+        "role_2": -0.8349554538726807
+      },
+      "observed_rates": {
+        "role_0": 0.625,
+        "role_1": 0.16666666666666666,
+        "role_2": 0.16666666666666666
+      },
+      "raw_records": [
+        {
+          "episodes": 8,
+          "first": "red",
+          "second": "cobalt",
+          "suppressed": 5
+        },
+        {
+          "episodes": 6,
+          "first": "red",
+          "second": "saffron",
+          "suppressed": 1
+        },
+        {
+          "episodes": 6,
+          "first": "red",
+          "second": "umber",
+          "suppressed": 1
+        }
+      ],
+      "regime": "five_of_eight_vs_one_of_six",
+      "role_mapping": {
+        "cobalt": "role_0",
+        "saffron": "role_1",
+        "umber": "role_2"
+      },
+      "selected_margin": 0.192057861285509,
+      "selected_role": "role_0"
+    },
+    {
+      "bias_corrected_gains": {
+        "role_0": 0.13352194761884378,
+        "role_1": 0.1936351061731144,
+        "role_2": 0.13004962605554699
+      },
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=1|episodes=6; role_1|initiator=red|relation=before|suppressed=5|episodes=8; role_2|initiator=red|relation=before|suppressed=1|episodes=6",
+      "confidence": 0.5150237657645809,
+      "correct": true,
+      "correct_role": "role_1",
+      "grounded_labels": [
+        "cobalt",
+        "saffron",
+        "umber"
+      ],
+      "neutral_adjusted_gains": {
+        "role_0": -0.5288799405097961,
+        "role_1": -0.5288801193237305,
+        "role_2": -0.46638011932373047
+      },
+      "observed_rates": {
+        "role_0": 0.16666666666666666,
+        "role_1": 0.625,
+        "role_2": 0.16666666666666666
+      },
+      "raw_records": [
+        {
+          "episodes": 8,
+          "first": "red",
+          "second": "saffron",
+          "suppressed": 5
+        },
+        {
+          "episodes": 6,
+          "first": "red",
+          "second": "umber",
+          "suppressed": 1
+        },
+        {
+          "episodes": 6,
+          "first": "red",
+          "second": "cobalt",
+          "suppressed": 1
+        }
+      ],
+      "regime": "five_of_eight_vs_one_of_six",
+      "role_mapping": {
+        "cobalt": "role_0",
+        "saffron": "role_1",
+        "umber": "role_2"
+      },
+      "selected_margin": 0.06011315855427063,
+      "selected_role": "role_1"
+    },
+    {
+      "bias_corrected_gains": {
+        "role_0": -0.07007243895876242,
+        "role_1": -0.07354458170812489,
+        "role_2": -0.009959101590557448
+      },
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=1|episodes=6; role_1|initiator=red|relation=before|suppressed=1|episodes=6; role_2|initiator=red|relation=before|suppressed=5|episodes=8",
+      "confidence": 0.5150238104277036,
+      "correct": true,
+      "correct_role": "role_2",
+      "grounded_labels": [
+        "cobalt",
+        "saffron",
+        "umber"
+      ],
+      "neutral_adjusted_gains": {
+        "role_0": -0.7324743270874023,
+        "role_1": -0.7324743270874023,
+        "role_2": -0.6699743270874023
+      },
+      "observed_rates": {
+        "role_0": 0.16666666666666666,
+        "role_1": 0.16666666666666666,
+        "role_2": 0.625
+      },
+      "raw_records": [
+        {
+          "episodes": 8,
+          "first": "red",
+          "second": "umber",
+          "suppressed": 5
+        },
+        {
+          "episodes": 6,
+          "first": "red",
+          "second": "cobalt",
+          "suppressed": 1
+        },
+        {
+          "episodes": 6,
+          "first": "red",
+          "second": "saffron",
+          "suppressed": 1
+        }
+      ],
+      "regime": "five_of_eight_vs_one_of_six",
+      "role_mapping": {
+        "cobalt": "role_0",
+        "saffron": "role_1",
+        "umber": "role_2"
+      },
+      "selected_margin": 0.06011333736820497,
+      "selected_role": "role_2"
+    },
+    {
+      "bias_corrected_gains": {
+        "role_0": 0.1285796440626687,
+        "role_1": -0.17291808128356934,
+        "role_2": -0.17291808128356934
+      },
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=4|episodes=7; role_1|initiator=red|relation=before|suppressed=0|episodes=5; role_2|initiator=red|relation=before|suppressed=0|episodes=5",
+      "confidence": 0.5748086073356833,
+      "correct": true,
+      "correct_role": "role_0",
+      "grounded_labels": [
+        "cobalt",
+        "saffron",
+        "umber"
+      ],
+      "neutral_adjusted_gains": {
+        "role_0": -0.5899756550788879,
+        "role_1": -0.8087258338928223,
+        "role_2": -0.7462258338928223
+      },
+      "observed_rates": {
+        "role_0": 0.5714285714285714,
+        "role_1": 0.0,
+        "role_2": 0.0
+      },
+      "raw_records": [
+        {
+          "episodes": 7,
+          "first": "red",
+          "second": "cobalt",
+          "suppressed": 4
+        },
+        {
+          "episodes": 5,
+          "first": "red",
+          "second": "saffron",
+          "suppressed": 0
+        },
+        {
+          "episodes": 5,
+          "first": "red",
+          "second": "umber",
+          "suppressed": 0
+        }
+      ],
+      "regime": "four_of_seven_vs_zero_of_five",
+      "role_mapping": {
+        "cobalt": "role_0",
+        "saffron": "role_1",
+        "umber": "role_2"
+      },
+      "selected_margin": 0.30149772534623803,
+      "selected_role": "role_0"
+    },
+    {
+      "bias_corrected_gains": {
+        "role_0": 0.07332741551929045,
+        "role_1": 0.08663061694822442,
+        "role_2": 0.007355213165283203
+      },
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=0|episodes=5; role_1|initiator=red|relation=before|suppressed=4|episodes=7; role_2|initiator=red|relation=before|suppressed=0|episodes=5",
+      "confidence": 0.5033257513094284,
+      "correct": true,
+      "correct_role": "role_1",
+      "grounded_labels": [
+        "cobalt",
+        "saffron",
+        "umber"
+      ],
+      "neutral_adjusted_gains": {
+        "role_0": -0.565952479839325,
+        "role_1": -0.6284525394439697,
+        "role_2": -0.5659525394439697
+      },
+      "observed_rates": {
+        "role_0": 0.0,
+        "role_1": 0.5714285714285714,
+        "role_2": 0.0
+      },
+      "raw_records": [
+        {
+          "episodes": 7,
+          "first": "red",
+          "second": "saffron",
+          "suppressed": 4
+        },
+        {
+          "episodes": 5,
+          "first": "red",
+          "second": "umber",
+          "suppressed": 0
+        },
+        {
+          "episodes": 5,
+          "first": "red",
+          "second": "cobalt",
+          "suppressed": 0
+        }
+      ],
+      "regime": "four_of_seven_vs_zero_of_five",
+      "role_mapping": {
+        "cobalt": "role_0",
+        "saffron": "role_1",
+        "umber": "role_2"
+      },
+      "selected_margin": 0.013303201428933972,
+      "selected_role": "role_1"
+    },
+    {
+      "bias_corrected_gains": {
+        "role_0": 0.031808310084872726,
+        "role_1": 0.1220860481262207,
+        "role_2": 0.17011145190916194
+      },
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=0|episodes=5; role_1|initiator=red|relation=before|suppressed=0|episodes=5; role_2|initiator=red|relation=before|suppressed=4|episodes=7",
+      "confidence": 0.5120040438177778,
+      "correct": true,
+      "correct_role": "role_2",
+      "grounded_labels": [
+        "cobalt",
+        "saffron",
+        "umber"
+      ],
+      "neutral_adjusted_gains": {
+        "role_0": -0.6074715852737427,
+        "role_1": -0.5137217044830322,
+        "role_2": -0.4824717044830322
+      },
+      "observed_rates": {
+        "role_0": 0.0,
+        "role_1": 0.0,
+        "role_2": 0.5714285714285714
+      },
+      "raw_records": [
+        {
+          "episodes": 7,
+          "first": "red",
+          "second": "umber",
+          "suppressed": 4
+        },
+        {
+          "episodes": 5,
+          "first": "red",
+          "second": "cobalt",
+          "suppressed": 0
+        },
+        {
+          "episodes": 5,
+          "first": "red",
+          "second": "saffron",
+          "suppressed": 0
+        }
+      ],
+      "regime": "four_of_seven_vs_zero_of_five",
+      "role_mapping": {
+        "cobalt": "role_0",
+        "saffron": "role_1",
+        "umber": "role_2"
+      },
+      "selected_margin": 0.048025403782941234,
+      "selected_role": "role_2"
+    },
+    {
+      "bias_corrected_gains": {
+        "role_0": 0.18075568023395985,
+        "role_1": 0.07975043193921563,
+        "role_2": 0.07975043193921563
+      },
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=7|episodes=10; role_1|initiator=red|relation=before|suppressed=2|episodes=9; role_2|initiator=red|relation=before|suppressed=2|episodes=9",
+      "confidence": 0.5252298660023749,
+      "correct": true,
+      "correct_role": "role_0",
+      "grounded_labels": [
+        "cobalt",
+        "saffron",
+        "umber"
+      ],
+      "neutral_adjusted_gains": {
+        "role_0": -0.5556365847587585,
+        "role_1": -0.5868866443634033,
+        "role_2": -0.5243866443634033
+      },
+      "observed_rates": {
+        "role_0": 0.7,
+        "role_1": 0.2222222222222222,
+        "role_2": 0.2222222222222222
+      },
+      "raw_records": [
+        {
+          "episodes": 10,
+          "first": "red",
+          "second": "cobalt",
+          "suppressed": 7
+        },
+        {
+          "episodes": 9,
+          "first": "red",
+          "second": "saffron",
+          "suppressed": 2
+        },
+        {
+          "episodes": 9,
+          "first": "red",
+          "second": "umber",
+          "suppressed": 2
+        }
+      ],
+      "regime": "seven_of_ten_vs_two_of_nine",
+      "role_mapping": {
+        "cobalt": "role_0",
+        "saffron": "role_1",
+        "umber": "role_2"
+      },
+      "selected_margin": 0.10100524829474422,
+      "selected_role": "role_0"
+    },
+    {
+      "bias_corrected_gains": {
+        "role_0": -0.018130653403615492,
+        "role_1": 0.10718030939240378,
+        "role_2": 0.0721472634516668
+      },
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=2|episodes=9; role_1|initiator=red|relation=before|suppressed=7|episodes=10; role_2|initiator=red|relation=before|suppressed=2|episodes=9",
+      "confidence": 0.5087573658334726,
+      "correct": true,
+      "correct_role": "role_1",
+      "grounded_labels": [
+        "cobalt",
+        "saffron",
+        "umber"
+      ],
+      "neutral_adjusted_gains": {
+        "role_0": -0.6882398724555969,
+        "role_1": -0.6257398128509521,
+        "role_2": -0.5319898128509521
+      },
+      "observed_rates": {
+        "role_0": 0.2222222222222222,
+        "role_1": 0.7,
+        "role_2": 0.2222222222222222
+      },
+      "raw_records": [
+        {
+          "episodes": 10,
+          "first": "red",
+          "second": "saffron",
+          "suppressed": 7
+        },
+        {
+          "episodes": 9,
+          "first": "red",
+          "second": "umber",
+          "suppressed": 2
+        },
+        {
+          "episodes": 9,
+          "first": "red",
+          "second": "cobalt",
+          "suppressed": 2
+        }
+      ],
+      "regime": "seven_of_ten_vs_two_of_nine",
+      "role_mapping": {
+        "cobalt": "role_0",
+        "saffron": "role_1",
+        "umber": "role_2"
+      },
+      "selected_margin": 0.03503304594073697,
+      "selected_role": "role_1"
+    },
+    {
+      "bias_corrected_gains": {
+        "role_0": -0.06167321731886818,
+        "role_1": 0.05985440151319025,
+        "role_2": 0.09488744745392722
+      },
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=2|episodes=9; role_1|initiator=red|relation=before|suppressed=2|episodes=9; role_2|initiator=red|relation=before|suppressed=7|episodes=10",
+      "confidence": 0.5087573658334726,
+      "correct": true,
+      "correct_role": "role_2",
+      "grounded_labels": [
+        "cobalt",
+        "saffron",
+        "umber"
+      ],
+      "neutral_adjusted_gains": {
+        "role_0": -0.7317824363708496,
+        "role_1": -0.6067826747894287,
+        "role_2": -0.5755326747894287
+      },
+      "observed_rates": {
+        "role_0": 0.2222222222222222,
+        "role_1": 0.2222222222222222,
+        "role_2": 0.7
+      },
+      "raw_records": [
+        {
+          "episodes": 10,
+          "first": "red",
+          "second": "umber",
+          "suppressed": 7
+        },
+        {
+          "episodes": 9,
+          "first": "red",
+          "second": "cobalt",
+          "suppressed": 2
+        },
+        {
+          "episodes": 9,
+          "first": "red",
+          "second": "saffron",
+          "suppressed": 2
+        }
+      ],
+      "regime": "seven_of_ten_vs_two_of_nine",
+      "role_mapping": {
+        "cobalt": "role_0",
+        "saffron": "role_1",
+        "umber": "role_2"
+      },
+      "selected_margin": 0.035033045940736966,
+      "selected_role": "role_2"
+    }
+  ],
+  "model": "google/gemma-3-1b-it",
+  "reserved_design": {
+    "balanced_assignments": [
+      "cobalt",
+      "saffron",
+      "umber"
+    ],
+    "conditions": 9,
+    "evaluated_once": true,
+    "labels": [
+      "cobalt",
+      "saffron",
+      "umber"
+    ],
+    "regimes": [
+      "five_of_eight_vs_one_of_six",
+      "four_of_seven_vs_zero_of_five",
+      "seven_of_ten_vs_two_of_nine"
+    ]
+  },
+  "summary": {
+    "accuracy": 1.0,
+    "correct": 9,
+    "minimum_selected_margin": 0.013303201428933972,
+    "total": 9
+  }
+}

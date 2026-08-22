@@ -1,0 +1,539 @@
+{
+  "experiment": "PGNW actionable multi-hypothesis arbitration",
+  "scoring": {
+    "hazard_cost": 0.25,
+    "deadline_remaining_seconds": 240.0,
+    "conservative_speed": 2.0,
+    "epistemic_weight": 0.1,
+    "route_weight": 0.05
+  },
+  "counterbalanced_cases": [
+    {
+      "dominant_feature": "yellow",
+      "distance_order": "dominant_far",
+      "presentation_order": [
+        "yellow",
+        "blue"
+      ],
+      "selected_feature": "yellow",
+      "passed": true,
+      "records": [
+        {
+          "candidate": {
+            "feature": "blue",
+            "distance": 12.0,
+            "memory_confidence": 0.6,
+            "safety_allowed": true
+          },
+          "eligible": true,
+          "score": 0.050345237094416816,
+          "reason": "candidate",
+          "action_index": 2,
+          "suppression_probability": 0.21350000000000002,
+          "information_gain_bits": 0.40741724188833617,
+          "normalized_information": 0.20370862094416808,
+          "travel_seconds": 6.0,
+          "on_time_probability": 0.975,
+          "pragmatic_value": 0.031224375000000006,
+          "epistemic_value": 0.02037086209441681,
+          "route_cost": 0.0012500000000000002
+        },
+        {
+          "candidate": {
+            "feature": "yellow",
+            "distance": 36.0,
+            "memory_confidence": 0.6,
+            "safety_allowed": true
+          },
+          "eligible": true,
+          "score": 0.12163766260250478,
+          "reason": "candidate",
+          "action_index": 1,
+          "suppression_probability": 0.779,
+          "information_gain_bits": 0.3460282520500959,
+          "normalized_information": 0.17301412602504795,
+          "travel_seconds": 18.0,
+          "on_time_probability": 0.925,
+          "pragmatic_value": 0.10808625,
+          "epistemic_value": 0.017301412602504795,
+          "route_cost": 0.00375
+        }
+      ]
+    },
+    {
+      "dominant_feature": "yellow",
+      "distance_order": "dominant_far",
+      "presentation_order": [
+        "blue",
+        "yellow"
+      ],
+      "selected_feature": "yellow",
+      "passed": true,
+      "records": [
+        {
+          "candidate": {
+            "feature": "blue",
+            "distance": 12.0,
+            "memory_confidence": 0.6,
+            "safety_allowed": true
+          },
+          "eligible": true,
+          "score": 0.050345237094416816,
+          "reason": "candidate",
+          "action_index": 2,
+          "suppression_probability": 0.21350000000000002,
+          "information_gain_bits": 0.40741724188833617,
+          "normalized_information": 0.20370862094416808,
+          "travel_seconds": 6.0,
+          "on_time_probability": 0.975,
+          "pragmatic_value": 0.031224375000000006,
+          "epistemic_value": 0.02037086209441681,
+          "route_cost": 0.0012500000000000002
+        },
+        {
+          "candidate": {
+            "feature": "yellow",
+            "distance": 36.0,
+            "memory_confidence": 0.6,
+            "safety_allowed": true
+          },
+          "eligible": true,
+          "score": 0.12163766260250478,
+          "reason": "candidate",
+          "action_index": 1,
+          "suppression_probability": 0.779,
+          "information_gain_bits": 0.3460282520500959,
+          "normalized_information": 0.17301412602504795,
+          "travel_seconds": 18.0,
+          "on_time_probability": 0.925,
+          "pragmatic_value": 0.10808625,
+          "epistemic_value": 0.017301412602504795,
+          "route_cost": 0.00375
+        }
+      ]
+    },
+    {
+      "dominant_feature": "yellow",
+      "distance_order": "dominant_near",
+      "presentation_order": [
+        "yellow",
+        "blue"
+      ],
+      "selected_feature": "yellow",
+      "passed": true,
+      "records": [
+        {
+          "candidate": {
+            "feature": "blue",
+            "distance": 36.0,
+            "memory_confidence": 0.6,
+            "safety_allowed": true
+          },
+          "eligible": true,
+          "score": 0.04624398709441682,
+          "reason": "candidate",
+          "action_index": 2,
+          "suppression_probability": 0.21350000000000002,
+          "information_gain_bits": 0.40741724188833617,
+          "normalized_information": 0.20370862094416808,
+          "travel_seconds": 18.0,
+          "on_time_probability": 0.925,
+          "pragmatic_value": 0.029623125000000007,
+          "epistemic_value": 0.02037086209441681,
+          "route_cost": 0.00375
+        },
+        {
+          "candidate": {
+            "feature": "yellow",
+            "distance": 12.0,
+            "memory_confidence": 0.6,
+            "safety_allowed": true
+          },
+          "eligible": true,
+          "score": 0.12998016260250478,
+          "reason": "candidate",
+          "action_index": 1,
+          "suppression_probability": 0.779,
+          "information_gain_bits": 0.3460282520500959,
+          "normalized_information": 0.17301412602504795,
+          "travel_seconds": 6.0,
+          "on_time_probability": 0.975,
+          "pragmatic_value": 0.11392875,
+          "epistemic_value": 0.017301412602504795,
+          "route_cost": 0.0012500000000000002
+        }
+      ]
+    },
+    {
+      "dominant_feature": "yellow",
+      "distance_order": "dominant_near",
+      "presentation_order": [
+        "blue",
+        "yellow"
+      ],
+      "selected_feature": "yellow",
+      "passed": true,
+      "records": [
+        {
+          "candidate": {
+            "feature": "blue",
+            "distance": 36.0,
+            "memory_confidence": 0.6,
+            "safety_allowed": true
+          },
+          "eligible": true,
+          "score": 0.04624398709441682,
+          "reason": "candidate",
+          "action_index": 2,
+          "suppression_probability": 0.21350000000000002,
+          "information_gain_bits": 0.40741724188833617,
+          "normalized_information": 0.20370862094416808,
+          "travel_seconds": 18.0,
+          "on_time_probability": 0.925,
+          "pragmatic_value": 0.029623125000000007,
+          "epistemic_value": 0.02037086209441681,
+          "route_cost": 0.00375
+        },
+        {
+          "candidate": {
+            "feature": "yellow",
+            "distance": 12.0,
+            "memory_confidence": 0.6,
+            "safety_allowed": true
+          },
+          "eligible": true,
+          "score": 0.12998016260250478,
+          "reason": "candidate",
+          "action_index": 1,
+          "suppression_probability": 0.779,
+          "information_gain_bits": 0.3460282520500959,
+          "normalized_information": 0.17301412602504795,
+          "travel_seconds": 6.0,
+          "on_time_probability": 0.975,
+          "pragmatic_value": 0.11392875,
+          "epistemic_value": 0.017301412602504795,
+          "route_cost": 0.0012500000000000002
+        }
+      ]
+    },
+    {
+      "dominant_feature": "blue",
+      "distance_order": "dominant_far",
+      "presentation_order": [
+        "yellow",
+        "blue"
+      ],
+      "selected_feature": "blue",
+      "passed": true,
+      "records": [
+        {
+          "candidate": {
+            "feature": "blue",
+            "distance": 36.0,
+            "memory_confidence": 0.6,
+            "safety_allowed": true
+          },
+          "eligible": true,
+          "score": 0.12163766260250478,
+          "reason": "candidate",
+          "action_index": 2,
+          "suppression_probability": 0.779,
+          "information_gain_bits": 0.3460282520500959,
+          "normalized_information": 0.17301412602504795,
+          "travel_seconds": 18.0,
+          "on_time_probability": 0.925,
+          "pragmatic_value": 0.10808625,
+          "epistemic_value": 0.017301412602504795,
+          "route_cost": 0.00375
+        },
+        {
+          "candidate": {
+            "feature": "yellow",
+            "distance": 12.0,
+            "memory_confidence": 0.6,
+            "safety_allowed": true
+          },
+          "eligible": true,
+          "score": 0.050345237094416816,
+          "reason": "candidate",
+          "action_index": 1,
+          "suppression_probability": 0.21350000000000002,
+          "information_gain_bits": 0.40741724188833617,
+          "normalized_information": 0.20370862094416808,
+          "travel_seconds": 6.0,
+          "on_time_probability": 0.975,
+          "pragmatic_value": 0.031224375000000006,
+          "epistemic_value": 0.02037086209441681,
+          "route_cost": 0.0012500000000000002
+        }
+      ]
+    },
+    {
+      "dominant_feature": "blue",
+      "distance_order": "dominant_far",
+      "presentation_order": [
+        "blue",
+        "yellow"
+      ],
+      "selected_feature": "blue",
+      "passed": true,
+      "records": [
+        {
+          "candidate": {
+            "feature": "blue",
+            "distance": 36.0,
+            "memory_confidence": 0.6,
+            "safety_allowed": true
+          },
+          "eligible": true,
+          "score": 0.12163766260250478,
+          "reason": "candidate",
+          "action_index": 2,
+          "suppression_probability": 0.779,
+          "information_gain_bits": 0.3460282520500959,
+          "normalized_information": 0.17301412602504795,
+          "travel_seconds": 18.0,
+          "on_time_probability": 0.925,
+          "pragmatic_value": 0.10808625,
+          "epistemic_value": 0.017301412602504795,
+          "route_cost": 0.00375
+        },
+        {
+          "candidate": {
+            "feature": "yellow",
+            "distance": 12.0,
+            "memory_confidence": 0.6,
+            "safety_allowed": true
+          },
+          "eligible": true,
+          "score": 0.050345237094416816,
+          "reason": "candidate",
+          "action_index": 1,
+          "suppression_probability": 0.21350000000000002,
+          "information_gain_bits": 0.40741724188833617,
+          "normalized_information": 0.20370862094416808,
+          "travel_seconds": 6.0,
+          "on_time_probability": 0.975,
+          "pragmatic_value": 0.031224375000000006,
+          "epistemic_value": 0.02037086209441681,
+          "route_cost": 0.0012500000000000002
+        }
+      ]
+    },
+    {
+      "dominant_feature": "blue",
+      "distance_order": "dominant_near",
+      "presentation_order": [
+        "yellow",
+        "blue"
+      ],
+      "selected_feature": "blue",
+      "passed": true,
+      "records": [
+        {
+          "candidate": {
+            "feature": "blue",
+            "distance": 12.0,
+            "memory_confidence": 0.6,
+            "safety_allowed": true
+          },
+          "eligible": true,
+          "score": 0.12998016260250478,
+          "reason": "candidate",
+          "action_index": 2,
+          "suppression_probability": 0.779,
+          "information_gain_bits": 0.3460282520500959,
+          "normalized_information": 0.17301412602504795,
+          "travel_seconds": 6.0,
+          "on_time_probability": 0.975,
+          "pragmatic_value": 0.11392875,
+          "epistemic_value": 0.017301412602504795,
+          "route_cost": 0.0012500000000000002
+        },
+        {
+          "candidate": {
+            "feature": "yellow",
+            "distance": 36.0,
+            "memory_confidence": 0.6,
+            "safety_allowed": true
+          },
+          "eligible": true,
+          "score": 0.04624398709441682,
+          "reason": "candidate",
+          "action_index": 1,
+          "suppression_probability": 0.21350000000000002,
+          "information_gain_bits": 0.40741724188833617,
+          "normalized_information": 0.20370862094416808,
+          "travel_seconds": 18.0,
+          "on_time_probability": 0.925,
+          "pragmatic_value": 0.029623125000000007,
+          "epistemic_value": 0.02037086209441681,
+          "route_cost": 0.00375
+        }
+      ]
+    },
+    {
+      "dominant_feature": "blue",
+      "distance_order": "dominant_near",
+      "presentation_order": [
+        "blue",
+        "yellow"
+      ],
+      "selected_feature": "blue",
+      "passed": true,
+      "records": [
+        {
+          "candidate": {
+            "feature": "blue",
+            "distance": 12.0,
+            "memory_confidence": 0.6,
+            "safety_allowed": true
+          },
+          "eligible": true,
+          "score": 0.12998016260250478,
+          "reason": "candidate",
+          "action_index": 2,
+          "suppression_probability": 0.779,
+          "information_gain_bits": 0.3460282520500959,
+          "normalized_information": 0.17301412602504795,
+          "travel_seconds": 6.0,
+          "on_time_probability": 0.975,
+          "pragmatic_value": 0.11392875,
+          "epistemic_value": 0.017301412602504795,
+          "route_cost": 0.0012500000000000002
+        },
+        {
+          "candidate": {
+            "feature": "yellow",
+            "distance": 36.0,
+            "memory_confidence": 0.6,
+            "safety_allowed": true
+          },
+          "eligible": true,
+          "score": 0.04624398709441682,
+          "reason": "candidate",
+          "action_index": 1,
+          "suppression_probability": 0.21350000000000002,
+          "information_gain_bits": 0.40741724188833617,
+          "normalized_information": 0.20370862094416808,
+          "travel_seconds": 18.0,
+          "on_time_probability": 0.925,
+          "pragmatic_value": 0.029623125000000007,
+          "epistemic_value": 0.02037086209441681,
+          "route_cost": 0.00375
+        }
+      ]
+    }
+  ],
+  "registered_embodied_case": {
+    "position": [
+      79.98,
+      -176.18
+    ],
+    "posterior": {
+      "yellow_after_red_suppresses_probe": 0.9763185155504601,
+      "blue_after_red_suppresses_probe": 2.0449780132910776e-05,
+      "any_pickup_after_red_suppresses_probe": 0.02077729614285195,
+      "no_ordered_suppression": 0.002883738526554998
+    },
+    "targets": {
+      "yellow": [
+        116.8036,
+        -174.3526
+      ],
+      "blue": [
+        51.0096,
+        -126.8097
+      ]
+    },
+    "selected_feature": "yellow",
+    "selected_score": 0.07983954433528469,
+    "records": [
+      {
+        "candidate": {
+          "feature": "blue",
+          "distance": 57.24255932651859,
+          "memory_confidence": 0.6321205588285577,
+          "safety_allowed": true
+        },
+        "eligible": true,
+        "score": 0.006319255868896912,
+        "reason": "candidate",
+        "action_index": 2,
+        "suppression_probability": 0.0666396282229972,
+        "information_gain_bits": 0.06013677853762861,
+        "normalized_information": 0.030068389268814305,
+        "travel_seconds": 28.621279663259294,
+        "on_time_probability": 0.8807446680697529,
+        "pragmatic_value": 0.009275183538527835,
+        "epistemic_value": 0.0030068389268814305,
+        "route_cost": 0.005962766596512353
+      },
+      {
+        "candidate": {
+          "feature": "yellow",
+          "distance": 36.868915195866556,
+          "memory_confidence": 0.3934693402873666,
+          "safety_allowed": true
+        },
+        "eligible": true,
+        "score": 0.07983954433528469,
+        "reason": "candidate",
+        "action_index": 1,
+        "suppression_probability": 0.9160189454431819,
+        "information_gain_bits": 0.009896071828460418,
+        "normalized_information": 0.004948035914230209,
+        "travel_seconds": 18.434457597933278,
+        "on_time_probability": 0.9231897600086113,
+        "pragmatic_value": 0.0831852527434311,
+        "epistemic_value": 0.000494803591423021,
+        "route_cost": 0.003840511999569433
+      }
+    ]
+  },
+  "safety_ablation": {
+    "selected_feature": "blue",
+    "selected_score": 0.048978153761083484,
+    "records": [
+      {
+        "candidate": {
+          "feature": "blue",
+          "distance": 20.0,
+          "memory_confidence": 0.6,
+          "safety_allowed": true
+        },
+        "eligible": true,
+        "score": 0.048978153761083484,
+        "reason": "candidate",
+        "action_index": 2,
+        "suppression_probability": 0.21350000000000002,
+        "information_gain_bits": 0.40741724188833617,
+        "normalized_information": 0.20370862094416808,
+        "travel_seconds": 10.0,
+        "on_time_probability": 0.9583333333333334,
+        "pragmatic_value": 0.030690625000000006,
+        "epistemic_value": 0.02037086209441681,
+        "route_cost": 0.0020833333333333333
+      },
+      {
+        "candidate": {
+          "feature": "yellow",
+          "distance": 12.0,
+          "memory_confidence": 0.9,
+          "safety_allowed": false
+        },
+        "eligible": false,
+        "score": -Infinity,
+        "reason": "safety_gate"
+      }
+    ]
+  },
+  "criteria": {
+    "counterbalanced_identity_order_and_distance": true,
+    "registered_embodied_case_selects_yellow": true,
+    "safety_gate_is_absolute": true,
+    "all_candidate_records_are_answer_blind": true
+  },
+  "all_criteria_pass": true,
+  "claim_boundary": "Passing establishes deterministic answer-blind arbitration among typed causal candidates in an offline and replay-grounded assay. It does not yet grant the arbiter Unity motor authority or prove online adaptation under novel causal rules."
+}

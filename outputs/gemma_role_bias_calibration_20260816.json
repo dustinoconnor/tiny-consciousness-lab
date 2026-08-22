@@ -1,0 +1,511 @@
+{
+  "calibration_sha256": "4e5b75819920a9fa81f8f5791c310eaabbecef95f2d5b7f9e760eaf1898fc64c",
+  "conditions": [
+    {
+      "bias_corrected_gains": {
+        "role_0": 0.05151181761193377,
+        "role_1": -0.12201313969708874,
+        "role_2": -0.12201313969708874
+      },
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=3|episodes=4; role_1|initiator=red|relation=before|suppressed=1|episodes=5; role_2|initiator=red|relation=before|suppressed=1|episodes=5",
+      "correct": true,
+      "correct_role": "role_0",
+      "grounded_labels": [
+        "amber",
+        "jade",
+        "violet"
+      ],
+      "neutral_adjusted_gains": {
+        "role_0": -0.691817045211792,
+        "role_1": -0.7855672836303711,
+        "role_2": -0.7230672836303711
+      },
+      "observed_rates": {
+        "role_0": 0.75,
+        "role_1": 0.2,
+        "role_2": 0.2
+      },
+      "raw_records": [
+        {
+          "episodes": 4,
+          "first": "red",
+          "second": "amber",
+          "suppressed": 3
+        },
+        {
+          "episodes": 5,
+          "first": "red",
+          "second": "jade",
+          "suppressed": 1
+        },
+        {
+          "episodes": 5,
+          "first": "red",
+          "second": "violet",
+          "suppressed": 1
+        }
+      ],
+      "regime": "three_of_four_vs_one_of_five",
+      "role_mapping": {
+        "amber": "role_0",
+        "jade": "role_1",
+        "violet": "role_2"
+      },
+      "selected_role": "role_0"
+    },
+    {
+      "bias_corrected_gains": {
+        "role_0": 0.18837810095266436,
+        "role_1": 0.26120829592580375,
+        "role_2": 0.15365571978472278
+      },
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=1|episodes=5; role_1|initiator=red|relation=before|suppressed=3|episodes=4; role_2|initiator=red|relation=before|suppressed=1|episodes=5",
+      "correct": true,
+      "correct_role": "role_1",
+      "grounded_labels": [
+        "amber",
+        "jade",
+        "violet"
+      ],
+      "neutral_adjusted_gains": {
+        "role_0": -0.47864818572998047,
+        "role_1": -0.47864842414855957,
+        "role_2": -0.44739842414855957
+      },
+      "observed_rates": {
+        "role_0": 0.2,
+        "role_1": 0.75,
+        "role_2": 0.2
+      },
+      "raw_records": [
+        {
+          "episodes": 4,
+          "first": "red",
+          "second": "jade",
+          "suppressed": 3
+        },
+        {
+          "episodes": 5,
+          "first": "red",
+          "second": "violet",
+          "suppressed": 1
+        },
+        {
+          "episodes": 5,
+          "first": "red",
+          "second": "amber",
+          "suppressed": 1
+        }
+      ],
+      "regime": "three_of_four_vs_one_of_five",
+      "role_mapping": {
+        "amber": "role_0",
+        "jade": "role_1",
+        "violet": "role_2"
+      },
+      "selected_role": "role_1"
+    },
+    {
+      "bias_corrected_gains": {
+        "role_0": 0.12727881010488604,
+        "role_1": 0.15505666735552356,
+        "role_2": 0.2313592434966045
+      },
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=1|episodes=5; role_1|initiator=red|relation=before|suppressed=1|episodes=5; role_2|initiator=red|relation=before|suppressed=3|episodes=4",
+      "correct": true,
+      "correct_role": "role_2",
+      "grounded_labels": [
+        "amber",
+        "jade",
+        "violet"
+      ],
+      "neutral_adjusted_gains": {
+        "role_0": -0.5397474765777588,
+        "role_1": -0.5084974765777588,
+        "role_2": -0.4459974765777588
+      },
+      "observed_rates": {
+        "role_0": 0.2,
+        "role_1": 0.2,
+        "role_2": 0.75
+      },
+      "raw_records": [
+        {
+          "episodes": 4,
+          "first": "red",
+          "second": "violet",
+          "suppressed": 3
+        },
+        {
+          "episodes": 5,
+          "first": "red",
+          "second": "amber",
+          "suppressed": 1
+        },
+        {
+          "episodes": 5,
+          "first": "red",
+          "second": "jade",
+          "suppressed": 1
+        }
+      ],
+      "regime": "three_of_four_vs_one_of_five",
+      "role_mapping": {
+        "amber": "role_0",
+        "jade": "role_1",
+        "violet": "role_2"
+      },
+      "selected_role": "role_2"
+    },
+    {
+      "bias_corrected_gains": {
+        "role_0": -0.11622461051756647,
+        "role_1": -0.32066901522558094,
+        "role_2": -0.32066901522558094
+      },
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=5|episodes=7; role_1|initiator=red|relation=before|suppressed=1|episodes=6; role_2|initiator=red|relation=before|suppressed=1|episodes=6",
+      "correct": true,
+      "correct_role": "role_0",
+      "grounded_labels": [
+        "amber",
+        "jade",
+        "violet"
+      ],
+      "neutral_adjusted_gains": {
+        "role_0": -0.8545987606048584,
+        "role_1": -0.9795987606048584,
+        "role_2": -0.9170987606048584
+      },
+      "observed_rates": {
+        "role_0": 0.7142857142857143,
+        "role_1": 0.16666666666666666,
+        "role_2": 0.16666666666666666
+      },
+      "raw_records": [
+        {
+          "episodes": 7,
+          "first": "red",
+          "second": "amber",
+          "suppressed": 5
+        },
+        {
+          "episodes": 6,
+          "first": "red",
+          "second": "jade",
+          "suppressed": 1
+        },
+        {
+          "episodes": 6,
+          "first": "red",
+          "second": "violet",
+          "suppressed": 1
+        }
+      ],
+      "regime": "five_of_seven_vs_one_of_six",
+      "role_mapping": {
+        "amber": "role_0",
+        "jade": "role_1",
+        "violet": "role_2"
+      },
+      "selected_role": "role_0"
+    },
+    {
+      "bias_corrected_gains": {
+        "role_0": -0.10406103396761252,
+        "role_1": -0.09406103396761253,
+        "role_2": -0.17003329592626454
+      },
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=1|episodes=6; role_1|initiator=red|relation=before|suppressed=5|episodes=7; role_2|initiator=red|relation=before|suppressed=1|episodes=6",
+      "correct": true,
+      "correct_role": "role_1",
+      "grounded_labels": [
+        "amber",
+        "jade",
+        "violet"
+      ],
+      "neutral_adjusted_gains": {
+        "role_0": -0.7664629220962524,
+        "role_1": -0.828963041305542,
+        "role_2": -0.766463041305542
+      },
+      "observed_rates": {
+        "role_0": 0.16666666666666666,
+        "role_1": 0.7142857142857143,
+        "role_2": 0.16666666666666666
+      },
+      "raw_records": [
+        {
+          "episodes": 7,
+          "first": "red",
+          "second": "jade",
+          "suppressed": 5
+        },
+        {
+          "episodes": 6,
+          "first": "red",
+          "second": "violet",
+          "suppressed": 1
+        },
+        {
+          "episodes": 6,
+          "first": "red",
+          "second": "amber",
+          "suppressed": 1
+        }
+      ],
+      "regime": "five_of_seven_vs_one_of_six",
+      "role_mapping": {
+        "amber": "role_0",
+        "jade": "role_1",
+        "violet": "role_2"
+      },
+      "selected_role": "role_1"
+    },
+    {
+      "bias_corrected_gains": {
+        "role_0": 0.10562822556150125,
+        "role_1": 0.16465608281213878,
+        "role_2": 0.2406283447707908
+      },
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=1|episodes=6; role_1|initiator=red|relation=before|suppressed=1|episodes=6; role_2|initiator=red|relation=before|suppressed=5|episodes=7",
+      "correct": true,
+      "correct_role": "role_2",
+      "grounded_labels": [
+        "amber",
+        "jade",
+        "violet"
+      ],
+      "neutral_adjusted_gains": {
+        "role_0": -0.5567736625671387,
+        "role_1": -0.49427366256713867,
+        "role_2": -0.43177366256713867
+      },
+      "observed_rates": {
+        "role_0": 0.16666666666666666,
+        "role_1": 0.16666666666666666,
+        "role_2": 0.7142857142857143
+      },
+      "raw_records": [
+        {
+          "episodes": 7,
+          "first": "red",
+          "second": "violet",
+          "suppressed": 5
+        },
+        {
+          "episodes": 6,
+          "first": "red",
+          "second": "amber",
+          "suppressed": 1
+        },
+        {
+          "episodes": 6,
+          "first": "red",
+          "second": "jade",
+          "suppressed": 1
+        }
+      ],
+      "regime": "five_of_seven_vs_one_of_six",
+      "role_mapping": {
+        "amber": "role_0",
+        "jade": "role_1",
+        "violet": "role_2"
+      },
+      "selected_role": "role_2"
+    },
+    {
+      "bias_corrected_gains": {
+        "role_0": 0.05467287710131448,
+        "role_1": -0.053268909419792315,
+        "role_2": -0.053268909419792315
+      },
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=7|episodes=9; role_1|initiator=red|relation=before|suppressed=2|episodes=8; role_2|initiator=red|relation=before|suppressed=2|episodes=8",
+      "correct": true,
+      "correct_role": "role_0",
+      "grounded_labels": [
+        "amber",
+        "jade",
+        "violet"
+      ],
+      "neutral_adjusted_gains": {
+        "role_0": -0.692509651184082,
+        "role_1": -0.723759651184082,
+        "role_2": -0.661259651184082
+      },
+      "observed_rates": {
+        "role_0": 0.7777777777777778,
+        "role_1": 0.25,
+        "role_2": 0.25
+      },
+      "raw_records": [
+        {
+          "episodes": 9,
+          "first": "red",
+          "second": "amber",
+          "suppressed": 7
+        },
+        {
+          "episodes": 8,
+          "first": "red",
+          "second": "jade",
+          "suppressed": 2
+        },
+        {
+          "episodes": 8,
+          "first": "red",
+          "second": "violet",
+          "suppressed": 2
+        }
+      ],
+      "regime": "seven_of_nine_vs_two_of_eight",
+      "role_mapping": {
+        "amber": "role_0",
+        "jade": "role_1",
+        "violet": "role_2"
+      },
+      "selected_role": "role_0"
+    },
+    {
+      "bias_corrected_gains": {
+        "role_0": 0.026643746463572843,
+        "role_1": 0.22139130709059945,
+        "role_2": 0.17942166331885515
+      },
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=2|episodes=8; role_1|initiator=red|relation=before|suppressed=7|episodes=9; role_2|initiator=red|relation=before|suppressed=2|episodes=8",
+      "correct": true,
+      "correct_role": "role_1",
+      "grounded_labels": [
+        "amber",
+        "jade",
+        "violet"
+      ],
+      "neutral_adjusted_gains": {
+        "role_0": -0.6473191380500793,
+        "role_1": -0.5223190784454346,
+        "role_2": -0.42856907844543457
+      },
+      "observed_rates": {
+        "role_0": 0.25,
+        "role_1": 0.7777777777777778,
+        "role_2": 0.25
+      },
+      "raw_records": [
+        {
+          "episodes": 9,
+          "first": "red",
+          "second": "jade",
+          "suppressed": 7
+        },
+        {
+          "episodes": 8,
+          "first": "red",
+          "second": "violet",
+          "suppressed": 2
+        },
+        {
+          "episodes": 8,
+          "first": "red",
+          "second": "amber",
+          "suppressed": 2
+        }
+      ],
+      "regime": "seven_of_nine_vs_two_of_eight",
+      "role_mapping": {
+        "amber": "role_0",
+        "jade": "role_1",
+        "violet": "role_2"
+      },
+      "selected_role": "role_1"
+    },
+    {
+      "bias_corrected_gains": {
+        "role_0": 0.14832066830805526,
+        "role_1": 0.26984834674475844,
+        "role_2": 0.3430679905165028
+      },
+      "canonical_evidence": "role_0|initiator=red|relation=before|suppressed=2|episodes=8; role_1|initiator=red|relation=before|suppressed=2|episodes=8; role_2|initiator=red|relation=before|suppressed=7|episodes=9",
+      "correct": true,
+      "correct_role": "role_2",
+      "grounded_labels": [
+        "amber",
+        "jade",
+        "violet"
+      ],
+      "neutral_adjusted_gains": {
+        "role_0": -0.5256422162055969,
+        "role_1": -0.40064239501953125,
+        "role_2": -0.33814239501953125
+      },
+      "observed_rates": {
+        "role_0": 0.25,
+        "role_1": 0.25,
+        "role_2": 0.7777777777777778
+      },
+      "raw_records": [
+        {
+          "episodes": 9,
+          "first": "red",
+          "second": "violet",
+          "suppressed": 7
+        },
+        {
+          "episodes": 8,
+          "first": "red",
+          "second": "amber",
+          "suppressed": 2
+        },
+        {
+          "episodes": 8,
+          "first": "red",
+          "second": "jade",
+          "suppressed": 2
+        }
+      ],
+      "regime": "seven_of_nine_vs_two_of_eight",
+      "role_mapping": {
+        "amber": "role_0",
+        "jade": "role_1",
+        "violet": "role_2"
+      },
+      "selected_role": "role_2"
+    }
+  ],
+  "frozen_calibration": {
+    "estimator_uses_correct_role": false,
+    "labels": [
+      "amber",
+      "jade",
+      "violet"
+    ],
+    "model": "google/gemma-3-1b-it",
+    "neutral_scores": {
+      "role_0": -0.3029850721359253,
+      "role_1": -2.4904849529266357,
+      "role_2": -2.7717349529266357
+    },
+    "normalization": "lexical_grounded_labels_to_sorted_anonymous_roles",
+    "rate_weight": 0.13873195662014715,
+    "rate_weight_required_calibration_margin": 0.01,
+    "rate_weight_target": "unique_maximum_observed_suppression_rate",
+    "regimes": [
+      "three_of_four_vs_one_of_five",
+      "five_of_seven_vs_one_of_six",
+      "seven_of_nine_vs_two_of_eight"
+    ],
+    "role_assignment_balance": {
+      "role_0": 3,
+      "role_1": 3,
+      "role_2": 3
+    },
+    "role_bias": {
+      "role_0": -0.6392798953586154,
+      "role_1": -0.6358077526092529,
+      "role_2": -0.5733077526092529
+    },
+    "schema": "balanced_role_offset_rate_fusion_v1"
+  },
+  "summary": {
+    "correct": 9,
+    "total": 9
+  }
+}

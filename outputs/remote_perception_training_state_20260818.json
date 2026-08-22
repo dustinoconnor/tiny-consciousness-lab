@@ -1,0 +1,15 @@
+{
+  "completed_feedback_trials": 20,
+  "format": "remote_intuition_training_v1",
+  "last_trial_id": "RV-655f7fb580c65c80",
+  "slot_weights": [
+    0.9542951062862384,
+    0.9948974096966717,
+    0.9948974096966717,
+    0.9153498049206045,
+    0.8779938824467498,
+    1.0372272154608042,
+    1.2253391714922595
+  ],
+  "state_sha256": "afeca45e2c7dc4c7a9f75df9586d26b22f63e4dd42d012386ff304904a5c36c7"
+}

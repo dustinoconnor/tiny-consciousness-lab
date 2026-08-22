@@ -1,0 +1,36 @@
+{
+  "experiment": "l1_publication_confirmation",
+  "protocol": "L1_PUBLICATION_CONFIRMATION_PROTOCOL_20260806.md",
+  "matched_seed_309": {
+    "examples": 128,
+    "json_exact_matches": 128,
+    "masked_l1_exact_matches": 128,
+    "json_mean_visible_tokens": 282.328125,
+    "masked_l1_mean_visible_tokens": 184.328125,
+    "masked_l1_visible_token_reduction_percent": 34.71138413857989,
+    "json_elapsed_seconds": 323.345,
+    "masked_l1_elapsed_seconds": 164.412,
+    "masked_l1_observed_elapsed_reduction_percent": 49.15276252918709
+  },
+  "independent_seed_311_replication": {
+    "examples": 128,
+    "masked_l1_exact_matches": 128,
+    "masked_l1_accuracy": 1.0,
+    "masked_l1_mean_visible_tokens": 184.421875,
+    "masked_l1_elapsed_seconds": 163.012
+  },
+  "aggregate_masked_l1_confirmation": {
+    "independent_audits": 2,
+    "examples": 256,
+    "exact_matches": 256,
+    "observed_failures": 0,
+    "observed_accuracy": 1.0
+  },
+  "claim": "The frozen masked-greedy L1 system produced zero observed defects across two independent 128-case audits. On the matched seed-309 audit it equaled JSON point accuracy while reducing mean visible tokens by 34.711 percent.",
+  "boundary": "Zero observed defects is not universal zero-defect precision. Runtime is descriptive because sequential adapter runs did not control system load, and broader distributions plus embodied replication remain future work.",
+  "artifacts": [
+    "outputs/json_matched_seed309_20260806.json",
+    "outputs/l1_masked_greedy_seed309_20260805.json",
+    "outputs/l1_masked_greedy_replication_seed311_20260806.json"
+  ]
+}

@@ -1,0 +1,169 @@
+{
+  "protocol": {
+    "recording": "outputs/unity_shadow/scarcity_250_baseline_20260729.jsonl",
+    "base_checkpoint": "checkpoints/unity_mpc/best.pt",
+    "sequence_steps": 32,
+    "orbit_context_steps": 50,
+    "future_hindsight_steps": 15,
+    "event_level_holdout": true,
+    "heldout_event_ids": [
+      4,
+      14,
+      17,
+      21,
+      25
+    ],
+    "scripted_breakout_labels": false,
+    "trainable_parameters": "actor_readout_only"
+  },
+  "extraction": {
+    "samples": 200,
+    "orbit_events": 26,
+    "source_counts": {
+      "self_recovered": 200
+    },
+    "dataset": "outputs/unity_shadow/scarcity_250_orbit_exits_20260729.npz"
+  },
+  "split": {
+    "train_samples": 174,
+    "heldout_samples": 26
+  },
+  "baseline_exit_accuracy": 0.46153846153846156,
+  "candidate_exit_accuracy": 0.4230769230769231,
+  "baseline_courses": {
+    "success_rate": 0.9027777777777778,
+    "mean_steps": 99.91666666666667,
+    "mean_collisions": 0.0,
+    "mean_path_length": 43.96333333333327,
+    "mean_revisit_ratio": 0.19709644818448557,
+    "mean_reversals": 1.7222222222222223,
+    "by_family": {
+      "u_trap": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      },
+      "c_shape": {
+        "success_rate": 0.8333333333333334,
+        "mean_collisions": 0.0
+      },
+      "l_wall": {
+        "success_rate": 0.9166666666666666,
+        "mean_collisions": 0.0
+      },
+      "zigzag_gate": {
+        "success_rate": 0.8333333333333334,
+        "mean_collisions": 0.0
+      },
+      "offset_barriers": {
+        "success_rate": 0.9166666666666666,
+        "mean_collisions": 0.0
+      },
+      "narrow_corridor": {
+        "success_rate": 0.9166666666666666,
+        "mean_collisions": 0.0
+      }
+    }
+  },
+  "candidate_courses": {
+    "success_rate": 0.9027777777777778,
+    "mean_steps": 97.52777777777777,
+    "mean_collisions": 0.0,
+    "mean_path_length": 42.91222222222215,
+    "mean_revisit_ratio": 0.21436308328034448,
+    "mean_reversals": 2.5972222222222223,
+    "by_family": {
+      "u_trap": {
+        "success_rate": 1.0,
+        "mean_collisions": 0.0
+      },
+      "c_shape": {
+        "success_rate": 0.8333333333333334,
+        "mean_collisions": 0.0
+      },
+      "l_wall": {
+        "success_rate": 0.9166666666666666,
+        "mean_collisions": 0.0
+      },
+      "zigzag_gate": {
+        "success_rate": 0.9166666666666666,
+        "mean_collisions": 0.0
+      },
+      "offset_barriers": {
+        "success_rate": 0.9166666666666666,
+        "mean_collisions": 0.0
+      },
+      "narrow_corridor": {
+        "success_rate": 0.8333333333333334,
+        "mean_collisions": 0.0
+      }
+    }
+  },
+  "baseline_sparse": {
+    "episodes": 8,
+    "mean_pickups": 14.375,
+    "mean_first_pickup_steps": 107.5,
+    "mean_max_meal_gap_steps": 868.375,
+    "mean_unique_cells": 73.25,
+    "mean_revisit_ratio": 0.9593281510272071,
+    "mean_collisions": 0.0,
+    "mean_reversals": 54.375
+  },
+  "candidate_sparse": {
+    "episodes": 8,
+    "mean_pickups": 13.25,
+    "mean_first_pickup_steps": 117.375,
+    "mean_max_meal_gap_steps": 1011.125,
+    "mean_unique_cells": 68.875,
+    "mean_revisit_ratio": 0.9617573570238757,
+    "mean_collisions": 0.0,
+    "mean_reversals": 64.25
+  },
+  "candidate_memory_reset": {
+    "episodes": 8,
+    "mean_pickups": 1.5,
+    "mean_first_pickup_steps": 934.25,
+    "mean_max_meal_gap_steps": 1691.625,
+    "mean_unique_cells": 23.875,
+    "mean_revisit_ratio": 0.9867434758467518,
+    "mean_collisions": 0.0,
+    "mean_reversals": 88.125
+  },
+  "criteria": {
+    "heldout_exit_accuracy_improves_5_points": false,
+    "course_success_regression_at_most_2_points": true,
+    "course_collisions_not_increased": true,
+    "sparse_pickups_retain_90_percent": true,
+    "memory_reset_reduces_sparse_pickups": true,
+    "all_passed": false
+  },
+  "training_loss": [
+    1.8543741305669148,
+    1.8429367144902546,
+    1.8364667892456055,
+    1.8357889652252197,
+    1.825281023979187,
+    1.827749768892924,
+    1.837326963742574,
+    1.838599443435669,
+    1.8207860390345256,
+    1.806553602218628,
+    1.8251138130823772,
+    1.8174353043238323,
+    1.8097018400828044,
+    1.8301921288172405,
+    1.791038990020752,
+    1.822853406270345,
+    1.8199368317921956,
+    1.8283435901006062,
+    1.8129689693450928,
+    1.8051859935124714,
+    1.7949150403340657,
+    1.8342810074488323,
+    1.8005740642547607,
+    1.8245099782943726,
+    1.8210036357243855,
+    1.8054594198862712,
+    1.788114070892334,
+    1.8049455483754475
+  ]
+}

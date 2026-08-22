@@ -1,0 +1,63 @@
+{
+  "sources": [
+    "outputs/unity_shadow/orbit_latch_sequence_course_20260719.jsonl"
+  ],
+  "episodes": [
+    {
+      "episode": 1,
+      "course": "utrap",
+      "success": false,
+      "timeout": true,
+      "duration_seconds": 92.61239194869995,
+      "frames": 449,
+      "path_length": 270.7584305677568,
+      "collision_frames": 41,
+      "stuck_frames": 0,
+      "learned_control_fraction": 1.0,
+      "food_visible_frames": 0,
+      "food_visible_to_pickup_seconds": null,
+      "revisit_ratio_1m": 0.5634743875278396,
+      "shadow_action_reversals": 1,
+      "mean_shadow_confidence": 0.4895213213489953
+    },
+    {
+      "episode": 2,
+      "course": "ctrap",
+      "success": true,
+      "timeout": false,
+      "duration_seconds": 25.7359299659729,
+      "frames": 126,
+      "path_length": 75.40641015475214,
+      "collision_frames": 17,
+      "stuck_frames": 0,
+      "learned_control_fraction": 1.0,
+      "food_visible_frames": 7,
+      "food_visible_to_pickup_seconds": 1.477466106414795,
+      "revisit_ratio_1m": 0.30952380952380953,
+      "shadow_action_reversals": 0,
+      "mean_shadow_confidence": 0.47659826231381247
+    },
+    {
+      "episode": 3,
+      "course": "lwall",
+      "success": false,
+      "timeout": false,
+      "duration_seconds": 26.72555685043335,
+      "frames": 131,
+      "path_length": 79.07542358714696,
+      "collision_frames": 19,
+      "stuck_frames": 0,
+      "learned_control_fraction": 1.0,
+      "food_visible_frames": 0,
+      "food_visible_to_pickup_seconds": null,
+      "revisit_ratio_1m": 0.2748091603053435,
+      "shadow_action_reversals": 0,
+      "mean_shadow_confidence": 0.5171720076153297
+    }
+  ],
+  "completed_episodes": 2,
+  "successes": 1,
+  "timeouts": 1,
+  "success_rate": 0.5,
+  "mean_success_seconds": 25.7359299659729
+}

@@ -1,0 +1,282 @@
+{
+  "experiment": "frozen_causal_contract_confirmation_v1",
+  "evaluation_seed": 312,
+  "heldout_examples": 8,
+  "model": "google/gemma-3-1b-it",
+  "adapter": "checkpoints/causal_dsl_l1_lora_1b_20260804",
+  "contract": "labeled_causal_ir_masked_greedy",
+  "adapter_prompt_or_decoder_changed_after_registration": false,
+  "evaluation": {
+    "examples": 8,
+    "semantic_matches": 8,
+    "semantic_accuracy": 1.0,
+    "mean_visible_tokens": 185.25,
+    "elapsed_seconds": 10.682,
+    "records": [
+      {
+        "raw": "L1 c gold k silver e - t 3.0 q 0.5",
+        "prediction": {
+          "target": "gold",
+          "comparison": "silver",
+          "effect": "pressure_decrease",
+          "delay": 3.0
+        },
+        "semantic_match": true,
+        "rejection": null,
+        "metrics": {
+          "representation": "labeled_causal_ir_masked_greedy",
+          "attempts": 1,
+          "input_tokens": 164,
+          "output_tokens": 19,
+          "total_tokens": 183,
+          "elapsed_seconds": 1.613033,
+          "accepted": true,
+          "attempt_records": [
+            {
+              "input_tokens": 164,
+              "output_tokens": 19
+            }
+          ]
+        },
+        "expected": {
+          "target": "gold",
+          "comparison": "silver",
+          "effect": "pressure_decrease",
+          "delay": 3.0
+        },
+        "evidence_order": "reversed"
+      },
+      {
+        "raw": "L1 c indigo k copper e + t 10.464 q 0.5",
+        "prediction": {
+          "target": "indigo",
+          "comparison": "copper",
+          "effect": "pressure_increase",
+          "delay": 10.464
+        },
+        "semantic_match": true,
+        "rejection": null,
+        "metrics": {
+          "representation": "labeled_causal_ir_masked_greedy",
+          "attempts": 1,
+          "input_tokens": 167,
+          "output_tokens": 22,
+          "total_tokens": 189,
+          "elapsed_seconds": 1.450733,
+          "accepted": true,
+          "attempt_records": [
+            {
+              "input_tokens": 167,
+              "output_tokens": 22
+            }
+          ]
+        },
+        "expected": {
+          "target": "indigo",
+          "comparison": "copper",
+          "effect": "pressure_increase",
+          "delay": 10.464
+        },
+        "evidence_order": "canonical"
+      },
+      {
+        "raw": "L1 c blue k red e + t 12.5 q 0.5",
+        "prediction": {
+          "target": "blue",
+          "comparison": "red",
+          "effect": "pressure_increase",
+          "delay": 12.5
+        },
+        "semantic_match": true,
+        "rejection": null,
+        "metrics": {
+          "representation": "labeled_causal_ir_masked_greedy",
+          "attempts": 1,
+          "input_tokens": 165,
+          "output_tokens": 20,
+          "total_tokens": 185,
+          "elapsed_seconds": 1.306775,
+          "accepted": true,
+          "attempt_records": [
+            {
+              "input_tokens": 165,
+              "output_tokens": 20
+            }
+          ]
+        },
+        "expected": {
+          "target": "blue",
+          "comparison": "red",
+          "effect": "pressure_increase",
+          "delay": 12.5
+        },
+        "evidence_order": "reversed"
+      },
+      {
+        "raw": "L1 c pink k teal e - t 10.464 q 0.5",
+        "prediction": {
+          "target": "pink",
+          "comparison": "teal",
+          "effect": "pressure_decrease",
+          "delay": 10.464
+        },
+        "semantic_match": true,
+        "rejection": null,
+        "metrics": {
+          "representation": "labeled_causal_ir_masked_greedy",
+          "attempts": 1,
+          "input_tokens": 167,
+          "output_tokens": 22,
+          "total_tokens": 189,
+          "elapsed_seconds": 1.359956,
+          "accepted": true,
+          "attempt_records": [
+            {
+              "input_tokens": 167,
+              "output_tokens": 22
+            }
+          ]
+        },
+        "expected": {
+          "target": "pink",
+          "comparison": "teal",
+          "effect": "pressure_decrease",
+          "delay": 10.464
+        },
+        "evidence_order": "canonical"
+      },
+      {
+        "raw": "L1 c blue k red e - t 3.0 q 0.5",
+        "prediction": {
+          "target": "blue",
+          "comparison": "red",
+          "effect": "pressure_decrease",
+          "delay": 3.0
+        },
+        "semantic_match": true,
+        "rejection": null,
+        "metrics": {
+          "representation": "labeled_causal_ir_masked_greedy",
+          "attempts": 1,
+          "input_tokens": 163,
+          "output_tokens": 19,
+          "total_tokens": 182,
+          "elapsed_seconds": 1.24322,
+          "accepted": true,
+          "attempt_records": [
+            {
+              "input_tokens": 163,
+              "output_tokens": 19
+            }
+          ]
+        },
+        "expected": {
+          "target": "blue",
+          "comparison": "red",
+          "effect": "pressure_decrease",
+          "delay": 3.0
+        },
+        "evidence_order": "reversed"
+      },
+      {
+        "raw": "L1 c teal k pink e - t 12.5 q 0.5",
+        "prediction": {
+          "target": "teal",
+          "comparison": "pink",
+          "effect": "pressure_decrease",
+          "delay": 12.5
+        },
+        "semantic_match": true,
+        "rejection": null,
+        "metrics": {
+          "representation": "labeled_causal_ir_masked_greedy",
+          "attempts": 1,
+          "input_tokens": 165,
+          "output_tokens": 20,
+          "total_tokens": 185,
+          "elapsed_seconds": 1.242025,
+          "accepted": true,
+          "attempt_records": [
+            {
+              "input_tokens": 165,
+              "output_tokens": 20
+            }
+          ]
+        },
+        "expected": {
+          "target": "teal",
+          "comparison": "pink",
+          "effect": "pressure_decrease",
+          "delay": 12.5
+        },
+        "evidence_order": "reversed"
+      },
+      {
+        "raw": "L1 c copper k indigo e - t 12.5 q 0.5",
+        "prediction": {
+          "target": "copper",
+          "comparison": "indigo",
+          "effect": "pressure_decrease",
+          "delay": 12.5
+        },
+        "semantic_match": true,
+        "rejection": null,
+        "metrics": {
+          "representation": "labeled_causal_ir_masked_greedy",
+          "attempts": 1,
+          "input_tokens": 164,
+          "output_tokens": 20,
+          "total_tokens": 184,
+          "elapsed_seconds": 1.235316,
+          "accepted": true,
+          "attempt_records": [
+            {
+              "input_tokens": 164,
+              "output_tokens": 20
+            }
+          ]
+        },
+        "expected": {
+          "target": "copper",
+          "comparison": "indigo",
+          "effect": "pressure_decrease",
+          "delay": 12.5
+        },
+        "evidence_order": "reversed"
+      },
+      {
+        "raw": "L1 c gold k silver e + t 12.5 q 0.5",
+        "prediction": {
+          "target": "gold",
+          "comparison": "silver",
+          "effect": "pressure_increase",
+          "delay": 12.5
+        },
+        "semantic_match": true,
+        "rejection": null,
+        "metrics": {
+          "representation": "labeled_causal_ir_masked_greedy",
+          "attempts": 1,
+          "input_tokens": 165,
+          "output_tokens": 20,
+          "total_tokens": 185,
+          "elapsed_seconds": 1.229588,
+          "accepted": true,
+          "attempt_records": [
+            {
+              "input_tokens": 165,
+              "output_tokens": 20
+            }
+          ]
+        },
+        "expected": {
+          "target": "gold",
+          "comparison": "silver",
+          "effect": "pressure_increase",
+          "delay": 12.5
+        },
+        "evidence_order": "reversed"
+      }
+    ]
+  }
+}

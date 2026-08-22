@@ -1,0 +1,59 @@
+{
+  "experiment": "passive GNW-selected embodied metabolic hypothesis",
+  "evidence_interface": "homeostatic_filtered",
+  "hypothesis_contract": "freeform",
+  "evidence_order": "canonical",
+  "summary": {
+    "feature_outcomes": {
+      "blue": {
+        "episodes": 23,
+        "isolated_episodes": 15,
+        "mean_pressure_delta": -0.0001,
+        "positive_pressure_fraction": 0.0,
+        "mean_positive_delay_seconds": null
+      },
+      "red": {
+        "episodes": 1,
+        "isolated_episodes": 1,
+        "mean_pressure_delta": 0.34,
+        "positive_pressure_fraction": 1.0,
+        "mean_positive_delay_seconds": 10.416
+      }
+    },
+    "episode_count": 24,
+    "gnw_broadcast_count": 1,
+    "gnw_broadcast_features": {
+      "red": 1
+    },
+    "gnw_action_influence": 0
+  },
+  "gnw": {
+    "mode": "passive_scientific_broadcast",
+    "observations": 24,
+    "ignitions": 1,
+    "held": 23,
+    "action_influence": 0,
+    "broadcasts": [
+      {
+        "feature": "red",
+        "salience": 1.0,
+        "prediction_error": 1.0,
+        "novelty": 1.0,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785602350.476532,
+          "pressure_before": 0.0,
+          "peak_pressure": 0.34,
+          "pressure_delta": 0.34,
+          "peak_delay_seconds": 10.416029930114746,
+          "intervening_pickup": false
+        }
+      }
+    ]
+  },
+  "hypothesis": null,
+  "raw_model_output": null,
+  "status": "evidence_only",
+  "model": "google/gemma-3-270m-it",
+  "recording": "outputs/unity_shadow/red_blue_rule_verification_scattered_20260801.jsonl"
+}

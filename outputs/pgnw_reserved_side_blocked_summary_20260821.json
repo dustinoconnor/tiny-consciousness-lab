@@ -1,0 +1,24 @@
+{
+  "verdict": "clean_null_right_side_bias_persists_despite_active_influence",
+  "trial_order": ["rbl_a1", "rbl_p1", "ryl_p1", "ryl_a1", "ryl_a2", "ryl_p2", "rbl_p2", "rbl_a2"],
+  "active_blue_first": 2,
+  "active_total": 4,
+  "passive_blue_first": 2,
+  "passive_total": 4,
+  "active_wins": 0,
+  "passive_wins": 0,
+  "concordant_pairs": 4,
+  "mcnemar_exact_two_sided_p": 1.0,
+  "blocks": {
+    "blue_left": {"active_blue_first": 0, "active_total": 2, "passive_blue_first": 0, "passive_total": 2},
+    "blue_right": {"active_blue_first": 2, "active_total": 2, "passive_blue_first": 2, "passive_total": 2}
+  },
+  "active_prechoice_action_influence_total": 42,
+  "passive_prechoice_action_influence_total": 0,
+  "clean_starts": 8,
+  "hazard_cancelled_events": 8,
+  "hazard_cost_events": 0,
+  "stuck_events": 0,
+  "survival_failures": 0,
+  "respawns": 0
+}

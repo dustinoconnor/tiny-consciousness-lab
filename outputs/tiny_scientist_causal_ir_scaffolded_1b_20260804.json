@@ -1,0 +1,214 @@
+{
+  "experiment": "agent_native_causal_representation_benchmark_v1",
+  "recording": "outputs/unity_shadow/red_blue_tiny_scientist_20260731.jsonl",
+  "models": [
+    "google/gemma-3-1b-it"
+  ],
+  "contracts": {
+    "evaluated": [
+      "bound_schema_scaffolded",
+      "causal_ir_scaffolded"
+    ],
+    "json_baseline": "bound_schema_scaffolded",
+    "agent_native_ir": "causal_ir_scaffolded",
+    "agent_native_ir_grammar": "C1 cause comparison effect delay confidence"
+  },
+  "controls": {
+    "evidence_interface": "homeostatic_filtered",
+    "evidence_orders": [
+      "canonical",
+      "reversed"
+    ],
+    "decoding": "greedy_two_attempt_maximum",
+    "same_canonical_semantic_verifier": true,
+    "same_formal_falsifier_compiler": true,
+    "authority": 0.0
+  },
+  "summary": {
+    "feature_outcomes": {
+      "blue": {
+        "episodes": 14,
+        "isolated_episodes": 11,
+        "mean_pressure_delta": -0.0,
+        "positive_pressure_fraction": 0.0,
+        "mean_positive_delay_seconds": null
+      },
+      "red": {
+        "episodes": 2,
+        "isolated_episodes": 2,
+        "mean_pressure_delta": 0.34,
+        "positive_pressure_fraction": 1.0,
+        "mean_positive_delay_seconds": 10.464
+      }
+    },
+    "episode_count": 16,
+    "gnw_broadcast_count": 2,
+    "gnw_broadcast_features": {
+      "red": 2
+    },
+    "gnw_action_influence": 0
+  },
+  "static_chat_prompt_tokens": {
+    "google/gemma-3-1b-it": {
+      "canonical": {
+        "bound_schema_scaffolded": 320,
+        "causal_ir_scaffolded": 202
+      },
+      "reversed": {
+        "bound_schema_scaffolded": 320,
+        "causal_ir_scaffolded": 202
+      }
+    }
+  },
+  "trials": [
+    {
+      "model": "google/gemma-3-1b-it",
+      "contract": "bound_schema_scaffolded",
+      "evidence_order": "canonical",
+      "accepted": false,
+      "hypothesis": null,
+      "raw_model_output": "{\"target_cause\": \"red\", \"comparison_feature\": \"blue\", \"observed_effect\": \"pressure_decrease\", \"latency_seconds\": 10.464, \"confidence\": 0.9}",
+      "rejection": "tiny_scientist_hypothesis_rejected:tiny_scientist_bound_effect_reverses_evidence; raw={\"target_cause\": \"red\", \"comparison_feature\": \"blue\", \"observed_effect\": \"pressure_decrease\", \"latency_seconds\": 10.464, \"confidence\": 0.9}",
+      "metrics": {
+        "representation": "bound_schema_scaffolded",
+        "attempts": 2,
+        "input_tokens": 726,
+        "output_tokens": 96,
+        "total_tokens": 822,
+        "elapsed_seconds": 4.514121,
+        "accepted": false,
+        "attempt_records": [
+          {
+            "input_tokens": 320,
+            "output_tokens": 48
+          },
+          {
+            "input_tokens": 406,
+            "output_tokens": 48
+          }
+        ]
+      }
+    },
+    {
+      "model": "google/gemma-3-1b-it",
+      "contract": "causal_ir_scaffolded",
+      "evidence_order": "canonical",
+      "accepted": false,
+      "hypothesis": null,
+      "raw_model_output": "C1 blue pressure change -0.3 delay 5 positive_fraction -0.8 confidence -0.2",
+      "rejection": "tiny_scientist_hypothesis_rejected:tiny_scientist_returned_no_single_causal_ir; raw=C1 blue pressure change -0.3 delay 5 positive_fraction -0.8 confidence -0.2",
+      "metrics": {
+        "representation": "causal_ir_scaffolded",
+        "attempts": 2,
+        "input_tokens": 497,
+        "output_tokens": 78,
+        "total_tokens": 575,
+        "elapsed_seconds": 3.33614,
+        "accepted": false,
+        "attempt_records": [
+          {
+            "input_tokens": 202,
+            "output_tokens": 53
+          },
+          {
+            "input_tokens": 295,
+            "output_tokens": 25
+          }
+        ]
+      }
+    },
+    {
+      "model": "google/gemma-3-1b-it",
+      "contract": "bound_schema_scaffolded",
+      "evidence_order": "reversed",
+      "accepted": true,
+      "hypothesis": {
+        "hypothesis": {
+          "target_cause": "red",
+          "comparison_feature": "blue",
+          "observed_effect": "pressure_increase",
+          "latency_seconds": 10.464,
+          "confidence": 0.8
+        },
+        "falsifier_schema": {
+          "action_to_retest": "red",
+          "expected_contradictory_outcome": "no_pressure_increase_or_pressure_decrease"
+        },
+        "status": "proposed_unverified",
+        "authority": 0.0
+      },
+      "raw_model_output": "{\"target_cause\": \"red\", \"comparison_feature\": \"blue\", \"observed_effect\": \"pressure_increase\", \"latency_seconds\": 10.464, \"confidence\": 0.8}",
+      "rejection": null,
+      "metrics": {
+        "representation": "bound_schema_scaffolded",
+        "attempts": 2,
+        "input_tokens": 726,
+        "output_tokens": 96,
+        "total_tokens": 822,
+        "elapsed_seconds": 3.675461,
+        "accepted": true,
+        "attempt_records": [
+          {
+            "input_tokens": 320,
+            "output_tokens": 48
+          },
+          {
+            "input_tokens": 406,
+            "output_tokens": 48
+          }
+        ]
+      }
+    },
+    {
+      "model": "google/gemma-3-1b-it",
+      "contract": "causal_ir_scaffolded",
+      "evidence_order": "reversed",
+      "accepted": false,
+      "hypothesis": null,
+      "raw_model_output": "C1 red pressure change -0.3 delay 5 positive_fraction -0.8 confidence -0.2",
+      "rejection": "tiny_scientist_hypothesis_rejected:tiny_scientist_returned_no_single_causal_ir; raw=C1 red pressure change -0.3 delay 5 positive_fraction -0.8 confidence -0.2",
+      "metrics": {
+        "representation": "causal_ir_scaffolded",
+        "attempts": 2,
+        "input_tokens": 496,
+        "output_tokens": 76,
+        "total_tokens": 572,
+        "elapsed_seconds": 2.897538,
+        "accepted": false,
+        "attempt_records": [
+          {
+            "input_tokens": 202,
+            "output_tokens": 51
+          },
+          {
+            "input_tokens": 294,
+            "output_tokens": 25
+          }
+        ]
+      }
+    }
+  ],
+  "aggregate": {
+    "google/gemma-3-1b-it": {
+      "contracts": {
+        "bound_schema_scaffolded": {
+          "trials": 2,
+          "accepted": 1,
+          "success_rate": 0.5,
+          "mean_total_tokens_per_trial": 822,
+          "retry_adjusted_tokens_per_accepted": 1644.0,
+          "mean_elapsed_seconds": 4.094791
+        },
+        "causal_ir_scaffolded": {
+          "trials": 2,
+          "accepted": 0,
+          "success_rate": 0.0,
+          "mean_total_tokens_per_trial": 573.5,
+          "retry_adjusted_tokens_per_accepted": null,
+          "mean_elapsed_seconds": 3.1168389999999997
+        }
+      },
+      "causal_ir_retry_adjusted_token_savings_percent": null
+    }
+  }
+}

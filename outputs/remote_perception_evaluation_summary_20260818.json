@@ -1,0 +1,54 @@
+{
+  "commits": 300,
+  "complete": true,
+  "conditions": {
+    "ablation": {
+      "malformed_samples": 0,
+      "mean_descriptor_matches": 1.84,
+      "mean_target_rank": 2.48,
+      "one_sided_binomial_p": 0.20753883086155664,
+      "target_rank_counts": {
+        "1": 29,
+        "2": 19,
+        "3": 27,
+        "4": 25
+      },
+      "top1_accuracy": 0.29,
+      "top1_hits": 29,
+      "trials": 100
+    },
+    "active": {
+      "malformed_samples": 0,
+      "mean_descriptor_matches": 1.74,
+      "mean_target_rank": 2.52,
+      "one_sided_binomial_p": 0.6289206690042828,
+      "target_rank_counts": {
+        "1": 24,
+        "2": 24,
+        "3": 28,
+        "4": 24
+      },
+      "top1_accuracy": 0.24,
+      "top1_hits": 24,
+      "trials": 100
+    },
+    "sham": {
+      "malformed_samples": 0,
+      "mean_descriptor_matches": 1.78,
+      "mean_target_rank": 2.54,
+      "one_sided_binomial_p": 0.44652917615175175,
+      "target_rank_counts": {
+        "1": 26,
+        "2": 22,
+        "3": 24,
+        "4": 28
+      },
+      "top1_accuracy": 0.26,
+      "top1_hits": 26,
+      "trials": 100
+    }
+  },
+  "format": "remote_perception_evaluation_v1",
+  "reveals": 300,
+  "schedule_sha256": "f426fc80fa9c823eecc7726e8d1593ffb5aa8093f2fb004c8025b84d0b6eecd5"
+}

@@ -1,0 +1,195 @@
+{
+  "experiment": "agent_native_causal_representation_benchmark_v1",
+  "recording": "outputs/unity_shadow/red_blue_tiny_scientist_20260731.jsonl",
+  "models": [
+    "google/gemma-3-270m-it"
+  ],
+  "contracts": {
+    "json_baseline": "bound_schema",
+    "agent_native_ir": "C1 cause comparison effect delay confidence"
+  },
+  "controls": {
+    "evidence_interface": "homeostatic_filtered",
+    "evidence_orders": [
+      "canonical",
+      "reversed"
+    ],
+    "decoding": "greedy_two_attempt_maximum",
+    "same_canonical_semantic_verifier": true,
+    "same_formal_falsifier_compiler": true,
+    "authority": 0.0
+  },
+  "summary": {
+    "feature_outcomes": {
+      "blue": {
+        "episodes": 14,
+        "isolated_episodes": 11,
+        "mean_pressure_delta": -0.0,
+        "positive_pressure_fraction": 0.0,
+        "mean_positive_delay_seconds": null
+      },
+      "red": {
+        "episodes": 2,
+        "isolated_episodes": 2,
+        "mean_pressure_delta": 0.34,
+        "positive_pressure_fraction": 1.0,
+        "mean_positive_delay_seconds": 10.464
+      }
+    },
+    "episode_count": 16,
+    "gnw_broadcast_count": 2,
+    "gnw_broadcast_features": {
+      "red": 2
+    },
+    "gnw_action_influence": 0
+  },
+  "static_chat_prompt_tokens": {
+    "google/gemma-3-270m-it": {
+      "canonical": {
+        "bound_schema": 2,
+        "causal_ir": 2
+      },
+      "reversed": {
+        "bound_schema": 2,
+        "causal_ir": 2
+      }
+    }
+  },
+  "trials": [
+    {
+      "model": "google/gemma-3-270m-it",
+      "contract": "bound_schema",
+      "evidence_order": "canonical",
+      "accepted": false,
+      "hypothesis": null,
+      "raw_model_output": "```json\n{\n  \"target_cause\": \"tiny_scientist_bound_cause_has_no_observed_feature\",\n  \"comparison_feature\": \"blue\",\n  \"observed_effect\": \"delayed change in internal pressure\",\n  \"latency_seconds\": 10.464,\n  \"confidence\": 0.9\n}\n```",
+      "rejection": "tiny_scientist_hypothesis_rejected:tiny_scientist_bound_cause_has_no_observed_feature; raw=```json\n{\n  \"target_cause\": \"tiny_scientist_bound_cause_has_no_observed_feature\",\n  \"comparison_feature\": \"blue\",\n  \"observed_effect\": \"delayed change in internal pressure\",\n  \"latency_seconds\": 10.464,\n  \"confidence\": 0.9\n}\n```",
+      "metrics": {
+        "representation": "bound_schema",
+        "attempts": 2,
+        "input_tokens": 609,
+        "output_tokens": 151,
+        "total_tokens": 760,
+        "elapsed_seconds": 4.381526,
+        "accepted": false,
+        "attempt_records": [
+          {
+            "input_tokens": 249,
+            "output_tokens": 70
+          },
+          {
+            "input_tokens": 360,
+            "output_tokens": 81
+          }
+        ]
+      }
+    },
+    {
+      "model": "google/gemma-3-270m-it",
+      "contract": "causal_ir",
+      "evidence_order": "canonical",
+      "accepted": false,
+      "hypothesis": null,
+      "raw_model_output": "The causal hypothesis is that the question is a test of the homeostatic gate's effectiveness in controlling the pressure change.",
+      "rejection": "tiny_scientist_hypothesis_rejected:tiny_scientist_returned_no_single_causal_ir; raw=The causal hypothesis is that the question is a test of the homeostatic gate's effectiveness in controlling the pressure change.",
+      "metrics": {
+        "representation": "causal_ir",
+        "attempts": 2,
+        "input_tokens": 371,
+        "output_tokens": 52,
+        "total_tokens": 423,
+        "elapsed_seconds": 2.420976,
+        "accepted": false,
+        "attempt_records": [
+          {
+            "input_tokens": 152,
+            "output_tokens": 27
+          },
+          {
+            "input_tokens": 219,
+            "output_tokens": 25
+          }
+        ]
+      }
+    },
+    {
+      "model": "google/gemma-3-270m-it",
+      "contract": "bound_schema",
+      "evidence_order": "reversed",
+      "accepted": false,
+      "hypothesis": null,
+      "raw_model_output": "```json\n{\n  \"target_cause\": \"tiny_scientist_bound_cause_has_no_observed_feature\",\n  \"comparison_feature\": \"observed feature red\",\n  \"observed_effect\": \"2 isolated episodes\",\n  \"latency_seconds\": 10.464,\n  \"confidence\": 0.9\n}\n```",
+      "rejection": "tiny_scientist_hypothesis_rejected:tiny_scientist_bound_cause_has_no_observed_feature; raw=```json\n{\n  \"target_cause\": \"tiny_scientist_bound_cause_has_no_observed_feature\",\n  \"comparison_feature\": \"observed feature red\",\n  \"observed_effect\": \"2 isolated episodes\",\n  \"latency_seconds\": 10.464,\n  \"confidence\": 0.9\n}\n```",
+      "metrics": {
+        "representation": "bound_schema",
+        "attempts": 2,
+        "input_tokens": 609,
+        "output_tokens": 151,
+        "total_tokens": 760,
+        "elapsed_seconds": 3.411091,
+        "accepted": false,
+        "attempt_records": [
+          {
+            "input_tokens": 249,
+            "output_tokens": 70
+          },
+          {
+            "input_tokens": 360,
+            "output_tokens": 81
+          }
+        ]
+      }
+    },
+    {
+      "model": "google/gemma-3-270m-it",
+      "contract": "causal_ir",
+      "evidence_order": "reversed",
+      "accepted": false,
+      "hypothesis": null,
+      "raw_model_output": "The causal hypothesis is that the homeostatic gate's choice of the question is a deliberate and systematic process that leads to a positive change in the pressure of the homeostatic gate.",
+      "rejection": "tiny_scientist_hypothesis_rejected:tiny_scientist_returned_no_single_causal_ir; raw=The causal hypothesis is that the homeostatic gate's choice of the question is a deliberate and systematic process that leads to a positive change in the pressure of the homeostatic gate.",
+      "metrics": {
+        "representation": "causal_ir",
+        "attempts": 2,
+        "input_tokens": 383,
+        "output_tokens": 76,
+        "total_tokens": 459,
+        "elapsed_seconds": 1.929413,
+        "accepted": false,
+        "attempt_records": [
+          {
+            "input_tokens": 152,
+            "output_tokens": 39
+          },
+          {
+            "input_tokens": 231,
+            "output_tokens": 37
+          }
+        ]
+      }
+    }
+  ],
+  "aggregate": {
+    "google/gemma-3-270m-it": {
+      "contracts": {
+        "bound_schema": {
+          "trials": 2,
+          "accepted": 0,
+          "success_rate": 0.0,
+          "mean_total_tokens_per_trial": 760,
+          "retry_adjusted_tokens_per_accepted": null,
+          "mean_elapsed_seconds": 3.8963085
+        },
+        "causal_ir": {
+          "trials": 2,
+          "accepted": 0,
+          "success_rate": 0.0,
+          "mean_total_tokens_per_trial": 441,
+          "retry_adjusted_tokens_per_accepted": null,
+          "mean_elapsed_seconds": 2.1751945
+        }
+      },
+      "causal_ir_retry_adjusted_token_savings_percent": null
+    }
+  }
+}

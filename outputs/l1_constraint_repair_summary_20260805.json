@@ -1,0 +1,40 @@
+{
+  "experiment": "post_mechanistic_l1_formal_constraint_repair_summary",
+  "date": "2026-08-05",
+  "evaluation_seed": 307,
+  "heldout_examples": 128,
+  "adapter_or_prompt_changed": false,
+  "greedy": {
+    "semantic_matches": 118,
+    "semantic_accuracy": 0.921875,
+    "mean_visible_tokens": 184.6328125,
+    "elapsed_seconds": 162.865
+  },
+  "symmetric_constrained": {
+    "semantic_matches": 128,
+    "semantic_accuracy": 1.0,
+    "mean_visible_tokens": 184.53125,
+    "elapsed_seconds": 262.101
+  },
+  "paired": {
+    "both_correct": 118,
+    "constrained_only_correct": 10,
+    "greedy_only_correct": 0,
+    "both_wrong": 0,
+    "accuracy_gain_percentage_points": 7.8125,
+    "exact_two_sided_mcnemar_pvalue": 0.001953125
+  },
+  "failure_repair": {
+    "repeated_comparison_binding_failures_repaired": 4,
+    "serialization_or_effect_grammar_failures_repaired": 6,
+    "regressions": 0
+  },
+  "cost": {
+    "visible_token_change_percent": -0.05500782803706805,
+    "elapsed_time_increase_percent": 60.93144628987197,
+    "interpretation": "reliability_repaired_by_exchanging_additional_internal_beam_compute_not_by_reducing_visible_tokens"
+  },
+  "verifier_fix": "Corrected a pre-existing positive-only evidence verifier so the largest absolute negative departure may ground pressure_decrease.",
+  "claim_boundary": "One frozen new-seed audit supports a local repair, not universal non-inferiority or lower inference cost. A matched JSON seed-307 control and independent seed replication remain future work.",
+  "source": "outputs/l1_constraint_repair_seed307_20260805.json"
+}

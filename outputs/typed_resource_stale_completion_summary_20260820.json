@@ -1,0 +1,45 @@
+{
+  "protocol": "typed_stale_memory_physical_completion_v1",
+  "calibration": {
+    "seed": 167,
+    "duration_seconds": 119.425,
+    "minimum_decoy_distance": 4.868,
+    "original_arrival_radius": 4.0,
+    "typed_stale_events": 0,
+    "yellow_pickups": 0,
+    "verdict": "failed_calibration"
+  },
+  "repair": {
+    "rule": "max(legacy_arrival_radius, cell_size / 2)",
+    "cell_size": 12.0,
+    "effective_typed_arrival_radius": 6.0,
+    "focused_tests": "72/72",
+    "full_tests": "291/291"
+  },
+  "confirmation": {
+    "seed": 168,
+    "rows": 566,
+    "duration_seconds": 119.389,
+    "red_pickup_seconds": 2.96,
+    "stale_detection_seconds": 6.36,
+    "red_to_stale_seconds": 3.396,
+    "fallback_target": [116.8036, -174.3526],
+    "fallback_selected_same_frame": true,
+    "fallback_to_visibility_frames": 54,
+    "fallback_memory_active_frames": 53,
+    "fallback_guidance_frames": 44,
+    "fallback_protective_action_changes": 33,
+    "genuine_yellow_visible_seconds": 17.61,
+    "genuine_yellow_pickup_seconds": 22.26,
+    "genuine_yellow_pickup_position": [116.67, -175.24],
+    "red_to_yellow_seconds": 19.299,
+    "hazard_cancelled_events": 1,
+    "hazard_cost_events": 0,
+    "stuck_events": 2,
+    "survival_failures": 0,
+    "respawns": 0,
+    "verdict": "passed_physical_fallback_completion"
+  },
+  "source_memory_sha256": "a47ecc470aff22d6cbb736ebdbc4e32e6e21d8d601b3be8ca62beba7e8df38fe",
+  "limitation": "One untouched confirmation after one disclosed calibration failure; population-level reliability is unmeasured."
+}

@@ -1,0 +1,34 @@
+{
+  "experiment": "passive GNW-selected embodied metabolic hypothesis",
+  "evidence_interface": "homeostatic_filtered",
+  "hypothesis_contract": "freeform",
+  "evidence_order": "canonical",
+  "summary": {
+    "feature_outcomes": {
+      "blue": {
+        "episodes": 12,
+        "isolated_episodes": 8,
+        "mean_pressure_delta": 0.0,
+        "positive_pressure_fraction": 0.0,
+        "mean_positive_delay_seconds": null
+      }
+    },
+    "episode_count": 12,
+    "gnw_broadcast_count": 0,
+    "gnw_broadcast_features": {},
+    "gnw_action_influence": 0
+  },
+  "gnw": {
+    "mode": "passive_scientific_broadcast",
+    "observations": 12,
+    "ignitions": 0,
+    "held": 12,
+    "action_influence": 0,
+    "broadcasts": []
+  },
+  "hypothesis": null,
+  "raw_model_output": null,
+  "status": "evidence_only",
+  "model": "google/gemma-3-270m-it",
+  "recording": "outputs/unity_shadow/red_blue_rule_verification_20260801.jsonl"
+}

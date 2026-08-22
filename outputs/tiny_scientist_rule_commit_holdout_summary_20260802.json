@@ -1,0 +1,47 @@
+{
+  "date": "2026-08-02",
+  "recording": "outputs/unity_shadow/red_blue_rule_commit_holdout_20260802.jsonl",
+  "controller_seed": 93,
+  "experiment": "held-out passive Rule Commit replication",
+  "committed_rule": {
+    "rule_id": "red_pickup_delayed_pressure_increase_v1",
+    "authority": 0.0,
+    "control_permissions": [],
+    "action_influence": 0
+  },
+  "run": {
+    "frames": 5618,
+    "duration_seconds": 1199.808,
+    "total_pickups": 32,
+    "red_pickups": 14,
+    "completed_red_assays": 13,
+    "survival_failures": 0,
+    "unstuck_respawns": 0,
+    "stuck_events": 5
+  },
+  "evidence": {
+    "red": {
+      "isolated_episodes": 13,
+      "mean_pressure_delta": 0.3302,
+      "positive_pressure_fraction": 1.0,
+      "mean_positive_delay_seconds": 10.723,
+      "counterexamples": 0
+    },
+    "blue": {
+      "isolated_episodes": 11,
+      "mean_pressure_delta": -0.0125,
+      "positive_pressure_fraction": 0.0
+    }
+  },
+  "registered_criteria": {
+    "minimum_isolated_red": {"required": 2, "observed": 13, "passed": true},
+    "minimum_isolated_blue": {"required": 6, "observed": 11, "passed": true},
+    "all_red_positive": {"observed": true, "passed": true},
+    "mean_red_pressure_delta_at_least_0_30": {"observed": 0.3302, "passed": true},
+    "mean_red_delay_between_9_and_11_seconds": {"observed": 10.723, "passed": true},
+    "blue_positive_fraction_at_most_0_10": {"observed": 0.0, "passed": true},
+    "no_red_counterexample": {"observed": true, "passed": true}
+  },
+  "verdict": "held_out_passive_rule_commit_replication_pass",
+  "interpretation": "The authority-0 committed rule was continuously loaded with no control permissions or action influence while the preregistered red-versus-blue metabolic pattern replicated on a new seed. This establishes retention and observational availability, not active behavioral exploitation."
+}

@@ -1,0 +1,62 @@
+{
+  "experiment": "bounded systemic recurrent-MPC routing",
+  "baseline_source": "outputs/unity_shadow/bunge_systemic_passive_20260727.jsonl",
+  "active_source": "outputs/unity_shadow/bunge_systemic_active_rm_20260727.jsonl",
+  "baseline": {
+    "frames": 12598,
+    "duration_seconds": 2692.47469496727,
+    "pickups": 245.0,
+    "pickups_per_hour": 327.57968037679984,
+    "survival_failures": 0.0,
+    "stuck_events": 4.0,
+    "unstuck_respawns": 0.0,
+    "collision_frame_rate": 0.06778853786315288,
+    "mpc_frame_rate": 0.7444832513097317,
+    "mpc_transitions": 526,
+    "mpc_transitions_per_minute": 11.721558631169845,
+    "one_frame_reversals": 15,
+    "one_frame_reversals_per_minute": 0.33426497997632637,
+    "fallback_frame_rate": 0.004683283060803302,
+    "router_handoffs": 0,
+    "router_handoffs_per_minute": 0.0,
+    "router_chatter_events": 0,
+    "router_safety_overrides": 0,
+    "router_influence_frames": 0
+  },
+  "active": {
+    "frames": 8422,
+    "duration_seconds": 1793.7473740577698,
+    "pickups": 171.0,
+    "pickups_per_hour": 343.1921400433358,
+    "survival_failures": 0.0,
+    "stuck_events": 0.0,
+    "unstuck_respawns": 0.0,
+    "collision_frame_rate": 0.049988126335787225,
+    "mpc_frame_rate": 0.5604369508430301,
+    "mpc_transitions": 646,
+    "mpc_transitions_per_minute": 21.608394002728552,
+    "one_frame_reversals": 57,
+    "one_frame_reversals_per_minute": 1.9066230002407545,
+    "fallback_frame_rate": 0.0,
+    "router_handoffs": 646,
+    "router_handoffs_per_minute": 21.608394002728552,
+    "router_chatter_events": 464,
+    "router_safety_overrides": 1480,
+    "router_influence_frames": 1372
+  },
+  "deltas": {
+    "pickups_per_hour": 15.612459666535983,
+    "collision_frame_rate": -0.017800411527365653,
+    "mpc_frame_rate": -0.18404630046670156
+  },
+  "criteria": {
+    "router_had_causal_influence": true,
+    "no_additional_survival_failures": true,
+    "pickup_rate_preserved_within_10_percent": true,
+    "collision_rate_not_materially_worse": true,
+    "handoff_rate_not_materially_worse": false,
+    "one_frame_reversals_not_materially_worse": false
+  },
+  "bounded_routing_supported": false,
+  "claim_boundary": "A passing single-run comparison supports bounded executive timing under this terrain realization. It does not establish a general performance advantage without matched-seed repeated runs."
+}

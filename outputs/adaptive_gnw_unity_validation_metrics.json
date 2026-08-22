@@ -1,0 +1,75 @@
+{
+  "source": "/Users/dustinoconnor/tiny_consciousness_lab/outputs/unity_shadow/adaptive_gnw_passive_validation_20260728.jsonl",
+  "frames": 8289,
+  "conditions": {
+    "framewise": {
+      "agreement_rate": 0.9623597538906985,
+      "boundary_agreement_rate": 0.9578651685393258,
+      "steady_agreement_rate": 0.9625614521618555,
+      "handoffs": 181,
+      "handoffs_per_1000_frames": 21.836168415972978,
+      "context_agreement": {
+        "recurrent": 0.9905894886363636,
+        "episodic": 1.0,
+        "predictive": 0.8901611535199322,
+        "fallback": 1.0
+      }
+    },
+    "fixed_gnw": {
+      "agreement_rate": 0.9554831704668838,
+      "boundary_agreement_rate": 0.7752808988764045,
+      "steady_agreement_rate": 0.9635698978948696,
+      "handoffs": 171,
+      "handoffs_per_1000_frames": 20.62975027144408,
+      "context_agreement": {
+        "recurrent": 0.9914772727272727,
+        "episodic": 1.0,
+        "predictive": 0.864715860899067,
+        "fallback": 0.5
+      }
+    },
+    "adaptive_gnw": {
+      "agreement_rate": 0.9623597538906985,
+      "boundary_agreement_rate": 0.9578651685393258,
+      "steady_agreement_rate": 0.9625614521618555,
+      "handoffs": 179,
+      "handoffs_per_1000_frames": 21.594884787067198,
+      "context_agreement": {
+        "recurrent": 0.9905894886363636,
+        "episodic": 1.0,
+        "predictive": 0.8901611535199322,
+        "fallback": 1.0
+      }
+    }
+  },
+  "transient_challenges": {
+    "one_frame_raw_challenges": 7,
+    "adaptive_hold_rate": 0.14285714285714285,
+    "low_confidence_one_frame_challenges": 1,
+    "low_confidence_hold_rate": 1.0
+  },
+  "adaptive_events": {
+    "initial_ignition": 1,
+    "broadcast_supported": 8107,
+    "sustained_challenger_release": 179,
+    "transient_challenger_held": 2
+  },
+  "adaptive_ignitions": 180,
+  "adaptive_releases": 179,
+  "adaptive_held_challenges": 2,
+  "maximum_action_influence": 0,
+  "comparisons": {
+    "adaptive_minus_fixed_agreement": 0.006876583423814697,
+    "adaptive_minus_framewise_agreement": 0.0,
+    "adaptive_minus_fixed_boundary_agreement": 0.1825842696629213,
+    "adaptive_handoff_reduction_vs_framewise": 0.24128362890578003
+  },
+  "criteria": {
+    "passive_causal_separation": true,
+    "adaptive_improves_fixed_gnw": true,
+    "adaptive_preserves_framewise_accuracy": true,
+    "adaptive_reduces_framewise_handoffs": true,
+    "adaptive_holds_low_confidence_challenges": true
+  },
+  "all_criteria_pass": true
+}

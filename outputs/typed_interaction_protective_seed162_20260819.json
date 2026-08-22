@@ -1,0 +1,41 @@
+{
+  "completed_episodes": 5,
+  "discarded_episodes": 1,
+  "last_action": "red_then_yellow",
+  "last_outcome": "suppressed",
+  "observations": [
+    {
+      "index": 1,
+      "ordered_action": "red_then_blue",
+      "probe_suppressed": false
+    },
+    {
+      "index": 2,
+      "ordered_action": "red_then_blue",
+      "probe_suppressed": false
+    },
+    {
+      "index": 3,
+      "ordered_action": "red_then_yellow",
+      "probe_suppressed": true
+    },
+    {
+      "index": 4,
+      "ordered_action": "red_then_yellow",
+      "probe_suppressed": true
+    },
+    {
+      "index": 5,
+      "ordered_action": "red_then_yellow",
+      "probe_suppressed": true
+    }
+  ],
+  "posterior": {
+    "any_pickup_after_red_suppresses_probe": 0.019279843292847702,
+    "blue_after_red_suppresses_probe": 1.1162312872806854e-06,
+    "no_ordered_suppression": 0.00015740605262044047,
+    "yellow_after_red_suppresses_probe": 0.9805616344232444
+  },
+  "updates": 5,
+  "version": 1
+}

@@ -75,6 +75,7 @@ class TerrainAirRouteController:
         cooldown_seconds=8.0,
         max_guidance_weight=0.05,
         guidance_margin_threshold=0.05,
+        teacher_memory=None,
     ):
         if control_mode not in {"passive", "bounded", "guided"}:
             raise ValueError(
@@ -90,8 +91,13 @@ class TerrainAirRouteController:
             1e-6, float(guidance_margin_threshold)
         )
         self.vigilance = 0.78
+        self.effective_vigilance = self.vigilance
+        self.max_vigilance_relaxation = 0.04
         self.routes = []
+        self.teacher_memory_path = Path(teacher_memory) if teacher_memory else None
+        self.teacher_route_payloads = []
         self.active = False
+        self.pending = False
         self.recommendation = "none"
         self.reason = "none"
         self.match = 0.0
@@ -101,6 +107,8 @@ class TerrainAirRouteController:
         self.remaining_ticks = 0
         self.cooldown_ticks = 0
         self.recommendations = 0
+        self.authorization_denials = 0
+        self.authorized_activations = 0
         self.interventions = 0
         self.action_influence = 0
         self.guidance_decisions = 0
@@ -127,25 +135,83 @@ class TerrainAirRouteController:
         if payload.get("format") != "terrain_air_art_route_library_v1":
             raise ValueError("unsupported terrain AIR route checkpoint")
         self.vigilance = clamp(payload.get("art_vigilance", 0.78))
+        self.effective_vigilance = self.vigilance
         for route in payload.get("routes", []):
-            prototype = np.asarray(route.get("prototype", []), dtype=np.float64)
-            waypoints = route.get("waypoints", [])
-            if prototype.size != 22 or not waypoints:
-                continue
-            self.routes.append(
-                {
-                    "id": f"terrain_episode_{route.get('episode_id', len(self.routes))}",
-                    "prototype": np.clip(prototype, 0.0, 1.0),
-                    "waypoints": [tuple(map(float, point)) for point in waypoints],
-                }
+            self._append_route(
+                f"terrain_episode_{route.get('episode_id', len(self.routes))}",
+                route.get("prototype", []),
+                route.get("waypoints", []),
             )
+        self._load_teacher_memory()
         if not self.routes:
             raise ValueError("terrain AIR route checkpoint contains no valid routes")
+
+    def _append_route(self, route_id, prototype, waypoints):
+        prototype = np.asarray(prototype, dtype=np.float64)
+        if prototype.size != 22 or not waypoints:
+            return False
+        parsed_waypoints = [tuple(map(float, point)) for point in waypoints]
+        if any(len(point) != 2 for point in parsed_waypoints):
+            return False
+        self.routes.append(
+            {
+                "id": str(route_id),
+                "prototype": np.clip(prototype, 0.0, 1.0),
+                "waypoints": parsed_waypoints,
+            }
+        )
+        return True
+
+    def _load_teacher_memory(self):
+        if self.teacher_memory_path is None or not self.teacher_memory_path.exists():
+            return
+        payload = json.loads(self.teacher_memory_path.read_text(encoding="utf-8"))
+        if payload.get("format") != "terrain_escape_teacher_memory_v1":
+            raise ValueError("unsupported terrain escape teacher memory")
+        for route in payload.get("routes", []):
+            if self._append_route(
+                route.get("route_id", f"teacher_{len(self.teacher_route_payloads)}"),
+                route.get("prototype", []),
+                route.get("waypoints", []),
+            ):
+                self.teacher_route_payloads.append(route)
+
+    def _save_teacher_memory(self):
+        if self.teacher_memory_path is None:
+            return
+        self.teacher_memory_path.parent.mkdir(parents=True, exist_ok=True)
+        payload = {
+            "format": "terrain_escape_teacher_memory_v1",
+            "art_vigilance": self.vigilance,
+            "routes": self.teacher_route_payloads,
+        }
+        temporary = self.teacher_memory_path.with_suffix(
+            self.teacher_memory_path.suffix + ".tmp"
+        )
+        temporary.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+        temporary.replace(self.teacher_memory_path)
+
+    def add_teacher_route(self, prototype, waypoints, metadata=None):
+        if len(prototype) != 22 or not waypoints:
+            return None
+        route_id = f"teacher_exit_{len(self.teacher_route_payloads):04d}"
+        payload = {
+            "route_id": route_id,
+            "prototype": [clamp(value) for value in prototype],
+            "waypoints": [[float(value) for value in point] for point in waypoints],
+            "metadata": dict(metadata or {}),
+        }
+        if not self._append_route(route_id, payload["prototype"], payload["waypoints"]):
+            return None
+        self.teacher_route_payloads.append(payload)
+        self._save_teacher_memory()
+        return route_id
 
     def reset(self, release_reason="reset"):
         if self.active:
             self.releases += 1
         self.active = False
+        self.pending = False
         self.world_waypoints = []
         self.route_index = 0
         self.route_count = 0
@@ -159,14 +225,41 @@ class TerrainAirRouteController:
         self.cooldown_ticks = self.cooldown_ticks_total
         self.start_position = None
 
-    def select_route(self, context):
+    def adaptive_vigilance(
+        self,
+        hunger,
+        reason,
+        wedge_seconds,
+        trap_seconds,
+        orbit_path,
+        orbit_efficiency,
+    ):
+        if reason == "none":
+            return self.vigilance
+        necessity = self.necessity_strength(
+            reason,
+            wedge_seconds,
+            trap_seconds,
+            orbit_path,
+            orbit_efficiency,
+        )
+        metabolic_pressure = clamp((float(hunger) - 0.40) / 0.60)
+        relaxation = (
+            self.max_vigilance_relaxation
+            * necessity
+            * (0.35 + 0.65 * metabolic_pressure)
+        )
+        return max(self.vigilance - self.max_vigilance_relaxation, self.vigilance - relaxation)
+
+    def select_route(self, context, vigilance=None):
         distances = [
             float(np.mean(np.abs(route["prototype"] - context)))
             for route in self.routes
         ]
         index = int(np.argmin(distances))
         match = max(0.0, 1.0 - distances[index])
-        return (self.routes[index] if match >= self.vigilance else None), match
+        threshold = self.vigilance if vigilance is None else float(vigilance)
+        return (self.routes[index] if match >= threshold else None), match
 
     def activate(self, route, match, reason, position, yaw, food_visible):
         self.recommendation = route["id"]
@@ -215,6 +308,7 @@ class TerrainAirRouteController:
         vectors,
         body_clearance,
         fallback_active=False,
+        episodic_authorized=True,
     ):
         if not self.enabled:
             return None
@@ -309,7 +403,16 @@ class TerrainAirRouteController:
             wedge_seconds, trap_seconds, orbit_path, orbit_efficiency
         )
         self.reason = reason
+        self.effective_vigilance = self.adaptive_vigilance(
+            hunger,
+            reason,
+            wedge_seconds,
+            trap_seconds,
+            orbit_path,
+            orbit_efficiency,
+        )
         if reason == "none" or self.cooldown_ticks > 0:
+            self.pending = False
             return None
         context = context_vector(
             body_state,
@@ -321,12 +424,20 @@ class TerrainAirRouteController:
         )
         if context is None:
             return None
-        route, match = self.select_route(context)
+        route, match = self.select_route(context, self.effective_vigilance)
         self.match = match
         if route is None:
+            self.pending = False
             self.recommendation = "no_resonance"
             self.cooldown_ticks = self.cooldown_ticks_total
             return None
+        self.recommendation = route["id"]
+        self.pending = True
+        if not episodic_authorized:
+            self.authorization_denials += 1
+            return None
+        self.pending = False
+        self.authorized_activations += 1
         self.activate(
             route,
             match,
@@ -347,5 +458,6 @@ class TerrainAirRouteController:
                 vectors,
                 body_clearance,
                 fallback_active=fallback_active,
+                episodic_authorized=episodic_authorized,
             )
         return None

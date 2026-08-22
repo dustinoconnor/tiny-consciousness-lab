@@ -16,6 +16,26 @@ def percentile(values, fraction):
     return ordered[index]
 
 
+def session_offsets(path):
+    """Find controller sessions separated by a reset of the step counter."""
+    offsets = [0]
+    previous_step = None
+    with path.open("rb") as handle:
+        while True:
+            offset = handle.tell()
+            line = handle.readline()
+            if not line:
+                break
+            if not line.strip():
+                continue
+            row = json.loads(line)
+            step = int(row.get("step", 0))
+            if previous_step is not None and step < previous_step:
+                offsets.append(offset)
+            previous_step = step
+    return offsets
+
+
 def event_context(before, after, start_time):
     return {
         "hours_into_run": round((after["time"] - start_time) / 3600.0, 3),
@@ -98,6 +118,8 @@ def diagnose_interval(path, start_time, end_time):
 
 
 def analyze(path):
+    offsets = session_offsets(path)
+    session_offset = offsets[-1]
     frames = 0
     first = None
     previous = None
@@ -123,8 +145,10 @@ def analyze(path):
     max_hunger = 0.0
     max_seconds_since_food = 0.0
     max_wedge_seconds = 0.0
+    max_trap_accumulation_seconds = 0.0
 
     with path.open(encoding="utf-8") as handle:
+        handle.seek(session_offset)
         for line in handle:
             if not line.strip():
                 continue
@@ -140,6 +164,10 @@ def analyze(path):
             )
             max_wedge_seconds = max(
                 max_wedge_seconds, float(row.get("physics_wedge_seconds", 0.0))
+            )
+            max_trap_accumulation_seconds = max(
+                max_trap_accumulation_seconds,
+                float(row.get("trap_accumulation_seconds", 0.0)),
             )
             food_visible_frames += bool(row.get("food_visible", False))
             collision_frames += bool(row.get("body_collision", False))
@@ -201,6 +229,8 @@ def analyze(path):
 
     return {
         "source": str(path),
+        "sessions_detected": len(offsets),
+        "analyzed_session": len(offsets),
         "frames": frames,
         "duration_hours": round(duration_seconds / 3600.0, 3),
         "sample_rate_hz": round((frames - 1) / duration_seconds, 3),
@@ -227,6 +257,7 @@ def analyze(path):
             "stuck_events": int(last.get("stuck_events", 0)),
             "stuck_seconds": round(seconds_for(stuck_frames), 1),
             "max_wedge_seconds": round(max_wedge_seconds, 1),
+            "max_trap_accumulation_seconds": round(max_trap_accumulation_seconds, 1),
             "unstuck_respawns": int(last.get("unstuck_respawns", 0)),
             "respawn_events": respawn_events,
             "respawn_like_position_jumps": respawn_like_jumps,

@@ -1,0 +1,422 @@
+{
+  "experiment": "passive Unity systemic-conductor transfer",
+  "source": "outputs/unity_shadow/challenge_terrain_air_margin_guided_20260726.jsonl",
+  "checkpoint": "checkpoints/four_context_conductor/best.json",
+  "frames": 7041,
+  "context_counts": {
+    "clear_terrain": 4878,
+    "visible_target": 1952,
+    "familiar_hidden_goal": 209,
+    "genuine_wedge": 2
+  },
+  "conditions": {
+    "intact": {
+      "frames": 7041,
+      "accuracy": 0.9572503905695213,
+      "mean_confidence": 0.7303033364005977,
+      "mean_entropy_bits": 0.6324544224702346,
+      "recommendations": {
+        "recurrent": 5176,
+        "predictive": 1658,
+        "episodic": 206,
+        "fallback": 1
+      },
+      "by_context": {
+        "clear_terrain": {
+          "frames": 4878,
+          "accuracy": 0.9997949979499795,
+          "recommendations": {
+            "recurrent": 4877,
+            "episodic": 1
+          }
+        },
+        "familiar_hidden_goal": {
+          "frames": 209,
+          "accuracy": 0.9760765550239234,
+          "recommendations": {
+            "recurrent": 5,
+            "episodic": 204
+          }
+        },
+        "visible_target": {
+          "frames": 1952,
+          "accuracy": 0.8493852459016393,
+          "recommendations": {
+            "recurrent": 294,
+            "predictive": 1658
+          }
+        },
+        "genuine_wedge": {
+          "frames": 2,
+          "accuracy": 0.5,
+          "recommendations": {
+            "episodic": 1,
+            "fallback": 1
+          }
+        }
+      }
+    },
+    "input_scrambled": {
+      "frames": 7041,
+      "accuracy": 0.03422809260048289,
+      "mean_confidence": 0.3977397473155063,
+      "mean_entropy_bits": 1.1969998074264239,
+      "recommendations": {
+        "predictive": 3413,
+        "fallback": 408,
+        "episodic": 3220
+      },
+      "by_context": {
+        "clear_terrain": {
+          "frames": 4878,
+          "accuracy": 0.0,
+          "recommendations": {
+            "predictive": 3174,
+            "fallback": 197,
+            "episodic": 1507
+          }
+        },
+        "familiar_hidden_goal": {
+          "frames": 209,
+          "accuracy": 0.0,
+          "recommendations": {
+            "fallback": 209
+          }
+        },
+        "visible_target": {
+          "frames": 1952,
+          "accuracy": 0.12243852459016394,
+          "recommendations": {
+            "predictive": 239,
+            "episodic": 1713
+          }
+        },
+        "genuine_wedge": {
+          "frames": 2,
+          "accuracy": 1.0,
+          "recommendations": {
+            "fallback": 2
+          }
+        }
+      }
+    },
+    "output_scrambled": {
+      "frames": 7041,
+      "accuracy": 0.0007101264024996449,
+      "mean_confidence": 0.7303033364005977,
+      "mean_entropy_bits": 0.6324544224702346,
+      "recommendations": {
+        "episodic": 5176,
+        "fallback": 1658,
+        "predictive": 206,
+        "recurrent": 1
+      },
+      "by_context": {
+        "clear_terrain": {
+          "frames": 4878,
+          "accuracy": 0.0,
+          "recommendations": {
+            "episodic": 4877,
+            "predictive": 1
+          }
+        },
+        "familiar_hidden_goal": {
+          "frames": 209,
+          "accuracy": 0.023923444976076555,
+          "recommendations": {
+            "episodic": 5,
+            "predictive": 204
+          }
+        },
+        "visible_target": {
+          "frames": 1952,
+          "accuracy": 0.0,
+          "recommendations": {
+            "episodic": 294,
+            "fallback": 1658
+          }
+        },
+        "genuine_wedge": {
+          "frames": 2,
+          "accuracy": 0.0,
+          "recommendations": {
+            "predictive": 1,
+            "recurrent": 1
+          }
+        }
+      }
+    },
+    "fully_scrambled": {
+      "frames": 7041,
+      "accuracy": 0.2712682857548644,
+      "mean_confidence": 0.3977397473155063,
+      "mean_entropy_bits": 1.1969998074264239,
+      "recommendations": {
+        "fallback": 3413,
+        "recurrent": 408,
+        "predictive": 3220
+      },
+      "by_context": {
+        "clear_terrain": {
+          "frames": 4878,
+          "accuracy": 0.04038540385403854,
+          "recommendations": {
+            "fallback": 3174,
+            "recurrent": 197,
+            "predictive": 1507
+          }
+        },
+        "familiar_hidden_goal": {
+          "frames": 209,
+          "accuracy": 0.0,
+          "recommendations": {
+            "recurrent": 209
+          }
+        },
+        "visible_target": {
+          "frames": 1952,
+          "accuracy": 0.8775614754098361,
+          "recommendations": {
+            "fallback": 239,
+            "predictive": 1713
+          }
+        },
+        "genuine_wedge": {
+          "frames": 2,
+          "accuracy": 0.0,
+          "recommendations": {
+            "recurrent": 2
+          }
+        }
+      }
+    }
+  },
+  "lesions": {
+    "recurrent": {
+      "frames": 7041,
+      "accuracy": 0.30705865644084646,
+      "mean_confidence": 0.5164483301077778,
+      "mean_entropy_bits": 0.7982590644077125,
+      "recommendations": {
+        "predictive": 6739,
+        "fallback": 26,
+        "episodic": 276
+      },
+      "by_context": {
+        "clear_terrain": {
+          "frames": 4878,
+          "accuracy": 0.0,
+          "recommendations": {
+            "predictive": 4787,
+            "fallback": 25,
+            "episodic": 66
+          }
+        },
+        "familiar_hidden_goal": {
+          "frames": 209,
+          "accuracy": 1.0,
+          "recommendations": {
+            "episodic": 209
+          }
+        },
+        "visible_target": {
+          "frames": 1952,
+          "accuracy": 1.0,
+          "recommendations": {
+            "predictive": 1952
+          }
+        },
+        "genuine_wedge": {
+          "frames": 2,
+          "accuracy": 0.5,
+          "recommendations": {
+            "episodic": 1,
+            "fallback": 1
+          }
+        }
+      }
+    },
+    "episodic": {
+      "frames": 7041,
+      "accuracy": 0.9284192586280358,
+      "mean_confidence": 0.7522561830162473,
+      "mean_entropy_bits": 0.49699687882733606,
+      "recommendations": {
+        "recurrent": 5382,
+        "predictive": 1658,
+        "fallback": 1
+      },
+      "by_context": {
+        "clear_terrain": {
+          "frames": 4878,
+          "accuracy": 1.0,
+          "recommendations": {
+            "recurrent": 4878
+          }
+        },
+        "familiar_hidden_goal": {
+          "frames": 209,
+          "accuracy": 0.0,
+          "recommendations": {
+            "recurrent": 209
+          }
+        },
+        "visible_target": {
+          "frames": 1952,
+          "accuracy": 0.8493852459016393,
+          "recommendations": {
+            "recurrent": 294,
+            "predictive": 1658
+          }
+        },
+        "genuine_wedge": {
+          "frames": 2,
+          "accuracy": 0.5,
+          "recommendations": {
+            "recurrent": 1,
+            "fallback": 1
+          }
+        }
+      }
+    },
+    "predictive": {
+      "frames": 7041,
+      "accuracy": 0.7217724755006392,
+      "mean_confidence": 0.9301057644989944,
+      "mean_entropy_bits": 0.22632063199369312,
+      "recommendations": {
+        "recurrent": 6832,
+        "episodic": 208,
+        "fallback": 1
+      },
+      "by_context": {
+        "clear_terrain": {
+          "frames": 4878,
+          "accuracy": 0.9997949979499795,
+          "recommendations": {
+            "recurrent": 4877,
+            "episodic": 1
+          }
+        },
+        "familiar_hidden_goal": {
+          "frames": 209,
+          "accuracy": 0.9760765550239234,
+          "recommendations": {
+            "recurrent": 5,
+            "episodic": 204
+          }
+        },
+        "visible_target": {
+          "frames": 1952,
+          "accuracy": 0.0,
+          "recommendations": {
+            "recurrent": 1950,
+            "episodic": 2
+          }
+        },
+        "genuine_wedge": {
+          "frames": 2,
+          "accuracy": 0.5,
+          "recommendations": {
+            "episodic": 1,
+            "fallback": 1
+          }
+        }
+      }
+    },
+    "fallback": {
+      "frames": 7041,
+      "accuracy": 0.9571083652890214,
+      "mean_confidence": 0.7335004192685272,
+      "mean_entropy_bits": 0.6016187409562909,
+      "recommendations": {
+        "recurrent": 5177,
+        "predictive": 1658,
+        "episodic": 206
+      },
+      "by_context": {
+        "clear_terrain": {
+          "frames": 4878,
+          "accuracy": 0.9997949979499795,
+          "recommendations": {
+            "recurrent": 4877,
+            "episodic": 1
+          }
+        },
+        "familiar_hidden_goal": {
+          "frames": 209,
+          "accuracy": 0.9760765550239234,
+          "recommendations": {
+            "recurrent": 5,
+            "episodic": 204
+          }
+        },
+        "visible_target": {
+          "frames": 1952,
+          "accuracy": 0.8493852459016393,
+          "recommendations": {
+            "recurrent": 294,
+            "predictive": 1658
+          }
+        },
+        "genuine_wedge": {
+          "frames": 2,
+          "accuracy": 0.0,
+          "recommendations": {
+            "episodic": 1,
+            "recurrent": 1
+          }
+        }
+      }
+    }
+  },
+  "targeted_lesion_accuracy_drops": {
+    "recurrent": {
+      "clear_terrain": 0.9997949979499795,
+      "familiar_hidden_goal": -0.02392344497607657,
+      "visible_target": -0.15061475409836067,
+      "genuine_wedge": 0.0
+    },
+    "episodic": {
+      "clear_terrain": -0.00020500205002049743,
+      "familiar_hidden_goal": 0.9760765550239234,
+      "visible_target": 0.0,
+      "genuine_wedge": 0.0
+    },
+    "predictive": {
+      "clear_terrain": 0.0,
+      "familiar_hidden_goal": 0.0,
+      "visible_target": 0.8493852459016393,
+      "genuine_wedge": 0.0
+    },
+    "fallback": {
+      "clear_terrain": 0.0,
+      "familiar_hidden_goal": 0.0,
+      "visible_target": 0.0,
+      "genuine_wedge": 0.5
+    }
+  },
+  "paired_contrasts": {
+    "intact_minus_input_scrambled": {
+      "accuracy_difference": 0.9230222979690385,
+      "one_sided_exact_mcnemar_p": 0.0
+    },
+    "intact_minus_output_scrambled": {
+      "accuracy_difference": 0.9565402641670216,
+      "one_sided_exact_mcnemar_p": 0.0
+    },
+    "intact_minus_fully_scrambled": {
+      "accuracy_difference": 0.6859821048146569,
+      "one_sided_exact_mcnemar_p": 0.0
+    }
+  },
+  "criteria": {
+    "all_four_contexts_have_at_least_25_frames": false,
+    "intact_accuracy_at_least_75_percent": true,
+    "intact_beats_each_scramble_by_10_points": true,
+    "each_matching_lesion_has_positive_drop": true,
+    "observer_had_zero_action_influence": true,
+    "passive_unity_calibration_supported": false
+  },
+  "claim_boundary": "This replays one passive Unity recording against telemetry-derived context proxies. Passing supports calibration and organizational dependence in shadow mode, not motor benefit, context-label validity, or phenomenal consciousness."
+}

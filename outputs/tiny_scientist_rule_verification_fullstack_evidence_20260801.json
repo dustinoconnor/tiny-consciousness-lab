@@ -1,0 +1,179 @@
+{
+  "experiment": "passive GNW-selected embodied metabolic hypothesis",
+  "evidence_interface": "homeostatic_filtered",
+  "hypothesis_contract": "freeform",
+  "evidence_order": "canonical",
+  "summary": {
+    "feature_outcomes": {
+      "blue": {
+        "episodes": 20,
+        "isolated_episodes": 15,
+        "mean_pressure_delta": -0.015,
+        "positive_pressure_fraction": 0.0,
+        "mean_positive_delay_seconds": null
+      },
+      "red": {
+        "episodes": 10,
+        "isolated_episodes": 10,
+        "mean_pressure_delta": 0.3373,
+        "positive_pressure_fraction": 1.0,
+        "mean_positive_delay_seconds": 10.89
+      }
+    },
+    "episode_count": 30,
+    "gnw_broadcast_count": 9,
+    "gnw_broadcast_features": {
+      "red": 9
+    },
+    "gnw_action_influence": 0
+  },
+  "gnw": {
+    "mode": "passive_scientific_broadcast",
+    "observations": 30,
+    "ignitions": 9,
+    "held": 21,
+    "action_influence": 0,
+    "broadcasts": [
+      {
+        "feature": "red",
+        "salience": 1.0,
+        "prediction_error": 1.0,
+        "novelty": 1.0,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785603701.0200162,
+          "pressure_before": 0.0,
+          "peak_pressure": 0.34,
+          "pressure_delta": 0.34,
+          "peak_delay_seconds": 10.730608940124512,
+          "intervening_pickup": false
+        }
+      },
+      {
+        "feature": "red",
+        "salience": 0.906274169978981,
+        "prediction_error": 0.9999999999989497,
+        "novelty": 0.7071067811865475,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785604096.340822,
+          "pressure_before": 6.734074151821438e-13,
+          "peak_pressure": 0.3400000000003163,
+          "pressure_delta": 0.3399999999996429,
+          "peak_delay_seconds": 10.897022008895874,
+          "intervening_pickup": false
+        }
+      },
+      {
+        "feature": "red",
+        "salience": 0.8309134629901576,
+        "prediction_error": 0.986637445573761,
+        "novelty": 0.5,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785604207.757756,
+          "pressure_before": 0.008567197412799007,
+          "peak_pressure": 0.34402392890787775,
+          "pressure_delta": 0.33545673149507876,
+          "peak_delay_seconds": 10.93868088722229,
+          "intervening_pickup": false
+        }
+      },
+      {
+        "feature": "red",
+        "salience": 0.8196890010032369,
+        "prediction_error": 0.9949715447694857,
+        "novelty": 0.4472135954999579,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785604285.685652,
+          "pressure_before": 0.003223917169358393,
+          "peak_pressure": 0.34151424239098355,
+          "pressure_delta": 0.33829032522162517,
+          "peak_delay_seconds": 10.909635066986084,
+          "intervening_pickup": false
+        }
+      },
+      {
+        "feature": "red",
+        "salience": 0.8064451823866075,
+        "prediction_error": 0.9938319550561342,
+        "novelty": 0.4082482904638631,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785604360.65596,
+          "pressure_before": 0.003954547685983742,
+          "peak_pressure": 0.3418574124050694,
+          "pressure_delta": 0.33790286471908565,
+          "peak_delay_seconds": 10.91015100479126,
+          "intervening_pickup": false
+        }
+      },
+      {
+        "feature": "red",
+        "salience": 0.8006721829425192,
+        "prediction_error": 0.9995934582052447,
+        "novelty": 0.3779644730092272,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785604474.343301,
+          "pressure_before": 0.000260648054340785,
+          "peak_pressure": 0.340122423844124,
+          "pressure_delta": 0.3398617757897832,
+          "peak_delay_seconds": 10.897354125976562,
+          "intervening_pickup": false
+        }
+      },
+      {
+        "feature": "red",
+        "salience": 0.7928359321283116,
+        "prediction_error": 0.9995571281448,
+        "novelty": 0.35355339059327373,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785604586.6479502,
+          "pressure_before": 0.00028394051698831473,
+          "peak_pressure": 0.34013336408622036,
+          "pressure_delta": 0.33984942356923203,
+          "peak_delay_seconds": 10.915619850158691,
+          "intervening_pickup": false
+        }
+      },
+      {
+        "feature": "red",
+        "salience": 0.7824257413337309,
+        "prediction_error": 0.9937633450986237,
+        "novelty": 0.3333333333333333,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785604661.381475,
+          "pressure_before": 0.0039985359109687745,
+          "peak_pressure": 0.34187807324450087,
+          "pressure_delta": 0.3378795373335321,
+          "peak_delay_seconds": 10.962749004364014,
+          "intervening_pickup": false
+        }
+      },
+      {
+        "feature": "red",
+        "salience": 0.7771802694869243,
+        "prediction_error": 0.9940990946493178,
+        "novelty": 0.31622776601683794,
+        "episode": {
+          "feature": "red",
+          "pickup_time": 1785604736.946472,
+          "pressure_before": 0.0037832752212605845,
+          "peak_pressure": 0.3417769674020287,
+          "pressure_delta": 0.3379936921807681,
+          "peak_delay_seconds": 10.947205066680908,
+          "intervening_pickup": false
+        }
+      }
+    ]
+  },
+  "hypothesis": null,
+  "raw_model_output": null,
+  "status": "evidence_only",
+  "model": "google/gemma-3-270m-it",
+  "recording": "outputs/unity_shadow/red_blue_rule_verification_fullstack_20260801.jsonl"
+}

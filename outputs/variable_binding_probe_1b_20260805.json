@@ -1,0 +1,298 @@
+{
+  "experiment": "frozen_gemma_1b_variable_binding_probe_v1",
+  "paper_motivation": "Wu_Geiger_Milliere_ICML_2025",
+  "artifact": "outputs/causal_dsl_frozen_comparison_1b_20260804.json",
+  "artifact_sha256": "0ad6e97ef9f93e60eec45c06e47b9cdf6ca38043c196e3209b0df0774f92f10c",
+  "selection": {
+    "maximum_cases": 32,
+    "selected_cases": 32,
+    "frozen_failures_retained": 7,
+    "case_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      13,
+      14,
+      16,
+      17,
+      19,
+      21,
+      22,
+      23,
+      24,
+      26,
+      27,
+      33,
+      37,
+      42,
+      54,
+      57,
+      59,
+      63,
+      103,
+      116
+    ],
+    "pair_counts": {
+      "blue/red": 8,
+      "copper/indigo": 8,
+      "gold/silver": 8,
+      "pink/teal": 8
+    },
+    "target_row_counts": {
+      "0": 16,
+      "1": 16
+    }
+  },
+  "primary_endpoint": "max-layer leave-one-feature-pair-out cause-row decoding accuracy with within-pair permutation max-layer correction",
+  "attention_split": "even original index discovery; odd index confirmation",
+  "causal_claim_gate": "top ranked head must reduce frozen confirmation performance more than the preregistered same-layer low-signal control when ablated",
+  "training_or_adapter_changes_permitted": false,
+  "model": "google/gemma-3-1b-it",
+  "adapter": "checkpoints/causal_dsl_l1_lora_1b_20260804",
+  "device": "mps",
+  "analysis": {
+    "primary_layer_probe": {
+      "label": "correct_cause_evidence_row_0_or_1",
+      "cross_validation": "leave_one_feature_pair_out",
+      "ridge": 1.0,
+      "accuracy_by_layer": [
+        0.5,
+        0.90625,
+        0.9375,
+        0.90625,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.9375,
+        0.9375,
+        0.9375,
+        0.9375,
+        0.9375,
+        0.875,
+        0.9375,
+        0.875,
+        0.84375
+      ],
+      "peak_layer": 4,
+      "peak_accuracy": 1.0,
+      "permutation": {
+        "repeats": 100,
+        "pvalue_max_layer_corrected": 0.009900990099009901,
+        "null_peak_mean": 0.6321875,
+        "null_peak_max": 0.84375
+      }
+    },
+    "generation_failure_diagnostic": {
+      "failure_cases": 7,
+      "success_cases": 25,
+      "auc_negative_correct_vs_swapped_logit_margin": 0.6742857142857143,
+      "mean_margin_failures": 8.664447784423828,
+      "mean_margin_successes": 11.06812355041504
+    },
+    "attention_head_ranking": {
+      "split_rule": "even_original_index_discovery_odd_confirmation",
+      "discovery_cases": 14,
+      "confirmation_cases": 18,
+      "top_binding_head": {
+        "layer": 17,
+        "head": 0,
+        "mean_target_minus_control_attention": 0.5836123866694314
+      },
+      "same_layer_low_signal_control": {
+        "layer": 17,
+        "head": 1,
+        "mean_target_minus_control_attention": 0.00448346119706652
+      },
+      "mean_scores": [
+        [
+          -0.0007487596573940079,
+          -0.0014666418677994183,
+          -0.0020530168964926687,
+          -0.0008572210956897054
+        ],
+        [
+          -0.0019952797863100257,
+          -0.0007879372496972792,
+          -0.0007634747370112953,
+          -0.0025329959379243
+        ],
+        [
+          -0.001187107656733133,
+          -5.6682625394647145e-05,
+          -0.0014153849666139909,
+          2.869239506253507e-05
+        ],
+        [
+          -0.00028024578101134727,
+          -0.0010513471539265343,
+          -0.00010671403392085008,
+          -0.00027624362701317295
+        ],
+        [
+          0.002528792488322194,
+          0.00014029083208047917,
+          -0.0009458124571080719,
+          -0.0005499771130936486
+        ],
+        [
+          0.0007228318053031606,
+          -0.00016740557475714013,
+          -4.088972543416146e-06,
+          -0.0011955653649887868
+        ],
+        [
+          0.0015530959145897733,
+          -0.0003509002272039652,
+          -0.00028476325262870105,
+          0.00018045173367551927
+        ],
+        [
+          -0.00011272198805402565,
+          -0.000959103976908539,
+          -0.0038031363427372916,
+          -0.00025296654816234617
+        ],
+        [
+          -0.0009001004177012614,
+          0.002114298054948449,
+          0.0002364837606104889,
+          2.0701621126915726e-05
+        ],
+        [
+          -0.0002782536653934845,
+          0.001400696870405227,
+          -0.00017106667759695223,
+          -6.151676546193942e-06
+        ],
+        [
+          0.00029050650274647135,
+          -0.0012810447203394557,
+          -0.00040091085039810944,
+          -0.0002955013998351725
+        ],
+        [
+          -3.535503492457792e-05,
+          2.0783001933263483e-05,
+          2.2909440368883744e-05,
+          6.55904711623277e-05
+        ],
+        [
+          -0.0007300622029496091,
+          -0.0012073968537151814,
+          -0.004001996080790248,
+          1.8366146832704544e-05
+        ],
+        [
+          -0.007608881619359765,
+          -0.0001794235992877345,
+          0.00010377889598852821,
+          -0.013391970789858274
+        ],
+        [
+          0.0017782886113439287,
+          -0.001141890650615096,
+          -0.0006835002984319415,
+          0.010069692906524454
+        ],
+        [
+          0.0017056092786203539,
+          0.004744916056681957,
+          0.007788414800805705,
+          0.031705184440527646
+        ],
+        [
+          0.000615165668672749,
+          -0.00020907281265993203,
+          1.8235312641731332e-05,
+          0.00798947284264224
+        ],
+        [
+          0.5836123866694314,
+          0.00448346119706652,
+          0.05552722127842052,
+          0.00944350506844265
+        ],
+        [
+          0.027884544006415775,
+          0.021917827959571565,
+          0.10863332343952996,
+          0.10002200997301511
+        ],
+        [
+          -0.000456576921611226,
+          -4.7991931249872065e-05,
+          -0.0022959920960212393,
+          -0.00023946944072252206
+        ],
+        [
+          0.00598807114043406,
+          0.06539958023599216,
+          0.000644807969885213,
+          0.027952832036784718
+        ],
+        [
+          0.008053614092724664,
+          0.15603556936340673,
+          0.0030385881795414855,
+          0.00480746032137956
+        ],
+        [
+          -0.001233395388615983,
+          -0.0010117121564690024,
+          -0.0010654094496983038,
+          -0.004309246416336724
+        ],
+        [
+          0.026491497210892185,
+          0.12107334339192935,
+          0.21103317130889213,
+          0.0028305566936199155
+        ],
+        [
+          -0.005947086394631437,
+          -0.004337521702317255,
+          -0.0019348097100321735,
+          0.0035141840510602507
+        ],
+        [
+          -0.00042481753709060807,
+          -0.0027576754967282924,
+          -0.00263927411288023,
+          -0.0040162302487130675
+        ]
+      ],
+      "claim_status": "exploratory_until_top_vs_same_layer_control_ablation_on_confirmation"
+    },
+    "confirmation_ablation": {
+      "endpoint": "mean_correct_vs_swapped_first_cause_token_logit_margin",
+      "confirmation_cases": 18,
+      "baseline_mean_margin": 10.375779310862223,
+      "top_head_ablated_mean_margin": 7.623562230004205,
+      "same_layer_control_ablated_mean_margin": 11.967178927527534,
+      "top_head_margin_drop": 2.752217080858019,
+      "control_head_margin_drop": -1.5913996166653104,
+      "registered_gate_passed": true,
+      "claim_if_passed": "ranked_head_contributes_to_first_token_causal_role_binding; not_a_complete_variable_binding_circuit"
+    }
+  }
+}
